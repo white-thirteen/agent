@@ -1,0 +1,16 @@
+# Direct runtime dependencies. Resolved versions are recorded in requirements.txt.
+fastapi
+uvicorn[standard]
+pydantic-settings
+langchain
+langgraph
+langchain-openai
+sse-starlette
+psycopg[binary,pool]
+langgraph-checkpoint-postgres
+httpx
+
+# Development and verification tools.
+pytest
+pytest-asyncio
+ruff
