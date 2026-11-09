@@ -1,10 +1,12 @@
 """Validated development chat input; production identity comes from the backend."""
 
-from typing import Annotated
+from typing import Annotated, Literal
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-Identifier = Annotated[str, Field(min_length=1, max_length=128)]
+# PostgreSQL text cannot store NUL, so reject it before session preparation.
+Identifier = Annotated[str, Field(min_length=1, max_length=128, pattern=r"^[^\x00]+$")]
 
 
 class ChatRequest(BaseModel):
@@ -12,5 +14,6 @@ class ChatRequest(BaseModel):
 
     user_id: Identifier
     conversation_id: Identifier
-    workflow_id: Identifier
     message: str = Field(min_length=1, max_length=32000)
+    input_mode: Literal["auto", "new_task"] = "auto"
+    request_id: UUID | None = None

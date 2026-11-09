@@ -1,79 +1,109 @@
 # Agent Engine Demo
 
-项目方向调整为轻量多 Agent Demo，以 ToolRegistry、HITL、持久化 Checkpoint/Interrupt/Resume、RAG、Store 五项工程能力为核心。Supervisor 分派给 OrderAgent、RefundAgent、KnowledgeAgent；订单和退款使用有真实本地状态的模拟服务，不涉及真实资金。
+> 当前状态为01 已获用户正式验收，归档快照验证中，02 尚未启动。以下开发、QA及历次处理记录保留原有日期和语境；历史待批准文字不覆盖本条当前状态。
 
-**当前状态为逻辑设计阶段已完成，正式开发阶段待新会话接手。** 六阶段、18个二级环节、36个Task及D01～D06已获用户最终确认，作为正式开发设计基线。development-roadmap.md是唯一有效开发路线图，已确认技术决策不再待议，V1范围外能力按规划延期。本次最终确认覆盖此前文档的待审核、待整改及待冻结状态，历史记录保留。设计确认不代表Task实现或验收，开发由用户在新会话正式授权。
+轻量多 Agent Demo，采用 Supervisor 与 Order / Refund / Knowledge 专业 Agent。V1 围绕工具治理、HITL、持久恢复、真实向量 RAG 和用户隔离 Store 展开，订单/退款采用本地模拟业务。
 
-以下运行方法和请求示例保留此前实现记录，本轮未重新检查开发进度。此前已有HTTP分层骨架、State/类型、Supervisor及专业wrapper，使用进程内InMemorySaver，真实模型及专业业务尚无本轮验收结论。01～06设计不代表已实施，持久恢复、真实向量RAG和跨会话Store须按未来实际证据验收。本轮仅整改Markdown契约、状态及导航，未执行开发或测试。
+## 当前状态
 
-Memory设计范围已区分V1与V2。V1仅两项长期偏好，由共享MemoryReader及MemoryManager提供跨会话/跨Thread持久读写，显式用户命令通过既有MemoryManage与统一工具治理；版本、幂等和unknown处理保留。MemoryWriter仅V2智能候选维护预留，V1不实现或自动写记忆，详见D05第2.2节。
+2026-11-09 已实施一级阶段 01 的六个 Task，验收证据和遗留见 [01 阶段交付报告](docs/01-foundation-detailed-design.md#01-正式开发交付报告2026-11-09)。2026-11-10 独立 QA 结束，P2-01 修复及独立回归经主 Agent 复核通过并关闭，阶段状态为 VERIFIED，正式验收待用户批准，详见 [复核决定与阶段状态](docs/question/01-foundation-main-review.md)。02 尚未开始。
 
-归档说明依据本页“逻辑设计阶段正式收尾记录”及AGENTS.md同名记录。D01、D02、D03、D04、D05、D06及跨阶段契约均已最终确认，设计正文保留的“等待最终冻结”“纯逻辑设计”等轮次文字仅作历史追溯，实施仍需独立授权。
+当前提供配置、安全错误、HTTP 存活/准备层状态、PostgreSQL 双库与显式迁移、连接池、持久 Session、ModelGateway、普通演示身份和请求准备层。已有主图/映射和 SSE formatter 复用，内存 Saver 保留。专业业务、正式 Task、独立执行与订阅、持久 Checkpoint、审批、RAG 和 Store 按后续阶段实施。
+
+`POST /agent/chat` 在 01 完成身份与 session 准备后返回 JSON 503 `agent_not_ready`。正式受理/Graph/SSE 接线交给 02。HTTP 会校验最终请求格式，旧 workflow_id 字段返回 422。
 
 ## 本地运行（PowerShell）
 
-在项目根目录执行：
+在项目根目录使用 `.venv` Python 3.13.7，单 worker 启动。保留已有 `.env`。
 
 ```powershell
-# 首次配置，保留已有 .env。
 if (-not (Test-Path -LiteralPath .env)) {
     Copy-Item -LiteralPath .env.example -Destination .env
 }
-
-# 当前 .venv 已使用 Python 3.13.7 安装依赖。
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --loop app.infrastructure.postgres:selector_event_loop
 ```
 
-- 接口文档：<http://127.0.0.1:8000/docs>
-- 存活检查：<http://127.0.0.1:8000/health>
-- `POST /agent/chat`：模型配置完整时可执行 Supervisor 路由和澄清并通过 SSE 返回；
-  未配置模型时开流前返回 HTTP 503，错误码 `agent_not_ready`。
-- 工作流接口尚未注册，预留模块不会返回模拟业务结果。
+Windows 的 psycopg 异步连接需要 Selector loop，已按当前安装源码和实际启动验证。开发可添加 `--reload`，进程重启验收使用上面的无 reload 命令。
 
-`/health` 表示 HTTP 服务存活；`agent_ready` 表示模型配置并构建了 Supervisor 图，
-不代表专业 Agent 已实现。未配置模型时 HTTP 服务仍可启动。数据库设置仍为预留项。
+- [接口文档](http://127.0.0.1:8000/docs)
+- [存活与准备层状态](http://127.0.0.1:8000/health)
 
-开发期请求示例（可粘贴至 Apifox）：
+无模型或数据库配置也能检查 HTTP 存活。`database_status` 为 not_configured / unavailable / ready，ready 要求实际连接和 schema 版本检查成功。`model_status` 为 not_configured / initialized，初始化不探测模型网络。`agent_ready` 表示 development/test 下图与持久 session 资源已初始化，只反映准备层资源状态。生产环境恒为 false。运行中 DB 故障在开流前返回 `session_unavailable`。
 
-> 以下为当前已有代码的旧协议示例，仅用于说明此前实现行为，不代表V1目标接口。01负责最终ChatRequest Schema和Route唯一请求解析，02负责正式Task受理、Runtime提交及Graph执行接线，目标公共请求不接收workflow_id。task_id仅由AgentRuntime创建，workflow_id仅为内部同值兼容别名。
+请求示例仅会执行准备层。
 
 ```json
 {
   "user_id": "dev-user",
   "conversation_id": "conversation-1",
-  "workflow_id": "workflow-1",
-  "message": "你好"
+  "message": "你好",
+  "input_mode": "auto"
 }
 ```
 
-目前身份字段仅用于受控本地模拟，不构成生产认证；Apifox只模拟后端调用，独立Java业务系统不在V1范围。V1审批通过development/test本地入口由服务端Actor审计，普通聊天不能批准；真实管理员认证延期，production禁用演示入口。
+三个必填字段为 user_id / conversation_id / message，可选 input_mode 为 auto 或 new_task，可选 request_id 为 UUID。thread、scope、task、workflow 由服务端负责，额外请求字段拒绝。用户限 development/test 的受控名单，普通 scope 不含审批权限。此演示身份适用于受控本地环境。
 
-## 重建环境
+## 数据库环境与显式迁移
+
+本次实际使用 Ubuntu 私网虚拟机 `192.168.150.101:5432`。PG17.6 镜像固定到 digest，部署位于 `/home/white7/agent-engine-demo-db`，独立 Volume 为 `agent-engine-demo-db_agent_pg17`。HBA 只允许 Windows `192.168.150.1`，应用库 agent_demo / owner agent_app，测试库 agent_demo_test / owner agent_test。已验证容器重启持久化、双库连接与交叉连接拒绝。
+
+本地 `.env` 已保存三个数据库连接项并被 Git 忽略，密码不进入文档。Web 只读取普通连接设置，管理 URL 仅由显式 bootstrap 读取。已有 `.env` 的应用名覆盖值保留，本次真实 health 的 service 因此仍为 Agent Backend，新配置默认值为 Agent Engine Demo。
+
+仓库 `compose.yaml` 提供本机 localhost PG 环境，端口、bootstrap 用户和密码从本地环境注入。
+
+```powershell
+docker compose up -d --wait
+.\.venv\Scripts\python.exe -m scripts.init_databases
+.\.venv\Scripts\python.exe -m scripts.migrate --target development
+.\.venv\Scripts\python.exe -m scripts.migrate --target test
+```
+
+init_databases 仅接受同一配置端口上的本地固定双库和 owner。虚拟机已通过 SSH 初始化，日常 Windows 连接虚拟机时直接执行两个迁移命令。经用户授权的临时 localhost 转发已用于 bootstrap 两次幂等重跑验证，验证后已关闭。该脚本不接受现有私网 URL 直接初始化远端。
+
+应用启动只读检查版本，迁移由开发者显式执行。当前版本为 2，001 创建 sessions，002 按用户确认将 thread_id 唯一约束延迟到事务提交，修复相同 uuid5 候选的并发冲突。已应用 SQL 保留原样，后续修正新增编号。每个迁移事务与登记绑定，重跑检查 SHA-256，未知版本/已修改文件拒绝继续。
+
+停止本地容器可使用 `docker compose stop`，具名卷保存数据。Session 仅持久绑定 thread，图快照在后续 04 接入。
+
+## 模型验证与调用边界
+
+ModelGateway 提供普通/工具绑定及结构化调用。SDK 重试关闭，网关统计包含失败和重试的任务累计模型尝试次数，单次调用按配置限制超时和额外重试。Token 缺失保持 unknown/null，成功和可预期错误都返回新用量快照，取消及编程错误继续传播。
+
+当前真实联调使用本地已配置的 DeepSeek deepseek-flash，通过 ChatOpenAI 适配，结构化方法固定为 function_calling，reasoning_effort 固定为 none。该供应商在 thinking 模式拒绝强制工具选择，模式选择和首次失败已记录于交付报告。更换供应商/模型后重新显式验证其兼容性。
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.check_model
+```
+
+此命令显式调用真实模型，使用固定无隐私文本和 RouteDecision，可能产生费用。默认测试使用受控模型。启动和 health 不调用模型网络。Supervisor 在 02 切换到 Gateway，RunLimits/RunUsage 在 01 只定义数据契约，Runtime 的任务累计主动时长、工具预算与恢复继承按 02–04 接线。
+
+## 环境重建与验证
+
+`requirements.in` 维护直接依赖，`requirements.txt` 保留已验证版本。本阶段未安装或升级依赖；requirements.in 显式声明已安装并锁定的 openai，用于 Gateway 捕获供应商错误，requirements.txt 保留原验证版本。
 
 ```powershell
 py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-```
-
-`requirements.in` 记录直接依赖，`requirements.txt` 记录当前 Windows / Python 3.13
-环境解析出的全部固定版本，包含测试工具。变更依赖时修改直接依赖清单、重新安装并验证，
-然后更新固定版本清单；`pip freeze` 本身不会移除不再需要的包。
-
-## 验证
-
-```powershell
+.\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe -m pip check
-.\.venv\Scripts\python.exe -m pytest
 .\.venv\Scripts\python.exe -m ruff check .
 .\.venv\Scripts\python.exe -m ruff format --check .
 ```
 
-测试中的 Runtime 替身只用于验证 SSE 传输与请求隔离，应用不会返回替身响应。
+真实 PostgreSQL 测试要求显式测试 URL，默认不会仅因 `.env` 存在就访问数据库。可使用已配置设置显式启用，进程退出后环境随之释放。
+
+```powershell
+.\.venv\Scripts\python.exe -c "import os, pytest; from app.core.config import Settings; os.environ['AGENT_TEST_DATABASE_URL'] = Settings().test_database_url.get_secret_value(); raise SystemExit(pytest.main(['-q']))"
+```
+
+全仓检查保留此前用户文件中的 lint/格式问题，具体文件及本阶段定向检查结果见交付报告。SSE formatter 的传输回归在独立测试应用中保留，正式 /agent/chat 按 01 准备层边界验证。
 
 ## 开发文档
 
 旧入口 [环境搭建归档指引](docs/01-environment-and-scaffold.md) 保留历史链接。[最初架构说明](docs/architecture.md) 与 [旧第二步模型计划](docs/02-real-model-chat.md) 仅供历史追溯，其未实现及待开发描述不代表本快照当前能力，当前启动、请求和实现边界以本README为准。
 
+- [分阶段独立验收、主 Agent 复核及修复任务](docs/question/README.md)
+- [修复会话提示词与修复记录](docs/resume/README.md)
+- [01 / P2-01 修复与开发自测报告](docs/resume/record/01-foundation-fix-report.md)
 - [项目定位、架构与V1范围（权威文档）](docs/agent-engine-demo-plan.md)
 - [唯一有效的V1路线图：六阶段、18个二级环节、36项三级任务](docs/development-roadmap.md)
 - [01 正式设计基线——工程、PostgreSQL、模型与普通演示身份](docs/01-foundation-detailed-design.md)

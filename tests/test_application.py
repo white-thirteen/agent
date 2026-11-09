@@ -4,9 +4,10 @@ import json
 from collections.abc import AsyncIterator
 
 import pytest
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from sse_starlette.sse import EventSourceResponse
 
-from app.api.dependencies import get_agent_service
 from app.core.config import Settings
 from app.main import create_app
 from app.runtime.agent_runtime import AgentContext, AgentRuntime
@@ -21,9 +22,8 @@ def application():
 
 def chat_body():
     return {
-        "user_id": "user-1",
+        "user_id": "dev-user",
         "conversation_id": "conversation-1",
-        "workflow_id": "workflow-1",
         "message": "hello",
     }
 
@@ -82,10 +82,23 @@ def test_sse_transport_preserves_payload_and_isolates_run_context(application):
             return events()
 
     service = AgentService(TestRuntime())
-    application.dependency_overrides[get_agent_service] = lambda: service
-    with TestClient(application) as client:
+    # Exercise the retained formatter/transport independently while 01 HTTP stops at preparation.
+    transport_app = FastAPI()
+
+    @transport_app.get("/transport/{user_id}")
+    def transport(user_id: str):
+        return EventSourceResponse(
+            service.stream_chat(
+                user_id=user_id,
+                conversation_id="conversation-1",
+                workflow_id="legacy-workflow",
+                message="hello",
+            )
+        )
+
+    with TestClient(transport_app) as client:
         for user_id in ("user-1", "user-2"):
-            response = client.post("/agent/chat", json={**chat_body(), "user_id": user_id})
+            response = client.get(f"/transport/{user_id}")
             assert response.status_code == 200
             assert response.headers["content-type"].startswith("text/event-stream")
             frames = response.text.replace("\r\n", "\n").strip().split("\n\n")

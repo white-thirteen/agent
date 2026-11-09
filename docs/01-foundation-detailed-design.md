@@ -1,6 +1,16 @@
 # 01 基础工程与运行环境：完整详细设计
 
-D01及六阶段详细设计已获最终确认，实施待独立授权。依据为README和AGENTS的“逻辑设计阶段正式收尾记录”。本文接口及验收均为未来实施标准。
+> 当前状态为01 已获用户正式验收，归档快照验证中，02 尚未启动。以下开发、QA及历次处理记录保留原有日期和语境；历史待批准文字不覆盖本条当前状态。
+
+## 2026-11-09 正式开发记录
+
+本次用户授权完整阶段 01，六个 Task 按第 7 节串行实施，阶段完成后停止。
+
+1.1.1 已核对工程事实。工作区已有 Python、Graph、配置与文档修改，全部保留，以当前文件为实施基线。Python 为项目 `.venv` 的 3.13.7，初始回归为 `55 passed`。复用 factory/lifespan、Route → Service → Runtime → Graph、已有 Graph/映射及 SSE formatter。基础资源目前仍为占位，现有模型在 main 创建，旧 Runtime 自行计算 thread。后续按本文迁移准备层，Graph 执行侧留 02。未变更依赖。
+
+本机 PATH 尚未发现 Docker/psql，现有 `.env` 含模型设置且没有数据库设置。数据库真实验收作为独立门禁继续核查，模型凭据内容不记录。
+
+当前状态为 01 六个 Task 已实施并完成本轮技术验证，待用户阶段验收。02 未开始。本页设计正文保留原有冻结基线，当前实现、用户批准的迁移 002 修正及验证结论以末尾交付报告为准。
 
 初版日期为2026-11-08，最近修订日期为2026-11-09。依据：[项目定位与 V1 范围](agent-engine-demo-plan.md)、[六阶段路线图](development-roadmap.md)、[开发规范](../AGENTS.md)。本文细化新 01 阶段，不替代整体路线图，也不采用历史阶段的审核状态。
 
@@ -12,7 +22,7 @@ D01及六阶段详细设计已获最终确认，实施待独立授权。依据�
 
 交付一个可复现、资源生命周期明确的单 FastAPI 工程：无外部配置能检查 HTTP 存活；配置后能连接真实 PostgreSQL 和一个真实聊天模型；受控演示身份可稳定绑定会话线程，为 02 的 Runtime 和 04 的持久恢复提供基础。
 
-沿用路线图的 3 个二级环节、6 个三级 Task，不另建平行任务体系。六阶段设计已获最终确认，实际开发仍待独立授权；本阶段设计修订不授权任何 Task 实施。届时按用户确认的 Task 顺序与范围执行，并记录结果和遗留项。
+沿用路线图的 3 个二级环节、6 个三级 Task，不另建平行任务体系。当前为全项目纯逻辑设计阶段，所有阶段的详细设计完成并经审核后，才统一进入实际开发；本阶段设计修订不授权任何 Task 实施。届时按用户确认的 Task 顺序与范围执行，并记录结果和遗留项。
 
 | 二级环节 | Task | 本阶段交付 | 明确后继边界 |
 | --- | --- | --- | --- |
@@ -816,7 +826,7 @@ HTTP 替身只用于传输与上下文观察，正式装配不含测试替身；
 
 Task 内运行受影响验证；阶段整合涉及公共入口时运行一次完整回归与必要代码检查，检查通过后不无故扩大或重复。真实模型、PG、Windows 异步运行兼容性分别报告，不把可控模型通过等同 provider 已支持所有能力。本轮未运行以上任何验证或检查。
 
-以上均为未来开发验收：01 实施完成要求六项授权实现、相关验证、真实 PG/模型门禁与用户阶段验收均完成；环境/凭据缺失时保持门禁未通过。六阶段设计已获最终确认，四项决策已确认或延期，实施仍由用户另行授权，不因本设计或基础资源方案确认而开始实施。
+以上均为未来开发验收：01 实施完成要求六项授权实现、相关验证、真实 PG/模型门禁与用户阶段验收均完成；环境/凭据缺失时保持门禁未通过。当前全项目处于逻辑设计阶段，六阶段详细设计已完成，四项决策已确认或延期，当前等待最终设计冻结，之后由用户另行授权开发，不因本设计或基础资源方案确认而开始实施。
 
 ## 9. 与 02 AgentRuntime 阶段的衔接
 
@@ -869,12 +879,12 @@ Task 内运行受影响验证；阶段整合涉及公共入口时运行一次完
 
 | Task | 设计 | 实现 | 自动验证 | 真实联调 |
 | --- | --- | --- | --- | --- |
-| 1.1.1 | 已最终确认 | 未开始 | 未执行 | 不适用 |
-| 1.1.2 | 已最终确认 | 未开始 | 未执行 | 未执行 |
-| 1.2.1 | 已最终确认 | 未开始 | 未执行 | 未执行 |
-| 1.2.2 | 已最终确认 | 未开始 | 未执行 | 未执行 |
-| 1.3.1 | 已最终确认 | 未开始 | 未执行 | 未执行 |
-| 1.3.2 | 已最终确认 | 未开始 | 未执行 | 未执行 |
+| 1.1.1 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | 不适用 |
+| 1.1.2 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | 真实 HTTP 启停通过 |
+| 1.2.1 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | 双库/迁移/重跑/回滚/容器重启通过 |
+| 1.2.2 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | 真实并发/隔离/跨进程读取通过 |
+| 1.3.1 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | DeepSeek 文本与结构化通过 |
+| 1.3.2 | 已确认，002 修正另获批准 | 已实施 | 相关检查通过 | 真实 HTTP/session 准备通过 |
 
 每个授权 Task 完成后在本节记录新增/复用/修改内容、文件、实际验证结果、真实环境结论、遗留与后继责任，并同步路线图进度和 README 的实际行为。重要 Graph 契约真正变更时再更新 graph-protocol，不提前把规划写成现有能力。
 
@@ -909,3 +919,129 @@ Task 内运行受影响验证；阶段整合涉及公共入口时运行一次完
 用户正式确认前三项技术参数并明确延期管理员认证，已无这四项待确认决策。历史记录中的待确认或管理密钥方案仅供追溯，当前以本文规范及本记录为准。LocalDemoApprovalActor固定审计值采用local-demo-approval，沿用approver_id存储字段，不构成真实身份认证或授权。
 
 六阶段、18环节、36Task和既有八项设计结构不变。仍为纯逻辑设计，只修改Markdown，未检查实际开发进度，未修改代码、SQL、实际配置或依赖，未安装、测试、检查代码、启动、数据库操作或联调。实施验证尚待授权，当前等待用户最终设计冻结确认，设计确认不授予任何Task开发权限。本轮完成即停止。
+
+1.1.2 已完成 Settings 收敛、正数/池边界/URL/名单校验、隐藏配置输入、安全资源及身份错误、health 资源状态与环境示例。相关检查为 `python -m pytest tests/test_config.py tests/test_application.py -q`，13 passed。1.1.1/1.1.2 未升级依赖。最终 agent_ready 与准备层接线在 1.3.2 收敛。
+
+## 2026-11-09 PostgreSQL 实施进度
+
+1.2.1 已实现 localhost Compose、固定 PG17.6 镜像及已实拉 digest、显式双库 bootstrap、编号 SQL/版本表、事务锁/checksum/逐迁移事务与测试目标保护。用户随后明确授权使用 Ubuntu 私网虚拟机，已在独立 Compose 项目部署相同镜像，数据库仅绑定 192.168.150.101:5432，HBA 仅允许 Windows 192.168.150.1，独立 agent_app/agent_test 非超级 owner，双库互拒连接。管理连接仅用于显式初始化。保留仓库 bootstrap 的本地目标保护，远端现有资源通过 SSH 已独立初始化，未放开脚本到任意远端。
+
+真实迁移入口 development/test 各首次返回 [1]，重跑各返回 []。真实 PostgreSQL 为 17.6 (Debian 17.6-2.pgdg12+1)，容器重启后测试标记仍存在并已清理。原有其他应用容器与数据保留。
+
+1.2.2 已实现有界异步池、只读 schema 检查、失败清理与 lifespan 注入、按 user/conversation 查询的 SessionRepository、两语句并发创建及既有 uuid5 候选算法。真实测试三项通过，覆盖迁移重跑/checksum/未知版本/失败回滚、12 路同键并发、跨用户隔离及池关闭重开读取。跨独立 Python 进程读取与最终启动释放在阶段集成继续验证。Windows 本地 uvicorn 默认 Proactor 与 psycopg 不兼容已从已安装源码确认，增加显式 Selector loop 入口及脚本 runner，未更换 Python/依赖。
+
+
+## 01 正式开发交付报告（2026-11-09）
+
+### 交付结论
+
+六个授权 Task 已实施，核心技术验收通过，等待用户阶段确认后再进入 02。保留原工作区的全部已有业务/Graph/文档修改，未提交 Git 或重置工程。未安装或升级依赖，requirements.in 显式声明已安装的 openai，requirements.txt 继续保留 openai==3.46.0 等原验证版本。全仓 Ruff 尚有既有文件检查遗留，见下面的检查结果。
+
+### 六个 Task 与模块职责
+
+| Task | 当前交付 | 验证结论 |
+| --- | --- | --- |
+| 1.1.1 | 核对初始工作区、Python/依赖/分层事实；复用 factory、主图与 SSE formatter，README 区分实际与后续能力 | 初始 55 passed；保留已有用户修改 |
+| 1.1.2 | 唯一 Settings、SecretStr、隐藏配置输入、池/超时/次数/URL/名单边界、固定公共错误、health 资源状态与单 worker 入口 | 配置/安全/无资源 HTTP/production 受控测试通过 |
+| 1.2.1 | 本机 Compose、固定镜像、显式 bootstrap、SHA-256/事务锁/逐迁移事务/版本检查，001 与经批准的 002 | 双库真实连接、迁移首次/重跑/回滚/checksum/未知版本拒绝通过；bootstrap 两次真实幂等重跑 |
+| 1.2.2 | open_pool/check_schema_version、lifespan 注入与清理、SessionBinding/Repository，保留原 uuid5 候选 | 5 组新键各 12 路并发、跨用户同名会话隔离、异键 thread 碰撞拒绝、池重开与独立进程读取通过 |
+| 1.3.1 | ModelGateway 普通/工具绑定/结构化入口，ModelCallLimits/Usage、UsageReport、安全失败快照；RunLimits/Usage 仅数据契约；共享模型 HTTP 资源与显式检查脚本 | 受控超时/重试/限额/取消/解析/Token/绑定隔离通过；真实文本及 RouteDecision 分别通过 |
+| 1.3.2 | DemoIdentity/DemoContext/SubmitOptions，development/test 名单与普通 scope、最终 ChatRequest、Route 单次解析、Service.prepare_chat 返回二元组 | 身份/权限注入拒绝、production 禁用、错误开流前返回、真实 session 准备与跨进程读取通过 |
+
+### 用户确认的设计修正
+
+真实并发整体验收曾出现一次 sessions_thread_id_key 冲突。相同 user/conversation 的 uuid5 候选相同，原 ON CONFLICT 联合主键目标无法保证另一条立即唯一约束也被同一次冲突处理覆盖。该失败为真实发现，初次 12 路测试通过不能证明竞争不存在。
+
+用户已明确批准新增 002，将 thread_id 全局唯一约束改为 DEFERRABLE INITIALLY DEFERRED，期望 schema 升至 2。001 未修改，两语句 READ COMMITTED 流程和 uuid5 算法保留。联合主键负责同键并发去重，提交时检查全局 thread 唯一；异键碰撞仍抛 UniqueViolation 并回滚。双库实际应用 002 后，上述针对性回归通过。
+
+### 实际新增与修改文件
+
+本阶段新增文件如下，区别于工作区此前已有的未跟踪 Graph/设计文件。
+
+- `compose.yaml`
+- `migrations/001_sessions.sql`、`migrations/002_deferred_thread_uniqueness.sql`
+- `scripts/__init__.py`、`scripts/init_databases.py`、`scripts/migrate.py`、`scripts/check_model.py`
+- `app/infrastructure/sessions.py`、`app/infrastructure/model.py`
+- `app/runtime/model_gateway.py`、`app/runtime/context.py`
+- `tests/test_config.py`、`tests/test_postgres.py`、`tests/test_model_gateway.py`、`tests/test_demo_identity.py`、`tests/test_resources.py`
+
+本阶段修改文件如下。
+
+- `app/core/config.py`、`app/core/errors.py`、`app/core/logging.py`
+- `app/infrastructure/postgres.py`、`app/main.py`
+- `app/runtime/agent_runtime.py`，仅新增 RunLimits/RunUsage，原执行实现交 02 迁移
+- `app/api/dependencies.py`、`app/api/routes/agent.py`、`app/api/schemas/chat.py`
+- `app/services/agent_service.py`、`tests/test_application.py`
+- `requirements.in`，显式声明已安装 SDK 的直接使用，固定版本清单保持原样
+- `.env.example`、`README.md`、本文件、`docs/development-roadmap.md`、`AGENTS.md` 的当前进度说明
+- 本地被忽略的 `.env` 已按用户单独授权写入数据库连接，其他设置保留，真实值不入交付文档
+
+### 生命周期与当前接口
+
+启动按配置 → 有界 PG 池/只读版本检查 → 自有 HTTP 模型资源/Gateway → 仓储/Service/旧图编译推进，退出通过 AsyncExitStack 反序释放。初始化后续环节失败也清理已拥有的池/客户端，编程错误传播。启动未执行 DDL 或模型网络请求。
+
+数据库缺失/不可用时 HTTP 保持存活，prepare_chat 在资源门禁拒绝。运行中连接失败转为 session_unavailable。底层 psycopg 日志统一安全化，HTTP/SDK 调试日志限制，模型请求/回复及凭据不进入新增日志。旧 Runtime 的异常全文日志随 02 的执行侧迁移处理，目前未接公共 HTTP。
+
+ChatRequest 最终为 user_id、conversation_id、message，加可选 input_mode/request_id。Route 先解析一次，再由普通辅助函数检查环境/名单，Service 从真实仓储取绑定后返回 DemoContext/SubmitOptions，候选 run_id 尚未受理。该步骤不生成正式 Task、不调用 Graph。
+
+正式 /agent/chat 在准备成功后仍返回 503 agent_not_ready。/health 的 agent_ready 反映 development/test 下旧图与持久 session 资源已初始化，模型真实连通在显式脚本另验。此次真实 /health 的 service 为既有 .env 覆盖值 Agent Backend，默认配置已改 Agent Engine Demo。
+
+### 真实环境证据
+
+| 项目 | 实际观察 |
+| --- | --- |
+| 环境 | Windows `.venv` Python 3.13.7；Ubuntu 26.04 LTS；Docker 29.6.2 / Compose 5.3.1 复用 |
+| PostgreSQL | 17.6 (Debian 17.6-2.pgdg12+1)，固定 postgres:17.6-bookworm 与 digest sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3 |
+| 隔离 | agent_demo / agent_app 与 agent_demo_test / agent_test，owner 均非超级、无 CREATEDB/CREATEROLE，交叉连接拒绝 |
+| 网络 | 经用户确认绑定 192.168.150.101:5432，HBA 仅允许 Windows 192.168.150.1；其他来源拒绝；既有其他应用保留 |
+| 持久化 | 独立 Volume agent-engine-demo-db_agent_pg17，重启新 PG 容器后标记可读，标记已清理；不等于 Graph 快照 |
+| Bootstrap | 用户另行批准临时 localhost:15432 转发；仓库脚本真实重跑两次均 exit 0，验证后关闭转发，.env 仍保留私网地址 |
+| Schema | 双库先各应用 [1]，后各应用获批 [2]，最终重跑均 []；版本表当前为 1、2 |
+| Session | 真实 PG 并发/隔离/异键唯一约束/池重开通过，两个独立新 Python 进程读取到同一已存 thread |
+| HTTP | 实际 uvicorn 127.0.0.1:18001 + Selector loop，/health 和 /docs 为 200，database_status=ready、model_status=initialized；chat JSON 503 发生在开流前，真实绑定可查 |
+| 正常关闭 | uvicorn 完成 Application shutdown；直接真实 lifespan 断言 pool.closed、同步/异步 HTTP 客户端均关闭 |
+| 失败退化 | 实际不可达端口连接有界失败，database_status=unavailable；HTTP 存活，chat 503，安全日志无连接秘密 |
+| 真实模型 | 本地已有 DeepSeek / deepseek-flash，ChatOpenAI；普通 chat 与 function_calling RouteDecision 分别成功，usage=known，累计尝试 1、2；资源正常退出 |
+
+实际供应商组合由实施确认，未新增 provider SDK 或自动路由。起初 function_calling 在供应商默认 thinking 模式返回 400，安全诊断定位 tool_choice/thinking，之后明确设置共享模型 reasoning_effort=none，再显式验证两种能力成功。该固定参数是本轮实现选择，更换 provider/model 需再次验证。依据为 [DeepSeek 官方 Chat Completions 文档](https://api-docs.deepseek.com/api/create-chat-completion/)。未实现 Token 估算，未知用量仍为 null/unknown。
+
+### 测试命令与检查结果
+
+所有命令均使用 `.\.venv\Scripts\python.exe`。完整真实库测试通过时为 78 passed，默认不显式提供测试库时为 76 passed、2 skipped；skip 不用于替代真实 PG 验收。
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -c "import os, pytest; from app.core.config import Settings; os.environ['AGENT_TEST_DATABASE_URL'] = Settings().test_database_url.get_secret_value(); raise SystemExit(pytest.main(['-q']))"
+.\.venv\Scripts\python.exe -m scripts.migrate --target development
+.\.venv\Scripts\python.exe -m scripts.migrate --target test
+.\.venv\Scripts\python.exe -m scripts.check_model
+.\.venv\Scripts\python.exe -m pip check
+```
+
+真实 PG 测试在独立测试库执行，失败迁移使用临时目录与编号，回滚检查实际表/版本记录，未修改已应用迁移。Session 测试清理自身数据。HTTP/独立进程演示数据已清理。模型真实调用未加入默认测试。
+
+本阶段涉及 Python 的定向 Ruff lint 通过，定向 format 为 29 files already formatted。完整 `ruff check .` 仍在原有 `app/agents/prompts/supervisor.py:8` 出现 E501。完整 `ruff format --check .` 为 8 files would be reformatted、89 files already formatted，涉及原有 response.py、Runtime 旧执行块、D01–D05 的代码示例及历史 order-service 文档。本轮保留这些原有内容，未进行全仓格式化。`pip check` 为 No broken requirements found。本阶段新增 RunLimits/RunUsage 本身遵循格式，Runtime 的旧块在 02 迁移时处理。
+
+### D01 第 8 节验收矩阵结论
+
+| 门禁 | 结论 | 边界 |
+| --- | --- | --- |
+| 工程/配置 | 通过 | 无资源 HTTP、非法配置安全失败、chat 503 |
+| PG 环境 | 通过 | 真实双库/固定镜像/事务迁移/重跑/回滚；本机 Docker 未部署，实际环境使用用户指定 VM |
+| 生命周期 | 通过 | 自有池/HTTP 正常退出及部分初始化失败清理 |
+| Session | 通过 | 获批 002 后并发唯一、隔离、异键碰撞拒绝、跨进程读取 |
+| 请求准备 | 通过 | Route 单次解析及 context/options 二元组，不创建 Task/执行 Graph |
+| 模型网关 | 通过 | 受控工具/解析/次数/重试/超时/未知 Usage，正式节点迁移交 02 |
+| 真实模型 | 通过 | DeepSeek 文本与结构化独立实测；固定 non-thinking/function_calling 组合 |
+| 演示身份/隔离 | 通过 | development/test 受控名单、production 禁用、普通 scope 无审批权 |
+| 文档 | 已同步 | 当前协议、显式命令、VM 与本机初始化差异、未接能力及检查遗留明确 |
+
+核心技术门禁已通过。全仓 lint/format 尚有上述既有遗留，用户阶段验收仍待确认，因此本报告不将全项目或 02 宣布完成。
+
+### 02 交接与尚待实施
+
+02 复用 DemoContext/SubmitOptions 与数据库 thread，不增加第二套身份、线程算法或模型适配层。在 Runtime.submit 门禁内唯一创建/加载正式 task_id，绑定同值 workflow_id 后才调用旧图。Service 的旧 stream_chat 与 Runtime 的旧 AgentContext/thread 计算保留用于迁移，当前 HTTP 无调用路径。
+
+02 接入 Gateway 并在成功/失败时采用 ModelCallUsage 快照，Runtime 落实任务累计 RunUsage、主动时长和会话互斥，03 才接工具次数，04 恢复继承同任务快照。01 的预算数据类不代表上述执行治理已生效。
+
+未提前实现专业新架构、正式 Task、独立 SSE 执行/订阅、工具治理、退款审批、持久 Saver/Store 或 RAG。当前旧图保留 InMemorySaver，持久 Session 不提供持久图历史。后续工作从 02 的已冻结依赖顺序开始，需用户阶段确认与授权。

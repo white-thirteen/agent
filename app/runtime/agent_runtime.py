@@ -13,6 +13,22 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True, slots=True)
+class RunLimits:
+    """Task cumulative budgets. Runtime enforcement is implemented in stage 02."""
+
+    active_timeout_seconds: float
+    max_tool_calls: int
+
+
+@dataclass(frozen=True, slots=True)
+class RunUsage:
+    """Snapshot inherited across runs of the same task, including future resumes."""
+
+    tool_calls: int = 0
+    active_elapsed_ms: int = 0
+
+
+@dataclass(frozen=True, slots=True)
 class AgentContext:
     user_id: str
     conversation_id: str

@@ -5,6 +5,8 @@ pydantic-settings
 langchain
 langgraph
 langchain-openai
+# Already resolved by langchain-openai. Gateway imports its provider error types directly.
+openai
 sse-starlette
 psycopg[binary,pool]
 langgraph-checkpoint-postgres

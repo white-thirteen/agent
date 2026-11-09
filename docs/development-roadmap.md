@@ -1,6 +1,8 @@
 # Agent Engine Demo：六阶段开发路线图与执行任务
 
-六阶段、18环节、36Task及D01～D06已获最终设计确认，实施待独立授权。最终确认依据为README和AGENTS的正式收尾记录，历史待冻结文字保留追溯。
+> 当前状态为01 已获用户正式验收，归档快照验证中，02 尚未启动。以下开发、QA及历次处理记录保留原有日期和语境；历史待批准文字不覆盖本条当前状态。
+
+六阶段、18个二级环节、36个 Task 的设计基线已确认。2026-11-09 用户授权完整 01，六个 Task 已实施，真实 PG/模型及整体验证已执行，等待用户阶段验收。02–06 未开始，继续按依赖和明确授权推进。获批的 002 定向并发修复及检查遗留见 [01 交付报告](01-foundation-detailed-design.md#01-正式开发交付报告2026-11-09)。
 
 项目定位、架构及V1范围的权威依据是 [Agent Engine Demo定位文档](agent-engine-demo-plan.md)，其中保留实际评估与复用清单。旧九阶段全文见 [历史路线图](history/development-roadmap-commerce-history.md)，旧阶段设计只供历史参考，不得自动成为新V1要求。
 
@@ -21,13 +23,13 @@ V1展示ToolRegistry、HITL、持久Checkpoint、RAG和Store五项真实能力�
 - Runtime.submit/execute/resume/get_state管理独立执行、thread门禁和有界订阅。管理resume核对可信引用后按04四类处理，真实interrupt才Command(resume)，Gate后核对安全续跑，正常END只返回持久结果，未知拒绝自动恢复。
 - Checkpoint存图执行；Store按用户跨会话记忆；pgvector存知识片段；订单/退款/审批表存模拟事实。单个Postgres实例不意味着这些状态共享事务。
 
-所有下列测试/命令均为未来执行，当前只写设计。
+01 的实际测试/命令结果见交付报告，其余阶段下列表格继续描述未来执行范围。
 
 ## 01 基础工程与运行环境
 
 目标：复用工程，建立能运行真实模型和数据库的轻量基础。
 
-详细方案见[01阶段完整详细设计](01-foundation-detailed-design.md)，三个二级环节、六Task设计已获最终确认，未实施。01负责模型/执行预算契约、development/test普通DemoIdentity、会话准备和唯一请求解析。管理员认证V1延期，04仅提供ApprovalActorProvider/本地审计Actor及审批入口，01不增加管理密钥。Task划分不变，开发须另行授权。
+详细方案和实际交付见[01阶段完整详细设计](01-foundation-detailed-design.md)，三个二级环节、六 Task 已实施，本轮完整真实库回归为 78 passed，真实模型文本和结构化调用通过，等待用户阶段确认。01负责模型/执行预算契约、development/test普通DemoIdentity、会话准备和唯一请求解析。管理员认证V1延期，04仅提供ApprovalActorProvider/本地审计Actor及审批入口，01不增加管理密钥。Task划分不变，开发须另行授权。
 
 | 二级环节 | 目标/主要工作 | 前置 | 交付 | 完成标准 |
 | --- | --- | --- | --- | --- |
@@ -184,9 +186,9 @@ RAG导入在01/03接口稳定后可与04部分工作并行，但最终HITL/Store
 
 以下为历史修订记录，待确认参数及旧管理密钥方案仅反映当时决策，已由末尾最新正式确认记录替代。
 
-## 四、本轮状态
+## 四、当前状态与历史轮次记录
 
-[01](01-foundation-detailed-design.md)、[02](02-agent-runtime-detailed-design.md)、[03](03-tool-governance-detailed-design.md)、[04](04-hitl-checkpoint-refund-detailed-design.md)、[05](05-rag-memory-detailed-design.md)、[06](06-integration-and-final-delivery-detailed-design.md)均已最终确认详细设计，共6阶段/18环节/36Task。实施待独立授权，设计确认不等于实现或验收。以下轮次说明保留历史语境。
+[01](01-foundation-detailed-design.md)、[02](02-agent-runtime-detailed-design.md)、[03](03-tool-governance-detailed-design.md)、[04](04-hitl-checkpoint-refund-detailed-design.md)、[05](05-rag-memory-detailed-design.md)、[06](06-integration-and-final-delivery-detailed-design.md)均已完成并确认详细设计，共 6 阶段/18 环节/36 Task。01 六个 Task 已实施，独立 QA 已结束。2026-11-10 P2-01 修复和独立回归已通过主 Agent 复核并关闭，状态为 VERIFIED，用户正式验收待确认。02～06 为 NOT_STARTED。详见 [01 主 Agent 复核记录](question/01-foundation-main-review.md)。
 
 以下为历史轮次记录，其中等待设计/审核等表述仅代表当时状态，当前以本节首段及最新修订为准。
 

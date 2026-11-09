@@ -2,11 +2,12 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sse_starlette.sse import EventSourceResponse
 
-from app.api.dependencies import get_agent_service
+from app.api.dependencies import get_agent_service, resolve_demo_identity
 from app.api.schemas.chat import ChatRequest
+from app.core.errors import AgentNotReadyError
 from app.services.agent_service import AgentService
 
 router = APIRouter(prefix="/agent", tags=["agent"])
@@ -22,13 +23,16 @@ router = APIRouter(prefix="/agent", tags=["agent"])
 )
 async def chat(
     body: ChatRequest,
+    request: Request,
     service: Annotated[AgentService, Depends(get_agent_service)],
 ) -> EventSourceResponse:
-    # Resolve readiness before sending HTTP response headers.
-    events = service.stream_chat(
-        user_id=body.user_id,
+    identity = resolve_demo_identity(user_id=body.user_id, settings=request.app.state.settings)
+    await service.prepare_chat(
+        identity=identity,
         conversation_id=body.conversation_id,
-        workflow_id=body.workflow_id,
         message=body.message,
+        input_mode=body.input_mode,
+        request_id=body.request_id,
     )
-    return EventSourceResponse(events, ping=15, headers={"Cache-Control": "no-cache"})
+    # 02 will submit context/options under Runtime admission before starting SSE.
+    raise AgentNotReadyError()
