@@ -1,1 +1,1 @@
-"""Reserved for context, model, tool, policy and finalize nodes."""
+"""节点层：Supervisor、澄清、专业子图适配、结果汇总及最终回复。"""

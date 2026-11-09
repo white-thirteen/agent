@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     app_env: Literal["development", "test", "production"] = "development"
     debug: bool = False
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
-    # Reserved for model and persistence implementation; not used at startup yet.
+    # Model settings enable the Supervisor graph; database settings remain reserved.
     model_name: str | None = None
     model_base_url: str | None = None
     model_api_key: SecretStr | None = None

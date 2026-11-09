@@ -10,6 +10,7 @@ from app.api.routes import agent, workflows
 from app.core.config import Settings
 from app.core.errors import AgentNotReadyError
 from app.core.logging import configure_logging
+from app.graph.builder import build_supervisor_graph
 from app.runtime.agent_runtime import AgentRuntime
 from app.services.agent_service import AgentService
 
@@ -17,13 +18,25 @@ logger = logging.getLogger(__name__)
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
-    """Create an application without opening database or model connections."""
+    """Create an application; process-scoped model and graph start in lifespan."""
     settings = settings or Settings()
 
     @asynccontextmanager
     async def lifespan(application: FastAPI):
         configure_logging(settings.log_level)
-        runtime = AgentRuntime()
+        graph = None
+        if settings.model_name and settings.model_api_key:
+            from langchain_openai import ChatOpenAI
+
+            model = ChatOpenAI(
+                model=settings.model_name,
+                api_key=settings.model_api_key.get_secret_value(),
+                base_url=settings.model_base_url,
+            )
+            graph = build_supervisor_graph(model)
+        else:
+            logger.info("Agent graph not initialized; model configuration is incomplete")
+        runtime = AgentRuntime(graph)
         application.state.agent_service = AgentService(runtime)
         logger.info("Application started; agent_ready=%s", runtime.is_ready)
         try:

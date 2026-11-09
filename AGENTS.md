@@ -1,4 +1,4 @@
-# Agent Backend 开发规范
+# Agent Engine Demo 开发规范
 
 ## 1. 适用范围与协作方式
 
@@ -10,16 +10,37 @@
 - 围绕当前明确的任务推进，常规实现、可逆修复和必要验证无需反复确认。
 - 大规模重构、破坏性操作或扩大业务范围前，说明影响并与用户对齐；已经明确授权的范围不重复确认。
 - 遇到问题先结合实际代码定位原因，说明修改及其影响；不要只提供建议而留下已授权的修复。
-- 先完成最小可运行闭环，再扩展架构；不为目录完整而增加无用抽象或复杂基础设施。
+- 先确定 Supervisor、专业 Agent 和业务子流程的边界，再按业务闭环逐步实现，不回退为仅支持聊天的架构。
+- 架构完整设计不等于一次性实现所有功能；不为目录完整增加无用抽象或复杂基础设施。
+- 不需要过度防御式编程。校验集中在外部输入、模型输出和关键业务边界；内部可信调用遵守已有契约，不逐层重复校验、转换或深拷贝。
+- 根据实际需求处理错误，不为假想的极端情况堆叠判断、宽泛异常捕获、静默兜底和兼容分支；让明确的编程错误正常暴露。
+- 优先保持代码简洁、易读、易修改。权限、归属、金额、审批和副作用幂等性等关键业务校验仍按实际风险保留。
+- 为新增或实质修改的代码说明其功能与职责；在关键或不直观的实现处解释处理流程、设计原因及重要约束，帮助开发者理解代码如何工作。
+- 注释应补充代码本身无法清楚表达的信息，不逐行复述语句、不写过期描述；简单直观的代码不添加冗余注释。
+- 每轮按用户明确授权的范围实施；收到阶段开发指令后完成必要编码和验证，不因历史轮次的“仅文档”限制重复确认。
 
 ## 2. 项目目标与当前边界
 
-目标是独立的 Python Agent Backend，后续由 Java 后端通过 HTTP/SSE 调用。
-Java 负责用户身份、权限和传统业务，Python 负责 Agent 执行、工具、工作流和记忆。
+项目正式定位为 Agent Engine Demo：以 Agent 工程能力为核心的轻量多 Agent Demo。
+采用 Supervisor + OrderAgent / RefundAgent / KnowledgeAgent，Store 为三个专业 Agent 共享基础设施。
+开发优先级围绕 ToolRegistry、HITL、持久化 Checkpoint / Interrupt / Resume、真实向量 RAG、用户隔离的跨会话 Store 五项核心能力。
+订单查询与模拟退款用于验证工具和审批；本地模拟服务须有实际数据库状态，Apifox 仅模拟后端调用，不构建独立 Java 系统或真实支付。
 
-当前已有 FastAPI 骨架、配置、日志、请求校验、Service/Runtime 边界与 SSE 适配。
-模型、Graph、工具、持久化、审批和长期记忆尚未实现；对应文件中的职责说明不是功能实现。
-当前事实以代码及 `docs/architecture.md` 为准，阶段文档保留该阶段的完成记录。
+- `docs/agent-engine-demo-plan.md` 是项目定位、架构及 V1 范围的权威文档。
+- `docs/development-roadmap.md` 是唯一有效的 V1 开发路线图；按一级阶段设计审核、二级环节授权执行。
+- 旧九阶段路线图与旧阶段设计统一归档在 `docs/history/`，入口为 `docs/history/README.md`；只供历史参考，原审核状态仅适用于旧目标，不得自动带入旧生产级电商要求。
+- 新会话阅读本规范后依次阅读项目定位、唯一开发路线图及D01，按授权Task需要查阅D02～D06和Graph既有协议。六阶段详细设计已结束，不重复拆分或重新设计Task。历史资料仅按需参考，不自动成为V1任务或验收标准。
+- 不得擅自扩大 V1 业务范围，不恢复订单取消、完整物流/支付、企业多租户权限或复杂分布式调度等已移出要求。
+- 当前状态为逻辑设计阶段已完成，正式开发阶段待新会话接手。六阶段、18环节、36Task及D01～D06已获用户最终确认，作为正式开发基线，development-roadmap.md是唯一有效路线图。已确认技术决策不再待议，V1外能力按规划延期。本次确认覆盖旧轮次待审/待冻结状态，保留历史记录，设计不代表实现或验收。
+- 正式开发须由用户在新会话授权，从路线图第一个满足依赖的Task开始，初始起点为1.1.1「工程复用与事实基线」。后续按依赖及授权顺序逐项实施和验证，记录结果与遗留，不从设计确认推导全项目实施授权。
+
+以下为此前实现记录，本轮未重新核对开发进度。此前已有 FastAPI 骨架、配置、日志、请求校验、Service/Runtime 边界与 SSE 适配。
+已定义主/专业基础 State、内部输入输出契约、上下文映射、主图节点与路由、四种 AgentType、五种 TaskType 及不可变 AgentConfig。
+Supervisor 专用 Prompt、结构化路由、澄清、专业 wrapper、结果汇总、回复节点及主图 builder 已实现；应用使用进程内 InMemorySaver。
+Order/AfterSales/Knowledge 专业子图、业务工具、数据库、审批、长期记忆和持久化 Checkpointer 尚未实现；预留文件中的职责说明不是功能实现。
+当前事实以代码及实际验证记录为准，整体规划见 `docs/development-roadmap.md`。GENERAL 枚举和配置实例已移除，
+新角色枚举不等于已有可执行 Agent；后续按整体路线图逐环节设计与实施。
+`docs/graph-protocol.md` 是当前代码协议参考，旧角色/字段不等于新目标已实现；按新阶段确认方案迁移时保留显式输入输出映射，不整份合并子图 State。
 
 ## 3. 环境与依赖
 
@@ -38,45 +59,96 @@ Java 负责用户身份、权限和传统业务，Python 负责 Agent 执行、�
 | 模块 | 职责与边界 |
 | --- | --- |
 | `app/api` | HTTP 参数校验、依赖注入和响应，不实现 Agent 决策或数据库操作 |
-| `app/services` | 创建请求上下文和 run_id，协调 Runtime、工作流及记忆 |
-| `app/runtime` | 执行与恢复 Graph，将内部执行结果适配为公共事件，不依赖 HTTP Schema |
-| `app/graph` | State、Reducer、节点、条件边与编译 |
-| `app/agents` | Agent 类型、Prompt 与配置，按业务需要增加 |
+| `app/services` | 准备DemoContext与SubmitOptions及候选run_id，显式转交Runtime，协调查询与记忆 |
+| `app/runtime` | 唯一创建正式Task及task_id，关联Run，执行和恢复Graph，适配公共事件，不依赖HTTP Schema |
+| `app/graph` | 主图、专业子图、确定性业务子图、State、Reducer、条件边及编译 |
+| `app/agents` | Supervisor/Order/Refund/Knowledge 目标配置、Prompt 和领域契约；现有 AfterSales 命名待阶段迁移 |
+| `app/domain`（规划） | 最小模拟订单/退款规则与操作，独立于 LLM 与 Graph，不扩建完整电商系统 |
 | `app/tools` | 工具元数据、注册、发现、策略与实际执行 |
-| `app/workflows` | 工作流业务状态、元数据与审批 |
-| `app/memory` | 跨会话长期记忆读取、提取、去重和更新 |
+| `app/workflows` | 必要审批、退款调用关联；不默认建设通用 WorkflowRepository 平台 |
+| `app/memory` | V1共享MemoryReader、MemoryManager统一持久化及既有显式命令解析/版本/幂等；MemoryWriter仅V2预留 |
+| `app/knowledge`（规划） | 知识文档导入、切分、向量索引、检索和来源信息 |
+| `app/execution`（按需规划） | 轻量单进程任务/限制，是否独立成包由当前阶段决定；执行不依赖 SSE 连接 |
 | `app/infrastructure` | 数据库、Checkpointer 与 Store 的初始化和资源管理 |
 | `app/streaming` | 对外 SSE 协议和序列化，不直接泄露 LangGraph 内部事件 |
 
 应用级模型、连接池和 Graph 由生命周期管理；Graph 在启动时编译，不在每次请求中重编译。
 单例 Service、Runtime、节点对象不保存用户的可变执行状态，请求状态经显式上下文或 State 传递。
 
-## 5. State、ID 与持久化
+## 5. Agent Engine 与业务边界
 
-- `user_id` 标识用户，`conversation_id` 标识逻辑会话，`workflow_id` 标识可管理工作流，
-  `run_id` 标识一次执行，`thread_id` 标识 Checkpoint 线程；不得混用。
-- 每次执行创建独立 run_id；恢复执行与业务 workflow 的关联在生命周期模块中明确处理。
+- CustomerServiceAgent 是 Supervisor，负责意图理解、澄清、任务分派和结果协调，不直接持有全量业务工具。
+- OrderAgent 负责订单查询；RefundAgent 负责模拟退款申请、审批等待和原调用恢复；KnowledgeAgent 负责带来源的 RAG。
+- 现有 AgentType 的 AFTER_SALES 和 TaskType 的 ORDER_CANCEL 属迁移前代码事实；未来按新阶段调整 Refund 命名，取消不作为 V1 可执行能力，不同时维护重复角色。
+- 主 Graph 处理跨 Agent 调度；专业子图处理领域决策；业务 Workflow Subgraph 控制确定性的规则和副作用顺序。
+- 第一版串行选择一个专业子图；多任务拆分、并行分派和反复回到 Supervisor 的循环暂不实现。
+- LLM 输出结构化路由建议，程序校验 Agent/Task 组合、权限与必填参数；未知意图走澄清，不随意兜底执行。
+- 订单归属、模拟退款资格和金额由 Domain Service 校验；执行写操作时在事务中再次检查。
+- 工具是 Domain Service 的适配层，不能绕过 ToolExecutePolicy；确定性节点调用有副作用操作也必须经过同一策略和执行入口。
+- 审批前可校验资格、计算模拟金额并幂等创建退款申请；实际模拟退款状态变更只能在可信审批通过后，经统一执行入口再次校验并执行。
+- 退款副作用以稳定 operation_id、数据库唯一约束和本地事务实现业务幂等；节点或 ToolCall 可能重放，不承诺 Graph、ToolCall、Checkpoint 与数据库之间全局 Exactly Once/原子执行。结果未知时先核对，不无条件重发。
+- 不能将业务规则、审批授权或支付金额决策仅写进 Prompt，也不能以模型回复代替实际业务结果。
+
+## 6. State、ID 与持久化
+
+- user_id标识所选演示用户，conversation_id标识该用户逻辑会话，thread_id是sessions持久绑定的稳定Graph线程。
+- task_id是正式逻辑任务的唯一权威标识，只由AgentRuntime新建Task时生成。澄清、审批、暂停和恢复加载原task_id，Service、模型和专业图不得生成或覆盖。
+- workflow_id仅为task_id同值内部兼容别名，无独立ID、存储或生命周期，仅在既有Graph协议需要时传递。
+- run_id标识一次实际执行，每次新执行独立生成，恢复可新建Run但不更换Task或清零用量。Service普通候选run_id在Runtime受理后才生效，去重命中复用原Run。
+- operation_id标识持久业务副作用幂等操作，未知结果先核对原操作。request_id为可选进程内HTTP去重标识，不能替代operation_id或Checkpoint恢复。
+- Route唯一解析请求，Service准备DemoContext与SubmitOptions(input_mode, request_id)，Runtime.submit显式接收context/options。01不创建正式Task，旧Graph仅在02 Runtime绑定Task后取得同值workflow_id。
 - State 先定义每个字段的写入方和合并方式。消息使用消息专用 Reducer，其他字段按需覆盖或合并。
-- 同一会话单活动 workflow、workflow 与 thread 的一对一映射是第一版目标，当前骨架没有实现该约束。
-- Checkpointer 保存执行快照，Store 保存跨会话记忆，Workflow Repository 保存业务元数据。
+- 按解析的DemoIdentity校验会话归属后绑定稳定thread_id，同会话顺序Task复用thread，一个时刻仅一个活动Task。
+- 不按 workflow 创建独立会话 thread；当前 Runtime 已按用户/会话计算线程，但尚无持久绑定，目标以新路线图的 sessions 绑定为准。
+- 同一 thread 的新输入、恢复和重试互斥；待审批时普通聊天不能作为 resume，第一版返回冲突及当前状态。
+- 主 State 保存公共对话与调度结果，专业子图保存私有工具历史和业务状态，通过显式输入输出映射传递。
+- 子图不能覆盖可信身份、task_id或其同值workflow_id，父图不复制所有子图历史，防止消息错配和快照膨胀。
+- Checkpointer 保存执行快照，Store 保存用户长期记忆，必要业务表保存会话绑定、审批和模拟退款事实，VectorStore 保存知识索引；不要求额外通用生命周期平台。
+- V1采用PostgreSQL/pgvector、明确SQL/psycopg精确余弦检索，PG为唯一知识权威。ES/Hybrid仅未来领域接口扩展，V1无ES依赖、部署、混排或双写。Compose和资源就绪仍须未来实施验证。
 - 不把全部聊天记录直接保存为长期记忆；记忆读写需要按用户隔离。
+- V1记忆仅answer_language/answer_style，Reader委托Manager.snapshot，原Task可信Human经确定性解析为MemoryCommand，走既有MemoryManage及同Policy/Executor到Manager.apply。Manager管理namespace、revision、operation幂等、单用户锁与unknown，不依赖V2。
+- MemoryWriter为V2候选提取/筛选/归一化/冲突建议组件，无Store或版本/幂等职责，无独立持久化权限。候选仍需未来独立授权策略，V1不实现、不注册或装配，不增加Agent/Graph。
 - interrupt 只在明确的安全中断点使用，不声称能够冻结任意运行中的 Python 代码。
 - 恢复会重放部分节点时，应检查外部副作用与工具幂等性，不允许重复执行已审批的副作用。
 
-## 6. 工具、身份与流式输出
+## 7. 工具、身份与流式输出
 
-- 工具先按 Agent 权限过滤，再进行渐进式披露；执行时仍需重新校验权限、参数和策略。
+- V1 工具先按 Agent 和用户范围过滤，再绑定允许工具的完整 Schema；基础 list/get 提供发现，复杂渐进式披露延期；执行时仍重新校验权限、参数和策略。
 - 有副作用的工具明确超时、幂等及审批要求；审批绑定具体调用与参数，不能作为通用放行标记。
-- 开发期可使用 Apifox 模拟身份；生产身份来自可信后端，并验证调用方和数据归属。
-- 当前预留事件为 `token`、`status`、`tool_start`、`tool_end`、`approval_required`、`done`、`error`。
+- 工具元数据覆盖风险、审批、Agent allowlist、用户 permission scope、副作用、幂等、超时和标签。
+- 筛选后完整 Schema 进入模型绑定，与当前执行集合保持一致；发现本身不授予执行权限。
+- 审批由development/test本地演示入口提交，操作者由服务端ApprovalActorProvider固定作审计，核验原Task/参数/中断关联；普通聊天内容不能伪造批准。
+- Apifox user_id 仅受控模拟，不构成生产认证；审批使用本地独立控制面及服务端审计Actor，V1真实认证延期，订单和记忆按用户隔离，普通聊天不能提供审批权。
+- 目标事件增加 workflow_paused、workflow_resumed；当前事件枚举还未实现这两项。
+- 公共事件关联和迁移以新阶段详细设计为准；现有 event/data 尚未迁移，不将旧设计全部必填字段作为新 Demo 要求。
 - 事件数据统一序列化；先于 SSE 响应头发生的问题使用合适的 HTTP 错误，开流后的问题使用事件协议。
-- 处理流式异常、客户端断开、取消和资源释放；不要吞掉取消异常或在日志中输出密钥及完整敏感消息。
+- SSE 订阅断开只清理订阅资源，不自动取消订单、退款或已受理执行；业务取消需要显式控制及安全节点。
+- 受理后的执行由独立执行任务持有；不能让 HTTP 生成器拥有业务任务的唯一生命周期，也不能承诺内存队列具备重放能力。
+- done 表示本次 run 的流结束，不必然表示 workflow 已完成；等待审批或暂停需要保留明确状态。
+- 仅将经过允许的最终回复文本流给用户；Supervisor 推理、专业 Agent 内部消息、敏感参数和凭据不得透传。
 - 未实现能力明确返回不可用，不能用模拟成功结果替代；测试替身仅用于测试。
+- 开发期 Mock Domain Service 可以执行模拟业务状态变更，必须标明数据与支付均为模拟，不能冒充真实生产操作。
 
-## 7. 验证与交付
+## 8. 阶段依赖与执行治理
 
-涉及业务行为变更时，运行与改动有关的测试，重点覆盖请求隔离、错误路径和资源清理。
-阶段完成时执行以下检查；没有新增问题时，不无意义地重复扩大测试范围。
+- 只按新六阶段路线图推进：环境与运行基础 → Runtime/Supervisor → 工具治理 → HITL/持久恢复 → RAG/Store → 集成交付；旧编号不作为开发指令。
+- 模拟退款执行前落实策略、归属、可信审批和业务幂等；审批恢复前落实持久 Checkpoint 与必要审批/退款记录，不要求先建完整 WorkflowRepository。
+- 退款闭环不能依赖仅存在内存的 Checkpoint，也不能将恢复基础设施推迟到退款业务完成之后。
+- V1 保留模型轮次、工具次数、执行期限、调用超时和有界重试；限制耗尽不能继续副作用，不建设生产成本核算账本。
+- 待执行调用、必要计数和已执行记录随逻辑任务/快照保存，resume 不重置；Token 区分已知、估算与未知，不把未知记零或将估算称绝对硬上限。
+- 日志记录用户/会话/工作流/run、Agent、节点、工具、耗时与结果；不记录明文凭据和不必要的用户原文。
+
+## 9. 验证与交付
+
+不需要超多测试，不以测试数量或覆盖率数字作为目标。用少量有意义的测试覆盖核心行为和实际风险：
+
+- 优先验证业务主路径、关键失败路径和已修复的真实问题，复用已有测试，不反复证明同一件事。
+- 不为简单枚举、常量、getter、直通包装或框架已保证的行为机械添加测试，不逐字段穷举无实际意义的参数组合。
+- 测试应验证可观察行为，不照抄实现细节；简单、低影响、可逆的改动可以通过现有检查或直接验证完成。
+- 常规开发运行受影响的测试；阶段集成或涉及公共行为时再运行完整测试。依赖发生变化时运行 pip check。
+- 检查通过后继续交付，只有新改动、失败或未解决的问题才需要扩大或重复验证。
+
+以下为按需使用的检查命令，不要求每次修改全部执行：
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip check
@@ -87,6 +159,36 @@ Java 负责用户身份、权限和传统业务，Python 负责 Agent 执行、�
 
 纯文档修改检查事实、链接和示例一致性即可，不要求增加或重跑业务测试。
 新增模型集成先使用可控替身验证，再在已配置的环境验证真实调用，不把付费外部请求放入默认测试。
+模型路由、跨用户隔离、退款审批、幂等、重启恢复和断开清理等能力，在实际实现或变更时选择必要用例验证，避免重复覆盖。
+模拟业务用例需要检查数据库或业务服务状态，不能仅断言 LLM 说“操作成功”。
 
 交付时说明做了什么、验证结果、尚未实现或尚未验证的部分。
 重要设计和阶段记录写入 `docs`，更新 README 导航；文档清楚区分“当前行为”和“计划行为”。
+
+以下为历史修订记录，待确认参数及旧管理密钥方案仅反映当时决策，已由末尾最新正式确认记录替代。
+
+## 2026-11-09 全项目审查第一轮整改记录
+
+定向修订第2节当前状态、第4节Service/Runtime职责、第6节ID生成和传递。正式Task唯一由Runtime创建，workflow仅同值别名，context/options分离。其余编码、安全和协作规范保留。
+
+六阶段、18环节、36Task保持不变。本轮仅修改Markdown设计、规范及导航，未检查实际开发进度，未修改业务代码、配置、依赖、数据库或迁移，未运行测试、代码检查、服务、容器、模型或Apifox联调。四项决策仍推荐待用户确认，设计尚未冻结。第一轮修订完成后停止，最终只读复核由用户另行授权。
+
+## 2026-11-09 最终技术决策确认与冻结准备记录
+
+同步四项决策落定及等待最终冻结状态，审批改本地控制面/服务端审计Actor，真实认证延期，普通聊天不审批。明确PG唯一知识权威和ES仅未来扩展。
+
+用户正式确认前三项技术参数并明确延期管理员认证，已无这四项待确认决策。历史记录中的待确认或管理密钥方案仅供追溯，当前以本文规范及本记录为准。LocalDemoApprovalActor固定审计值采用local-demo-approval，沿用approver_id存储字段，不构成真实身份认证或授权。
+
+六阶段、18环节、36Task和既有八项设计结构不变。仍为纯逻辑设计，只修改Markdown，未检查实际开发进度，未修改代码、SQL、实际配置或依赖，未安装、测试、检查代码、启动、数据库操作或联调。实施验证尚待授权，当前等待用户最终设计冻结确认，设计确认不授予任何Task开发权限。本轮完成即停止。
+
+## 2026-11-09 Memory V1与V2职责收敛记录
+
+修订app/memory职责及第6节记忆规范，V1确定性管理与Manager统一入口明确，MemoryWriter的候选维护/去重不替代版本与operation幂等，不在V1实施。
+
+V1保留AsyncPostgresStore、两偏好字段、用户Namespace、跨会话/跨Thread、revision、operation_id/digest/expected_revision/last_mutation、per-user锁及conflict/unknown和原Checkpoint写前边界。显式解析独立于V2，旧记录中的Writer为当时V1写路径称谓，现已统一为MemoryManager及显式命令流程，不代表V2已实现。
+
+六阶段、18环节、36Task和八项设计结构保持，5.3.2仅授权更名，无新增Agent、Graph或Task。此前四项最终技术决策不变。本轮仅改Markdown，未检查开发进度，未修改Python/SQL/依赖/配置，未测试、迁移或联调；实现及冻结不在本轮授权内，完成后停止并提交用户审核。
+
+## 逻辑设计阶段正式收尾记录
+
+用户已最终确认六阶段、18环节、36Task、D01～D06及跨阶段契约。逻辑设计阶段正式结束，开发待新会话接手；初始开发起点为1.1.1，实施须另行授权。本次仅更新状态、阅读指引及必要导航，详细设计、路线图及历史资料保留，未执行开发、测试、迁移、启动或联调。
