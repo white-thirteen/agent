@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     model_max_retries: int = Field(default=1, ge=0)
     run_timeout_seconds: float = Field(default=120, gt=0, allow_inf_nan=False)
     run_max_tool_calls: int = Field(default=12, gt=0)
+    runtime_queue_capacity: int = Field(default=64, ge=2)
+    runtime_max_active_runs: int = Field(default=8, gt=0)
+    runtime_retained_runs: int = Field(default=100, gt=0)
+    runtime_result_ttl_seconds: float = Field(default=1800, gt=0, allow_inf_nan=False)
+    runtime_shutdown_grace_seconds: float = Field(default=5, ge=0, allow_inf_nan=False)
     demo_user_ids: tuple[str, ...] = ("dev-user", "demo-user-b")
 
     @field_validator("model_base_url")

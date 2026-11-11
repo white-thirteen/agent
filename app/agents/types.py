@@ -12,7 +12,7 @@ class AgentType(StrEnum):
 
     SUPERVISOR = "supervisor"
     ORDER = "order"
-    AFTER_SALES = "after_sales"
+    REFUND = "refund"
     KNOWLEDGE = "knowledge"
 
 
@@ -20,10 +20,10 @@ class TaskType(StrEnum):
     """Supported tasks; unknown values must be rejected before dispatch."""
 
     ORDER_QUERY = "order_query"
-    ORDER_CANCEL = "order_cancel"
-    REFUND_REQUEST = "refund_request"
+    REFUND_APPLY = "refund_apply"
     KNOWLEDGE_QA = "knowledge_qa"
     CLARIFICATION = "clarification"
+    MEMORY_MANAGE = "memory_manage"
 
     @property
     def target_agent(self) -> AgentType:
@@ -34,10 +34,10 @@ class TaskType(StrEnum):
 _TASK_AGENTS: Final[Mapping[TaskType, AgentType]] = MappingProxyType(
     {
         TaskType.ORDER_QUERY: AgentType.ORDER,
-        TaskType.ORDER_CANCEL: AgentType.ORDER,
-        TaskType.REFUND_REQUEST: AgentType.AFTER_SALES,
+        TaskType.REFUND_APPLY: AgentType.REFUND,
         TaskType.KNOWLEDGE_QA: AgentType.KNOWLEDGE,
         TaskType.CLARIFICATION: AgentType.SUPERVISOR,
+        TaskType.MEMORY_MANAGE: AgentType.KNOWLEDGE,
     }
 )
 

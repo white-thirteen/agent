@@ -1,6 +1,6 @@
 # 01 主 Agent QA 复核与协调记录
 
-复核日期为 2026-11-10。当前阶段状态为 **VERIFIED**，独立 QA 回归通过并经主 Agent 复核，P2-01 已关闭，P3-02 已关闭，P3-01 保留为非阻塞遗留。02～06 为 NOT_STARTED。已提交 [正式阶段验收建议](01-foundation-stage-acceptance.md)，正式验收及阶段切换等待用户明确批准。以下各节保留历次复核记录，最新处理见第 7 节。
+复核日期为 2026-11-10。当前阶段状态为 **ACCEPTED**，用户已正式批准01验收及进入02，Baseline/Delivery两提交已推送并核实远端。P2-01 已关闭，P3-02 已关闭，P3-01 保留为非阻塞遗留。02当前为NOT_STARTED（已许可、待人工启动）。以下各节保留历次复核记录，最新处理见第 8 节。
 
 ## 1. 依据与本轮证据
 
@@ -72,3 +72,13 @@ P2-01 状态为修复已交付、待独立回归，原问题保持待关闭。�
 独立结果为受影响 22 passed、完整真实库 82 passed/0 failed/0 skipped、四文件 Ruff 通过。真实 PG/ASGI、精确清理和池及两种客户端释放通过。主 Agent 本轮审阅报告和当前 Git 状态，采用独立回归证据，未重复测试或外部资源操作。
 
 阶段更新为 VERIFIED，正式验收建议见独立文件。P3-01 继续按第 2 节归属追踪。模型付费调用、独立 socket、bootstrap/Volume 本轮未重验，采用首次 QA 及 D01 已接受证据，保留原边界。用户正式批准前，ACCEPTED 和阶段切换保持待确认，02 为 NOT_STARTED。Git HEAD 仍为 2dcf652，当前工作区交付归属须在获批归档时逐项核对。
+
+## 8. 用户验收、独立归档与02交接
+
+用户已批准01验收，随后审核前序归档方案及两份独立快照验证，最终明确授权提交Git及进入下一环节。Baseline为 `f89db15efc9b38e88bfed6a725abde76575c6bae`，Delivery为 `cf3e763e96f290dad4bb011e778bbcdf7c6c81d6`，各45个变更路径。已正常推送到origin/real-model-chat并以ls-remote核实远端指向Delivery，提交父子关系通过核对。
+
+快照验证Baseline55项、Delivery真实库82项通过，运行代码及测试与验收工作树一致。归档提交采用已验证快照，仅提案补入验证与授权记录，实际暂存完整树及289处链接/标题锚点检查通过。暂存区在提交后为空。
+
+根AGENTS/README及本记录的最新协调说明和 [02执行任务](../02-agent-runtime-execution-task.md) 为归档后的交接增量，留待02阶段管理。先前5个状态文档的快照整理差异及3个旧文档路径删除、general.py暂缓状态均有记录，原业务代码与删除状态保留。归档回执位于 `D:/py/agent-project/archive-validation-20261110-01/git-archive-receipt.json`。
+
+01标记ACCEPTED，02进入已许可、待人工启动状态。下一步由用户将整阶段任务文件交给独立执行会话，完成六Task后主Agent审核交付并安排独立QA。

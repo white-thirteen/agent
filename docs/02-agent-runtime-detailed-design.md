@@ -1,6 +1,6 @@
 # 02 AgentRuntime 与 Supervisor：完整详细设计
 
-状态为六阶段详细设计及第二轮定向修订已完成，四项技术决策现已确认或明确延期，当前等待最终设计冻结。所有Task尚未获得开发授权，实际环境验证留实施阶段。
+2026-11-11当前实施状态为ACCEPTED。六Task、独立QA及两轮输出脱敏修复回归已完成，最新独立119项和外部3项通过，用户批准02正式验收及归档后推进03。详见 [02阶段验收报告](question/02-agent-runtime-stage-acceptance.md)。冻结设计和历史轮次文字保留，当前状态以本段及协调记录为准。
 
 初版日期为2026-11-08，最近修订日期为2026-11-09。依据：[项目定位与 V1 范围](agent-engine-demo-plan.md)、[六阶段路线图](development-roadmap.md)、[已批准的 01 详细设计](01-foundation-detailed-design.md)。[Graph 协议](graph-protocol.md)只作为既有接口参考，不表示目标能力已经实现。
 
@@ -1117,3 +1117,21 @@ MEMORY_MANAGE已纳入正式Task/组合/路由/transfers/PendingTask/wrapper/结
 用户正式确认前三项技术参数并明确延期管理员认证，已无这四项待确认决策。历史记录中的待确认或管理密钥方案仅供追溯，当前以本文规范及本记录为准。LocalDemoApprovalActor固定审计值采用local-demo-approval，沿用approver_id存储字段，不构成真实身份认证或授权。
 
 六阶段、18环节、36Task和既有八项设计结构不变。仍为纯逻辑设计，只修改Markdown，未检查实际开发进度，未修改代码、SQL、实际配置或依赖，未安装、测试、检查代码、启动、数据库操作或联调。实施验证尚待授权，当前等待用户最终设计冻结确认，设计确认不授予任何Task开发权限。本轮完成即停止。
+
+
+## 2026-11-10 执行会话实施记录
+
+用户正式授权完整 02，执行依据为 02-agent-runtime-execution-task.md，参考实施计划，已按 2.1.1 → 2.1.2 → 2.2.1 → 2.2.2 → 2.3.1 → 2.3.2 完成代码与开发自测。完整交付、矩阵证据和后继边界见 [02 交付报告](02-agent-runtime-delivery-report.md)。本节更新实现事实，设计正文及原历史状态保留原轮次语境。
+
+| Task | 实施交付 | 开发验证 |
+| --- | --- | --- |
+| 2.1.1 | Demo 枚举、可信 Task/别名、显式轮次与预算 State、消息与 Memory/QA 结果契约 | 类型/State/边界与累计快照通过 |
+| 2.1.2 | Gateway 路由、两类澄清、有限公开上下文、unsupported 与一次结构纠正 | 通用→具体、具体补参/换目标、纠正与限额通过 |
+| 2.2.1 | 显式注入三骨架/Gateway/Saver 和运行时 context | 四种专业 Task 真实编译不可用与父子关联通过 |
+| 2.2.2 | 单一 Response、图内 run_finish 和 sync durability 后事件发布 | 普通结算、私有隔离、慢提交与提交失败通过 |
+| 2.3.1 | 独立 Runtime、门禁/容量、去重、RunScope、uncertain/TTL/shutdown | 并发、重复请求、预算、失败与资源顺序通过 |
+| 2.3.2 | 三 POST 接口、单订阅队列、请求 ASGI owner/guard、快照重订阅 | 迭代前/构造/响应头失败及实际 TCP 断开通过 |
+
+实现适配使用已安装 FastAPI APIRoute.handle 包裹完整 ASGI 生命周期，避免该版本 included-router 的 effective context 绕过单独替换 self.app。LangGraph 使用已核对的 context_schema、context 与 durability='sync'。这些是现有版本的局部适配，冻结公共接口和六 Task 范围保留。
+
+当前交付为执行会话完成开发自测，等待主 Agent 审核、独立 QA 与用户验收。

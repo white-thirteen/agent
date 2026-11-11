@@ -6,7 +6,7 @@ from app.agents.types import AgentType
 from app.graph.contracts import GraphProtocolError, ResultStatus, RouteDecision, SpecialistResult
 from app.graph.state import AgentState
 
-RouteTarget = Literal["order", "after_sales", "knowledge", "clarification"]
+RouteTarget = Literal["order", "refund", "knowledge", "clarification", "response", "run_finish"]
 SpecialistRouteTarget = Literal["clarification", "result_aggregator"]
 
 
@@ -24,14 +24,18 @@ def validated_route(state: AgentState) -> RouteDecision:
 
 def route_after_supervisor(state: AgentState) -> RouteTarget:
     """将已验证决定映射到有限节点集合；条件边不调用模型，也不执行工具。"""
+    if state.get("error"):
+        return "run_finish"
+    if state.get("final_answer"):
+        return "response"
     decision = validated_route(state)
     if decision.needs_clarification:
         return "clarification"
     match decision.agent_type:
         case AgentType.ORDER:
             return "order"
-        case AgentType.AFTER_SALES:
-            return "after_sales"
+        case AgentType.REFUND:
+            return "refund"
         case AgentType.KNOWLEDGE:
             return "knowledge"
         case _:

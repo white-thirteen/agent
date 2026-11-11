@@ -1,10 +1,11 @@
 """Validated internal graph contracts, separate from HTTP and model credentials."""
 
 from enum import StrEnum
-from typing import Annotated, Self
+from typing import Annotated, Literal, Self
+from urllib.parse import urlsplit
 
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, field_validator, model_validator
 
 from app.agents.types import AgentType, TaskType
 
@@ -34,7 +35,14 @@ class ExecutionContext(GraphContract):
     user_id: Identifier
     conversation_id: Identifier
     workflow_id: Identifier
+    task_id: Identifier
     run_id: Identifier
+
+    @model_validator(mode="after")
+    def validate_task_alias(self) -> Self:
+        if self.workflow_id != self.task_id:
+            raise ValueError("workflow_id must equal task_id")
+        return self
 
 
 class RouteDecision(GraphContract):
@@ -72,10 +80,22 @@ class PendingTask(GraphContract):
     entities: dict[str, JsonValue] = Field(default_factory=dict)
     missing_fields: list[Identifier] = Field(min_length=1, max_length=16)
     clarification_question: Question
+    task_message_ids: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_pending_input(self) -> Self:
         _validate_missing_input(True, self.missing_fields, self.clarification_question)
+        return self
+
+
+class SupervisorOutput(GraphContract):
+    kind: Literal["route", "unsupported"]
+    decision: RouteDecision | None = None
+
+    @model_validator(mode="after")
+    def validate_kind(self) -> Self:
+        if (self.kind == "route") != (self.decision is not None):
+            raise ValueError("Only route outputs must carry a decision")
         return self
 
 
@@ -85,6 +105,15 @@ class SourceReference(GraphContract):
     chunk_id: Identifier
     title: Annotated[str, Field(min_length=1, max_length=500)]
     uri: Annotated[str, Field(min_length=1, max_length=2000)] | None = None
+
+    @field_validator("uri")
+    @classmethod
+    def public_uri(cls, value):
+        if value is not None:
+            url = urlsplit(value)
+            if url.scheme not in ("http", "https") or not url.hostname or url.username is not None:
+                raise ValueError("Source URI must be public HTTP(S) without credentials")
+        return value
 
 
 class FailureDetails(GraphContract):
@@ -111,6 +140,8 @@ class SpecialistInput(GraphContract):
     @model_validator(mode="after")
     def validate_specialist_input(self) -> Self:
         _validate_specialist_owner(self.agent_type, self.task_type)
+        if self.task_id != self.context.task_id:
+            raise ValueError("Specialist task must match its context")
         for message in self.messages:
             if not isinstance(message, (HumanMessage, AIMessage)):
                 raise ValueError("Specialist context only accepts public human/AI messages")
@@ -139,6 +170,7 @@ class SpecialistResult(GraphContract):
     operation_id: Identifier | None = None
     approval_id: Identifier | None = None
     error: FailureDetails | None = None
+    approved_answer: Annotated[str, Field(min_length=1, max_length=32000)] | None = None
 
     @model_validator(mode="after")
     def validate_result(self) -> Self:
@@ -152,17 +184,16 @@ class SpecialistResult(GraphContract):
             raise ValueError("Only failed results must include error details")
         if self.status is ResultStatus.COMPLETED:
             if self.task_type is TaskType.KNOWLEDGE_QA:
-                if not self.sources:
-                    raise ValueError("Completed knowledge answers require source references")
+                if not self.sources or not self.approved_answer:
+                    raise ValueError("Completed QA requires sources and approved answer")
             elif not self.facts:
                 raise ValueError("Completed business results require structured facts")
-            if (
-                self.task_type in (TaskType.ORDER_CANCEL, TaskType.REFUND_REQUEST)
-                and self.operation_id is None
-            ):
+            if self.task_type is TaskType.REFUND_APPLY and self.operation_id is None:
                 raise ValueError("Completed side effects require a business operation reference")
-            if self.task_type is TaskType.REFUND_REQUEST and self.approval_id is None:
+            if self.task_type is TaskType.REFUND_APPLY and self.approval_id is None:
                 raise ValueError("Completed refunds require an approval reference")
+            if self.task_type is TaskType.MEMORY_MANAGE and self.sources:
+                raise ValueError("Memory results must not include knowledge sources")
         return self
 
 

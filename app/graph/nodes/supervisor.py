@@ -1,85 +1,118 @@
-"""Supervisor 图节点：识别用户任务、补全待补上下文并给出受约束的路由决定。
+"""Gateway routing, bounded structural correction and two kinds of clarification."""
 
-Supervisor 只负责调度，不直接调用订单/退款/知识工具。它将模型的结构化输出
-转换为主图 State 更新，后续由条件边选择澄清节点或专业 Agent。
-"""
+from dataclasses import asdict
 
-from collections.abc import Awaitable, Callable
-
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.runnables import Runnable
+from langchain_core.messages import SystemMessage
+from langgraph.runtime import Runtime
+from pydantic import ValidationError
 
 from app.agents.prompts.supervisor import SUPERVISOR_SYSTEM_PROMPT
-from app.graph.contracts import GraphProtocolError, PendingTask, RouteDecision
-from app.graph.state import AgentState, RouteUpdate
-from app.graph.transfers import apply_route_decision
+from app.agents.types import AgentType, TaskType
+from app.graph.contracts import GraphProtocolError, PendingTask, SupervisorOutput
+from app.graph.state import AgentState
+from app.graph.transfers import apply_route_decision, public_task_messages
+from app.runtime.context import RunExecutionContext
+from app.runtime.model_gateway import ModelCallContext, ModelCallError
+from app.runtime.models import TaskStatus
 
-PredictRoute = Callable[[list[SystemMessage | HumanMessage]], Awaitable[RouteDecision]]
+CAPABILITY_MESSAGE = (
+    "演示范围包括本人订单查询、模拟退款申请、知识问答和两项偏好管理。该操作不受支持。"
+)
 
 
-def make_supervisor_node(predict_route: PredictRoute):
-    """构造 Supervisor 节点，并注入模型预测函数以隔离模型调用与路由逻辑。
-
-    节点本身只依赖 predict_route，便于在图构建时绑定真实模型，同时让任务续接、
-    决定校验和 State 更新保持为独立且可读的流程。
-    """
-
-    async def supervisor_node(state: AgentState) -> RouteUpdate:
-        # 每次模型调用都带上固定职责说明；业务决定由结构化输出约束，而不是自由文本解析。
-        messages: list[SystemMessage | HumanMessage] = [
-            SystemMessage(content=SUPERVISOR_SYSTEM_PROMPT)
-        ]
+def make_supervisor_node(gateway):
+    async def supervisor_node(state: AgentState, runtime: Runtime[RunExecutionContext]):
+        execution = runtime.context
+        scope = execution.scope
+        if scope.budget_exhausted():
+            return {
+                "task_status": TaskStatus.FAILED,
+                "error": {"code": "budget_exceeded", "message": "Task execution budget exhausted."},
+            }
+        scope.emit_status("routing")
         pending = state.get("pending_task")
         if pending is not None:
-            # Checkpoint 中的待补任务是跨轮续接依据；先确认它仍属于当前用户会话和任务。
             pending = PendingTask.model_validate(pending)
-            _ensure_pending_matches_state(state, pending)
+            for field in ("user_id", "conversation_id", "task_id", "workflow_id"):
+                if getattr(pending, field) != state[field]:
+                    raise GraphProtocolError("Pending task association mismatch")
+        messages = [SystemMessage(content=SUPERVISOR_SYSTEM_PROMPT)]
+        if pending:
             messages.append(
-                SystemMessage(
-                    content=(
-                        "Continue this saved task. Keep its task type and goal. "
-                        "Use its existing entities, then ask only for missing information.\n"
-                        f"Saved task: {pending.model_dump_json()}"
-                    )
-                )
+                SystemMessage(content="Trusted pending task: " + pending.model_dump_json())
             )
-        # 只将用户消息作为本次意图输入；工具记录和 Supervisor 内部信息不送入路由模型。
-        for message in state["messages"]:
-            if isinstance(message, HumanMessage):
-                messages.append(HumanMessage(content=message.content))
-
-        # 即使模型返回了合法 JSON，也要按 RouteDecision 校验任务/Agent 归属和澄清字段。
-        decision = RouteDecision.model_validate(await predict_route(messages))
-        if pending is not None:
-            # 用户补充信息不能把原任务悄悄改成另一种业务；实体允许用新值覆盖旧候选值。
+        messages.extend(public_task_messages(state))
+        model_context = ModelCallContext(state["run_id"], state["task_id"], AgentType.SUPERVISOR)
+        for correction in range(2):
+            try:
+                result = await gateway.invoke_structured(
+                    messages,
+                    schema=SupervisorOutput,
+                    context=model_context,
+                    model_usage=scope.model_usage(),
+                )
+                scope.adopt_model_usage(result.model_usage)
+                output = SupervisorOutput.model_validate(result.parsed)
+            except ModelCallError as error:
+                scope.adopt_model_usage(error.model_usage)
+                if error.code == "model_output_invalid" and correction == 0:
+                    messages.append(
+                        SystemMessage(
+                            content="Return a valid SupervisorOutput matching the schema."
+                        )
+                    )
+                    continue
+                return _failure(error.code, scope)
+            except ValidationError:
+                if correction == 0:
+                    messages.append(
+                        SystemMessage(
+                            content="Correct the route/agent/task and clarification schema."
+                        )
+                    )
+                    continue
+                return _failure("model_output_invalid", scope)
+            break
+        if output.kind == "unsupported":
+            if pending and pending.task_type is not TaskType.CLARIFICATION:
+                return {
+                    "final_answer": CAPABILITY_MESSAGE
+                    + " 请继续原目标，或使用 new_task 开始新目标。",
+                    "task_status": TaskStatus.NEEDS_INPUT,
+                    "model_call_usage": asdict(scope.model_usage()),
+                }
+            return {
+                "final_answer": CAPABILITY_MESSAGE,
+                "task_status": TaskStatus.REJECTED,
+                "pending_task": None,
+                "model_call_usage": asdict(scope.model_usage()),
+            }
+        decision = output.decision
+        if pending and pending.task_type is not TaskType.CLARIFICATION:
             if decision.task_type is not pending.task_type:
-                raise GraphProtocolError("Supervisor changed the pending task type")
-            decision = RouteDecision.model_validate(
-                {
-                    **decision.model_dump(),
-                    "agent_type": pending.task_type.target_agent,
-                    "task_type": pending.task_type,
+                return {
+                    "final_answer": "请继续补充原任务信息，或使用 new_task 开始新目标。",
+                    "task_status": TaskStatus.NEEDS_INPUT,
+                    "model_call_usage": asdict(scope.model_usage()),
+                }
+            decision = decision.model_copy(
+                update={
                     "task_goal": pending.task_goal,
                     "entities": {**pending.entities, **decision.entities},
                 }
             )
-        return apply_route_decision(state, decision)
+        return {
+            **apply_route_decision(state, decision),
+            "model_call_usage": asdict(scope.model_usage()),
+        }
 
     return supervisor_node
 
 
-def make_structured_predictor(model: Runnable):
-    """将 LangChain 模型绑定到 RouteDecision Schema，统一产出可校验的 Python 对象。"""
-    structured_model = model.with_structured_output(RouteDecision)
-
-    async def predict(messages: list[SystemMessage | HumanMessage]) -> RouteDecision:
-        return RouteDecision.model_validate(await structured_model.ainvoke(messages))
-
-    return predict
-
-
-def _ensure_pending_matches_state(state: AgentState, pending: PendingTask) -> None:
-    """拒绝将 Checkpoint 中其他用户、会话、工作流或任务的待补内容拼入当前请求。"""
-    for field in ("user_id", "conversation_id", "workflow_id", "task_id"):
-        if state.get(field) != getattr(pending, field):
-            raise GraphProtocolError("Pending task does not match the current graph state")
+def _failure(code, scope):
+    return {
+        "task_status": TaskStatus.FAILED,
+        "final_answer": None,
+        "error": {"code": code, "message": "Model routing failed."},
+        "model_call_usage": asdict(scope.model_usage()),
+    }

@@ -17,3 +17,10 @@ class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=32000)
     input_mode: Literal["auto", "new_task"] = "auto"
     request_id: UUID | None = None
+
+
+class RunRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    user_id: Identifier
+    conversation_id: Identifier

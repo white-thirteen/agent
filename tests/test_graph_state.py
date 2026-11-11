@@ -17,9 +17,12 @@ def initial_state(user_id: str, run_id: str) -> AgentState:
             user_id=user_id,
             conversation_id=f"conversation-{user_id}",
             workflow_id=f"workflow-{user_id}",
+            task_id=f"workflow-{user_id}",
             run_id=run_id,
         ),
         f"hello from {user_id}",
+        task_mode="new",
+        saved_task=None,
     )
 
 

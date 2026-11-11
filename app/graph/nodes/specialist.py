@@ -1,28 +1,41 @@
-"""父图到专业子图的调用适配器。"""
+"""Explicit current-context invocation and allowlisted specialist result mapping."""
 
-from app.graph.contracts import GraphProtocolError
+from dataclasses import asdict
+
+from langchain_core.runnables import RunnableConfig
+from langgraph.runtime import Runtime
+
+from app.graph.contracts import GraphProtocolError, SpecialistInput
 from app.graph.state import AgentState
 from app.graph.transfers import (
     apply_specialist_result,
     build_specialist_input,
     create_specialist_state,
 )
+from app.runtime.context import RunExecutionContext
 
 
 def make_specialist_node(subgraph):
-    """把编译后的固定专业子图包装成主图节点。
-
-    父图只向子图传 SpecialistInput 白名单；子图返回完整私有 State 后，
-    wrapper 只取结构化 result 并通过 apply_specialist_result 校验、映射回父图，
-    不把工具调用、私有消息或子图其他状态合并到公共会话。
-    """
-
-    async def specialist_node(state: AgentState) -> dict[str, object]:
+    async def specialist_node(
+        state: AgentState, config: RunnableConfig, runtime: Runtime[RunExecutionContext]
+    ):
         request = build_specialist_input(state)
-        output = await subgraph.ainvoke(create_specialist_state(request))
-        result = output.get("result")
-        if result is None:
+        if request.context != runtime.context.context:
+            raise GraphProtocolError("Parent execution association mismatch")
+        scope = runtime.context.scope
+        output = await subgraph.ainvoke(
+            create_specialist_state(request, scope=scope), config, context=runtime.context
+        )
+        returned_request = SpecialistInput.model_validate(output["request"])
+        if returned_request != request:
+            raise GraphProtocolError("Specialist changed its trusted request")
+        if output.get("result") is None:
             raise GraphProtocolError("Specialist must produce a structured result")
-        return apply_specialist_result(state, result)
+        # Only the trusted shared scope is authoritative; child counters are not added or adopted.
+        return {
+            **apply_specialist_result(state, output["result"]),
+            "model_call_usage": asdict(scope.model_usage()),
+            "run_usage": asdict(scope.run_usage()),
+        }
 
     return specialist_node

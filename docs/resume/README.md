@@ -7,5 +7,7 @@
 | 阶段与问题 | 提示词 | 修复记录 |
 | --- | --- | --- |
 | 01 / P2-01 | [标识 NUL 校验修复任务](01-foundation-fix-task.md) | [修复与开发自测报告](record/01-foundation-fix-report.md)，修复及独立回归经主 Agent 复核通过，P2-01 已关闭 |
+| 02 / QA-EXEC-01 | [测试异常输出脱敏修复任务](02-qa-credential-output-fix-task.md) | [修复与开发自测报告](record/02-qa-credential-output-fix-report.md)，两轮修复和独立回归已闭环，标准路径问题关闭 |
+| 02 / QA-EXEC-01 第二轮 | [warnings 与文件日志修复任务](02-qa-credential-output-round2-task.md) | [第二轮修复报告](record/02-qa-credential-output-round2-report.md)，独立119项和外部3项通过，用户已验收02 |
 
 修复记录规范见 [record 目录说明](record/README.md)。阶段验收及问题裁决见 [独立 QA 与主 Agent 复核](../question/README.md)。

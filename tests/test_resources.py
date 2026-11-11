@@ -94,3 +94,69 @@ def test_lifespan_closes_pool_when_later_resource_fails(monkeypatch):
     with pytest.raises(TypeError), TestClient(create_app(settings)):
         pass
     assert pool.closed
+
+
+async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatch):
+    import asyncio
+
+    from runtime_support import ControlledModel, MemorySessions, clarify, context
+
+    import app.main as module
+    from app.runtime.context import SubmitOptions
+    from app.runtime.model_gateway import ModelCallLimits, ModelGateway
+
+    events = []
+    entered = asyncio.Event()
+
+    async def blocked(messages):
+        entered.set()
+        await asyncio.Event().wait()
+        return clarify()
+
+    gateway = ModelGateway(ControlledModel([blocked]), ModelCallLimits(8, 30, 0))
+
+    class Pool:
+        closed = False
+
+        async def close(self):
+            self.closed = True
+            events.append("pool_closed")
+
+    pool = Pool()
+
+    async def opened(settings):
+        return pool
+
+    original = model_resources
+    captured = []
+
+    @asynccontextmanager
+    async def controlled_resources(settings):
+        async with original(settings) as (raw, _):
+            captured.append(raw)
+            yield raw, gateway
+            assert app.state.agent_runtime._stopping
+            assert all(record.task.done() for record in app.state.agent_runtime._records.values())
+            assert not raw.http_client.is_closed and not pool.closed
+            events.append("runtime_settled")
+        events.append("model_closed")
+
+    monkeypatch.setattr(module, "open_pool", opened)
+    monkeypatch.setattr(module, "model_resources", controlled_resources)
+    monkeypatch.setattr(module, "SessionRepository", lambda pool: MemorySessions())
+    app = create_app(
+        Settings(
+            _env_file=None,
+            app_env="test",
+            model_name="controlled",
+            model_api_key="test",
+            database_url="postgresql://test:unused@localhost/agent_demo_test",
+            runtime_shutdown_grace_seconds=0.01,
+        )
+    )
+    async with app.router.lifespan_context(app):
+        handle = await app.state.agent_runtime.submit(context(), options=SubmitOptions())
+        await entered.wait()
+    assert events == ["runtime_settled", "model_closed", "pool_closed"]
+    assert captured[0].http_client.is_closed and captured[0].http_async_client.is_closed
+    assert app.state.agent_runtime._records[handle.run_id].error["code"] == "run_interrupted"

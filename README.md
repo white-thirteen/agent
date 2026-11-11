@@ -1,10 +1,35 @@
 # Agent Engine Demo
 
-> 当前状态为01 已获用户正式验收，归档快照验证中，02 尚未启动。以下开发、QA及历次处理记录保留原有日期和语境；历史待批准文字不覆盖本条当前状态。
+## 02 复测与技术验收（2026-11-11）
+
+02六Task及独立QA、两轮输出脱敏修复回归已完成，用户已正式验收，阶段为ACCEPTED。最新独立完整真实库119项与外部补测3项通过。用户已授权02 Git归档及归档后推进03，见[02技术验收报告](docs/question/02-agent-runtime-stage-acceptance.md)及[独立回归报告](docs/question/02-agent-runtime-redaction-regression-report.md)。历史凭据暴露及配置密码复用按用户决定保留为Demo遗留，暂缓换密；端口实际范围见[协调记录](docs/question/02-agent-runtime-main-review.md)。
+
+## 02 执行会话交付（2026-11-10轮次记录）
+
+六个 Task 的实现和开发自测见 [02 交付报告](docs/02-agent-runtime-delivery-report.md)。本段描述本轮实际接口，后文此前 01 准备层和历史验收记录保留其原轮次语境。
+
+`POST /agent/chat` 已接通 Service → Runtime → Supervisor 主图，受理后返回 SSE。通用澄清可在下一 Run 识别具体目标并保留 Task，具体业务缺参保留原目标。取消等不支持能力返回固定边界说明。Order / Refund / Knowledge 当前均为真实编译的三节点骨架，合法专业请求返回 `capability_unavailable`。
+
+Chat body 为 `user_id`、`conversation_id`、`message` 和可选 `input_mode`、`request_id`。`input_mode=auto` 续接待补 Task，`new_task` 仅在允许边界建立新目标。Runtime 唯一生成 task_id，workflow_id 等于 task_id，同一 Task 的新 Run 继承模型次数、主动时间和工具次数快照。
+
+- `POST /agent/runs/{run_id}/status` 返回安全 RunView。
+- `POST /agent/runs/{run_id}/events` 返回当前快照及未来事件。
+- 上述两个接口 body 均只有 `user_id`、`conversation_id`，读取使用已有 Session，查询不创建 Task、Run 或 Session。
+
+SSE 事件为 status / token / error / done，关联包含 run_id、task_id、workflow_id、sequence。token 仅包含批准的最终回复，02 可整段输出。done 表示该 Run 的流结束，needs_input 的 Task 保留。断开只关闭当前订阅，Runtime 独立执行继续，结果可查询。每 Run 最多一个当前订阅，有界队列满则解绑并记录 subscriber_slow。重订阅不重放旧 token，非空 Last-Event-ID 返回 409。
+
+单 worker 的默认值为 8 个活动执行/受理占位、64 帧单订阅队列、终态保留 1800 秒且最多 100 条、shutdown 等待 5 秒后取消并 await 收敛。设置集中在 `app/core/config.py`，示例见 `.env.example`。相同 request_id 在进程内保留窗口按 user/conversation/message/input_mode 去重，已有订阅返回 subscription_exists。快照/结算不确定时阻止普通输入重放，独立阻塞标记不随 Run TTL 淘汰。
+
+`/health` 增加 `checkpoint_backend=memory`。模型与池仍由 lifespan 管理，退出先 shutdown Runtime，再关闭模型和池。启动命令继续使用 Windows Selector loop。production 演示身份禁用，尚无跨重启图恢复。02 自测使用受控模型和专用 agent_demo_test，真实模型、业务订单/审批/RAG/Store 的联调按后续阶段授权。
+
 
 轻量多 Agent Demo，采用 Supervisor 与 Order / Refund / Knowledge 专业 Agent。V1 围绕工具治理、HITL、持久恢复、真实向量 RAG 和用户隔离 Store 展开，订单/退款采用本地模拟业务。
 
 ## 当前状态
+
+2026-11-11 02整阶段实现、修复及独立回归完成，阶段为ACCEPTED，当前执行归档，03已获开发授权并将在02归档核验后启动。进展及遗留裁决见 [02主Agent协调记录](docs/question/02-agent-runtime-main-review.md)。下文此前状态及人工转交文字属于历史交接记录。
+
+2026-11-10 最新协调结果为01已正式验收（ACCEPTED）并完成Git归档，Baseline `f89db15`、Delivery `cf3e763`已推送至`origin/real-model-chat`。02已获进入许可，待用户人工启动执行会话，任务见 [02整阶段执行提示词](docs/02-agent-runtime-execution-task.md)。下段及文末保留前轮实施和验收过程记录。
 
 2026-11-09 已实施一级阶段 01 的六个 Task，验收证据和遗留见 [01 阶段交付报告](docs/01-foundation-detailed-design.md#01-正式开发交付报告2026-11-09)。2026-11-10 独立 QA 结束，P2-01 修复及独立回归经主 Agent 复核通过并关闭，阶段状态为 VERIFIED，正式验收待用户批准，详见 [复核决定与阶段状态](docs/question/01-foundation-main-review.md)。02 尚未开始。
 
@@ -95,13 +120,15 @@ py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -c "import os, pytest; from app.core.config import Settings; os.environ['AGENT_TEST_DATABASE_URL'] = Settings().test_database_url.get_secret_value(); raise SystemExit(pytest.main(['-q']))"
 ```
 
+项目 `pyproject.toml` 会加载 pytest 报告脱敏插件，处理本地 `.env` 和环境变量中的 `AGENT_DATABASE_URL`、`AGENT_TEST_DATABASE_URL` 及其密码。常规运行从项目根目录执行。仓库外的 QA 文件也从项目根目录使用同一配置运行，例如 `.\.venv\Scripts\python.exe -m pytest -c pyproject.toml -q C:/path/to/test_probe.py`。插件要求默认的 `--capture=fd`，拒绝 `-s`、其他捕获模式、实时日志、pytest 文件日志及 JUnit XML。保护范围是 pytest 测试和收集报告中的异常、捕获输出、日志及 warnings 汇总；绕过项目配置、其他报告插件、测试进程外输出或未知凭据不在此范围。历史凭据暴露及复用继续按已知遗留追踪。
+
 全仓检查保留此前用户文件中的 lint/格式问题，具体文件及本阶段定向检查结果见交付报告。SSE formatter 的传输回归在独立测试应用中保留，正式 /agent/chat 按 01 准备层边界验证。
 
 ## 开发文档
 
-旧入口 [环境搭建归档指引](docs/01-environment-and-scaffold.md) 保留历史链接。[最初架构说明](docs/architecture.md) 与 [旧第二步模型计划](docs/02-real-model-chat.md) 仅供历史追溯，其未实现及待开发描述不代表本快照当前能力，当前启动、请求和实现边界以本README为准。
-
 - [分阶段独立验收、主 Agent 复核及修复任务](docs/question/README.md)
+- [02 AgentRuntime整阶段执行任务](docs/02-agent-runtime-execution-task.md)
+- [02 主Agent协调与验收记录](docs/question/02-agent-runtime-main-review.md)
 - [修复会话提示词与修复记录](docs/resume/README.md)
 - [01 / P2-01 修复与开发自测报告](docs/resume/record/01-foundation-fix-report.md)
 - [项目定位、架构与V1范围（权威文档）](docs/agent-engine-demo-plan.md)

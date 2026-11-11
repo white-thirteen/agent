@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 from app.api.dependencies import get_agent_service, resolve_demo_identity
 from app.core.config import Settings
 from app.core.errors import (
+    AgentNotReadyError,
     DemoIdentityDisabledError,
     DemoUserNotAllowedError,
     SessionUnavailableError,
@@ -38,7 +39,7 @@ def test_identity_environment_allowlist_and_ordinary_scopes():
         )
 
 
-def test_route_parses_once_and_stops_before_execution():
+def test_route_parses_once_and_transfers_context_options():
     calls = []
 
     class PreparationObserver:
@@ -52,6 +53,12 @@ def test_route_parses_once_and_stops_before_execution():
                 kwargs["message"],
                 kwargs["identity"].permission_scopes,
             ), SubmitOptions(kwargs["input_mode"], kwargs["request_id"])
+
+        async def submit_chat(self, context, *, options, subscription_owner):
+            assert options.request_id == calls[0]["request_id"]
+            assert context.message == calls[0]["message"]
+            assert subscription_owner is not None
+            raise AgentNotReadyError()
 
     app = create_app(Settings(_env_file=None, app_env="test"))
     app.dependency_overrides[get_agent_service] = lambda: PreparationObserver()
@@ -92,6 +99,7 @@ def test_nul_identifiers_are_rejected_before_preparation(field):
 
 def test_unicode_identifiers_are_normalized_before_preparation():
     service = AsyncMock()
+    service.prepare_chat.side_effect = AgentNotReadyError()
     app = create_app(Settings(_env_file=None, app_env="test", demo_user_ids=(" 演示用户 ",)))
     app.dependency_overrides[get_agent_service] = lambda: service
     with TestClient(app) as client:
@@ -131,14 +139,14 @@ def test_production_rejects_before_preparation_and_database_errors_precede_sse()
 
 
 async def test_prepare_chat_returns_context_options_without_executing_graph():
-    from app.runtime.agent_runtime import AgentRuntime
+    from app.runtime.agent_runtime import AgentRuntime, RunLimits
     from app.services.agent_service import AgentService
 
     class Sessions:
         async def get_or_create(self, *, user_id, conversation_id):
             return SessionBinding(user_id, conversation_id, uuid4(), datetime.now(UTC))
 
-    service = AgentService(AgentRuntime(object()), Sessions())
+    service = AgentService(AgentRuntime(object(), run_limits=RunLimits(120, 12)), Sessions())
     identity = resolve_demo_identity(user_id="dev-user", settings=Settings(_env_file=None))
     request_id = uuid4()
     context, options = await service.prepare_chat(

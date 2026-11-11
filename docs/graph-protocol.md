@@ -1,5 +1,24 @@
 # Graph 字段、跨图协议与路由使用说明
 
+## 02 当前代码协议（2026-11-10）
+
+本节随 02 执行实现更新，开发自测见 [02 交付报告](02-agent-runtime-delivery-report.md)。本节之后的旧协议正文保留原实现语境，旧角色、字段及主图 builder 示例由本节替代。
+
+AgentType 为 SUPERVISOR / ORDER / REFUND / KNOWLEDGE；TaskType 为 CLARIFICATION / ORDER_QUERY / REFUND_APPLY / KNOWLEDGE_QA / MEMORY_MANAGE。SupervisorOutput 只允许 route（含合法 RouteDecision）或 unsupported（无 decision）。旧取消任务与 AfterSales/refund_request 执行值拒绝。
+
+ExecutionContext 保存 user/conversation/task/workflow/run，workflow 必须等于 task。Runtime 从 SessionRepository 取得稳定 thread，在受理门禁内唯一创建或加载 Task。create_turn_state 显式接收 new/continue 与已校验 saved_task，不生成 ID。new 清任务槽与用量，continue 保留待补目标、当前任务消息 ID 和完整累计快照，每 Run 重置临时结果。
+
+messages 使用 add_messages；task_message_ids、model_call_usage、run_usage 使用覆盖快照。路由上下文仅本任务最近 12 条允许公开 Human/AI，去掉工具、系统历史、原始元数据和其他任务消息。未知 CLARIFICATION 可转具体 Task；具体 PendingTask 补参保目标，隐式换目标或 unsupported 不结束原具体目标。
+
+RunExecutionContext 经 LangGraph context_schema/context 通道传递可信关联、普通 scope 和本 Run 的 RunScope，活资源不写 State。父子映射继续使用 SpecialistInput/Result 白名单，子图 request 不能改 owner/Task/当前 Run。私有工具消息不回传父图，用量只镜像共享可信 scope，不采纳子图较小值。QA completed 要求 sources 和 approved_answer，Memory completed 要求结构事实且 sources=[]，退款 completed 保留 operation/approval 约束。
+
+主图由显式 Gateway、三个专业图和 Saver 编译一次。三个骨架分别为 START → check_contract → capability_unavailable → map_result → END。普通主图路径经唯一 Response 和 run_finish，再进入 END。Response 只追加批准 AI，稳定 ID 为 assistant:{run_id}。run_finish 冻结主动期限与计时并返回最终 State，Runtime 在 sync durability 成功后收敛 Run 和公开事件，不进行 END 后第二次常规 update_state。未来真实 interrupt 由 04 独立接入。
+
+Runtime 的独立 asyncio.Task 拥有执行，SSE 的 SubscriptionOwner/EventSubscription 仅管理订阅。请求级 SubscriptionRoute.handle 的 ASGI guard 覆盖 handler、响应构造和完整响应调用，finally 同步 close，包含首次迭代前退出。subscription_id 匹配保证旧清理不影响新流。事件经过 RuntimeEvent 白名单映射后使用既有 event/data JSON 格式，不输出原始 Graph stream。
+
+公开接口为 chat、runs/{run_id}/status、runs/{run_id}/events 三个 POST，body 身份由 Route 解析一次。status/events 不创建会话；未知、过期或其他用户/会话统一 run_not_found。RunView 是该 Run 结束时的任务累计快照，旧视图不被后续任务覆盖。内存 Task/Run/query、单订阅队列、TTL/去重均无跨进程持久承诺。
+
+
 > 适用范围：本文是**当前代码实现参考**，不是新Demo的目标架构或开发路线图。代码本轮未变，因此旧Agent角色/必填workflow等仍按下文描述；[项目定位文档](agent-engine-demo-plan.md)是架构及V1范围权威，[六阶段路线图](development-roadmap.md)是唯一有效V1路线。阶段迁移保留显式父子映射、关联校验和消息隔离，不据本文推断HITL、Store或RAG已实现。
 
 状态：以下契约、基础 State、转换函数、Supervisor、澄清、专业 wrapper、汇总、回复节点及主图 builder 已实现。

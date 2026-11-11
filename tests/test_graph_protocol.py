@@ -1,68 +1,61 @@
-"""Validate graph boundaries and execute real conditional edges and nested graphs."""
+"""Typed routing, explicit parent/child mapping and ordinary graph settlement."""
 
-from copy import deepcopy
+from dataclasses import asdict
 
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph import END, START, StateGraph
 from pydantic import ValidationError
+from runtime_support import ControlledModel, clarify, compiled, context, route, run_to_end
 
 from app.agents.types import AgentType, TaskType
 from app.graph.contracts import (
     ExecutionContext,
     GraphProtocolError,
-    ResultStatus,
-    RouteDecision,
     SourceReference,
     SpecialistInput,
     SpecialistResult,
 )
 from app.graph.router import route_after_supervisor
-from app.graph.state import AgentState, SpecialistState, create_turn_state
+from app.graph.state import create_turn_state
 from app.graph.transfers import (
     apply_route_decision,
     apply_specialist_result,
     build_specialist_input,
     create_specialist_state,
 )
+from app.runtime.agent_runtime import AgentRuntime, RunLimits
 
 
-def context(**updates) -> ExecutionContext:
+def graph_context(**updates):
     return ExecutionContext(
         **{
             "user_id": "user-1",
             "conversation_id": "conversation-1",
-            "workflow_id": "workflow-1",
+            "workflow_id": "task-1",
+            "task_id": "task-1",
             "run_id": "run-1",
             **updates,
         }
     )
 
 
-def decision(task=TaskType.ORDER_QUERY, **updates) -> RouteDecision:
-    return RouteDecision.model_validate(
-        {
-            "agent_type": task.target_agent,
-            "task_type": task,
-            "task_goal": "Find the requested order",
-            **updates,
-        }
-    )
+def turn(ctx=None, message="show my orders"):
+    return create_turn_state(ctx or graph_context(), message, task_mode="new", saved_task=None)
 
 
-def routed_state(route=None) -> AgentState:
-    state = create_turn_state(context(), "show my orders")
-    state.update(apply_route_decision(state, route or decision()))
+def routed_state(decision=None):
+    state = turn()
+    state.update(apply_route_decision(state, (decision or route()).decision))
     return state
 
 
-def completed_result(state: AgentState, **updates) -> SpecialistResult:
-    return SpecialistResult.model_validate(
-        {
+def completed_result(state, **updates):
+    return SpecialistResult(
+        **{
             "workflow_id": state["workflow_id"],
-            "run_id": state["run_id"],
             "task_id": state["task_id"],
+            "run_id": state["run_id"],
             "agent_type": state["agent_type"],
             "task_type": state["task_type"],
             "status": "completed",
@@ -80,7 +73,7 @@ def completed_result(state: AgentState, **updates) -> SpecialistResult:
         {"task_type": "unknown"},
         {"user_id": "injected-user"},
         {"node": "execute_refund"},
-        {"task_goal": "   "},
+        {"task_goal": " "},
         {"needs_clarification": "false"},
         {"missing_fields": ["order_id"]},
         {"needs_clarification": True},
@@ -93,104 +86,74 @@ def completed_result(state: AgentState, **updates) -> SpecialistResult:
 )
 def test_route_contract_rejects_invalid_or_privileged_model_output(updates):
     with pytest.raises(ValidationError):
-        decision(**updates)
+        route(**updates)
 
 
 @pytest.mark.parametrize(
-    ("task", "needs_input", "target"),
+    "task,target",
     [
-        (TaskType.ORDER_QUERY, False, "order"),
-        (TaskType.ORDER_CANCEL, False, "order"),
-        (TaskType.REFUND_REQUEST, False, "after_sales"),
-        (TaskType.KNOWLEDGE_QA, False, "knowledge"),
-        (TaskType.CLARIFICATION, True, "clarification"),
-        (TaskType.ORDER_CANCEL, True, "clarification"),
+        (TaskType.ORDER_QUERY, "order"),
+        (TaskType.REFUND_APPLY, "refund"),
+        (TaskType.KNOWLEDGE_QA, "knowledge"),
+        (TaskType.MEMORY_MANAGE, "knowledge"),
+        (TaskType.CLARIFICATION, "clarification"),
     ],
 )
-def test_real_graph_conditional_edge_dispatches_validated_task(task, needs_input, target):
-    route = decision(
-        task,
-        needs_clarification=needs_input,
-        missing_fields=["order_id"] if needs_input else [],
-        clarification_question="Which order?" if needs_input else None,
-    )
-
-    def supervisor(state: AgentState):
-        return apply_route_decision(state, route)
-
-    def branch(name):
-        def visit(state: AgentState):
-            return {"final_answer": name}
-
-        return visit
-
-    builder = StateGraph(AgentState)
-    builder.add_node("supervisor", supervisor)
-    builder.add_edge(START, "supervisor")
-    builder.add_conditional_edges("supervisor", route_after_supervisor)
-    for name in ("order", "after_sales", "knowledge", "clarification"):
-        builder.add_node(name, branch(name))
-        builder.add_edge(name, END)
-    result = builder.compile().invoke(create_turn_state(context(), "test question"))
-
-    assert result["final_answer"] == target
-    assert result["task_type"] == task
-    if needs_input:
-        assert result["pending_task"].task_type == task
+def test_real_graph_conditional_edge_dispatches_validated_task(task, target):
+    state = routed_state(clarify() if task is TaskType.CLARIFICATION else route(task))
+    assert route_after_supervisor(state) == target
+    if target == "clarification":
         with pytest.raises(GraphProtocolError):
-            build_specialist_input(result)
+            build_specialist_input(state)
 
 
 def test_route_revalidates_instances_and_rejects_conflicting_parent_channels():
-    route = decision().model_copy(update={"agent_type": AgentType.KNOWLEDGE})
+    invalid = route().decision.model_copy(update={"agent_type": AgentType.KNOWLEDGE})
     with pytest.raises(ValidationError):
-        apply_route_decision(create_turn_state(context(), "orders"), route)
-
+        apply_route_decision(turn(), invalid)
     state = routed_state()
-    state["task_type"] = TaskType.REFUND_REQUEST
-    with pytest.raises(GraphProtocolError, match="task_type"):
-        route_after_supervisor(state)
-
+    state["task_type"] = TaskType.REFUND_APPLY
     with pytest.raises(GraphProtocolError):
-        route_after_supervisor(create_turn_state(context(), "orders"))
+        route_after_supervisor(state)
+    with pytest.raises(GraphProtocolError):
+        route_after_supervisor(turn())
 
 
 def test_child_input_filters_private_history_and_copies_nested_data():
-    state = routed_state(decision(entities={"order_ids": ["order-1"], "user_id": "untrusted"}))
+    state = routed_state(route(entities={"order_ids": ["order-1"], "user_id": "untrusted"}))
     state["messages"].extend(
         [
-            SystemMessage(content="private prompt"),
+            SystemMessage(content="private", id="system"),
+            ToolMessage(content="raw", tool_call_id="call", id="tool"),
             AIMessage(
-                content="",
-                tool_calls=[{"name": "lookup", "args": {}, "id": "call-1"}],
+                content="", id="call", tool_calls=[{"name": "lookup", "args": {}, "id": "call"}]
             ),
-            ToolMessage(content="private raw tool result", tool_call_id="call-1"),
-            AIMessage(content="public reply", additional_kwargs={"private": "metadata"}),
+            AIMessage(
+                content="public reply", id="answer", additional_kwargs={"private": "metadata"}
+            ),
         ]
     )
+    state["task_message_ids"].extend(["system", "tool", "call", "answer"])
     request = build_specialist_input(state)
     child = create_specialist_state(request)
-
     assert [message.content for message in request.messages] == ["show my orders", "public reply"]
     assert all(not message.additional_kwargs for message in request.messages)
-    assert request.context.user_id == "user-1"
+    assert "user_id" not in request.entities
     child["request"].entities["order_ids"].append("order-2")
     child["messages"][0].content = "changed in child"
     assert state["route_decision"].entities["order_ids"] == ["order-1"]
-    assert state["messages"][0].content == "show my orders"
     assert request.entities["order_ids"] == ["order-1"]
-
     invalid = request.model_dump()
     invalid["messages"] = [SystemMessage(content="private")]
     with pytest.raises(ValidationError):
         SpecialistInput.model_validate(invalid)
 
 
-def test_contracts_round_trip_json_without_losing_enum_or_message_types():
-    request = build_specialist_input(routed_state())
-    restored = SpecialistInput.model_validate_json(request.model_dump_json())
+def test_contracts_round_trip_json_preserving_message_and_enum_types():
+    restored = SpecialistInput.model_validate_json(
+        build_specialist_input(routed_state()).model_dump_json()
+    )
     assert restored.task_type is TaskType.ORDER_QUERY
-    assert restored.agent_type is AgentType.ORDER
     assert isinstance(restored.messages[0], HumanMessage)
 
 
@@ -201,16 +164,12 @@ def test_contracts_round_trip_json_without_losing_enum_or_message_types():
         {"status": "failed"},
         {"facts": {}},
         {"status": "needs_input"},
-        {"error": {"code": "bad_result", "message": "error on successful result"}},
+        {"error": {"code": "bad_result", "message": "error on success"}},
         {"messages": []},
-        {"user_id": "injected-user"},
+        {"user_id": "injected"},
         {"agent_type": "supervisor"},
         {"task_type": "order_cancel"},
-        {
-            "agent_type": "after_sales",
-            "task_type": "refund_request",
-            "operation_id": "refund-operation",
-        },
+        {"agent_type": "refund", "task_type": "refund_apply", "operation_id": "operation"},
     ],
 )
 def test_result_contract_rejects_inconsistent_or_unsubstantiated_results(updates):
@@ -218,129 +177,179 @@ def test_result_contract_rejects_inconsistent_or_unsubstantiated_results(updates
         completed_result(routed_state(), **updates)
 
 
-def test_completed_knowledge_answer_requires_sources_and_preserves_them():
-    state = routed_state(decision(TaskType.KNOWLEDGE_QA))
-    with pytest.raises(ValidationError):
-        completed_result(state)
+def test_completed_qa_requires_approved_answer_and_sources_memory_requires_store_facts():
+    state = routed_state(route(TaskType.KNOWLEDGE_QA))
     source = SourceReference(
-        document_id="refund-policy", document_version="v1", chunk_id="chunk-1", title="退款政策"
+        document_id="policy", document_version="v1", chunk_id="1", title="Policy"
     )
-    result = completed_result(state, sources=[source])
-    update = apply_specialist_result(state, result)
-    assert update["sources"] == [source]
-    assert update["final_answer"] is None
+    with pytest.raises(ValidationError):
+        completed_result(state, sources=[source])
+    result = completed_result(state, sources=[source], approved_answer="Verified answer")
+    assert apply_specialist_result(state, result)["sources"] == [source]
+    memory = routed_state(route(TaskType.MEMORY_MANAGE))
+    with pytest.raises(ValidationError):
+        completed_result(memory, sources=[source])
+    assert completed_result(memory, facts={"status": "applied", "revision": 1}).sources == []
 
 
 @pytest.mark.parametrize(
     "updates",
     [
-        {"workflow_id": "another-workflow"},
-        {"run_id": "another-run"},
-        {"task_id": "another-task"},
-        {"task_type": "order_cancel", "operation_id": "cancel-operation"},
+        {"workflow_id": "foreign"},
+        {"task_id": "foreign"},
+        {"run_id": "foreign"},
         {
-            "agent_type": "after_sales",
-            "task_type": "refund_request",
-            "operation_id": "refund-operation",
-            "approval_id": "refund-approval",
+            "agent_type": "refund",
+            "task_type": "refund_apply",
+            "operation_id": "op",
+            "approval_id": "approval",
         },
     ],
 )
-def test_foreign_result_is_rejected_even_when_it_is_a_valid_contract(updates):
+def test_foreign_result_is_rejected_even_when_valid_contract(updates):
     state = routed_state()
-    result = completed_result(state, **updates)
     with pytest.raises(GraphProtocolError):
-        apply_specialist_result(state, result)
+        apply_specialist_result(state, completed_result(state, **updates))
     assert state["specialist_result"] is None
 
 
-def test_needs_input_preserves_business_task_and_new_turn_changes_only_run_association():
-    state = routed_state(decision(TaskType.ORDER_CANCEL, entities={"reason": "ordered by mistake"}))
-    result = completed_result(
-        state,
-        status="needs_input",
-        facts={},
-        missing_fields=["order_id"],
-        clarification_question="Which order should be cancelled?",
-        entities={"candidate_order_ids": ["order-1", "order-2"]},
+def test_explicit_continuation_keeps_task_usage_and_clears_transient_results():
+    state = routed_state(clarify(TaskType.ORDER_QUERY))
+    state["model_call_usage"] = {"model_attempts": 3}
+    state["run_usage"] = {"tool_calls": 2, "active_elapsed_ms": 20}
+    next_turn = create_turn_state(
+        graph_context(run_id="run-2"), "order-1", task_mode="continue", saved_task=state
     )
-    update = apply_specialist_result(state, result)
-    pending = update["pending_task"]
-    next_turn = create_turn_state(context(run_id="run-2"), "order-1", pending_task=pending)
-
     assert next_turn["task_id"] == state["task_id"]
-    assert next_turn["task_type"] is TaskType.ORDER_CANCEL
-    assert next_turn["task_goal"] == state["task_goal"]
-    assert next_turn["run_id"] == "run-2"
-    assert next_turn["pending_task"].entities == {
-        "reason": "ordered by mistake",
-        "candidate_order_ids": ["order-1", "order-2"],
-    }
-    assert next_turn["route_decision"] is None
-    assert next_turn["specialist_result"] is None
-    assert next_turn["final_answer"] is None
-
-    for field in ("user_id", "conversation_id", "workflow_id"):
+    assert next_turn["run_usage"] == state["run_usage"]
+    assert next_turn["model_call_usage"] == state["model_call_usage"]
+    assert next_turn["route_decision"] is None and next_turn["specialist_result"] is None
+    assert next_turn["final_answer"] is None and next_turn["sources"] == []
+    for updates in (
+        {"user_id": "foreign"},
+        {"conversation_id": "foreign"},
+        {"workflow_id": "foreign", "task_id": "foreign"},
+    ):
         with pytest.raises(GraphProtocolError):
-            create_turn_state(context(**{field: "another"}), "order-1", pending_task=pending)
+            create_turn_state(
+                graph_context(**updates), "order", task_mode="continue", saved_task=state
+            )
 
 
-def test_nested_graph_whitelists_result_and_resets_transient_fields_on_next_turn():
-    def lookup(state: SpecialistState):
+async def test_real_topology_scope_settlement_and_no_post_end_update(monkeypatch):
+    saver = InMemorySaver()
+    graph = compiled(ControlledModel([clarify()]), saver=saver)
+
+    async def forbidden(*args, **kwargs):
+        pytest.fail("Ordinary END must not write another state update")
+
+    monkeypatch.setattr(type(graph), "aupdate_state", forbidden)
+    runtime = AgentRuntime(graph, run_limits=RunLimits(10, 12))
+    ctx = context()
+    handle, view, events = await run_to_end(runtime, ctx)
+    snapshot = await graph.aget_state({"configurable": {"thread_id": ctx.thread_id}})
+    assert not snapshot.next
+    assert snapshot.values["run_usage"] == asdict(view.run_usage)
+    assert snapshot.values["model_call_usage"] == asdict(view.model_call_usage)
+    assert snapshot.values["task_id"] == handle.task_id == handle.workflow_id
+    assert [message.id for message in snapshot.values["messages"]] == [
+        f"user:{ctx.run_id}",
+        f"assistant:{ctx.run_id}",
+    ]
+    assert sum(event.kind == "done" for event in events) == 1
+    assert view.task_status == "needs_input"
+    await runtime.shutdown()
+
+
+@pytest.mark.parametrize(
+    "task",
+    [TaskType.ORDER_QUERY, TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA, TaskType.MEMORY_MANAGE],
+)
+async def test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks(task):
+    runtime = AgentRuntime(compiled(ControlledModel([route(task)])), run_limits=RunLimits(10, 12))
+    _, view, events = await run_to_end(runtime, context())
+    assert view.error["code"] == "capability_unavailable" and view.task_status == "failed"
+    assert view.model_call_usage.model_attempts == 1
+    assert not any(event.kind == "token" for event in events)
+    await runtime.shutdown()
+
+
+async def test_nested_success_is_approved_once_and_foreign_request_is_rejected():
+    from langgraph.graph import END, START, StateGraph
+    from langgraph.runtime import Runtime
+
+    from app.graph.specialists.knowledge.builder import build_knowledge_graph
+    from app.graph.specialists.refund.builder import build_refund_graph
+    from app.graph.state import SpecialistState
+    from app.runtime.context import RunExecutionContext
+
+    def success(state: SpecialistState, runtime: Runtime[RunExecutionContext]):
         request = state["request"]
+        assert request.context == runtime.context.context
         return {
-            "messages": [AIMessage(content="private specialist reasoning")],
+            "messages": [ToolMessage(content="private raw result", tool_call_id="call")],
+            "model_call_usage": {"model_attempts": 0},
             "result": SpecialistResult(
                 workflow_id=request.context.workflow_id,
                 run_id=request.context.run_id,
                 task_id=request.task_id,
                 agent_type=request.agent_type,
                 task_type=request.task_type,
-                status=ResultStatus.COMPLETED,
+                status="completed",
                 summary="No matching orders",
                 facts={"orders": []},
             ),
         }
 
-    child_builder = StateGraph(SpecialistState)
-    child_builder.add_node("lookup", lookup)
-    child_builder.add_edge(START, "lookup")
-    child_builder.add_edge("lookup", END)
-    child = child_builder.compile()
+    child = StateGraph(SpecialistState, context_schema=RunExecutionContext)
+    child.add_node("success", success)
+    child.add_edge(START, "success")
+    child.add_edge("success", END)
+    specialists = {
+        AgentType.ORDER: child.compile(),
+        AgentType.REFUND: build_refund_graph(),
+        AgentType.KNOWLEDGE: build_knowledge_graph(),
+    }
+    runtime = AgentRuntime(
+        compiled(ControlledModel([route()]), specialists=specialists), run_limits=RunLimits(10, 12)
+    )
+    ctx = context()
+    handle, view, events = await run_to_end(runtime, ctx)
+    assert view.final_answer == "No matching orders" and view.model_call_usage.model_attempts == 1
+    snapshot = await runtime._graph.aget_state({"configurable": {"thread_id": ctx.thread_id}})
+    assert all(
+        "private raw result" not in str(message.content) for message in snapshot.values["messages"]
+    )
+    assert sum(event.kind == "token" for event in events) == 1
+    await runtime.shutdown()
 
-    def supervisor(state: AgentState):
-        return apply_route_decision(state, decision())
+    def foreign(state: SpecialistState, runtime: Runtime[RunExecutionContext]):
+        output = success(state, runtime)
+        output["request"] = state["request"].model_copy(
+            update={"context": state["request"].context.model_copy(update={"user_id": "foreign"})}
+        )
+        return output
 
-    def call_order(state: AgentState):
-        output = child.invoke(create_specialist_state(build_specialist_input(state)))
-        return apply_specialist_result(state, output["result"])
+    child = StateGraph(SpecialistState, context_schema=RunExecutionContext)
+    child.add_node("foreign", foreign)
+    child.add_edge(START, "foreign")
+    child.add_edge("foreign", END)
+    specialists[AgentType.ORDER] = child.compile()
+    runtime = AgentRuntime(
+        compiled(ControlledModel([route()]), specialists=specialists), run_limits=RunLimits(10, 12)
+    )
+    _, view, events = await run_to_end(runtime, context())
+    assert not view.usage_complete and not any(event.kind == "token" for event in events)
+    await runtime.shutdown()
 
-    def respond(state: AgentState):
-        return {"final_answer": state["specialist_result"].summary}
 
-    parent = StateGraph(AgentState)
-    parent.add_node("supervisor", supervisor)
-    parent.add_node("order", call_order)
-    parent.add_node("response", respond)
-    parent.add_edge(START, "supervisor")
-    parent.add_conditional_edges("supervisor", route_after_supervisor, {"order": "order"})
-    parent.add_edge("order", "response")
-    parent.add_edge("response", END)
-    graph = parent.compile(checkpointer=InMemorySaver())
-    config = {"configurable": {"thread_id": "conversation-1"}}
-    first = graph.invoke(create_turn_state(context(), "orders"), config)
-    assert [message.content for message in first["messages"]] == ["orders"]
-    assert first["specialist_result"].facts == {"orders": []}
+def test_task_message_window_excludes_other_tasks_reasoning_and_metadata():
+    from app.graph.transfers import public_task_messages
 
-    new_turn = create_turn_state(context(run_id="run-2"), "orders again")
-    second = graph.invoke(new_turn, config)
-    assert second["task_id"] != first["task_id"]
-    assert [message.content for message in second["messages"]] == ["orders", "orders again"]
-
-    # Inspect the new-turn reset independently of later nodes overwriting it.
-    assert new_turn["sources"] == []
-    assert new_turn["specialist_result"] is None
-    original = deepcopy(first)
-    update = apply_specialist_result(first, completed_result(first))
-    assert set(update) == {"specialist_result", "pending_task", "final_answer", "sources"}
-    assert first == original
+    state = turn()
+    state["messages"] += [HumanMessage(content=str(i), id=f"public-{i}") for i in range(20)]
+    state["task_message_ids"] += [f"public-{i}" for i in range(20)]
+    state["messages"].append(AIMessage(content="other task private", id="not-in-this-task"))
+    selected = public_task_messages(state)
+    assert len(selected) == 12 and selected[0].content == "8"
+    assert all(message.content != "other task private" for message in selected)
