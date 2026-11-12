@@ -1,5 +1,7 @@
 # Graph 字段、跨图协议与路由使用说明
 
+> 2026-11-11：03开发、独立QA及修复回归完成，ACCEPTED，用户已正式验收。Order 已接入七节点查询、受限工具目录与统一 Executor，工具历史保留在子图；Refund/Knowledge 仍为不可用骨架。下文 02 轮次的三个骨架和未实现工具说明保留历史语境；当前事实见 [03 交付报告](03-tool-governance-delivery-report.md)。
+
 ## 02 当前代码协议（2026-11-10）
 
 本节随 02 执行实现更新，开发自测见 [02 交付报告](02-agent-runtime-delivery-report.md)。本节之后的旧协议正文保留原实现语境，旧角色、字段及主图 builder 示例由本节替代。

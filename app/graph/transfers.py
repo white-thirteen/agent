@@ -47,7 +47,14 @@ def apply_route_decision(state: AgentState, decision: RouteDecision) -> RouteUpd
     decision = RouteDecision.model_validate(decision).model_copy(deep=True)
     entity_fields = {
         TaskType.CLARIFICATION: set(),
-        TaskType.ORDER_QUERY: {"order_id", "order_ids", "candidate_order_ids"},
+        TaskType.ORDER_QUERY: {
+            "order_id",
+            "order_ids",
+            "candidate_order_ids",
+            "query_kind",
+            "limit",
+            "offset",
+        },
         TaskType.REFUND_APPLY: {"order_id", "reason"},
         TaskType.KNOWLEDGE_QA: {"query"},
         TaskType.MEMORY_MANAGE: {"operation", "field", "value"},

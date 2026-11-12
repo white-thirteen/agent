@@ -994,3 +994,15 @@ V1保留AsyncPostgresStore、两偏好字段、用户Namespace、跨会话/跨Th
 本轮补齐的是同一Executor的跨阶段接口细节，无第二执行器或新治理平台。MemoryManager仍只返回applied/reused/conflict/unknown，明确未开始的技术故障沿Executor异常契约；unknown不得伪装普通技术失败或未写。V1显式管理、共享Reader/Manager、两字段、单进程锁及人工核对边界保留，MemoryWriter仍仅V2且未来需独立授权。
 
 六阶段、18环节、36Task保持，不新增Agent、Graph、Task、表或独立服务。仅修改Markdown，未修改代码/SQL/配置/依赖，未检查开发进度、运行测试/代码检查、安装、启动、数据库操作或联调。文档完成提交用户审核，未授权任何实施。
+
+## 2026-11-11 03 开发交付索引
+
+本轮按用户正式授权完成 03 六个 Task 的开发及自测，现等待主 Agent 审核与独立 QA；本记录不代表用户正式验收。实际文件、003 迁移与种子、矩阵证据、真实模型与 PostgreSQL 验证及尚待复核事项见 [03 开发交付报告](03-tool-governance-delivery-report.md)。以上冻结设计和历史记录保留原文。
+
+## 2026-11-12 03 独立回归与技术验收索引
+
+冻结设计正文及历史记录不变。03六Task、独立QA、03-QA-001/002最小修复及独立回归已完成，最新完整真实库137项通过，27个不同外部场景取得通过证据；原真实模型/PG证据适用。主Agent关闭两项问题，阶段为VERIFIED，用户正式验收、归档和04切换尚待批准。逐项矩阵、证据边界及遗留见 [03技术验收报告](question/03-tool-governance-stage-acceptance.md)。
+
+## 2026-11-12 03用户正式验收记录
+
+用户明确同意03正式验收并授权Git归档，阶段ACCEPTED，六Task和冻结契约保持不变。实际归档清单/回执见主Agent协调及验收记录，04本轮未启动。

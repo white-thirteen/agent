@@ -29,6 +29,10 @@ class RunScope:
     def model_usage(self) -> ModelCallUsage:
         return self._model
 
+    @property
+    def limits(self) -> RunLimits:
+        return self._limits
+
     def adopt_model_usage(self, updated: ModelCallUsage) -> None:
         if updated.model_attempts < self._model.model_attempts:
             raise ValueError("Model usage cannot decrease")

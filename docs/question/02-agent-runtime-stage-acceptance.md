@@ -67,3 +67,7 @@ Docker发布192.168.150.101:5432，未对能路由到该地址的来源额外限
 02仍使用内存Saver及进程内Run/去重/uncertain窗口，三专业当前为不可用骨架。03接工具治理与模拟订单事实，04接持久Checkpoint/HITL/退款，05接真实RAG/Store。额外真实模型网络联调未作为本轮证据。现有证据支持按冻结规划进入03，阶段切换由用户确认。
 
 当前HEAD仍为01 Delivery cf3e763，暂存区为空。本轮代码、测试与文档在共享工作区，包含已有用户修改和暂缓路径。正式Git归档按既有授权及归属检查流程另行执行。
+
+## 02正式归档回执（2026-11-11执行，2026-11-12再次核验）
+
+提交94cf205a734c305a6919a34cfeacc3e717d4856f，说明Complete Phase 02 - AgentRuntime and Supervisor，分支real-model-chat，68项交付。已成功push，origin/real-model-chat指向同一提交。原六项暂缓/独立变更及缺失状态保留，回执和摘要在本机D:/py/agent-project/archive-phase02-20261111/。本回执补充实际归档事实，历史QA/验收语境不变。

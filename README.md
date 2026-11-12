@@ -1,5 +1,11 @@
 # Agent Engine Demo
 
+## 03 工具治理与模拟订单（ACCEPTED，用户已正式验收）
+
+03六Task、独立QA及两项修复回归已通过主Agent技术验收，最新完整真实库137项及27个不同外部场景取得通过证据，详见[03技术验收报告](docs/question/03-tool-governance-stage-acceptance.md)。实现、真实数据库和真实模型证据见 [03 开发交付报告](docs/03-tool-governance-delivery-report.md)。订单查询通过冻结工具目录、策略和统一执行器访问 PostgreSQL 中的模拟数据；本人单订单及分页列表由可信查询目标约束，最终回复由核验事实生成。退款、知识检索、审批和持久恢复仍属于后续阶段。
+
+迁移到 schema 3 后，可显式执行 `.\.venv\Scripts\python.exe -m scripts.seed_orders --target development` 或使用 `--target test` 初始化固定双用户模拟订单；种子不会重置已有退款状态。应用启动不会自动迁移或写入种子。`.\.venv\Scripts\python.exe -m scripts.verify_03_real` 是显式真实模型与专用测试库探针，会产生模型调用；默认 pytest 不调用真实模型。
+
 ## 02 复测与技术验收（2026-11-11）
 
 02六Task及独立QA、两轮输出脱敏修复回归已完成，用户已正式验收，阶段为ACCEPTED。最新独立完整真实库119项与外部补测3项通过。用户已授权02 Git归档及归档后推进03，见[02技术验收报告](docs/question/02-agent-runtime-stage-acceptance.md)及[独立回归报告](docs/question/02-agent-runtime-redaction-regression-report.md)。历史凭据暴露及配置密码复用按用户决定保留为Demo遗留，暂缓换密；端口实际范围见[协调记录](docs/question/02-agent-runtime-main-review.md)。
@@ -27,7 +33,7 @@ SSE 事件为 status / token / error / done，关联包含 run_id、task_id、wo
 
 ## 当前状态
 
-2026-11-11 02整阶段实现、修复及独立回归完成，阶段为ACCEPTED，当前执行归档，03已获开发授权并将在02归档核验后启动。进展及遗留裁决见 [02主Agent协调记录](docs/question/02-agent-runtime-main-review.md)。下文此前状态及人工转交文字属于历史交接记录。
+2026-11-12当前01/02为ACCEPTED，02已以94cf205归档推送并核验远端；03已获用户正式验收，状态ACCEPTED，归档处理中，04未启动。进展及遗留裁决见 [02主Agent协调记录](docs/question/02-agent-runtime-main-review.md)。下文此前状态及人工转交文字属于历史交接记录。
 
 2026-11-10 最新协调结果为01已正式验收（ACCEPTED）并完成Git归档，Baseline `f89db15`、Delivery `cf3e763`已推送至`origin/real-model-chat`。02已获进入许可，待用户人工启动执行会话，任务见 [02整阶段执行提示词](docs/02-agent-runtime-execution-task.md)。下段及文末保留前轮实施和验收过程记录。
 
@@ -130,6 +136,7 @@ py -3.13 -m venv .venv
 - [02 AgentRuntime整阶段执行任务](docs/02-agent-runtime-execution-task.md)
 - [02 主Agent协调与验收记录](docs/question/02-agent-runtime-main-review.md)
 - [修复会话提示词与修复记录](docs/resume/README.md)
+- [03 工具治理 QA 修复与开发自测报告](docs/resume/record/03-tool-governance-fix-report.md)
 - [01 / P2-01 修复与开发自测报告](docs/resume/record/01-foundation-fix-report.md)
 - [项目定位、架构与V1范围（权威文档）](docs/agent-engine-demo-plan.md)
 - [唯一有效的V1路线图：六阶段、18个二级环节、36项三级任务](docs/development-roadmap.md)

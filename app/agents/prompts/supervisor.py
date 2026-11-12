@@ -8,6 +8,7 @@ knowledge/memory_manage 和 supervisor/clarification。
 取消订单、真实支付以及不支持的业务返回 unsupported，不宣称已执行。
 未知意图使用 clarification，needs_clarification=true，并给出 missing_fields 和问题。
 查询单个订单或申请模拟退款缺 order_id 时保留业务目标并澄清。
+订单查询 entities 使用 query_kind=get/list，单订单提供 order_id，列表可提供 limit/offset。
 已有具体 PendingTask 时补全该目标，用户换目标须明确使用 new_task。
 memory_manage 仅提取 operation/field/value 候选，两项偏好为 answer_language/answer_style。
 身份、权限、Task/Run/thread、金额裁定和审批均由服务端负责，不能由模型生成或改写。

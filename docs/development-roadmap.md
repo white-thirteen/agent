@@ -1,6 +1,6 @@
 # Agent Engine Demo：六阶段开发路线图与执行任务
 
-六阶段、18环节、36Task设计基线已确认。2026-11-11阶段01、02均已正式验收（ACCEPTED），02最新独立119项及外部3项通过。用户授权完成02归档后按冻结D03推进03，当前03待归档核验后启动，04～06未开始。已接受的历史凭据暴露及配置密码复用继续保留Demo遗留，暂缓换密。详见 [02正式验收记录](question/02-agent-runtime-stage-acceptance.md)。以下保留设计及历次交付语境。
+六阶段、18环节、36Task及D01～D06冻结设计保持。2026-11-12阶段01/02/03为ACCEPTED，02已以94cf205归档推送并核验；03六Task、独立QA及两项修复回归完成，最新完整真实库137项通过，27个不同外部场景取得通过证据，主Agent技术验收通过，用户已正式验收03，状态ACCEPTED，03归档处理中；04启动待后续任务指令。04～06未开始，既有凭据/密码复用及P3-01格式遗留按原决定管理。详见 [03技术验收报告](question/03-tool-governance-stage-acceptance.md)。以下旧轮次状态保留历史语境。
 
 项目定位、架构及V1范围的权威依据是 [Agent Engine Demo定位文档](agent-engine-demo-plan.md)，其中保留实际评估与复用清单。旧九阶段全文见 [历史路线图](history/development-roadmap-commerce-history.md)，旧阶段设计只供历史参考，不得自动成为新V1要求。
 
@@ -73,7 +73,7 @@ V1展示ToolRegistry、HITL、持久Checkpoint、RAG和Store五项真实能力�
 
 目标：真实注册、过滤、完整Schema绑定、统一执行与本人订单查询。复杂渐进披露移出V1。
 
-详细方案：[03 阶段完整详细设计](03-tool-governance-detailed-design.md)（设计已批准，未实施）。严格沿用下述 Task 名称、数量与顺序，细化 ToolMetadata/Registry、完整 Schema 绑定、Policy 三态、Executor 唯一执行入口、原生 ToolCall/ToolMessage、任务累计工具尝试、最小订单表/种子和 OrderAgent 七节点真实闭环。已确认 Order get/list 各限单一工具、Handler 仅接最小可信业务上下文、04 持久审批核验后由同 Policy 再检 ALLOW。03 不实现审批、退款、持久中断恢复、RAG 或 Store；04/05 复用治理接口完成专业业务。
+详细方案：[03 阶段完整详细设计](03-tool-governance-detailed-design.md)（六Task及修复独立回归完成，ACCEPTED，用户已正式验收）。严格沿用下述 Task 名称、数量与顺序，细化 ToolMetadata/Registry、完整 Schema 绑定、Policy 三态、Executor 唯一执行入口、原生 ToolCall/ToolMessage、任务累计工具尝试、最小订单表/种子和 OrderAgent 七节点真实闭环。已确认 Order get/list 各限单一工具、Handler 仅接最小可信业务上下文、04 持久审批核验后由同 Policy 再检 ALLOW。03 不实现审批、退款、持久中断恢复、RAG 或 Store；04/05 复用治理接口完成专业业务。
 
 | 二级环节 | 目标/主要工作 | 前置 | 交付 | 完成标准 |
 | --- | --- | --- | --- | --- |

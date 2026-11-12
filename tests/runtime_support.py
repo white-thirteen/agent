@@ -5,12 +5,12 @@ from uuid import uuid4
 
 from langchain_core.messages import AIMessage
 from langgraph.checkpoint.memory import InMemorySaver
+from order_skeleton import build_order_graph
 
 from app.agents.types import AgentType, TaskType
 from app.graph.builder import build_supervisor_graph
 from app.graph.contracts import RouteDecision, SupervisorOutput
 from app.graph.specialists.knowledge.builder import build_knowledge_graph
-from app.graph.specialists.order.builder import build_order_graph
 from app.graph.specialists.refund.builder import build_refund_graph
 from app.runtime.context import DemoContext, SubmitOptions
 from app.runtime.model_gateway import ModelCallLimits, ModelGateway

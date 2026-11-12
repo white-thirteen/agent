@@ -263,7 +263,7 @@ async def test_real_topology_scope_settlement_and_no_post_end_update(monkeypatch
 
 @pytest.mark.parametrize(
     "task",
-    [TaskType.ORDER_QUERY, TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA, TaskType.MEMORY_MANAGE],
+    [TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA, TaskType.MEMORY_MANAGE],
 )
 async def test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks(task):
     runtime = AgentRuntime(compiled(ControlledModel([route(task)])), run_limits=RunLimits(10, 12))
