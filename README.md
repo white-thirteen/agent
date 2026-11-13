@@ -2,7 +2,7 @@
 
 ## 当前实施状态
 
-01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，Git归档已获本轮授权，正在执行；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/question/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/question/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
+01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，已以ab30f12完成Git交付归档并核验远端；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/question/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/question/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
 
 ## 03 工具治理与模拟订单（ACCEPTED，用户已正式验收）
 

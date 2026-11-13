@@ -2,9 +2,9 @@
 
 ## 最新协调状态（2026-11-13，原生 Multi-Agent 接管）
 
-当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，用户已授权本轮提交并推送，归档进行中**，见 `docs/question/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
+当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，已以ab30f12交付归档、推送并核验远端**，见 `docs/question/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
 
-用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；当前HEAD为50e4c55，04未提交实现与原暂缓差异保留。05～06未开始，用户现已明确授权04提交并推送；05等待用户设置角色配置，不自动启动。项目自定义Agent配置尚缺失，原生通用子Agent已验证可调用，当前以明确派发角色约束实施与QA，不声称已加载自定义配置。既有凭据及格式遗留决定保持。
+用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；04交付提交为ab30f12，已推送并核验远端；原六项暂缓差异保留，当前HEAD以git rev-parse为准。05～06未开始，04归档已完成；05等待用户设置角色配置及后续指令，不自动启动。项目自定义Agent配置尚缺失，原生通用子Agent已验证可调用，当前以明确派发角色约束实施与QA，不声称已加载自定义配置。既有凭据及格式遗留决定保持。
 
 ## 最新协调状态（2026-11-12）
 

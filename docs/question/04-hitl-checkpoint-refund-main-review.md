@@ -1,5 +1,11 @@
 # 04 HITL、Checkpoint与模拟退款主Agent协调记录
 
+## Git归档回执（2026-11-13）
+
+04交付提交 `ab30f12f8ca4cc9db767f9389d1120ec01c19ea0`，说明 `Complete Phase 04 - HITL, Persistent Checkpoint and Simulated Refund`，共81项归属文件；成功推送至origin/real-model-chat，随后git ls-remote核验远端指向相同SHA。提交快照191处本地文档引用全部可解析，暂存新增内容未含现有配置秘密，diff空白检查通过；代码/数据库未新增变更，沿用已验收165项真实库与独立QA证据，不重复业务测试。
+
+原六项暂缓差异不归入本次交付，归档前后继续核对其文件字节/缺失状态与Git状态：general.py、旧01/02/architecture三个文档删除、D01历史差异、独立Bridge设计文档。05依用户指令等待角色配置和后续开发指示，未启动；本回执随文档提交推送，不更改交付SHA。
+
 ## Git归档授权（2026-11-13）
 
 用户明确要求“提交并推送git，05等我将角色配置设置好”。本轮仅归档已ACCEPTED的04至real-model-chat，保留原六项暂缓差异；不进入05，不代为设置角色配置。远端归档前核对仍为50e4c55。归档进行中，提交与远端核验结果随后追加，以下原“待授权”表述保留历史语境。
