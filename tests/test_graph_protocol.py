@@ -277,9 +277,9 @@ async def test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks(
 async def test_nested_success_is_approved_once_and_foreign_request_is_rejected():
     from langgraph.graph import END, START, StateGraph
     from langgraph.runtime import Runtime
+    from refund_skeleton import build_refund_graph
 
     from app.graph.specialists.knowledge.builder import build_knowledge_graph
-    from app.graph.specialists.refund.builder import build_refund_graph
     from app.graph.state import SpecialistState
     from app.runtime.context import RunExecutionContext
 
@@ -353,3 +353,43 @@ def test_task_message_window_excludes_other_tasks_reasoning_and_metadata():
     selected = public_task_messages(state)
     assert len(selected) == 12 and selected[0].content == "8"
     assert all(message.content != "other task private" for message in selected)
+
+
+async def test_refund_wrapper_reentry_uses_saved_child_and_current_run():
+    from types import SimpleNamespace
+
+    from app.graph.nodes.specialist import make_specialist_node
+    from app.runtime.context import RunExecutionContext
+    from app.runtime.model_gateway import ModelCallUsage
+    from app.runtime.models import RunUsage
+    from app.runtime.run_scope import RunScope
+
+    state = routed_state(route(TaskType.REFUND_APPLY))
+    old_request = build_specialist_input(state)
+    current = graph_context(run_id="run-2")
+    scope = RunScope(limits=RunLimits(10, 12), model_usage=ModelCallUsage(), run_usage=RunUsage())
+    execution = RunExecutionContext(
+        current, "thread", frozenset({"refunds:request"}), scope, "resume"
+    )
+
+    class Child:
+        async def ainvoke(self, payload, config, *, context):
+            assert payload is None and context is execution
+            return {
+                "request": old_request,
+                "result": completed_result(
+                    state, run_id="run-2", operation_id="operation", approval_id="approval"
+                ),
+            }
+
+    update = await make_specialist_node(Child())(state, {}, SimpleNamespace(context=execution))
+    assert update["run_id"] == "run-2" and update["specialist_result"].run_id == "run-2"
+    foreign = RunExecutionContext(
+        graph_context(user_id="other", run_id="run-2"),
+        "thread",
+        frozenset({"refunds:request"}),
+        scope,
+        "resume",
+    )
+    with pytest.raises(GraphProtocolError):
+        await make_specialist_node(Child())(state, {}, SimpleNamespace(context=foreign))

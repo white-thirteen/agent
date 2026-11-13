@@ -43,6 +43,12 @@ def _redact(value: str) -> str:
     return value
 
 
+def _redact_longrepr(value):
+    if isinstance(value, tuple):
+        return tuple(_redact(item) if isinstance(item, str) else item for item in value)
+    return _redact(str(value))
+
+
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config) -> None:
     # Live output and file reporters bypass the captured terminal report boundary.
@@ -63,14 +69,14 @@ def pytest_configure(config: pytest.Config) -> None:
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_logreport(report: pytest.TestReport) -> None:
     if report.longrepr is not None:
-        report.longrepr = _redact(str(report.longrepr))
+        report.longrepr = _redact_longrepr(report.longrepr)
     report.sections[:] = [(name, _redact(content)) for name, content in report.sections]
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_collectreport(report: pytest.CollectReport) -> None:
     if report.longrepr is not None:
-        report.longrepr = _redact(str(report.longrepr))
+        report.longrepr = _redact_longrepr(report.longrepr)
     report.sections[:] = [(name, _redact(content)) for name, content in report.sections]
 
 

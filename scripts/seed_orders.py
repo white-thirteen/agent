@@ -10,6 +10,7 @@ from pydantic import ValidationError
 
 from app.core.config import Settings
 from app.infrastructure.postgres import (
+    EXPECTED_SCHEMA_VERSION,
     DatabaseUnavailableError,
     connection_kwargs,
     validate_test_target,
@@ -87,7 +88,7 @@ async def seed_orders(url, *, target: str, settings: Settings) -> int:
         versions = await (
             await conn.execute("SELECT version FROM schema_migrations ORDER BY version")
         ).fetchall()
-        if versions != [(1,), (2,), (3,)]:
+        if versions != [(version,) for version in range(1, EXPECTED_SCHEMA_VERSION + 1)]:
             raise DatabaseUnavailableError("Seed requires the expected schema")
         inserted = 0
         for sample in SAMPLES:

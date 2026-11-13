@@ -1,6 +1,8 @@
 # Agent Engine Demo：六阶段开发路线图与执行任务
 
-六阶段、18环节、36Task及D01～D06冻结设计保持。2026-11-12阶段01/02/03为ACCEPTED，02已以94cf205归档推送并核验；03六Task、独立QA及两项修复回归完成，最新完整真实库137项通过，27个不同外部场景取得通过证据，主Agent技术验收通过，用户已正式验收03，状态ACCEPTED，03已以62b5eb2归档推送并核验；04启动待后续任务指令。04～06未开始，既有凭据/密码复用及P3-01格式遗留按原决定管理。详见 [03技术验收报告](question/03-tool-governance-stage-acceptance.md)。以下旧轮次状态保留历史语境。
+2026-11-13最新状态：01～04均ACCEPTED；04已获用户正式验收，并获本轮Git提交/推送授权，归档进行中；05等待用户设置角色配置，05～06未开始。详情见[04验收记录](question/04-hitl-checkpoint-refund-stage-acceptance.md)及[当前交接STATE](STATE.md)。下文2026-11-12及更早状态保留历史语境。
+
+六阶段、18环节、36Task及D01～D06冻结设计保持。2026-11-12阶段01/02/03为ACCEPTED，02已以94cf205归档推送并核验；03六Task、独立QA及两项修复回归完成，最新完整真实库137项通过，27个不同外部场景取得通过证据，主Agent技术验收通过，用户已正式验收03，状态ACCEPTED，03已以62b5eb2归档推送并核验；04已获用户开发授权，当前IN_PROGRESS；05～06未开始，既有凭据/密码复用及P3-01格式遗留按原决定管理。详见 [03技术验收报告](question/03-tool-governance-stage-acceptance.md)。以下旧轮次状态保留历史语境。
 
 项目定位、架构及V1范围的权威依据是 [Agent Engine Demo定位文档](agent-engine-demo-plan.md)，其中保留实际评估与复用清单。旧九阶段全文见 [历史路线图](history/development-roadmap-commerce-history.md)，旧阶段设计只供历史参考，不得自动成为新V1要求。
 

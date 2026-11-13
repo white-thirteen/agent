@@ -1,8 +1,14 @@
 # Agent Engine Demo 开发规范
 
+## 最新协调状态（2026-11-13，原生 Multi-Agent 接管）
+
+当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，用户已授权本轮提交并推送，归档进行中**，见 `docs/question/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
+
+用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；当前HEAD为50e4c55，04未提交实现与原暂缓差异保留。05～06未开始，用户现已明确授权04提交并推送；05等待用户设置角色配置，不自动启动。项目自定义Agent配置尚缺失，原生通用子Agent已验证可调用，当前以明确派发角色约束实施与QA，不声称已加载自定义配置。既有凭据及格式遗留决定保持。
+
 ## 最新协调状态（2026-11-12）
 
-01、02、03均已获用户正式验收，状态为ACCEPTED。Baseline f89db15、01 Delivery cf3e763及02归档94cf205a734c305a6919a34cfeacc3e717d4856f均已推送并核验origin/real-model-chat。03按冻结D03完成六Task、独立QA、03-QA-001/002修复及独立回归；最新完整真实库137项通过，27个不同外部场景取得通过证据，原真实DeepSeek/PG证据适用。主Agent已复核关闭两项问题并完成技术验收，阶段为ACCEPTED，报告见 `docs/question/03-tool-governance-stage-acceptance.md`。03已以62b5eb2c1d946d2b334b3f3a2bad6e748e5d0579归档推送并核验远端；04～06未开始，04启动待后续任务指令。历史凭据暴露及三角色密码复用继续按用户决定保留Demo遗留，暂缓换密；P3-01六份Markdown示例格式遗留保持。通过codex-session-bridge串行协调既有执行/测试/修复会话，规划待命，Bridge维护独立且仅明确授权时派发。以下旧状态保留原轮次语境，当前事实以本段及用户最新指令为准。
+01、02、03均已获用户正式验收，状态为ACCEPTED。Baseline f89db15、01 Delivery cf3e763及02归档94cf205a734c305a6919a34cfeacc3e717d4856f均已推送并核验origin/real-model-chat。03按冻结D03完成六Task、独立QA、03-QA-001/002修复及独立回归；最新完整真实库137项通过，27个不同外部场景取得通过证据，原真实DeepSeek/PG证据适用。主Agent已复核关闭两项问题并完成技术验收，阶段为ACCEPTED，报告见 `docs/question/03-tool-governance-stage-acceptance.md`。03已以62b5eb2c1d946d2b334b3f3a2bad6e748e5d0579归档推送并核验远端；用户已授权04 HITL/Checkpoint/模拟退款开发，当前IN_PROGRESS，依冻结任务串行执行/独立QA/必要修复/复测；05～06未开始。历史凭据暴露及三角色密码复用继续按用户决定保留Demo遗留，暂缓换密；P3-01六份Markdown示例格式遗留保持。通过codex-session-bridge串行协调既有执行/测试/修复会话，规划待命，Bridge维护独立且仅明确授权时派发。以下旧状态保留原轮次语境，当前事实以本段及用户最新指令为准。
 
 ## 最新实施状态（2026-11-09）
 

@@ -48,6 +48,11 @@ class RuntimeRequestError(PublicError):
             "execution_uncertain": (409, "Execution state requires reconciliation."),
             "state_unavailable": (503, "Task state is unavailable."),
             "event_replay_not_supported": (409, "Event replay is not supported. Query run status."),
+            "approval_not_found": (404, "Approval was not found."),
+            "approval_binding_conflict": (409, "Approval binding requires reconciliation."),
+            "approval_binding_unavailable": (503, "Approval binding is unavailable."),
+            "approval_pending": (409, "Approval is still pending."),
+            "approval_resume_unavailable": (503, "Approval recovery is unavailable."),
         }
         self.code = code
         self.status_code, self.message = messages[code]

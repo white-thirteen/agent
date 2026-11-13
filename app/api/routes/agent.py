@@ -1,6 +1,7 @@
 """Single-parse submit, read-only status and owned no-replay event subscription."""
 
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request
 from sse_starlette.sse import EventSourceResponse
@@ -49,6 +50,24 @@ async def run_status(run_id: str, body: RunRequest, request: Request, service: S
     identity = resolve_demo_identity(user_id=body.user_id, settings=request.app.state.settings)
     return await service.get_run(
         identity=identity, conversation_id=body.conversation_id, run_id=run_id
+    )
+
+
+@router.post("/tasks/current")
+async def current_task(body: RunRequest, request: Request, service: Service):
+    identity = resolve_demo_identity(user_id=body.user_id, settings=request.app.state.settings)
+    return {
+        "current_task": await service.current_task(
+            identity=identity, conversation_id=body.conversation_id
+        )
+    }
+
+
+@router.post("/refunds/{application_id}/status")
+async def refund_status(application_id: UUID, body: RunRequest, request: Request, service: Service):
+    identity = resolve_demo_identity(user_id=body.user_id, settings=request.app.state.settings)
+    return await service.refund_status(
+        identity=identity, conversation_id=body.conversation_id, application_id=str(application_id)
     )
 
 

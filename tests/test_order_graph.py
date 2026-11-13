@@ -153,12 +153,12 @@ async def test_model_cannot_broaden_target_or_invent_facts():
 
 async def test_parent_runtime_clarification_continues_budget_and_hides_tool_history():
     from langgraph.checkpoint.memory import InMemorySaver
+    from refund_skeleton import build_refund_graph
     from runtime_support import ControlledModel, route, run_to_end
     from runtime_support import context as demo_context
 
     from app.graph.builder import build_supervisor_graph
     from app.graph.specialists.knowledge.builder import build_knowledge_graph
-    from app.graph.specialists.refund.builder import build_refund_graph
     from app.runtime.agent_runtime import AgentRuntime
 
     class Provider(ControlledModel):

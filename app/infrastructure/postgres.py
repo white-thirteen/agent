@@ -11,7 +11,7 @@ from pydantic import SecretStr
 
 from app.core.config import Settings
 
-EXPECTED_SCHEMA_VERSION = 3
+EXPECTED_SCHEMA_VERSION = 5
 MIGRATION_LOCK_ID = 1701001
 
 
@@ -52,6 +52,7 @@ async def check_schema_version(pool: AsyncConnectionPool) -> None:
 
 async def open_pool(settings: Settings) -> AsyncConnectionPool:
     """Return a connected, schema-checked pool. Close every failed initialization."""
+    install_safe_pool_log_filter()
     if settings.database_url is None:
         raise DatabaseUnavailableError("Database is not configured")
     pool = AsyncConnectionPool(
@@ -91,3 +92,11 @@ class SafePoolLogFilter(logging.Filter):
         record.exc_info = None
         record.exc_text = None
         return True
+
+
+def install_safe_pool_log_filter() -> None:
+    """Keep background driver logs safe even outside the application lifespan."""
+    for name in ("psycopg.pool", "psycopg"):
+        resource_logger = logging.getLogger(name)
+        if not any(isinstance(item, SafePoolLogFilter) for item in resource_logger.filters):
+            resource_logger.addFilter(SafePoolLogFilter())

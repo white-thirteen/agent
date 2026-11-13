@@ -1,0 +1,137 @@
+{
+  "owner": "restart04-11161d7ae9a54b779fe9158ec418bef7",
+  "order": "restart04-11161d7ae9a54b779fe9158ec418bef7",
+  "conversation": "restart04-11161d7ae9a54b779fe9158ec418bef7",
+  "thread": "3deaf710-bf1a-5998-b89d-db3eef43f0ac",
+  "task": "87f30cf9-c8e1-4784-b25a-09b7cbcaa1d0",
+  "first_run": "4db31d96-73b5-4d7b-804d-3889ab482c74",
+  "approval": "4c537270-f7ac-5f42-8d2c-9c4115d37846",
+  "fixed": {
+    "call_id": "original-call",
+    "args_digest": "e0c9a51a97c80d9e91f61ee282562b1c1dc4209458fc70046a7b2c2d87fc0725",
+    "operation_id": "3e29bfe4-c5fa-503e-af20-60e426ee2f37",
+    "task_id": "87f30cf9-c8e1-4784-b25a-09b7cbcaa1d0",
+    "thread_id": "3deaf710-bf1a-5998-b89d-db3eef43f0ac",
+    "canonical_args": {
+      "order_id": "restart04-11161d7ae9a54b779fe9158ec418bef7"
+    },
+    "raw_args": {
+      "order_id": "restart04-11161d7ae9a54b779fe9158ec418bef7"
+    },
+    "namespace": "refund:1a6e66ea-5788-f572-b106-0b9b47eae068",
+    "subject_digest": "0544a50dcf5773cbb15d19f7ba277cf70cbfe9d866fcb60d7ac6e77d22745ea2"
+  },
+  "positions": [
+    [
+      "approval_gate"
+    ]
+  ],
+  "waiting_usage": {
+    "tool_calls": 4,
+    "active_elapsed_ms": 250
+  },
+  "evidence": [
+    {
+      "phase": "wait",
+      "pid": 23600,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "4db31d96-73b5-4d7b-804d-3889ab482c74",
+          "mode": "normal",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "dict",
+          "run": "4db31d96-73b5-4d7b-804d-3889ab482c74",
+          "mode": "normal"
+        },
+        {
+          "graph": "refund_child",
+          "input": "dict",
+          "run": "4db31d96-73b5-4d7b-804d-3889ab482c74",
+          "mode": "normal"
+        }
+      ],
+      "handler_attempts": 0,
+      "status": "PENDING"
+    },
+    {
+      "phase": "resume",
+      "pid": 18780,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "recheck_execution",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "prepare_refund_attempt",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "execute_refund",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "record_tool_outcome",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "compose_refund_reply",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "map_result",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "Command",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume"
+        },
+        {
+          "graph": "refund_child",
+          "input": "None",
+          "run": "2ee98732-bc29-4722-bdfb-d1aa756e7372",
+          "mode": "resume"
+        }
+      ],
+      "handler_attempts": 1,
+      "status": "SUCCEEDED"
+    }
+  ],
+  "runs": [
+    "2ee98732-bc29-4722-bdfb-d1aa756e7372"
+  ],
+  "usage": [
+    {
+      "model": 3,
+      "tools": 6,
+      "active_ms": 500
+    }
+  ]
+}

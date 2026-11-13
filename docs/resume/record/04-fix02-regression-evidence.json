@@ -1,0 +1,1 @@
+{"pytest_exit": 0, "database_identity": "agent_demo_test/agent_test", "full_business_rowsets_equal": true, "all_migrations_equal": true, "saver_threads_equal": true, "fixed_five_orders_immutable_facts_and_full_rows_equal": true, "paid_model_calls": 0}

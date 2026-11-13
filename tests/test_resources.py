@@ -84,6 +84,7 @@ def test_lifespan_closes_pool_when_later_resource_fails(monkeypatch):
         yield
 
     monkeypatch.setattr(module, "open_pool", opened)
+    monkeypatch.setattr(module, "open_checkpoint_pool", opened)
     monkeypatch.setattr(module, "model_resources", failed)
     settings = Settings(
         _env_file=None,
@@ -99,6 +100,7 @@ def test_lifespan_closes_pool_when_later_resource_fails(monkeypatch):
 async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatch):
     import asyncio
 
+    from langgraph.checkpoint.memory import InMemorySaver
     from runtime_support import ControlledModel, MemorySessions, clarify, context
 
     import app.main as module
@@ -142,6 +144,16 @@ async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatc
         events.append("model_closed")
 
     monkeypatch.setattr(module, "open_pool", opened)
+
+    class CheckpointPool:
+        async def close(self):
+            events.append("checkpoint_closed")
+
+    async def checkpoint_opened(settings):
+        return CheckpointPool()
+
+    monkeypatch.setattr(module, "open_checkpoint_pool", checkpoint_opened)
+    monkeypatch.setattr(module, "AsyncPostgresSaver", lambda pool, **kwargs: InMemorySaver())
     monkeypatch.setattr(module, "model_resources", controlled_resources)
     monkeypatch.setattr(module, "SessionRepository", lambda pool: MemorySessions())
     app = create_app(
@@ -157,6 +169,22 @@ async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatc
     async with app.router.lifespan_context(app):
         handle = await app.state.agent_runtime.submit(context(), options=SubmitOptions())
         await entered.wait()
-    assert events == ["runtime_settled", "model_closed", "pool_closed"]
+    assert events == ["runtime_settled", "model_closed", "checkpoint_closed", "pool_closed"]
     assert captured[0].http_client.is_closed and captured[0].http_async_client.is_closed
     assert app.state.agent_runtime._records[handle.run_id].error["code"] == "run_interrupted"
+
+
+def test_pool_log_filter_is_installed_outside_lifespan_and_hides_driver_detail():
+    import logging
+
+    from app.infrastructure.postgres import SafePoolLogFilter, install_safe_pool_log_filter
+
+    install_safe_pool_log_filter()
+    logger = logging.getLogger("psycopg.pool")
+    selected = [item for item in logger.filters if isinstance(item, SafePoolLogFilter)]
+    assert len(selected) == 1
+    record = logging.LogRecord(
+        "psycopg.pool", logging.WARNING, "", 0, "connection failed: %s", ("sensitive",), None
+    )
+    assert selected[0].filter(record)
+    assert record.getMessage() == "PostgreSQL pool resource event"

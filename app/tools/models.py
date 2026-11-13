@@ -3,7 +3,7 @@
 from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from pydantic import BaseModel, JsonValue
 
@@ -11,6 +11,10 @@ from app.agents.types import AgentType, TaskType
 from app.graph.contracts import ExecutionContext
 from app.runtime.models import RunLimits, RunUsage
 from app.runtime.run_scope import RunScope
+
+if TYPE_CHECKING:
+    from app.domain.refunds import RefundBusinessContext
+    from app.workflows.approvals import InterruptBinding
 
 
 @dataclass(frozen=True, slots=True)
@@ -36,6 +40,14 @@ class BusinessExecutionContext:
     user_id: str
     task_id: str
     run_id: str
+
+
+@dataclass(frozen=True, slots=True)
+class MemoryBusinessContext(BusinessExecutionContext):
+    operation_id: str
+    command_digest: str
+    expected_revision: int
+    replay_check_only: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,6 +99,31 @@ class ToolExecutionContext:
     argument_constraints: Mapping[str, Mapping[str, JsonValue]]
     run_limits: RunLimits
     scope: RunScope
+    refund_context: "RefundBusinessContext | None" = None
+    approval_binding: "InterruptBinding | None" = None
+    thread_id: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class PreparedToolAttempt:
+    """Serializable write intent; possession never bypasses the current policy."""
+
+    attempt_id: str
+    run_id: str
+    task_id: str
+    call: ParsedToolCall
+    tool_version: str
+    normalized_args: dict[str, JsonValue]
+    args_digest: str
+    operation_id: str
+    baseline_tool_calls: int
+    attempted_tool_calls: int
+    timeout_seconds: float
+    business_snapshot: dict
+    binding_snapshot: dict
+    origin: Literal["model", "node"] = "model"
+    prepared_by_node_name: str | None = None
+    execution_node_name: str | None = None
 
 
 class PolicyDecision(StrEnum):

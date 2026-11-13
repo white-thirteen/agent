@@ -1,5 +1,9 @@
 # Agent Engine Demo
 
+## 当前实施状态
+
+01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，Git归档已获本轮授权，正在执行；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/question/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/question/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
+
 ## 03 工具治理与模拟订单（ACCEPTED，用户已正式验收）
 
 03六Task、独立QA及两项修复回归已通过主Agent技术验收，最新完整真实库137项及27个不同外部场景取得通过证据，详见[03技术验收报告](docs/question/03-tool-governance-stage-acceptance.md)。实现、真实数据库和真实模型证据见 [03 开发交付报告](docs/03-tool-governance-delivery-report.md)。订单查询通过冻结工具目录、策略和统一执行器访问 PostgreSQL 中的模拟数据；本人单订单及分页列表由可信查询目标约束，最终回复由核验事实生成。退款、知识检索、审批和持久恢复仍属于后续阶段。
@@ -136,6 +140,9 @@ py -3.13 -m venv .venv
 - [02 AgentRuntime整阶段执行任务](docs/02-agent-runtime-execution-task.md)
 - [02 主Agent协调与验收记录](docs/question/02-agent-runtime-main-review.md)
 - [修复会话提示词与修复记录](docs/resume/README.md)
+- [04 首轮 QA 修复与开发自测报告](docs/resume/record/04-hitl-checkpoint-refund-fix-01-report.md)
+- [04-QA-007绑定修复与开发补验报告](docs/resume/record/04-hitl-checkpoint-refund-fix-02-report.md)
+- [04 Task 4.3.2重启及重放开发自测报告](docs/04-hitl-checkpoint-refund-restart-report.md)
 - [03 工具治理 QA 修复与开发自测报告](docs/resume/record/03-tool-governance-fix-report.md)
 - [01 / P2-01 修复与开发自测报告](docs/resume/record/01-foundation-fix-report.md)
 - [项目定位、架构与V1范围（权威文档）](docs/agent-engine-demo-plan.md)

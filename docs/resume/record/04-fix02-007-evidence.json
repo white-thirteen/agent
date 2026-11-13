@@ -1,0 +1,181 @@
+{
+  "round": "04-fix02",
+  "issue": "04-QA-007",
+  "negative": [
+    {
+      "kind": "decided_unbound",
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "approval_binding_conflict",
+          "message": "Approval binding requires reconciliation."
+        }
+      },
+      "new_runs": 0,
+      "business_rowsets_unchanged": true
+    },
+    {
+      "kind": "invalid_audit_checkpoint",
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "approval_binding_conflict",
+          "message": "Approval binding requires reconciliation."
+        }
+      },
+      "new_runs": 0,
+      "business_rowsets_unchanged": true
+    },
+    {
+      "kind": "subject_changed_before_CAS",
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "approval_binding_conflict",
+          "message": "Approval binding requires reconciliation."
+        }
+      },
+      "new_runs": 0,
+      "business_rowsets_unchanged": false
+    }
+  ],
+  "normal_repair": {
+    "owner": "restart04-40e47a3a473947e087fdcd9806d4ab0b",
+    "order": "restart04-40e47a3a473947e087fdcd9806d4ab0b",
+    "conversation": "restart04-40e47a3a473947e087fdcd9806d4ab0b",
+    "thread": "dc1f2ee8-daa5-5484-a29e-8f737137fcc6",
+    "task": "67f9305a-131e-4738-ab37-3246d9af5b5f",
+    "first_run": "568c9727-71c2-4b1e-b990-60e8a09c861c",
+    "approval": "689648e3-0172-57e7-8936-b774ece51e98",
+    "repair_binding": "real_interrupt_CAS_idempotent_zero_new_run",
+    "fixed": {
+      "call_id": "original-call",
+      "args_digest": "678512bd1597f74c6098fa87243b10e692c43db9018d20e7109246ec1ad1c1b8",
+      "operation_id": "eac93ee3-66f3-5863-88d8-87f741b4fb5f",
+      "task_id": "67f9305a-131e-4738-ab37-3246d9af5b5f",
+      "thread_id": "dc1f2ee8-daa5-5484-a29e-8f737137fcc6",
+      "canonical_args": {
+        "order_id": "restart04-40e47a3a473947e087fdcd9806d4ab0b"
+      },
+      "raw_args": {
+        "order_id": "restart04-40e47a3a473947e087fdcd9806d4ab0b"
+      },
+      "namespace": "refund:1ee637a6-74f4-9e9e-93dd-25b209e0a975",
+      "subject_digest": "c58f8921e826e4f8b2869ef851e417534dae94f0aaca787a95cd4e86ba63c535"
+    },
+    "positions": [
+      [
+        "approval_gate"
+      ]
+    ],
+    "waiting_usage": {
+      "tool_calls": 4,
+      "active_elapsed_ms": 239
+    },
+    "evidence": [
+      {
+        "phase": "wait",
+        "pid": 33884,
+        "nodes": [
+          {
+            "node": "approval_gate",
+            "run": "568c9727-71c2-4b1e-b990-60e8a09c861c",
+            "mode": "normal",
+            "recovery": null
+          }
+        ],
+        "invocations": [
+          {
+            "graph": "supervisor_root",
+            "input": "dict",
+            "run": "568c9727-71c2-4b1e-b990-60e8a09c861c",
+            "mode": "normal"
+          },
+          {
+            "graph": "refund_child",
+            "input": "dict",
+            "run": "568c9727-71c2-4b1e-b990-60e8a09c861c",
+            "mode": "normal"
+          }
+        ],
+        "handler_attempts": 0,
+        "status": "PENDING"
+      },
+      {
+        "phase": "resume",
+        "pid": 43428,
+        "nodes": [
+          {
+            "node": "approval_gate",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "recheck_execution",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "prepare_refund_attempt",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "execute_refund",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "record_tool_outcome",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "compose_refund_reply",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          },
+          {
+            "node": "map_result",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume",
+            "recovery": null
+          }
+        ],
+        "invocations": [
+          {
+            "graph": "supervisor_root",
+            "input": "Command",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume"
+          },
+          {
+            "graph": "refund_child",
+            "input": "None",
+            "run": "e9372ef3-db32-4e6b-8968-f6bb63364800",
+            "mode": "resume"
+          }
+        ],
+        "handler_attempts": 1,
+        "status": "SUCCEEDED"
+      }
+    ],
+    "runs": [
+      "e9372ef3-db32-4e6b-8968-f6bb63364800"
+    ],
+    "usage": [
+      {
+        "model": 3,
+        "tools": 6,
+        "active_ms": 617
+      }
+    ]
+  },
+  "cleanup_all_scenarios": "CLEANUP_FULL_ROWSETS_MIGRATIONS_THREADS_UNCHANGED"
+}

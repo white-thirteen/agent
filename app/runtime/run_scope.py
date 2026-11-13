@@ -3,6 +3,7 @@
 import asyncio
 import time
 from collections.abc import Callable
+from uuid import uuid4
 
 from app.runtime.model_gateway import ModelCallUsage
 from app.runtime.models import RunLimits, RunUsage
@@ -18,6 +19,7 @@ class RunScope:
         emit: Callable[[str], None] = lambda code: None,
     ):
         self._limits = limits
+        self._scope_id = str(uuid4())
         self._model = model_usage
         self._baseline = run_usage
         self._tools = run_usage.tool_calls
@@ -32,6 +34,10 @@ class RunScope:
     @property
     def limits(self) -> RunLimits:
         return self._limits
+
+    @property
+    def scope_id(self) -> str:
+        return self._scope_id
 
     def adopt_model_usage(self, updated: ModelCallUsage) -> None:
         if updated.model_attempts < self._model.model_attempts:

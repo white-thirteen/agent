@@ -11,7 +11,7 @@ from app.graph.contracts import ExecutionContext, SpecialistInput
 from app.graph.specialists.order.builder import build_order_graph
 from app.graph.transfers import create_specialist_state
 from app.infrastructure.model import model_resources
-from app.infrastructure.postgres import open_pool, validate_test_target
+from app.infrastructure.postgres import EXPECTED_SCHEMA_VERSION, open_pool, validate_test_target
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallUsage
 from app.runtime.models import RunLimits, RunUsage
@@ -39,7 +39,7 @@ async def main():
             versions = await (
                 await conn.execute("SELECT version FROM schema_migrations ORDER BY version")
             ).fetchall()
-            assert versions == [(1,), (2,), (3,)]
+            assert versions == [(version,) for version in range(1, EXPECTED_SCHEMA_VERSION + 1)]
         service = MockOrderService(OrderRepository(pool))
         for order in ("demo-order-b-001", "missing-order-03"):
             try:

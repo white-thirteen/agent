@@ -5,7 +5,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict
 
-EventType = Literal["token", "status", "done", "error"]
+EventType = Literal["token", "status", "done", "error", "workflow_paused", "workflow_resumed"]
 
 
 class StreamEvent(BaseModel):
@@ -29,6 +29,8 @@ class RuntimeEvent:
             "token": {"content"},
             "error": {"code", "message", "usage_complete"},
             "done": {"run_status", "task_status"},
+            "workflow_paused": {"application_id", "approval_id", "reason"},
+            "workflow_resumed": {"previous_run_id"},
         }
         return StreamEvent(
             event=self.kind,

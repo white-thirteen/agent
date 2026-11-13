@@ -104,6 +104,43 @@ def test_file_logging_is_rejected_before_test_execution(tmp_path, configuration)
     assert not marker.exists() and not log.exists()
 
 
+def test_skip_summary_preserves_native_shape_and_redacts_test_and_collection(tmp_path):
+    password = "fictional-skip-secret"
+    url = f"postgresql://test:{password}@localhost/agent_demo_test"
+    (tmp_path / "test_skip.py").write_text(
+        "import os, pytest\n"
+        "def test_skip():\n    pytest.skip(os.environ['AGENT_TEST_DATABASE_URL'])\n"
+        "def test_pass():\n    pass\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "test_collect_skip.py").write_text(
+        "import os, pytest\n"
+        "pytest.skip(os.environ['AGENT_TEST_DATABASE_URL'], allow_module_level=True)\n",
+        encoding="utf-8",
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "-c",
+            str(ROOT / "pyproject.toml"),
+            "-q",
+            "-rs",
+            str(tmp_path),
+        ],
+        cwd=ROOT,
+        env={**os.environ, "AGENT_TEST_DATABASE_URL": url},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    output = result.stdout + result.stderr
+    assert result.returncode == 0
+    assert "1 passed, 2 skipped" in output and "[REDACTED]" in output
+    assert password not in output and url not in output
+
+
 @pytest.mark.parametrize(
     "option",
     ["-s", "--capture=sys", "--capture=tee-sys", "--junitxml=result.xml", "--log-cli-level=INFO"],

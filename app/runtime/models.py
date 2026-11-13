@@ -83,6 +83,16 @@ class RunHandle:
     subscription: "EventSubscription | None"
 
 
+@dataclass(frozen=True, slots=True)
+class ResumeAcceptance:
+    accepted: bool
+    run_id: str | None
+    task_id: str
+    operation_id: str
+    status: str
+    result: object | None = None
+
+
 @dataclass(slots=True)
 class RunRecord:
     """Owned by Runtime. Never serialize this object or put it in a checkpoint."""

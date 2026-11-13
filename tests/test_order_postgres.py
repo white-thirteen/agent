@@ -8,7 +8,12 @@ from pydantic import SecretStr
 
 from app.core.config import Settings
 from app.domain.orders import MockOrderService, OrderNotAccessible, OrderRepository
-from app.infrastructure.postgres import connection_kwargs, open_pool, validate_test_target
+from app.infrastructure.postgres import (
+    EXPECTED_SCHEMA_VERSION,
+    connection_kwargs,
+    open_pool,
+    validate_test_target,
+)
 from scripts import run_async
 from scripts.seed_orders import seed_orders
 
@@ -29,7 +34,7 @@ def test_real_order_constraints_isolation_and_seed_idempotence():
             versions = await (
                 await conn.execute("SELECT version FROM schema_migrations ORDER BY version")
             ).fetchall()
-            assert versions == [(1,), (2,), (3,)]
+            assert versions == [(version,) for version in range(1, EXPECTED_SCHEMA_VERSION + 1)]
             columns = await (
                 await conn.execute(
                     "SELECT numeric_precision, numeric_scale FROM information_schema.columns "

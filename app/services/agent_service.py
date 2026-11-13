@@ -77,6 +77,23 @@ class AgentService:
             user_id=identity.user_id, conversation_id=conversation_id, run_id=run_id
         )
 
+    async def current_task(self, *, identity, conversation_id):
+        binding = await self._verify_session(identity, conversation_id)
+        return await self._runtime.current_task(
+            user_id=identity.user_id,
+            conversation_id=conversation_id,
+            thread_id=str(binding.thread_id),
+        )
+
+    async def refund_status(self, *, identity, conversation_id, application_id):
+        binding = await self._verify_session(identity, conversation_id)
+        return await self._runtime.refund_status(
+            user_id=identity.user_id,
+            conversation_id=conversation_id,
+            thread_id=str(binding.thread_id),
+            application_id=application_id,
+        )
+
     async def subscribe(self, *, identity, conversation_id, run_id, subscription_owner):
         await self._verify_session(identity, conversation_id)
         return await self._runtime.subscribe(
