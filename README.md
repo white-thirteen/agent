@@ -1,6 +1,6 @@
 # Agent Engine Demo
 
-2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，本轮按用户授权提交并推送Git，未进入06。以下各轮记录按原日期保留。
+2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，已以79d576b交付归档并推送核验，[Git回执](docs/05-git-archive-receipt.md)；未进入06。以下各轮记录按原日期保留。
 
 Task 5.3.1 Store / shared Reader implementation and validation: [delivery report](docs/05-store-reader-delivery-report.md). Store setup is explicit (`python -m scripts.setup_store --target test` or `development`); startup only verifies readiness.
 

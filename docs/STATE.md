@@ -4,7 +4,7 @@
 
 **05六Task已实现、独立QA PASS并经主Agent复核，用户已正式验收，阶段ACCEPTED。** 05-QA-001/P2已修复、原QA独立复测并关闭，无未关闭05阻塞。最新完整真实PG216 passed/0 failed/0 skipped；主Agent最终Ruff(app/scripts/tests)通过、147文件格式通过。真实本地Qwen/PG检索、来源问答、显式偏好CRUD/跨会话隔离，以及英语偏好后真实新会话RAG均取得证据。
 
-入口：[05技术验收](question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](05-rag-memory-handoff.md)、[最新协调](question/05-remaining-main-review.md)。两库原业务/Saver保持、验收临时数据清理，schema6/Store迁移0～3，用户.env及006原字节保持；演示需显式启用Embedding并导入样本。Git仍real-model-chat/6c72169，原六项暂缓差异保留，用户已授权05及本轮使用的项目角色配置提交/推送，正在归档。**不进入06，归档后停止。** 下文各IN_PROGRESS/等待状态保留对应历史轮次，以本段为准。
+入口：[05技术验收](question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](05-rag-memory-handoff.md)、[最新协调](question/05-remaining-main-review.md)。两库原业务/Saver保持、验收临时数据清理，schema6/Store迁移0～3，用户.env及006原字节保持；演示需显式启用Embedding并导入样本。05交付提交79d576bb47a45ffffe006a2a7182dd23bb825349已推送并核验origin/real-model-chat，含本轮使用的原生项目角色配置；原六项暂缓差异保留。归档回执另作文档提交，不替代交付标识，当前HEAD以git rev-parse为准。见[Git回执](05-git-archive-receipt.md)。**已停止，不进入06。** 下文各IN_PROGRESS/等待状态保留对应历史轮次，以本段为准。
 
 ## 当前工作单元（2026-11-13，05已授权）
 

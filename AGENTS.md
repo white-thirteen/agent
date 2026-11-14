@@ -2,7 +2,7 @@
 
 ## 当前正式状态（2026-11-14，05 ACCEPTED）
 
-05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/05-rag-memory-handoff.md、docs/question/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，用户已授权05提交及推送，正在归档，06未开始；原六项暂缓差异保留。本轮只完成已授权Git归档，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。
+05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/05-rag-memory-handoff.md、docs/question/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，05已以79d576b交付归档并推送核验origin/real-model-chat，06未开始；原六项暂缓差异保留。Git归档回执见docs/05-git-archive-receipt.md；本轮完成后停止，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。
 
 ## 05续执行授权（2026-11-14）
 
