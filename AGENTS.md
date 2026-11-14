@@ -1,10 +1,23 @@
 # Agent Engine Demo 开发规范
 
+## 当前正式状态（2026-11-14，05 ACCEPTED）
+
+05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/05-rag-memory-handoff.md、docs/question/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，用户已授权05提交及推送，正在归档，06未开始；原六项暂缓差异保留。本轮只完成已授权Git归档，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。
+
+## 05续执行授权（2026-11-14）
+
+用户已明确继续05，按冻结D05剩余Task顺序实施、串行独立QA与必要修复。前置本地Qwen/1024维及原PG17.6/pgvector保持；本轮从5.2.1知识工具与子图开始，再5.2.2真实RAG、5.3 Store/Memory逐项派发。此前Embedding单元“不改Specialist/Memory”是该单元范围，现允许原D05必要接线；不扩业务、不进入06、不从继续开发推导阶段ACCEPTED或Git归档授权。当前Task与证据以docs/STATE.md及对应执行任务为准。
+
+## 05当前授权（2026-11-13）
+
+用户已授权05，本轮最新范围为Windows本地Qwen3-Embedding-0.6B CPU/1024维及Ubuntu PG17.6+pgvector真实检索。该明确指令覆盖D05旧OpenAI/1536/API Key参数，其余版本/事务/来源/权限约束保留；执行入口docs/05-local-embedding-execution-task.md，最新状态docs/STATE.md。不扩Supervisor、Specialist、其他业务或Memory；不从本单元推导05全部完成或Git授权。以下原等待05及旧Embedding参数保留历史语境，以用户最新指令和当前工作单元为准。
+
+
 ## 最新协调状态（2026-11-13，原生 Multi-Agent 接管）
 
 当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，已以ab30f12交付归档、推送并核验远端**，见 `docs/question/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
 
-用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；04交付提交为ab30f12，已推送并核验远端；原六项暂缓差异保留，当前HEAD以git rev-parse为准。05～06未开始，04归档已完成；05等待用户设置角色配置及后续指令，不自动启动。项目自定义Agent配置尚缺失，原生通用子Agent已验证可调用，当前以明确派发角色约束实施与QA，不声称已加载自定义配置。既有凭据及格式遗留决定保持。
+用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；04交付提交为ab30f12，已推送并核验远端；原六项暂缓差异保留，当前HEAD以git rev-parse为准。05～06未开始，04归档已完成；05等待用户设置角色配置及后续指令，不自动启动。项目已配置.codex/agents下implementer和qa，Desktop内置0.167.0-alpha.4.1已通过显式agent_type及fork_turns="none"原生调用验证；PATH旧CLI0.144.4不兼容，当前旧聊天需新开项目聊天加载角色。详见.codex/README.md。主Agent负责派发、交付审查/QA裁决和Git集成；每次只派一个明确Task及必读文件/范围/验收标准，优先干净上下文，默认Implementer→QA串行，FAIL交回原Implementer后再独立复测，不连续轮询；简单任务不强制委派。既有凭据及格式遗留决定保持。
 
 ## 最新协调状态（2026-11-12）
 

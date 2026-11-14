@@ -13,7 +13,9 @@ from app.tools.models import (
     MemoryBusinessContext,
     PolicyDecision,
     PreparedToolAttempt,
+    ToolEffectUnknownError,
     ToolExecutionResult,
+    ToolNotStartedError,
     ToolTransientError,
     ToolUnavailableError,
 )
@@ -204,6 +206,7 @@ class ToolExecutor:
             and context.scope is target.scope
             and context.argument_constraints.get(call.name)
             == target.argument_constraints.get(call.name)
+            and context.allowed_tools == target.allowed_tools
             and bool(context.thread_id)
             and context.thread_id == target.thread_id
             and business_context.user_id == context.execution.user_id
@@ -621,6 +624,22 @@ class ToolExecutor:
                 async with asyncio.timeout(timeout):
                     response = await definition.handler(typed, business)
             except TimeoutError:
+                if call.name == "write_preferences":
+                    from app.memory.models import MemoryMutationResult
+
+                    return self._memory_unknown(
+                        call,
+                        context,
+                        MemoryMutationResult(
+                            status="unknown",
+                            operation_id=business.operation_id,
+                            revision=None,
+                            changed_fields=[],
+                            preferences=None,
+                        ),
+                        attempts,
+                        execution_id,
+                    )
                 return self._result(
                     call,
                     context,
@@ -644,15 +663,23 @@ class ToolExecutor:
                     effect_status="not_applicable" if definition.metadata.read_only else "unknown",
                     execution_id=execution_id,
                 )
-            except ToolUnavailableError:
+            except ToolEffectUnknownError as error:
+                return self._memory_unknown(call, context, error.data, attempts, execution_id)
+            except ToolUnavailableError as error:
                 return self._result(
                     call,
                     context,
                     status="failed",
-                    code="order_query_unavailable",
+                    code=error.code,
                     message="Tool execution unavailable.",
                     attempts=attempts,
-                    effect_status="not_applicable" if definition.metadata.read_only else "unknown",
+                    effect_status=(
+                        "not_started"
+                        if isinstance(error, ToolNotStartedError)
+                        else "not_applicable"
+                        if definition.metadata.read_only
+                        else "unknown"
+                    ),
                     execution_id=execution_id,
                 )
             if not isinstance(response, HandlerResult):
@@ -665,7 +692,12 @@ class ToolExecutor:
                     code=response.rejection.code,
                     message=response.rejection.message,
                     attempts=attempts,
-                    effect_status="not_applicable",
+                    data=response.rejection.data.model_dump(mode="json")
+                    if response.rejection.data is not None
+                    else None,
+                    effect_status="not_started"
+                    if call.name == "write_preferences"
+                    else "not_applicable",
                     execution_id=execution_id,
                 )
             try:
@@ -701,6 +733,19 @@ class ToolExecutor:
                 effect_status="not_applicable" if definition.metadata.read_only else "completed",
                 execution_id=execution_id,
             )
+
+    def _memory_unknown(self, call, context, data, attempts, execution_id):
+        return self._result(
+            call,
+            context,
+            status="failed",
+            code="memory_result_unknown",
+            message="本次偏好写入结果未知，请先核对，再提交新的记忆修改。",
+            data=data.model_dump(mode="json"),
+            attempts=attempts,
+            effect_status="unknown",
+            execution_id=execution_id,
+        )
 
     def _denied(self, call, context, decision, attempts, execution_id):
         approval = decision.decision is PolicyDecision.REQUIRE_APPROVAL

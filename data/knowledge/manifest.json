@@ -1,0 +1,44 @@
+[
+  {
+    "document_id": "demo-account-help",
+    "filename": "account-help.md",
+    "source_title": "演示账户帮助",
+    "domain": "platform_help",
+    "public_source_key": "account-help"
+  },
+  {
+    "document_id": "demo-order-query",
+    "filename": "order-query.md",
+    "source_title": "订单查询帮助",
+    "domain": "platform_help",
+    "public_source_key": "order-query"
+  },
+  {
+    "document_id": "demo-refund-entry",
+    "filename": "refund-entry.md",
+    "source_title": "模拟退款申请",
+    "domain": "after_sales_help",
+    "public_source_key": "refund-entry"
+  },
+  {
+    "document_id": "demo-approval-wait",
+    "filename": "approval-wait.md",
+    "source_title": "审批等待说明",
+    "domain": "after_sales_help",
+    "public_source_key": "approval-wait"
+  },
+  {
+    "document_id": "demo-stream-help",
+    "filename": "stream-help.md",
+    "source_title": "聊天连接帮助",
+    "domain": "platform_help",
+    "public_source_key": "stream-help"
+  },
+  {
+    "document_id": "demo-refund-safety",
+    "filename": "refund-safety.md",
+    "source_title": "模拟退款安全说明",
+    "domain": "after_sales_help",
+    "public_source_key": "refund-safety"
+  }
+]

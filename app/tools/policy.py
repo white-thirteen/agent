@@ -26,6 +26,8 @@ class ToolPolicy:
         if definition is None:
             return deny("tool_not_allowed")
         meta = definition.metadata
+        if meta.name == "read_preferences" and "memory:read" not in context.permission_scopes:
+            return deny("memory_scope_denied")
         if not meta.enabled or (meta.name, meta.version) not in context.allowed_tools:
             return deny("tool_not_allowed")
         if (
@@ -35,7 +37,16 @@ class ToolPolicy:
             return deny("tool_not_allowed")
         if context.task_type.target_agent is not context.agent_type:
             return deny("tool_not_allowed")
+        if meta.name in {"search_knowledge", "validate_knowledge_sources"} and (
+            context.agent_type is not AgentType.KNOWLEDGE
+            or context.task_type is not TaskType.KNOWLEDGE_QA
+        ):
+            return deny("tool_not_allowed")
         if context.origin == "model":
+            if context.agent_type is AgentType.KNOWLEDGE and meta.name != "search_knowledge":
+                return deny("tool_not_allowed")
+            if meta.name in {"validate_knowledge_sources", "read_preferences", "write_preferences"}:
+                return deny("tool_not_allowed")
             if context.node_name is not None:
                 return deny("tool_not_allowed")
             if context.agent_type is AgentType.REFUND and meta.name != "refund_order":
@@ -44,6 +55,18 @@ class ToolPolicy:
             if meta.name == "write_preferences" and "memory:write" not in context.permission_scopes:
                 return deny("tool_not_allowed")
             allowed_nodes = {
+                (AgentType.ORDER, TaskType.ORDER_QUERY, "prepare_query"): {"read_preferences"},
+                (AgentType.REFUND, TaskType.REFUND_APPLY, "prepare_refund"): {"read_preferences"},
+                (AgentType.KNOWLEDGE, TaskType.KNOWLEDGE_QA, "prepare_query"): {"read_preferences"},
+                (AgentType.KNOWLEDGE, TaskType.MEMORY_MANAGE, "read_preferences"): {
+                    "read_preferences"
+                },
+                (AgentType.KNOWLEDGE, TaskType.MEMORY_MANAGE, "prepare_memory_write"): {
+                    "read_preferences"
+                },
+                (AgentType.KNOWLEDGE, TaskType.KNOWLEDGE_QA, "validate_sources"): {
+                    "validate_knowledge_sources"
+                },
                 (AgentType.ORDER, TaskType.ORDER_QUERY, "execute_query"): {
                     "get_order",
                     "list_orders",
@@ -72,6 +95,15 @@ class ToolPolicy:
                 (context.agent_type, context.task_type, context.node_name), set()
             ):
                 return deny("tool_not_allowed")
+        if meta.name == "read_preferences" and (
+            context.allowed_tools != frozenset({(meta.name, meta.version)})
+            or context.argument_constraints.get(meta.name) != {}
+        ):
+            return deny("tool_not_allowed")
+        if meta.name == "write_preferences" and (
+            context.allowed_tools != frozenset({(meta.name, meta.version)})
+        ):
+            return deny("tool_not_allowed")
         try:
             args = (
                 validated_args
@@ -81,6 +113,12 @@ class ToolPolicy:
         except ValidationError:
             return deny("invalid_tool_arguments")
         values = args.model_dump(mode="json")
+        if meta.name in {
+            "search_knowledge",
+            "validate_knowledge_sources",
+            "write_preferences",
+        } and (context.argument_constraints.get(meta.name) != values):
+            return deny("invalid_tool_arguments", args)
         for key, value in context.argument_constraints.get(meta.name, {}).items():
             if values.get(key) != value:
                 return deny("invalid_tool_arguments", args)

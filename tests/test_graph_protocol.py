@@ -12,7 +12,7 @@ from app.agents.types import AgentType, TaskType
 from app.graph.contracts import (
     ExecutionContext,
     GraphProtocolError,
-    SourceReference,
+    PublicCitation,
     SpecialistInput,
     SpecialistResult,
 )
@@ -179,9 +179,23 @@ def test_result_contract_rejects_inconsistent_or_unsubstantiated_results(updates
 
 def test_completed_qa_requires_approved_answer_and_sources_memory_requires_store_facts():
     state = routed_state(route(TaskType.KNOWLEDGE_QA))
-    source = SourceReference(
-        document_id="policy", document_version="v1", chunk_id="1", title="Policy"
+    from datetime import UTC, datetime
+
+    source = PublicCitation(
+        evidence_id="e1",
+        document_id="policy",
+        document_version="v1",
+        chunk_id="1",
+        source_title="Policy",
+        source_key="policy",
+        section=None,
+        page=None,
+        checked_at=datetime.now(UTC),
     )
+    with pytest.raises(ValidationError):
+        PublicCitation.model_validate({**source.model_dump(), "uri": "file:///private"})
+    with pytest.raises(ValidationError):
+        PublicCitation.model_validate({**source.model_dump(), "source_key": "https://untrusted"})
     with pytest.raises(ValidationError):
         completed_result(state, sources=[source])
     result = completed_result(state, sources=[source], approved_answer="Verified answer")

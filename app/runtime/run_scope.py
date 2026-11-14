@@ -55,6 +55,15 @@ class RunScope:
             raise ValueError("Tool usage cannot decrease")
         self._tools = updated.tool_calls
 
+    def inherit_attempt_elapsed(self, elapsed_ms: int) -> None:
+        """A lost result may have spent the entire persisted attempt timeout."""
+        current = self.run_usage().active_elapsed_ms
+        if elapsed_ms > current:
+            self._baseline = RunUsage(
+                self._baseline.tool_calls,
+                self._baseline.active_elapsed_ms + elapsed_ms - current,
+            )
+
     def remaining_active_seconds(self) -> float:
         return self._limits.active_timeout_seconds - self.run_usage().active_elapsed_ms / 1000
 

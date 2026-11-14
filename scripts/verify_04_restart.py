@@ -31,7 +31,7 @@ from app.core.config import Settings
 from app.domain.refunds import MockRefundService
 from app.graph.contracts import RouteDecision, SupervisorOutput
 from app.infrastructure.checkpoint import checkpoint_serializer, open_checkpoint_pool
-from app.infrastructure.postgres import open_pool, validate_test_target
+from app.infrastructure.postgres import EXPECTED_SCHEMA_VERSION, open_pool, validate_test_target
 from app.main import create_app
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallLimits, ModelGateway
@@ -98,7 +98,7 @@ async def database_snapshot(pool):
                 await conn.execute(f"SELECT row_to_json(t)::text FROM {table} t ORDER BY 1")
             ).fetchall()
             result[table] = [r[0] for r in rows]
-        assert len(result["schema_migrations"]) == 5
+        assert len(result["schema_migrations"]) == EXPECTED_SCHEMA_VERSION
         applied = dict(
             await (
                 await conn.execute(

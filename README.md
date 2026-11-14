@@ -1,5 +1,13 @@
 # Agent Engine Demo
 
+2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，本轮按用户授权提交并推送Git，未进入06。以下各轮记录按原日期保留。
+
+Task 5.3.1 Store / shared Reader implementation and validation: [delivery report](docs/05-store-reader-delivery-report.md). Store setup is explicit (`python -m scripts.setup_store --target test` or `development`); startup only verifies readiness.
+
+Task 5.3.2 显式偏好管理已实现，独立QA及主Agent复核通过（VERIFIED）：[交付报告](docs/05-memory-manage-delivery-report.md)、[有限真实 Chat 证据](docs/05-memory-manage-real-chat-evidence.json)、[英语偏好＋真实 Qwen/Chat/PG RAG 补验](docs/05-memory-manage-real-rag-evidence-20261114.json)。支持“请记住：回答语言=英语”“请修改记忆：回答风格=详细”“请删除我的回答语言偏好”“请删除全部偏好记忆”“请查看偏好记忆”等冻结格式。Store 命令就绪独立于 Embedding；写入 unknown 时须先人工核对原操作，再提交新修改。真实 RAG 补验按澄清授权仅在验证进程启用原 Qwen，用户 `.env` 不变；此前未验证记录保留历史，见报告末尾追加。
+
+2026-11-13：本地 Qwen CPU Embedding 与 pgvector 检索工作单元已通过独立QA和主Agent复核（VERIFIED），见[独立QA](docs/question/05-local-embedding-qa-report.md)；范围与实际验证见[执行任务](docs/05-local-embedding-execution-task.md)及[交付报告](docs/05-local-embedding-delivery-report.md)。启用方式、离线导入和真实验证命令均在报告内；05 整阶段尚未验收。下文旧状态按原轮次保留。
+
 ## 当前实施状态
 
 01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，已以ab30f12完成Git交付归档并核验远端；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/question/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/question/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
@@ -152,6 +160,9 @@ py -3.13 -m venv .venv
 - [03 正式设计基线——ToolRegistry、Policy、Executor与模拟订单](docs/03-tool-governance-detailed-design.md)
 - [04 正式设计基线——HITL、PG Checkpoint、原调用恢复与退款幂等](docs/04-hitl-checkpoint-refund-detailed-design.md)
 - [05 正式设计基线——生成式RAG、来源校验、Store与Memory V1](docs/05-rag-memory-detailed-design.md)
+- [05 Task5.2.1 知识工具与八节点子图开发交付](docs/05-knowledge-tools-delivery-report.md)
+- [05 Task5.2.2 真实RAG联调与语义/来源验证](docs/rag-validation.md)
+- [05 Task5.3.2 显式记忆管理实现、自测与未验证边界](docs/05-memory-manage-delivery-report.md)
 - [06 正式设计基线——完整演示装配、故障验收与最终交付](docs/06-integration-and-final-delivery-detailed-design.md)
 - [当前代码的 Graph 协议参考](docs/graph-protocol.md)
 - [历史资料索引：旧九阶段路线图与阶段设计（不再作为V1依据）](docs/history/README.md)

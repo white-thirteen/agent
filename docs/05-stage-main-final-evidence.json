@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "date": "2026-11-14 Asia/Shanghai",
+  "databases": {
+    "test": {
+      "identity": [
+        "agent_demo_test",
+        "agent_test",
+        "17.6 (Debian 17.6-2.pgdg12+1)",
+        "0.8.7"
+      ],
+      "old_business_saver_and_app_migrations_unchanged": true,
+      "all_migration_checksums_match": true,
+      "row_counts": {
+        "approvals": 0,
+        "checkpoint_blobs": 0,
+        "checkpoint_migrations": 10,
+        "checkpoint_writes": 0,
+        "checkpoints": 0,
+        "demo_orders": 5,
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0,
+        "refund_requests": 0,
+        "schema_migrations": 6,
+        "sessions": 0,
+        "store": 0,
+        "store_migrations": 4
+      },
+      "store_migration_versions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "development": {
+      "identity": [
+        "agent_demo",
+        "agent_app",
+        "17.6 (Debian 17.6-2.pgdg12+1)",
+        "0.8.7"
+      ],
+      "old_business_saver_and_app_migrations_unchanged": true,
+      "all_migration_checksums_match": true,
+      "row_counts": {
+        "approvals": 0,
+        "checkpoint_blobs": 0,
+        "checkpoint_migrations": 10,
+        "checkpoint_writes": 0,
+        "checkpoints": 0,
+        "demo_orders": 5,
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0,
+        "refund_requests": 0,
+        "schema_migrations": 6,
+        "sessions": 0,
+        "store": 0,
+        "store_migrations": 4
+      },
+      "store_migration_versions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "user_env_migration006_and_deferred_general_unchanged": true,
+  "migration006_sha256": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3"
+}

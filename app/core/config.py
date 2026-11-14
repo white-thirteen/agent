@@ -46,6 +46,16 @@ class Settings(BaseSettings):
     runtime_result_ttl_seconds: float = Field(default=1800, gt=0, allow_inf_nan=False)
     runtime_shutdown_grace_seconds: float = Field(default=5, ge=0, allow_inf_nan=False)
     demo_user_ids: tuple[str, ...] = ("dev-user", "demo-user-b")
+    embedding_enabled: bool = False
+    embedding_provider: Literal["qwen_local"] = "qwen_local"
+    embedding_model_path: Path = Path("D:/AI/models/qwen3-embedding-0.6b")
+    embedding_batch_size: int = Field(default=1, ge=1, le=16)
+    embedding_max_input_tokens: int = Field(default=1024, ge=700, le=32768)
+    embedding_cpu_threads: int = Field(default=2, ge=1, le=16)
+    embedding_dtype: Literal["bfloat16", "float32"] = "bfloat16"
+    embedding_timeout_seconds: float = Field(default=8, gt=0, allow_inf_nan=False)
+    embedding_startup_timeout_seconds: float = Field(default=120, gt=0, allow_inf_nan=False)
+    embedding_profile_revision: str = "demo-v1"
 
     @field_validator("model_base_url")
     @classmethod

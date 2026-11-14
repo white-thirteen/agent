@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "read_only_final_databases": {
+    "test": {
+      "identity": [
+        "agent_demo_test",
+        "agent_test",
+        "17.6 (Debian 17.6-2.pgdg12+1)",
+        "0.8.7"
+      ],
+      "protected_old_table_changes": [],
+      "knowledge_counts": {
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0
+      }
+    },
+    "development": {
+      "identity": [
+        "agent_demo",
+        "agent_app",
+        "17.6 (Debian 17.6-2.pgdg12+1)",
+        "0.8.7"
+      ],
+      "protected_old_table_changes": [],
+      "knowledge_counts": {
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0
+      }
+    }
+  },
+  "migration_sha256": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3"
+}

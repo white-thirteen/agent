@@ -2,10 +2,11 @@
 
 from dataclasses import asdict
 
+from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.runtime import Runtime
 
-from app.agents.types import AgentType
+from app.agents.types import AgentType, TaskType
 from app.graph.contracts import GraphProtocolError, SpecialistInput
 from app.graph.state import AgentState
 from app.graph.transfers import (
@@ -16,7 +17,7 @@ from app.graph.transfers import (
 from app.runtime.context import RunExecutionContext
 
 
-def make_specialist_node(subgraph):
+def make_specialist_node(subgraph, *, memory_graph=None):
     async def specialist_node(
         state: AgentState, config: RunnableConfig, runtime: Runtime[RunExecutionContext]
     ):
@@ -31,10 +32,43 @@ def make_specialist_node(subgraph):
         if not continuing and request.context.run_id != effective.run_id:
             raise GraphProtocolError("Parent run association mismatch")
         scope = runtime.context.scope
-        output = await subgraph.ainvoke(
-            None if continuing else create_specialist_state(request, scope=scope),
+        selected = subgraph
+        memory_input = {}
+        if request.task_type is TaskType.MEMORY_MANAGE and memory_graph is not None:
+            from app.graph.specialists.knowledge.memory import parse_explicit_memory_command
+
+            selected = memory_graph
+            # Source IDs were supplied by Runtime, never by route entities or Store.
+            humans = [
+                m
+                for m in state["messages"]
+                if isinstance(m, HumanMessage) and m.id in state["task_message_ids"]
+            ]
+            source = humans[-1] if humans else None
+            command = (
+                parse_explicit_memory_command(source.content)
+                if source and isinstance(source.content, str)
+                else None
+            )
+            if command and any(
+                value != command.model_dump().get(key) for key, value in request.entities.items()
+            ):
+                command = None
+            memory_input = {
+                "memory_command": command.model_dump(mode="json") if command else None,
+                "source_message_id": source.id if source else None,
+            }
+        output = await selected.ainvoke(
+            None
+            if continuing
+            else {
+                **create_specialist_state(request, scope=scope),
+                "memory_read_record": state.get("memory_read_record"),
+                **memory_input,
+            },
             config,
             context=runtime.context,
+            **({"durability": "sync"} if selected is memory_graph else {}),
         )
         returned_request = SpecialistInput.model_validate(output["request"])
         if returned_request != request:
@@ -45,6 +79,7 @@ def make_specialist_node(subgraph):
         result_state = {**state, "run_id": effective.run_id} if continuing else state
         return {
             **apply_specialist_result(result_state, output["result"]),
+            "memory_read_record": output.get("memory_read_record"),
             **({"run_id": effective.run_id} if continuing else {}),
             "model_call_usage": asdict(scope.model_usage()),
             "run_usage": asdict(scope.run_usage()),

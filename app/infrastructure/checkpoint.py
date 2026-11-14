@@ -26,7 +26,7 @@ def checkpoint_serializer():
                 "RouteDecision",
                 "SupervisorOutput",
                 "PendingTask",
-                "SourceReference",
+                "PublicCitation",
                 "FailureDetails",
                 "ResultStatus",
                 "SpecialistInput",

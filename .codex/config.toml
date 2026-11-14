@@ -1,0 +1,8 @@
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 2
+
+# 主 Agent 负责派发、交付审查、验收决策和 Git 集成；阶段转换须用户批准。
+# 默认串行：主 Agent → implementer → qa → 主 Agent。
+# FAIL 交回原 implementer 修复，再由 qa 复测；简单任务无需强制委派。
+# 支持 Multi-Agent V2 时优先 fork_turns="none"，只传当前 Task、必读文件、范围与验收标准。

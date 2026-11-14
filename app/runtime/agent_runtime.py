@@ -948,7 +948,9 @@ class AgentRuntime:
             record, "status", {"run_status": record.run_status, "task_status": record.task_status}
         )
         if record.final_answer:
-            self._publish(record, "token", {"content": record.final_answer})
+            self._publish(
+                record, "token", {"content": record.final_answer, "sources": record.sources}
+            )
         if record.error:
             self._publish(
                 record, "error", {**record.error, "usage_complete": record.usage_complete}

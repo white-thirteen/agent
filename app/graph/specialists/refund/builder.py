@@ -22,6 +22,7 @@ from app.graph.contracts import (
     SpecialistInput,
     SpecialistResult,
 )
+from app.graph.specialists.preferences import preference_instructions, read_optional_preferences
 from app.graph.state import SpecialistState
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallContext, ModelCallError
@@ -178,11 +179,19 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
             "execution_result": None,
         }
 
-    def prepare_refund(state):
+    def prepare_refund_core(state):
         order_id = state["request"].entities.get("order_id")
         if not isinstance(order_id, str) or not order_id.strip():
             return {"outcome": "needs_input", "question": "请提供需要申请模拟退款的订单号。"}
         return {"order_id": order_id.strip()}
+
+    async def prepare_refund(state, runtime):
+        update = await read_optional_preferences(
+            state, runtime, registry=registry, executor=executor, node="prepare_refund"
+        )
+        if update.get("outcome"):
+            return update
+        return {**update, **prepare_refund_core(state)}
 
     async def load_order(state, runtime):
         result, error = await invoke_node(
@@ -553,7 +562,10 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
         try:
             result = await gateway.invoke(
                 [
-                    SystemMessage(content="简短结束本次模拟退款流程，不补充未提供的事实。"),
+                    SystemMessage(
+                        content="简短结束本次模拟退款流程，不补充未提供的事实。"
+                        + preference_instructions(state)
+                    ),
                     *messages,
                 ],
                 context=ModelCallContext(

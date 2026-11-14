@@ -17,15 +17,25 @@ from app.domain.orders import MockOrderService, OrderRepository
 from app.domain.refunds import MockRefundService
 from app.graph.builder import build_supervisor_graph
 from app.graph.specialists.knowledge.builder import build_knowledge_graph
+from app.graph.specialists.knowledge.memory import build_memory_graph
 from app.graph.specialists.order.builder import build_order_graph
 from app.graph.specialists.refund.builder import build_refund_graph
 from app.infrastructure.checkpoint import checkpoint_serializer, open_checkpoint_pool
 from app.infrastructure.model import model_resources
 from app.infrastructure.postgres import DatabaseUnavailableError, open_pool
 from app.infrastructure.sessions import SessionRepository
+from app.infrastructure.store import store_resources
+from app.knowledge.embedding import create_embeddings
+from app.knowledge.models import KnowledgeError
+from app.knowledge.repository import KnowledgeRepository
+from app.knowledge.retriever import VectorRetriever
+from app.memory.manager import MemoryManager
+from app.memory.reader import MemoryReader
 from app.runtime.agent_runtime import AgentRuntime, RunLimits
 from app.services.agent_service import AgentService
 from app.tools.executor import ToolExecutor
+from app.tools.implementations.knowledge import knowledge_tools
+from app.tools.implementations.memory import read_preferences_tool, write_preferences_tool
 from app.tools.implementations.orders import order_tools
 from app.tools.implementations.refunds import refund_node_tools, refund_order_tool
 from app.tools.policy import ToolPolicy
@@ -55,6 +65,22 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     resources.push_async_callback(pool.close)
                     application.state.database_status = "ready"
             application.state.pool = pool
+            application.state.embedding_status = "disabled"
+            application.state.knowledge_retriever = None
+            if settings.embedding_enabled:
+                embeddings = create_embeddings(settings)
+                resources.push_async_callback(embeddings.aclose)
+                try:
+                    await embeddings.initialize()
+                except KnowledgeError:
+                    application.state.embedding_status = "unavailable"
+                    logger.warning("Local embedding resource unavailable")
+                else:
+                    application.state.embedding_status = "ready"
+                    if pool:
+                        application.state.knowledge_retriever = VectorRetriever(
+                            KnowledgeRepository(pool), embeddings, embeddings.profile.key
+                        )
             application.state.sessions = SessionRepository(pool) if pool else None
             application.state.approval_service = ApprovalService(pool) if pool else None
             application.state.refund_service = MockRefundService(pool) if pool else None
@@ -72,6 +98,22 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     application.state.checkpoint_pool = checkpoint_pool
                     application.state.checkpoint_status = "ready"
                     resources.push_async_callback(checkpoint_pool.close)
+            application.state.store_status = "not_configured"
+            application.state.memory_store = None
+            if pool:
+                try:
+                    application.state.memory_store = await resources.enter_async_context(
+                        store_resources(settings)
+                    )
+                except DatabaseUnavailableError:
+                    application.state.store_status = "unavailable"
+                    logger.warning("Store resource unavailable; run explicit setup")
+                else:
+                    application.state.store_status = "ready"
+            application.state.memory_manager = MemoryManager(
+                application.state.memory_store, user_ids=settings.demo_user_ids
+            )
+            application.state.memory_reader = MemoryReader(application.state.memory_manager)
             await initialize_model_and_service(application, resources)
             try:
                 yield
@@ -106,6 +148,20 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     application.state.refund_service, timeout_seconds=settings.tool_timeout_seconds
                 )
             )
+            for definition in knowledge_tools(application.state.knowledge_retriever):
+                registry.register(definition)
+            registry.register(
+                read_preferences_tool(
+                    application.state.memory_reader,
+                    enabled=application.state.memory_store is not None,
+                )
+            )
+            registry.register(
+                write_preferences_tool(
+                    application.state.memory_manager,
+                    enabled=application.state.memory_store is not None,
+                )
+            )
             registry.freeze()
             executor = ToolExecutor(
                 registry,
@@ -119,6 +175,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 checkpointer=AsyncPostgresSaver(
                     application.state.checkpoint_pool, serde=checkpoint_serializer()
                 ),
+                memory_graph=build_memory_graph(registry=registry, executor=executor),
                 specialists={
                     AgentType.ORDER: build_order_graph(
                         gateway=gateway, registry=registry, executor=executor
@@ -130,7 +187,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         approval_service=application.state.approval_service,
                         refund_service=application.state.refund_service,
                     ),
-                    AgentType.KNOWLEDGE: build_knowledge_graph(),
+                    AgentType.KNOWLEDGE: build_knowledge_graph(
+                        gateway=gateway,
+                        registry=registry,
+                        executor=executor,
+                        profile=application.state.knowledge_retriever.profile
+                        if application.state.knowledge_retriever
+                        else None,
+                    ),
                 },
             )
         elif not settings.model_configured:
@@ -190,7 +254,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             ),
             "database_status": request.app.state.database_status,
             "model_status": request.app.state.model_status,
+            "embedding_status": request.app.state.embedding_status,
+            "knowledge_ready": request.app.state.knowledge_retriever is not None,
             "checkpoint_backend": "postgres",
+            "store_status": request.app.state.store_status,
         }
 
     return application

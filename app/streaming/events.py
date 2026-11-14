@@ -26,7 +26,7 @@ class RuntimeEvent:
     def public_event(self) -> StreamEvent:
         fields = {
             "status": {"run_status", "task_status", "code", "snapshot", "view"},
-            "token": {"content"},
+            "token": {"content", "sources"},
             "error": {"code", "message", "usage_complete"},
             "done": {"run_status", "task_status"},
             "workflow_paused": {"application_id", "approval_id", "reason"},

@@ -16,7 +16,7 @@ from app.graph.state import AgentState
 from app.runtime.context import RunExecutionContext
 
 
-def build_supervisor_graph(*, gateway, specialists: Mapping, checkpointer):
+def build_supervisor_graph(*, gateway, specialists: Mapping, checkpointer, memory_graph=None):
     required = {AgentType.ORDER, AgentType.REFUND, AgentType.KNOWLEDGE}
     if set(specialists) != required:
         raise ValueError("Exactly the three specialist graphs must be injected")
@@ -27,7 +27,13 @@ def build_supervisor_graph(*, gateway, specialists: Mapping, checkpointer):
     graph.add_node("response", response_node)
     graph.add_node("run_finish", run_finish_node)
     for role in required:
-        graph.add_node(role.value, make_specialist_node(specialists[role]))
+        graph.add_node(
+            role.value,
+            make_specialist_node(
+                specialists[role],
+                memory_graph=memory_graph if role is AgentType.KNOWLEDGE else None,
+            ),
+        )
         graph.add_conditional_edges(role.value, route_after_specialist)
     graph.add_edge(START, "supervisor")
     graph.add_conditional_edges("supervisor", route_after_supervisor)

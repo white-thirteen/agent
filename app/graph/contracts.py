@@ -1,11 +1,11 @@
 """Validated internal graph contracts, separate from HTTP and model credentials."""
 
+from datetime import datetime
 from enum import StrEnum
 from typing import Annotated, Literal, Self
-from urllib.parse import urlsplit
 
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
 
 from app.agents.types import AgentType, TaskType
 
@@ -99,21 +99,18 @@ class SupervisorOutput(GraphContract):
         return self
 
 
-class SourceReference(GraphContract):
+class PublicCitation(GraphContract):
+    """Server-built citation with no model URL, content, vector or private profile."""
+
+    evidence_id: Identifier
     document_id: Identifier
     document_version: Identifier
     chunk_id: Identifier
-    title: Annotated[str, Field(min_length=1, max_length=500)]
-    uri: Annotated[str, Field(min_length=1, max_length=2000)] | None = None
-
-    @field_validator("uri")
-    @classmethod
-    def public_uri(cls, value):
-        if value is not None:
-            url = urlsplit(value)
-            if url.scheme not in ("http", "https") or not url.hostname or url.username is not None:
-                raise ValueError("Source URI must be public HTTP(S) without credentials")
-        return value
+    source_title: Annotated[str, Field(min_length=1, max_length=500)]
+    source_key: Annotated[str, Field(min_length=1, max_length=128, pattern=r"^[a-zA-Z0-9_-]+$")]
+    section: str | None
+    page: int | None
+    checked_at: datetime
 
 
 class FailureDetails(GraphContract):
@@ -164,7 +161,7 @@ class SpecialistResult(GraphContract):
     summary: Annotated[str, Field(min_length=1, max_length=4000)]
     facts: dict[str, JsonValue] = Field(default_factory=dict)
     entities: dict[str, JsonValue] = Field(default_factory=dict)
-    sources: list[SourceReference] = Field(default_factory=list)
+    sources: list[PublicCitation] = Field(default_factory=list, max_length=5)
     missing_fields: list[Identifier] = Field(default_factory=list, max_length=16)
     clarification_question: Question | None = None
     operation_id: Identifier | None = None

@@ -1,4 +1,5 @@
 # Direct runtime dependencies. Resolved versions are recorded in requirements.txt.
+--extra-index-url https://download.pytorch.org/whl/cpu
 fastapi
 uvicorn[standard]
 pydantic-settings
@@ -16,3 +17,10 @@ httpx
 pytest
 pytest-asyncio
 ruff
+
+# Local CPU embedding integration (install CPU torch first; no GPU wheels).
+torch==2.9.1+cpu
+sentence-transformers==5.1.2
+transformers==4.57.6
+tiktoken
+huggingface-hub

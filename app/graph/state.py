@@ -10,8 +10,8 @@ from app.graph.contracts import (
     ExecutionContext,
     GraphProtocolError,
     PendingTask,
+    PublicCitation,
     RouteDecision,
-    SourceReference,
     SpecialistInput,
     SpecialistResult,
 )
@@ -34,13 +34,18 @@ class AgentState(TypedDict):
     pending_task: PendingTask | None
     specialist_result: SpecialistResult | None
     final_answer: str | None
-    sources: list[SourceReference]
+    sources: list[PublicCitation]
+    memory_read_record: dict | None
     error: dict | None
     model_call_usage: dict
     run_usage: dict
 
 
 class SpecialistState(TypedDict):
+    memory_read_record: dict | None
+    memory_context: dict | None
+    memory_read_status: str
+    call_records: dict
     request: SpecialistInput
     messages: Annotated[list[AnyMessage], add_messages]
     selected_tools: list[str]
@@ -92,6 +97,7 @@ def create_turn_state(
         specialist_result=None,
         final_answer=None,
         sources=[],
+        memory_read_record=saved_task.get("memory_read_record") if pending else None,
         error=None,
         model_call_usage=dict(saved_task["model_call_usage"]) if pending else {"model_attempts": 0},
         run_usage=dict(saved_task["run_usage"])

@@ -54,6 +54,7 @@ class MemoryBusinessContext(BusinessExecutionContext):
 class BusinessRejection:
     code: str
     message: str
+    data: BaseModel | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,3 +181,19 @@ class ToolTransientError(RuntimeError):
 
 class ToolUnavailableError(RuntimeError):
     """Known technical failure whose details are private."""
+
+    def __init__(self, message, *, code="order_query_unavailable"):
+        super().__init__(message)
+        self.code = code
+
+
+class ToolNotStartedError(ToolUnavailableError):
+    """A handler proved no business write was started."""
+
+
+class ToolEffectUnknownError(RuntimeError):
+    """An associated business operation has an unconfirmed durable outcome."""
+
+    def __init__(self, data):
+        super().__init__("Memory result unknown")
+        self.data = data

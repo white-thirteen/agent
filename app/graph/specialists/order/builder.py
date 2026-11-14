@@ -14,6 +14,7 @@ from app.graph.contracts import (
     SpecialistInput,
     SpecialistResult,
 )
+from app.graph.specialists.preferences import preference_instructions, read_optional_preferences
 from app.graph.state import SpecialistState
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallContext, ModelCallError
@@ -67,7 +68,7 @@ def build_order_graph(*, gateway, registry, executor):
             "selected_tools": [],
         }
 
-    def prepare_query(state: OrderState):
+    def prepare_query_core(state: OrderState):
         request = state["request"]
         entities = request.entities
         goal = request.task_goal.lower()
@@ -135,6 +136,14 @@ def build_order_graph(*, gateway, registry, executor):
             return {"outcome": "rejected", "error_code": "invalid_order_query"}
         return {"query_spec": {"kind": kind, **args}}
 
+    async def prepare_query(state, runtime):
+        update = await read_optional_preferences(
+            state, runtime, registry=registry, executor=executor, node="prepare_query"
+        )
+        if update.get("outcome"):
+            return update
+        return {**update, **prepare_query_core(state)}
+
     def select_tools(state: OrderState, runtime: Runtime[RunExecutionContext]):
         target = "get_order" if state["query_spec"]["kind"] == "get" else "list_orders"
         views = registry.list(
@@ -168,7 +177,7 @@ def build_order_graph(*, gateway, registry, executor):
         instructions = (
             "You are an order query planner. Use only the supplied tool and exact target. "
             "Do not invent order facts. If a tool result is already present, finish briefly. "
-            f"Target: {spec}."
+            f"Target: {spec}." + preference_instructions(state)
         )
         try:
             result = await gateway.invoke(

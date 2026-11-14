@@ -1,0 +1,19 @@
+{
+  "real_http_cases_verified": 3,
+  "controlled_results_verified": 10,
+  "temporary_directories_exactly_removed": [
+    "rag522-05035a6b8e1040d1a7d5b335c220a344dvu0kzzr",
+    "rag522-44345592a4124df19420ebc081f8534cr4c7dst8"
+  ],
+  "protected_rows_unchanged_both_runs": true,
+  "semantic_review": {
+    "normal": "PASS: every sentence supported by data/knowledge/refund-safety.md; no claim of an executed refund",
+    "no_answer": "PASS: unrelated evidence rejected, no invented warranty duration",
+    "conflict": "PASS: 30/90-day contradiction recognized and no numeric answer published",
+    "wrong_body": "FAIL by design: real valid source does not support claimed actual bank debit"
+  },
+  "evidence_sha256": {
+    "05-rag-real-evidence.json": "1fdb268de475d98010f9bae6619218e91c68730d9f623f40ebf8126a1f9b6388",
+    "05-rag-controlled-evidence.json": "144621e3643185d16aa473d6972f336e9c012d6a95b1bd6e18c6a79e0d907b36"
+  }
+}
