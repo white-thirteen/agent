@@ -2,7 +2,7 @@
 
 ## 最新授权（2026-11-17，06 ACCEPTED与V2 01）
 
-用户已正式授权06提交/推送、合入main，再创建v2分支开发V2 01。06采用已有六Task独立QA及主复核证据，状态ACCEPTED；228 passed/0 failed/0 skipped为既有真实门禁，并非本轮重跑。客户端脚本/回填/SSE未实测、Store旧时序观察及六项暂缓差异保留。06代码/材料与V2设计、旧遗留分开归档，Git完成信息见后续06回执。
+用户已正式授权06提交/推送、合入main，再创建v2分支开发V2 01。06采用已有六Task独立QA及主复核证据，状态ACCEPTED；228 passed/0 failed/0 skipped为既有真实门禁，并非本轮重跑。客户端脚本/回填/SSE未实测、Store旧时序观察及六项暂缓差异保留。06交付98af9d8已推送real-model-chat和main并核验，V2设计和旧遗留未混入；见[06归档回执](06-git-archive-receipt.md)。
 
 V2 01～03设计已DESIGN APPROVED，设计文档将在v2分支独立归档，不混入06交付。当前仅V2 01获开发授权，从1.1.1兼容验证与契约开始，Implementer→独立QA串行。ParadeDB精确适配未实测，不得升级原PG或以发布包存在冒充通过；V2 02/03不得开发。该段覆盖下文旧轮次等待状态。
 
