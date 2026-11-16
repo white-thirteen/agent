@@ -1,0 +1,892 @@
+{
+  "resource_token": "da38f3085e26",
+  "databases": {
+    "agent_demo": {
+      "migration_checksums": [
+        {
+          "version": 1,
+          "checksum": "a631f16694b5383dcc3dc2aed5a3cf4cdf7453bc26baa97b6e64a38686ad5a12"
+        },
+        {
+          "version": 2,
+          "checksum": "33b0c240ac8e6174abdd8f16c6f39377d84af2574a360e48d9000ad6f17a2c59"
+        },
+        {
+          "version": 3,
+          "checksum": "45ed09c34963574cce51c37d1c066eeee9a8e7b99dd86a3c0918be4deb88e4ab"
+        },
+        {
+          "version": 4,
+          "checksum": "8e834eff23169fccb9d620e8aa6cf9831350ae2bbaeb7a88969754274c10038e"
+        },
+        {
+          "version": 5,
+          "checksum": "443ade6ba2e5d92527bcae1a56c76b0d6386dc46d257d34b7a6a5d7fcfcd6f2e"
+        },
+        {
+          "version": 6,
+          "checksum": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3"
+        }
+      ],
+      "table_counts": {
+        "approvals": 0,
+        "checkpoint_blobs": 0,
+        "checkpoint_migrations": 10,
+        "checkpoint_writes": 0,
+        "checkpoints": 0,
+        "demo_orders": 0,
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0,
+        "refund_requests": 0,
+        "schema_migrations": 6,
+        "sessions": 0,
+        "store": 0,
+        "store_migrations": 4
+      },
+      "embedding_type": "vector(1024)",
+      "other_client_connections": 0
+    },
+    "agent_demo_test": {
+      "migration_checksums": [
+        {
+          "version": 1,
+          "checksum": "a631f16694b5383dcc3dc2aed5a3cf4cdf7453bc26baa97b6e64a38686ad5a12"
+        },
+        {
+          "version": 2,
+          "checksum": "33b0c240ac8e6174abdd8f16c6f39377d84af2574a360e48d9000ad6f17a2c59"
+        },
+        {
+          "version": 3,
+          "checksum": "45ed09c34963574cce51c37d1c066eeee9a8e7b99dd86a3c0918be4deb88e4ab"
+        },
+        {
+          "version": 4,
+          "checksum": "8e834eff23169fccb9d620e8aa6cf9831350ae2bbaeb7a88969754274c10038e"
+        },
+        {
+          "version": 5,
+          "checksum": "443ade6ba2e5d92527bcae1a56c76b0d6386dc46d257d34b7a6a5d7fcfcd6f2e"
+        },
+        {
+          "version": 6,
+          "checksum": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3"
+        }
+      ],
+      "table_counts": {
+        "approvals": 0,
+        "checkpoint_blobs": 0,
+        "checkpoint_migrations": 10,
+        "checkpoint_writes": 0,
+        "checkpoints": 0,
+        "demo_orders": 0,
+        "knowledge_chunks": 0,
+        "knowledge_documents": 0,
+        "refund_requests": 0,
+        "schema_migrations": 6,
+        "sessions": 0,
+        "store": 0,
+        "store_migrations": 4
+      },
+      "embedding_type": "vector(1024)",
+      "other_client_connections": 0
+    }
+  },
+  "commands": [
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{index .Config.Labels \"codex.delivery632\"}}",
+        "codex632-pgvector-da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "volume",
+        "inspect",
+        "--format",
+        "{{index .Labels \"codex.delivery632\"}}",
+        "codex632-data-da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "image",
+        "inspect",
+        "--format",
+        "{{index .Config.Labels \"codex.delivery632\"}}",
+        "agent-delivery632-pgvector:da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "exec",
+        "-i",
+        "-u",
+        "postgres",
+        "codex632-pgvector-da38f3085e26",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.Status}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{.State.StartedAt}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "stop",
+        "--time",
+        "10",
+        "codex632-pgvector-da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "rm",
+        "codex632-pgvector-da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "volume",
+        "rm",
+        "codex632-data-da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "image",
+        "rm",
+        "agent-delivery632-pgvector:da38f3085e26"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "inspect",
+        "codex632-pgvector-da38f3085e26"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "volume",
+        "inspect",
+        "codex632-data-da38f3085e26"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "image",
+        "inspect",
+        "agent-delivery632-pgvector:da38f3085e26"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.Status}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "original_before_cleanup": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|running|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+  "original_after_cleanup": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|running|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"},{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"}]",
+  "result": "FAIL",
+  "failure_category": "AssertionError"
+}

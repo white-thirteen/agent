@@ -1,0 +1,77 @@
+{
+  "all_public_rows_columns_equal_interruption_audit": true,
+  "protected_final": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "columns": 3,
+      "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "protocol612_database_connections": [],
+  "own_module_probe_and_full_gate_processes": "exited; OS process listing has no verify_06_state_events or pytest command",
+  "unattributed_project_stdin_processes_preserved": [
+    45980,
+    12488
+  ],
+  "unattributed_process_note": "Only python - command line available. Parent confirms it launched no shell/Python. Not terminated without ownership evidence."
+}

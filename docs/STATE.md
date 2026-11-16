@@ -1,5 +1,15 @@
 # 当前交接状态
 
+## 最新授权（2026-11-17，06 ACCEPTED与V2 01）
+
+用户已正式授权06提交/推送、合入main，再创建v2分支开发V2 01。06采用已有六Task独立QA及主复核证据，状态ACCEPTED；228 passed/0 failed/0 skipped为既有真实门禁，并非本轮重跑。客户端脚本/回填/SSE未实测、Store旧时序观察及六项暂缓差异保留。06代码/材料与V2设计、旧遗留分开归档，Git完成信息见后续06回执。
+
+V2 01～03设计已DESIGN APPROVED，设计文档将在v2分支独立归档，不混入06交付。当前仅V2 01获开发授权，从1.1.1兼容验证与契约开始，Implementer→独立QA串行。ParadeDB精确适配未实测，不得升级原PG或以发布包存在冒充通过；V2 02/03不得开发。该段覆盖下文旧轮次等待状态。
+
+## 当前阶段（2026-11-15，06已授权）
+
+06六Task已完成实现、串行独立QA及主Agent技术复核，阶段VERIFIED，等待用户正式验收（未ACCEPTED、无06 Git归档/推送授权）。06-QA-001/P2已修复、原QA真实复测并主关闭，无未关闭编号问题。最终独立新Python3.13.7环境完整真实PG门禁228 passed/0failed/0skipped，含真实Qwen及原seed幂等窄例外；pip check/Ruff/155文件格式通过。固定PG17.6/vector镜像实际构建、新空双库应用/Saver/Store初始化和幂等、独立SQL审计与临时资源精确清理通过，原数据库未重启/重建。用户已确认Postman导入；客户端后置脚本/变量回填/SSE界面仍未实测，Store旧即时观察风险保留。入口[最终验收](final-acceptance.md)、[简洁Handoff](06-integration-handoff.md)、[06主协调](question/06-integration-main-review.md)、[632独立QA](question/06-delivery-qa-report.md)。01～05 ACCEPTED已归档，05交付79d576b/回执HEADf860bb59cd566743dc32912836cecff39f5df74b；六项暂缓变更保持。当前停止，等待用户正式验收及后续明确指令。
+
 ## 当前阶段（2026-11-14，05正式验收与Git归档）
 
 **05六Task已实现、独立QA PASS并经主Agent复核，用户已正式验收，阶段ACCEPTED。** 05-QA-001/P2已修复、原QA独立复测并关闭，无未关闭05阻塞。最新完整真实PG216 passed/0 failed/0 skipped；主Agent最终Ruff(app/scripts/tests)通过、147文件格式通过。真实本地Qwen/PG检索、来源问答、显式偏好CRUD/跨会话隔离，以及英语偏好后真实新会话RAG均取得证据。

@@ -1,0 +1,16 @@
+{
+  "result": "PASS_independent_final_audit",
+  "real_evidence": "06-demo-fix-01-qa-real-evidence-20261115.json",
+  "full_public_matches_old_qa_clean_baseline": true,
+  "protected_hashes_unchanged": {
+    ".env": "8653335a66ef7eb5ade94f26aaadd4fd6d7cdfb1b1b9af50d631fd57117ec3ff",
+    "migrations/006_knowledge_vectors.sql": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3",
+    ".codex/agents/implementer.toml": "9e581387892ede2b89a7d14b876be0e81a411db6c209a47e1c1c0bec2f25cb3e",
+    ".codex/agents/qa.toml": "c68cfaabb0f99c7a240380b4b3f3243bf156bf0648edffa6d87f7608a536444c",
+    "docs/question/06-demo-qa-report.md": "4f6ba3f544caa1443eefc96f813011f11dd8de37905877c71cbdb21ded2e03ca",
+    "docs/question/06-demo-qa-probe.py": "4e1374b0e352fc69fdc8a8f45dc42477d48e9c37b45b5ee2acf9e1b921dcc53d",
+    "docs/question/06-demo-qa-reprepare-evidence.json": "e32cce8d83482ffab5bc9c46e6e1d18e76526656fdaa5dc3ab0120fedba307ac"
+  },
+  "pytest": "3 passed / 0 failed / 0 skipped, 71.06s",
+  "ruff": "check PASS; format 2 already formatted"
+}

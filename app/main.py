@@ -65,22 +65,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     resources.push_async_callback(pool.close)
                     application.state.database_status = "ready"
             application.state.pool = pool
-            application.state.embedding_status = "disabled"
-            application.state.knowledge_retriever = None
-            if settings.embedding_enabled:
-                embeddings = create_embeddings(settings)
-                resources.push_async_callback(embeddings.aclose)
-                try:
-                    await embeddings.initialize()
-                except KnowledgeError:
-                    application.state.embedding_status = "unavailable"
-                    logger.warning("Local embedding resource unavailable")
-                else:
-                    application.state.embedding_status = "ready"
-                    if pool:
-                        application.state.knowledge_retriever = VectorRetriever(
-                            KnowledgeRepository(pool), embeddings, embeddings.profile.key
-                        )
             application.state.sessions = SessionRepository(pool) if pool else None
             application.state.approval_service = ApprovalService(pool) if pool else None
             application.state.refund_service = MockRefundService(pool) if pool else None
@@ -98,6 +82,39 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     application.state.checkpoint_pool = checkpoint_pool
                     application.state.checkpoint_status = "ready"
                     resources.push_async_callback(checkpoint_pool.close)
+            # The exit stack closes Runtime, then Store callers/pool, then model
+            # resources, Saver and business pool. Register dependencies first.
+            application.state.model_status = "not_configured"
+            application.state.model_gateway = None
+            if settings.model_configured:
+                _, gateway = await resources.enter_async_context(model_resources(settings))
+                application.state.model_gateway = gateway
+                application.state.model_status = "initialized"
+            application.state.embedding_status = "disabled"
+            application.state.knowledge_status = "unavailable"
+            application.state.knowledge_retriever = None
+            if settings.embedding_enabled:
+                embeddings = create_embeddings(settings)
+                resources.push_async_callback(embeddings.aclose)
+                try:
+                    await embeddings.initialize()
+                except KnowledgeError:
+                    application.state.embedding_status = "unavailable"
+                    logger.warning("Local embedding resource unavailable")
+                else:
+                    application.state.embedding_status = "ready"
+                    if pool:
+                        repository = KnowledgeRepository(pool)
+                        try:
+                            await repository.check_ready(embeddings.profile.key)
+                        except KnowledgeError:
+                            application.state.knowledge_status = "unavailable"
+                            logger.warning("Knowledge index unavailable or incompatible")
+                        else:
+                            application.state.knowledge_retriever = VectorRetriever(
+                                repository, embeddings, embeddings.profile.key
+                            )
+                            application.state.knowledge_status = "ready"
             application.state.store_status = "not_configured"
             application.state.memory_store = None
             if pool:
@@ -114,20 +131,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 application.state.memory_store, user_ids=settings.demo_user_ids
             )
             application.state.memory_reader = MemoryReader(application.state.memory_manager)
-            await initialize_model_and_service(application, resources)
-            try:
-                yield
-            finally:
-                logger.info("Application stopped")
+            await initialize_graph_and_service(application, resources)
+            yield
+        logger.info("Application stopped")
 
-    async def initialize_model_and_service(application: FastAPI, resources: AsyncExitStack):
+    async def initialize_graph_and_service(application: FastAPI, resources: AsyncExitStack):
         graph = None
-        application.state.model_status = "not_configured"
-        application.state.model_gateway = None
-        if settings.model_configured:
-            model, gateway = await resources.enter_async_context(model_resources(settings))
-            application.state.model_gateway = gateway
-            application.state.model_status = "initialized"
+        gateway = application.state.model_gateway
         if settings.model_configured and application.state.checkpoint_pool:
             registry = ToolRegistry()
             service = MockOrderService(OrderRepository(application.state.pool))
@@ -256,6 +266,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "model_status": request.app.state.model_status,
             "embedding_status": request.app.state.embedding_status,
             "knowledge_ready": request.app.state.knowledge_retriever is not None,
+            "knowledge_status": request.app.state.knowledge_status,
+            "checkpoint_status": request.app.state.checkpoint_status,
             "checkpoint_backend": "postgres",
             "store_status": request.app.state.store_status,
         }

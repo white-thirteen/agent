@@ -1,0 +1,1907 @@
+{
+  "task": "6.2.1",
+  "chat": "controlled; no paid requests",
+  "cases": [
+    {
+      "mode": "normal",
+      "identity": {
+        "mode": "normal",
+        "owner": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+        "order": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+        "conversation": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+      },
+      "processes": [
+        {
+          "pid": 34064,
+          "phase": "wait",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6363",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:14:39.773504+00:00",
+          "ready_seconds": 23.784,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 17624,
+          "exit_code": 1,
+          "exit_confirmed": true
+        },
+        {
+          "pid": 19036,
+          "phase": "resume",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6363",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:15:04.838984+00:00",
+          "ready_seconds": 26.905,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 52436,
+          "exit_code": 1,
+          "exit_confirmed": true
+        },
+        {
+          "pid": 27952,
+          "phase": "ended",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6363",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:15:35.767826+00:00",
+          "ready_seconds": 25.366,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 22380,
+          "exit_code": 1,
+          "exit_confirmed": true
+        }
+      ],
+      "observations": [
+        {
+          "label": "waiting",
+          "pid": 17624,
+          "fired": false,
+          "writes": [],
+          "nodes": [
+            {
+              "node": "approval_gate",
+              "run": "92a2fe17-3a6f-40bb-b962-18a8e4e2571e",
+              "mode": "normal",
+              "recovery": null
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "dict",
+              "run": "92a2fe17-3a6f-40bb-b962-18a8e4e2571e"
+            },
+            {
+              "graph": "refund_child",
+              "input": "dict",
+              "run": "92a2fe17-3a6f-40bb-b962-18a8e4e2571e"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "92a2fe17-3a6f-40bb-b962-18a8e4e2571e",
+              "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+              "done": true,
+              "task_status": "waiting_approval",
+              "model": {
+                "model_attempts": 2
+              },
+              "usage": {
+                "tool_calls": 5,
+                "active_elapsed_ms": 309
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "PENDING",
+            "approver_id": null,
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": null
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 309
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "new_process_before_admission",
+          "pid": 52436,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "PENDING",
+            "approver_id": null,
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": null
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 309
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "decided",
+          "pid": 52436,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": "2026-11-14 13:15:31.078337+00:00"
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 309
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "duplicate_decision",
+          "pid": 52436,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": "2026-11-14 13:15:31.078337+00:00"
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 309
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "first_resume",
+          "pid": 52436,
+          "fired": false,
+          "writes": [
+            {
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "operation": "8073c596-2a3c-54eb-8f83-f9e6244875e9"
+            }
+          ],
+          "nodes": [
+            {
+              "node": "approval_gate",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "recheck_execution",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "prepare_refund_attempt",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "execute_refund",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "record_tool_outcome",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "compose_refund_reply",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "map_result",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "mode": "resume",
+              "recovery": null
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "Command",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd"
+            },
+            {
+              "graph": "refund_child",
+              "input": "None",
+              "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+              "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+              "done": true,
+              "task_status": "completed",
+              "model": {
+                "model_attempts": 3
+              },
+              "usage": {
+                "tool_calls": 7,
+                "active_elapsed_ms": 1168
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": "2026-11-14 13:15:31.078337+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 1050
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:e712d42a-69ce-43f2-8936-d804d1cf6b06:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "658dcb43-9497-4116-be12-f7adfef2fb91",
+            "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "end_before_read",
+          "pid": 22380,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": "2026-11-14 13:15:31.078337+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 1050
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:e712d42a-69ce-43f2-8936-d804d1cf6b06:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "658dcb43-9497-4116-be12-f7adfef2fb91",
+            "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "end_read_only",
+          "pid": 22380,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "conversation_id": "persistence621-65375ecc720a4a90883a880afe1d37ca",
+            "thread_id": "e7fe9087-c1c0-5105-8384-530f81501f73",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "workflow_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "application_id": "434f1af2-a12a-534c-92bc-7563745a7c39",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-65375ecc720a4a90883a880afe1d37ca"
+            },
+            "args_digest": "74736a344635c3119cfc1dca3375a2b53a88be52c2702b5b52d02cfc4e675823"
+          },
+          "approval": {
+            "approval_id": "b4f084a8-bb04-50cd-a000-0157a2a86000",
+            "subject_digest": "8c3f4b6dfbaf40836786da8a8d6991378a98ea6a553cb667b356a93df2590dd9",
+            "checkpoint_ns": "refund:7b3d0abf-7a19-e9b3-dd27-0b1bc89f8877",
+            "checkpoint_id": "1f1e02d6-77b0-617d-8009-09c8746f9ef2",
+            "interrupt_id": "041db4ed27f7b72bac4c1d59ef428e8c",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:15:02.818945+00:00",
+            "expires_at": "2026-11-14 13:45:02.818945+00:00",
+            "decided_at": "2026-11-14 13:15:31.078337+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 1050
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:e712d42a-69ce-43f2-8936-d804d1cf6b06:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "658dcb43-9497-4116-be12-f7adfef2fb91",
+            "run": "e53ca173-92aa-4cb8-9764-9354c0fea1dd"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        }
+      ],
+      "protected_before": {
+        "approvals": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+        },
+        "checkpoint_blobs": {
+          "rows": 0,
+          "columns": 6,
+          "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+        },
+        "checkpoint_migrations": {
+          "rows": 10,
+          "columns": 1,
+          "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+        },
+        "checkpoint_writes": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+        },
+        "checkpoints": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+        },
+        "demo_orders": {
+          "rows": 5,
+          "columns": 7,
+          "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+        },
+        "knowledge_chunks": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+        },
+        "knowledge_documents": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+        },
+        "refund_requests": {
+          "rows": 0,
+          "columns": 21,
+          "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+        },
+        "schema_migrations": {
+          "rows": 6,
+          "columns": 3,
+          "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+        },
+        "sessions": {
+          "rows": 0,
+          "columns": 4,
+          "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+        },
+        "store": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+        },
+        "store_migrations": {
+          "rows": 4,
+          "columns": 1,
+          "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+        }
+      },
+      "concurrent_resume": [
+        {
+          "status": 409,
+          "body": {
+            "error": {
+              "code": "thread_busy",
+              "message": "This session is already executing."
+            }
+          }
+        },
+        {
+          "status": 202,
+          "body": {
+            "accepted": true,
+            "run_id": "e53ca173-92aa-4cb8-9764-9354c0fea1dd",
+            "task_id": "e712d42a-69ce-43f2-8936-d804d1cf6b06",
+            "operation_id": "8073c596-2a3c-54eb-8f83-f9e6244875e9",
+            "status": "running",
+            "result": null
+          }
+        }
+      ],
+      "result": "PASS",
+      "protected_after": {
+        "approvals": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+        },
+        "checkpoint_blobs": {
+          "rows": 0,
+          "columns": 6,
+          "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+        },
+        "checkpoint_migrations": {
+          "rows": 10,
+          "columns": 1,
+          "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+        },
+        "checkpoint_writes": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+        },
+        "checkpoints": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+        },
+        "demo_orders": {
+          "rows": 5,
+          "columns": 7,
+          "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+        },
+        "knowledge_chunks": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+        },
+        "knowledge_documents": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+        },
+        "refund_requests": {
+          "rows": 0,
+          "columns": 21,
+          "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+        },
+        "schema_migrations": {
+          "rows": 6,
+          "columns": 3,
+          "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+        },
+        "sessions": {
+          "rows": 0,
+          "columns": 4,
+          "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+        },
+        "store": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+        },
+        "store_migrations": {
+          "rows": 4,
+          "columns": 1,
+          "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+        }
+      },
+      "all_public_rows_columns_unchanged": true
+    },
+    {
+      "mode": "checkpoint",
+      "identity": {
+        "mode": "checkpoint",
+        "owner": "persistence621-4ce05de9cead40b0adbd241810880e24",
+        "order": "persistence621-4ce05de9cead40b0adbd241810880e24",
+        "conversation": "persistence621-4ce05de9cead40b0adbd241810880e24"
+      },
+      "processes": [
+        {
+          "pid": 47464,
+          "phase": "wait",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6118",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:16:06.375237+00:00",
+          "ready_seconds": 24.258,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 44300,
+          "exit_code": 1,
+          "exit_confirmed": true
+        },
+        {
+          "pid": 44756,
+          "phase": "fault",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6118",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:16:32.149864+00:00",
+          "ready_seconds": 23.76,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 21760,
+          "exit_code": 1,
+          "exit_confirmed": true
+        },
+        {
+          "pid": 44452,
+          "phase": "resume",
+          "command": [
+            "D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe",
+            "-m",
+            "uvicorn",
+            "scripts.verify_06_persistence_faults:server_app",
+            "--factory",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "6118",
+            "--loop",
+            "app.infrastructure.postgres:selector_event_loop",
+            "--log-level",
+            "critical"
+          ],
+          "started_at": "2026-11-14T13:16:58.129094+00:00",
+          "ready_seconds": 23.754,
+          "health": {
+            "status": "ok",
+            "service": "Agent Backend",
+            "agent_ready": true,
+            "database_status": "ready",
+            "model_status": "initialized",
+            "embedding_status": "ready",
+            "knowledge_ready": true,
+            "knowledge_status": "ready",
+            "checkpoint_status": "ready",
+            "checkpoint_backend": "postgres",
+            "store_status": "ready"
+          },
+          "server_pid": 47444,
+          "exit_code": 1,
+          "exit_confirmed": true
+        }
+      ],
+      "observations": [
+        {
+          "label": "waiting",
+          "pid": 44300,
+          "fired": false,
+          "writes": [],
+          "nodes": [
+            {
+              "node": "approval_gate",
+              "run": "e27fcaee-f594-48fe-a0ec-ddf44a4c4781",
+              "mode": "normal",
+              "recovery": null
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "dict",
+              "run": "e27fcaee-f594-48fe-a0ec-ddf44a4c4781"
+            },
+            {
+              "graph": "refund_child",
+              "input": "dict",
+              "run": "e27fcaee-f594-48fe-a0ec-ddf44a4c4781"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "e27fcaee-f594-48fe-a0ec-ddf44a4c4781",
+              "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+              "done": true,
+              "task_status": "waiting_approval",
+              "model": {
+                "model_attempts": 2
+              },
+              "usage": {
+                "tool_calls": 5,
+                "active_elapsed_ms": 471
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "PENDING",
+            "approver_id": null,
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": null
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 471
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "new_process_before_admission",
+          "pid": 21760,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "PENDING",
+            "approver_id": null,
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": null
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 471
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "decided",
+          "pid": 21760,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 471
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "duplicate_decision",
+          "pid": 21760,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "pending",
+          "business_status": "PENDING",
+          "next": [
+            "approval_gate"
+          ],
+          "saved_usage": {
+            "tool_calls": 5,
+            "active_elapsed_ms": 471
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": null,
+          "order_refunded": false,
+          "successful_applications": 0
+        },
+        {
+          "label": "first_resume",
+          "pid": 21760,
+          "fired": true,
+          "writes": [
+            {
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "operation": "649061c2-6394-580e-88d7-191ebf877ebb"
+            }
+          ],
+          "nodes": [
+            {
+              "node": "approval_gate",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "recheck_execution",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "prepare_refund_attempt",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "mode": "resume",
+              "recovery": null
+            },
+            {
+              "node": "execute_refund",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "mode": "resume",
+              "recovery": null
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "Command",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+            },
+            {
+              "graph": "refund_child",
+              "input": "None",
+              "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "74ebcdb3-1140-4b05-8e1d-6143a3340542",
+              "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+              "done": true,
+              "task_status": "failed",
+              "model": {
+                "model_attempts": 2
+              },
+              "usage": {
+                "tool_calls": 7,
+                "active_elapsed_ms": 933
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "post_gate",
+          "business_status": "SUCCEEDED",
+          "next": [
+            "execute_refund"
+          ],
+          "saved_usage": {
+            "tool_calls": 6,
+            "active_elapsed_ms": 672
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": {
+            "id": "592e2847-d5bc-44b7-80b1-d94c16ce2445",
+            "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "fault_restarted",
+          "pid": 47444,
+          "fired": false,
+          "writes": [],
+          "nodes": [],
+          "invocations": [],
+          "runs": [],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "post_gate",
+          "business_status": "SUCCEEDED",
+          "next": [
+            "execute_refund"
+          ],
+          "saved_usage": {
+            "tool_calls": 6,
+            "active_elapsed_ms": 672
+          },
+          "saved_model": {
+            "model_attempts": 2
+          },
+          "paired_messages": [],
+          "attempt": {
+            "id": "592e2847-d5bc-44b7-80b1-d94c16ce2445",
+            "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "reconciled",
+          "pid": 47444,
+          "fired": false,
+          "writes": [],
+          "nodes": [
+            {
+              "node": "execute_refund",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "record_tool_outcome",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "compose_refund_reply",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "map_result",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            },
+            {
+              "graph": "refund_child",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+              "done": true,
+              "task_status": "completed",
+              "model": {
+                "model_attempts": 3
+              },
+              "usage": {
+                "tool_calls": 7,
+                "active_elapsed_ms": 5941
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 5794
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:3911408a-031a-4251-8707-f903e15cfa4d:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "592e2847-d5bc-44b7-80b1-d94c16ce2445",
+            "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "end_before_read",
+          "pid": 47444,
+          "fired": false,
+          "writes": [],
+          "nodes": [
+            {
+              "node": "execute_refund",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "record_tool_outcome",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "compose_refund_reply",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "map_result",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            },
+            {
+              "graph": "refund_child",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+              "done": true,
+              "task_status": "completed",
+              "model": {
+                "model_attempts": 3
+              },
+              "usage": {
+                "tool_calls": 7,
+                "active_elapsed_ms": 5941
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 5794
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:3911408a-031a-4251-8707-f903e15cfa4d:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "592e2847-d5bc-44b7-80b1-d94c16ce2445",
+            "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        },
+        {
+          "label": "end_read_only",
+          "pid": 47444,
+          "fired": false,
+          "writes": [],
+          "nodes": [
+            {
+              "node": "execute_refund",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "record_tool_outcome",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "compose_refund_reply",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            },
+            {
+              "node": "map_result",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "mode": "reconcile",
+              "recovery": "succeeded"
+            }
+          ],
+          "invocations": [
+            {
+              "graph": "root",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            },
+            {
+              "graph": "refund_child",
+              "input": "None",
+              "run": "b7d8fda4-6073-456a-938e-4005e4bf8361"
+            }
+          ],
+          "runs": [
+            {
+              "run_id": "b7d8fda4-6073-456a-938e-4005e4bf8361",
+              "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+              "done": true,
+              "task_status": "completed",
+              "model": {
+                "model_attempts": 3
+              },
+              "usage": {
+                "tool_calls": 7,
+                "active_elapsed_ms": 5941
+              }
+            }
+          ],
+          "resources": {
+            "store": "ready",
+            "embedding": "ready",
+            "checkpoint": "ready"
+          },
+          "fixed": {
+            "user_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "conversation_id": "persistence621-4ce05de9cead40b0adbd241810880e24",
+            "thread_id": "9716ad9b-9625-50d2-ac0d-d610b0f193ab",
+            "task_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "workflow_id": "3911408a-031a-4251-8707-f903e15cfa4d",
+            "application_id": "73e458f7-38a7-55ab-8fed-d789b01a6040",
+            "operation_id": "649061c2-6394-580e-88d7-191ebf877ebb",
+            "call_id": "original-call",
+            "tool_name": "refund_order",
+            "raw_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "canonical_args": {
+              "order_id": "persistence621-4ce05de9cead40b0adbd241810880e24"
+            },
+            "args_digest": "737b6d713953f3d6fffa140d965b110ac5d9d3bb56db708e610cd19834695617"
+          },
+          "approval": {
+            "approval_id": "ecea418d-8eab-5c5f-8534-9c80a4462c17",
+            "subject_digest": "82779c4a7535820db77ce211fef47353c7e34f5d1477e7a3eb0d50be22161445",
+            "checkpoint_ns": "refund:651d3851-01de-85fb-6bdb-2b2409c2e21f",
+            "checkpoint_id": "1f1e02d9-b7d9-6f8d-8009-bc72490bb0bb",
+            "interrupt_id": "d29ee3ded5ae9af1ebd541078a98f8fe",
+            "decision": "APPROVED",
+            "approver_id": "local-demo-approval",
+            "created_at": "2026-11-14 13:16:30.079485+00:00",
+            "expires_at": "2026-11-14 13:46:30.079485+00:00",
+            "decided_at": "2026-11-14 13:16:55.136521+00:00"
+          },
+          "classification": "ended",
+          "business_status": "SUCCEEDED",
+          "next": [],
+          "saved_usage": {
+            "tool_calls": 7,
+            "active_elapsed_ms": 5794
+          },
+          "saved_model": {
+            "model_attempts": 3
+          },
+          "paired_messages": [
+            {
+              "id": "tool:3911408a-031a-4251-8707-f903e15cfa4d:original-call",
+              "call": "original-call"
+            }
+          ],
+          "attempt": {
+            "id": "592e2847-d5bc-44b7-80b1-d94c16ce2445",
+            "run": "74ebcdb3-1140-4b05-8e1d-6143a3340542"
+          },
+          "order_refunded": true,
+          "successful_applications": 1
+        }
+      ],
+      "protected_before": {
+        "approvals": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+        },
+        "checkpoint_blobs": {
+          "rows": 0,
+          "columns": 6,
+          "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+        },
+        "checkpoint_migrations": {
+          "rows": 10,
+          "columns": 1,
+          "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+        },
+        "checkpoint_writes": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+        },
+        "checkpoints": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+        },
+        "demo_orders": {
+          "rows": 5,
+          "columns": 7,
+          "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+        },
+        "knowledge_chunks": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+        },
+        "knowledge_documents": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+        },
+        "refund_requests": {
+          "rows": 0,
+          "columns": 21,
+          "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+        },
+        "schema_migrations": {
+          "rows": 6,
+          "columns": 3,
+          "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+        },
+        "sessions": {
+          "rows": 0,
+          "columns": 4,
+          "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+        },
+        "store": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+        },
+        "store_migrations": {
+          "rows": 4,
+          "columns": 1,
+          "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+        }
+      },
+      "result": "PASS",
+      "protected_after": {
+        "approvals": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+        },
+        "checkpoint_blobs": {
+          "rows": 0,
+          "columns": 6,
+          "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+        },
+        "checkpoint_migrations": {
+          "rows": 10,
+          "columns": 1,
+          "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+        },
+        "checkpoint_writes": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+        },
+        "checkpoints": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+        },
+        "demo_orders": {
+          "rows": 5,
+          "columns": 7,
+          "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+        },
+        "knowledge_chunks": {
+          "rows": 0,
+          "columns": 12,
+          "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+        },
+        "knowledge_documents": {
+          "rows": 0,
+          "columns": 9,
+          "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+        },
+        "refund_requests": {
+          "rows": 0,
+          "columns": 21,
+          "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+        },
+        "schema_migrations": {
+          "rows": 6,
+          "columns": 3,
+          "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+        },
+        "sessions": {
+          "rows": 0,
+          "columns": 4,
+          "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+        },
+        "store": {
+          "rows": 0,
+          "columns": 7,
+          "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+        },
+        "store_migrations": {
+          "rows": 4,
+          "columns": 1,
+          "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+        }
+      },
+      "all_public_rows_columns_unchanged": true
+    }
+  ],
+  "result": "PASS",
+  "protected_files_before": {
+    ".env": "8653335a66ef7eb5ade94f26aaadd4fd6d7cdfb1b1b9af50d631fd57117ec3ff",
+    "migrations/006_knowledge_vectors.sql": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3",
+    "tests/test_order_postgres.py": "98a508405abed27409e5ad31be53905752fd2c56ffabad33904765fcd8b0fcf2",
+    ".codex/agents/implementer.toml": "9e581387892ede2b89a7d14b876be0e81a411db6c209a47e1c1c0bec2f25cb3e",
+    ".codex/agents/qa.toml": "c68cfaabb0f99c7a240380b4b3f3243bf156bf0648edffa6d87f7608a536444c"
+  },
+  "protected_files_after": {
+    ".env": "8653335a66ef7eb5ade94f26aaadd4fd6d7cdfb1b1b9af50d631fd57117ec3ff",
+    "migrations/006_knowledge_vectors.sql": "5427fa3648c5bd0e15d46b8961314351055aae849582e55825a2ea093ffc4ea3",
+    "tests/test_order_postgres.py": "98a508405abed27409e5ad31be53905752fd2c56ffabad33904765fcd8b0fcf2",
+    ".codex/agents/implementer.toml": "9e581387892ede2b89a7d14b876be0e81a411db6c209a47e1c1c0bec2f25cb3e",
+    ".codex/agents/qa.toml": "c68cfaabb0f99c7a240380b4b3f3243bf156bf0648edffa6d87f7608a536444c"
+  }
+}

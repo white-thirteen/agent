@@ -1,5 +1,15 @@
 # Agent Engine Demo 开发规范
 
+## 最新授权（2026-11-17，06归档与V2 01开发）
+
+用户已明确授权06提交、推送并合入main，随后创建v2分支开发V2 01。06按既有独立QA和主复核证据正式ACCEPTED；客户端脚本/变量回填/SSE界面未实测、Store旧时序观察及六项暂缓差异继续保留，不把归档写成新增实测。V2 01～03仅DESIGN APPROVED，用户当前只授权V2 01开发；依docs/v2-01-knowledge-rag-enhancement-detailed-design.md六Task串行Implementer→独立QA→主复核，先1.1.1精确PG17.6/pgvector/ParadeDB兼容门禁，不越过门禁或擅自升级原数据库。V2 02/03不开发。Git状态以实际命令和06归档回执为准，历史等待授权条款由本段和用户最新指令覆盖；旧遗留不混入06/V2提交，不使用Bridge。
+
+## 06当前授权（2026-11-15）
+
+06六Task实现、串行独立QA及主Agent技术复核均已完成，阶段VERIFIED，等待用户正式验收，未ACCEPTED且无06 Git归档/推送授权。06-QA-001/P2已修复、原QA真实复测及主关闭，无未关闭编号问题。最终独立新Python3.13.7环境完整真实PG228 passed/0failed/0skipped（真实Qwen及原seed窄例外纳入）；固定PG17.6/vector新镜像/空双库初始化幂等与精确清理通过，原库保持。用户已手动导入Postman，Agent不再桌面操作；客户端脚本/变量回填/SSE界面仍未实测、Store旧时序观察风险保留。入口docs/STATE.md、docs/final-acceptance.md及docs/06-integration-handoff.md。01～05 ACCEPTED已归档，05交付79d576b/回执f860bb5；原Qwen CPU/1024、原PG17.6/pgvector、六项暂缓差异保持，不使用Bridge。下文IN_PROGRESS/未开始/等待为历史语境；当前停止等待用户正式验收，不推导Git或后续阶段授权。
+
+06数据保护补充：新场景不得seed/修改固定五订单；正式完整回归继承前序已批准的唯一窄例外tests/test_order_postgres.py::test_real_order_constraints_isolation_and_seed_idempotence，原样执行并finally恢复实际原值，前后全部public行集/列定义一致。不得以一般禁止seed为由deselect该旧门禁，也不得扩大例外。
+
 ## 当前正式状态（2026-11-14，05 ACCEPTED）
 
 05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/05-rag-memory-handoff.md、docs/question/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，05已以79d576b交付归档并推送核验origin/real-model-chat，06未开始；原六项暂缓差异保留。Git归档回执见docs/05-git-archive-receipt.md；本轮完成后停止，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。

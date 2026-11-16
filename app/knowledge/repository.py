@@ -2,6 +2,7 @@
 
 import psycopg
 from psycopg.rows import dict_row
+from psycopg_pool import PoolClosed, PoolTimeout
 
 from app.knowledge.embedding import validate_vectors
 from app.knowledge.models import Document, EvidenceChunk, KnowledgeError, digest
@@ -10,6 +11,36 @@ from app.knowledge.models import Document, EvidenceChunk, KnowledgeError, digest
 class KnowledgeRepository:
     def __init__(self, pool):
         self.pool = pool
+
+    async def check_ready(self, profile: str) -> None:
+        """Check the current index without embedding, DDL or publishing any documents."""
+        try:
+            async with self.pool.connection() as connection, connection.transaction():
+                await connection.execute("SET LOCAL statement_timeout = '5s'")
+                # Exercise the vector operator and column type even for an empty corpus.
+                await connection.execute(
+                    "SELECT c.embedding <=> c.embedding FROM knowledge_chunks c LIMIT 0"
+                )
+                column = await (
+                    await connection.execute(
+                        "SELECT format_type(atttypid,atttypmod) FROM pg_attribute "
+                        "WHERE attrelid='knowledge_chunks'::regclass AND attname='embedding' "
+                        "AND NOT attisdropped"
+                    )
+                ).fetchone()
+                if column != ("vector(1024)",):
+                    raise KnowledgeError("embedding_profile_mismatch")
+                row = await (
+                    await connection.execute(
+                        "SELECT EXISTS(SELECT 1 FROM knowledge_documents "
+                        "WHERE embedding_profile<>%s)",
+                        (profile,),
+                    )
+                ).fetchone()
+                if row[0]:
+                    raise KnowledgeError("embedding_profile_mismatch")
+        except (psycopg.Error, PoolClosed, PoolTimeout):
+            raise KnowledgeError("knowledge_index_unavailable") from None
 
     async def is_complete(self, document: Document) -> bool:
         async with self.pool.connection() as connection:

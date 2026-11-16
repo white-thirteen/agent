@@ -1,0 +1,74 @@
+[
+  {
+    "pool_closed": true,
+    "client_connections_closed": [
+      true
+    ],
+    "pool_stats": {
+      "connections_num": 1,
+      "connections_ms": 139,
+      "requests_num": 2,
+      "usage_ms": 100,
+      "pool_min": 1,
+      "pool_max": 3,
+      "pool_size": 1,
+      "pool_available": 0,
+      "requests_waiting": 0
+    },
+    "post_close_server_observations": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  {
+    "pool_closed": true,
+    "client_connections_closed": [
+      true
+    ],
+    "pool_stats": {
+      "connections_num": 1,
+      "connections_ms": 126,
+      "requests_num": 2,
+      "usage_ms": 34,
+      "pool_min": 1,
+      "pool_max": 3,
+      "pool_size": 1,
+      "pool_available": 0,
+      "requests_waiting": 0
+    },
+    "post_close_server_observations": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  {
+    "pool_closed": true,
+    "client_connections_closed": [
+      true
+    ],
+    "pool_stats": {
+      "connections_num": 1,
+      "connections_ms": 103,
+      "requests_num": 2,
+      "usage_ms": 39,
+      "pool_min": 1,
+      "pool_max": 3,
+      "pool_size": 1,
+      "pool_available": 0,
+      "requests_waiting": 0
+    },
+    "post_close_server_observations": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  }
+]

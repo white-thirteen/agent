@@ -1156,9 +1156,9 @@ class AgentRuntime:
             conversation_id,
         ):
             raise RuntimeRequestError("run_not_found")
-        if not values:
-            if not active:
-                return None
+        if active:
+            # Admission owns the new Task before its first checkpoint replaces
+            # the previous Task on this thread. Never mix those identities.
             return {
                 "task_id": active.execution.context.task_id,
                 "workflow_id": active.execution.context.workflow_id,
@@ -1167,7 +1167,9 @@ class AgentRuntime:
                 "refund": None,
                 "blocking_reason": None,
             }
-        status = active.task_status if active else values.get("task_status")
+        if not values:
+            return None
+        status = values.get("task_status")
         refund = None
         blocking_reason = None
         if not active and snapshot.next:

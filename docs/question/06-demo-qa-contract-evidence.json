@@ -1,0 +1,59 @@
+{
+  "result": "PASS_material_contract",
+  "paths": 11,
+  "groups": [
+    1,
+    6,
+    2,
+    6,
+    2,
+    9
+  ],
+  "requests": [
+    "健康",
+    "本人订单",
+    "申请模拟退款",
+    "独立订单退款 用于拒绝分支",
+    "聊天不能审批",
+    "Run状态",
+    "Run事件 SSE",
+    "当前Task 提取关联",
+    "本人退款状态",
+    "审批列表 仅人工识别原审批",
+    "原审批 提取digest",
+    "批准原审批",
+    "拒绝原审批",
+    "独立resume原审批",
+    "修复绑定 仅确认绑定故障后",
+    "真实知识问答",
+    "资料不足",
+    "保存偏好",
+    "新会话读取",
+    "B隔离读取",
+    "B不能查A订单",
+    "修改偏好",
+    "删除指定偏好",
+    "保存语言",
+    "清除全部偏好",
+    "最终读取"
+  ],
+  "variables": [
+    "application_id",
+    "approval_id",
+    "base_url",
+    "conversation",
+    "conversation_new",
+    "order_no",
+    "order_ok",
+    "run_id",
+    "subject_digest",
+    "task_id",
+    "user_a",
+    "user_b"
+  ],
+  "schema_matches_current_app": true,
+  "javascript": {
+    "controlled_script_cases": 15
+  },
+  "gui_script_sse": "not executed"
+}

@@ -1,0 +1,858 @@
+{
+  "stage": "memory-after-restart",
+  "transport": "real uvicorn TCP",
+  "cases": [
+    {
+      "name": "memory-after-restart",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-after-restart",
+        "message": "请查看偏好记忆",
+        "input_mode": "new_task",
+        "request_id": "fe400dca-63d8-459b-ba71-55c7815ffa3e"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+              "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+              "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:06.495010+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+            "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+            "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+            "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "当前偏好记忆：{'answer_style': 'concise'}",
+            "sources": [],
+            "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+            "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "ecdd8fcd-9186-413d-b2dc-a8b0fa349f41",
+            "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+        "workflow_id": "e6249bd1-9dbb-4fb0-98db-45bbb1aacad4",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    },
+    {
+      "name": "memory-modify",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-modify",
+        "message": "请修改记忆：回答风格=详细",
+        "input_mode": "new_task",
+        "request_id": "b2180410-21d3-4ed6-9c67-874fb40ca633"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+              "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+              "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:07.803421+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+            "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+            "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+            "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "偏好记忆已保存。",
+            "sources": [],
+            "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+            "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "e1fff923-74f6-4a93-b181-6a555a533626",
+            "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+        "workflow_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    },
+    {
+      "name": "memory-delete",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-delete",
+        "message": "请删除记忆：回答风格",
+        "input_mode": "new_task",
+        "request_id": "32b08c61-4eff-4fbb-bae7-10667daff9f5"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+              "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+              "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:10.701751+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+            "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+            "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+            "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "偏好已删除；保留最小版本和幂等关联，聊天及执行快照仍可能保留历史。",
+            "sources": [],
+            "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+            "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "41501f1b-a66b-495d-b113-af59a7685842",
+            "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+        "workflow_id": "48b2cfbe-0ea8-46d2-a67c-b1acca047560",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    },
+    {
+      "name": "memory-language",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-language",
+        "message": "请记住：回答语言=中文",
+        "input_mode": "new_task",
+        "request_id": "2542e1ff-6699-4ed7-a680-e97162b79023"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+              "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+              "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:12.181344+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+            "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+            "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+            "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "偏好记忆已保存。",
+            "sources": [],
+            "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+            "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "2673de67-c8e6-4fe1-b355-a8125fe65811",
+            "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+        "workflow_id": "9a987525-7ad4-45bf-8235-cabac6bc4a9b",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    },
+    {
+      "name": "memory-clear",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-clear",
+        "message": "请删除全部偏好记忆",
+        "input_mode": "new_task",
+        "request_id": "884ca96e-2728-414f-9c7c-e20c1f7d66b9"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+              "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+              "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:13.251686+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+            "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+            "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+            "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "偏好已删除；保留最小版本和幂等关联，聊天及执行快照仍可能保留历史。",
+            "sources": [],
+            "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+            "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "4993dc45-8efd-401b-830f-5451a5e7fddb",
+            "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+        "workflow_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    },
+    {
+      "name": "memory-final",
+      "request": {
+        "user_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "conversation_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-final",
+        "message": "请查看偏好记忆",
+        "input_mode": "new_task",
+        "request_id": "37c0aca8-be14-4154-bd39-0dc92adb2442"
+      },
+      "frames": [
+        {
+          "event": "status",
+          "data": {
+            "snapshot": true,
+            "view": {
+              "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+              "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+              "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+              "run_status": "running",
+              "task_status": "running",
+              "final_answer": null,
+              "sources": [],
+              "error": null,
+              "model_call_usage": {
+                "model_attempts": 0
+              },
+              "run_usage": {
+                "tool_calls": 0,
+                "active_elapsed_ms": 0
+              },
+              "usage_complete": true,
+              "started_at": "2026-11-15T05:53:14.740847+00:00",
+              "ended_at": null
+            },
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+            "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "sequence": 1
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "code": "routing",
+            "run_status": "running",
+            "task_status": "running",
+            "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+            "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "sequence": 2
+          }
+        },
+        {
+          "event": "status",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+            "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "sequence": 3
+          }
+        },
+        {
+          "event": "token",
+          "data": {
+            "content": "尚无偏好记忆。",
+            "sources": [],
+            "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+            "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "sequence": 4
+          }
+        },
+        {
+          "event": "done",
+          "data": {
+            "run_status": "completed",
+            "task_status": "completed",
+            "run_id": "3b358709-5f9c-4c35-a5c1-1e1aa368f8ae",
+            "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+            "sequence": 5
+          }
+        }
+      ],
+      "current_task": {
+        "task_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+        "workflow_id": "35da57a3-fd7b-490a-830d-bed4087d9853",
+        "task_status": "completed",
+        "run_id": null,
+        "refund": null,
+        "blocking_reason": null
+      }
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "service": "Agent Backend",
+    "agent_ready": true,
+    "database_status": "ready",
+    "model_status": "initialized",
+    "embedding_status": "ready",
+    "knowledge_ready": true,
+    "knowledge_status": "ready",
+    "checkpoint_status": "ready",
+    "checkpoint_backend": "postgres",
+    "store_status": "ready"
+  },
+  "after_modify": {
+    "sessions": [
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-insufficient",
+        "437090a9-720a-50ae-ab59-9aa324a2311c"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-after-restart",
+        "2b7b1d2b-6c52-519e-ac97-0e23137af2ec"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-b",
+        "7715cf08-13a9-59fd-bcaf-b2e19a0ef382"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-modify",
+        "21495c8b-68f7-51ce-9329-b9a9a4d5379a"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-new-session",
+        "88a2dccd-d5b6-50aa-a3bf-21651fb1b9ce"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-save",
+        "694c9312-0081-52d8-9ea8-b75b6d480f50"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-order-b",
+        "a8c0d86b-f8d0-5bba-ba09-17081c24eb44"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-rag",
+        "0e4f8d56-904e-5c48-82ec-f3a023428a7f"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-refund-ok",
+        "0c4a0133-0490-5db3-924b-842dffdf9347"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-refund-reject",
+        "6c8bef92-1408-5ec3-bf18-09c8a9bb21be"
+      ]
+    ],
+    "refunds": [
+      [
+        "cb306378-78d0-55d6-b0da-8b9bae281092",
+        "3ce6dca4-a2b8-4ef6-b73b-be40469b427c",
+        "6c8bef92-1408-5ec3-bf18-09c8a9bb21be",
+        "call_00_JobQ58iWD4rwRfvrI19D0066",
+        "93cba91d-da06-5a97-9e5e-fa6c5713f6e6",
+        "REJECTED",
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-no"
+        },
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-no"
+        },
+        "2f816baa-34dd-5420-b80b-02f135250e60",
+        "5f2dfcec2251c525134ca6d1f93163da960beaf69068407b534f18bcb4a64788",
+        "REJECTED",
+        "local-demo-approval",
+        "refund:2c11a8fc-f410-3b99-b768-8ff64bb59130",
+        "4a381f90336d1276504bf2705815e16b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-no",
+        false
+      ],
+      [
+        "cd0a7886-f8fe-5372-a8bb-38906e9c038c",
+        "7b7ebe20-2513-48b6-8315-a055a3cab848",
+        "0c4a0133-0490-5db3-924b-842dffdf9347",
+        "call_00_dl9C1S79rgYP38Q6H2p75042",
+        "fd4de38e-1d90-5f23-a309-cdf87039ef73",
+        "SUCCEEDED",
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok"
+        },
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok"
+        },
+        "18bfb937-af76-508a-ab97-033e07f39947",
+        "ace82690c45a4e2c7bcca93142dfd4cdd3b71fd7e1220a8f293df14cd2aaee2e",
+        "APPROVED",
+        "local-demo-approval",
+        "refund:94d3a1b7-3bb9-6904-8da1-f6622fe3b5fd",
+        "36c9ec28bb1372c725e641574105e082",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok",
+        true
+      ]
+    ],
+    "profiles": {
+      "demo631-a959fe11d5e242a4b05a548acd0da4a2-a": {
+        "revision": 2,
+        "preferences": {
+          "answer_style": "detailed"
+        },
+        "last_mutation": {
+          "task_id": "2cad52cf-c295-4d17-ba5a-08973620b1c7",
+          "operation_id": "1189b8aa-5f85-5b70-81d3-a224c9fbf434",
+          "changed_fields": [
+            "answer_style"
+          ],
+          "command_digest": "da1e82eebf98b3ce63ca1301291d21b3b953b0bcdd976a377952a083d10b53e4",
+          "result_revision": 2
+        },
+        "schema_version": 1
+      },
+      "demo631-a959fe11d5e242a4b05a548acd0da4a2-b": null
+    }
+  },
+  "database_facts": {
+    "sessions": [
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-insufficient",
+        "437090a9-720a-50ae-ab59-9aa324a2311c"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-after-restart",
+        "2b7b1d2b-6c52-519e-ac97-0e23137af2ec"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-b",
+        "7715cf08-13a9-59fd-bcaf-b2e19a0ef382"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-clear",
+        "805143d9-1a7e-587e-83c6-7f6c3691fa39"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-delete",
+        "83c9d253-2bc5-524f-b341-93dad6a1358d"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-final",
+        "4f3fe82a-fba1-5199-bd11-70cdb2206b5f"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-language",
+        "7b81ddff-49d0-5401-9952-a3659ddcb9b5"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-modify",
+        "21495c8b-68f7-51ce-9329-b9a9a4d5379a"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-new-session",
+        "88a2dccd-d5b6-50aa-a3bf-21651fb1b9ce"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-memory-save",
+        "694c9312-0081-52d8-9ea8-b75b6d480f50"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-order-b",
+        "a8c0d86b-f8d0-5bba-ba09-17081c24eb44"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-rag",
+        "0e4f8d56-904e-5c48-82ec-f3a023428a7f"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-refund-ok",
+        "0c4a0133-0490-5db3-924b-842dffdf9347"
+      ],
+      [
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-a",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-refund-reject",
+        "6c8bef92-1408-5ec3-bf18-09c8a9bb21be"
+      ]
+    ],
+    "refunds": [
+      [
+        "cb306378-78d0-55d6-b0da-8b9bae281092",
+        "3ce6dca4-a2b8-4ef6-b73b-be40469b427c",
+        "6c8bef92-1408-5ec3-bf18-09c8a9bb21be",
+        "call_00_JobQ58iWD4rwRfvrI19D0066",
+        "93cba91d-da06-5a97-9e5e-fa6c5713f6e6",
+        "REJECTED",
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-no"
+        },
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-no"
+        },
+        "2f816baa-34dd-5420-b80b-02f135250e60",
+        "5f2dfcec2251c525134ca6d1f93163da960beaf69068407b534f18bcb4a64788",
+        "REJECTED",
+        "local-demo-approval",
+        "refund:2c11a8fc-f410-3b99-b768-8ff64bb59130",
+        "4a381f90336d1276504bf2705815e16b",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-no",
+        false
+      ],
+      [
+        "cd0a7886-f8fe-5372-a8bb-38906e9c038c",
+        "7b7ebe20-2513-48b6-8315-a055a3cab848",
+        "0c4a0133-0490-5db3-924b-842dffdf9347",
+        "call_00_dl9C1S79rgYP38Q6H2p75042",
+        "fd4de38e-1d90-5f23-a309-cdf87039ef73",
+        "SUCCEEDED",
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok"
+        },
+        {
+          "order_id": "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok"
+        },
+        "18bfb937-af76-508a-ab97-033e07f39947",
+        "ace82690c45a4e2c7bcca93142dfd4cdd3b71fd7e1220a8f293df14cd2aaee2e",
+        "APPROVED",
+        "local-demo-approval",
+        "refund:94d3a1b7-3bb9-6904-8da1-f6622fe3b5fd",
+        "36c9ec28bb1372c725e641574105e082",
+        "demo631-a959fe11d5e242a4b05a548acd0da4a2-ok",
+        true
+      ]
+    ],
+    "profiles": {
+      "demo631-a959fe11d5e242a4b05a548acd0da4a2-a": {
+        "revision": 5,
+        "preferences": {},
+        "last_mutation": {
+          "task_id": "fb60387d-a965-48c3-8432-21787a9d3a44",
+          "operation_id": "f2a64f38-d3c0-5107-92bc-4be29fe897d2",
+          "changed_fields": [
+            "answer_language"
+          ],
+          "command_digest": "170f3ce5dec15705eb51ae54814530c8b9f105c5689dc201d73827c969c2379a",
+          "result_revision": 5
+        },
+        "schema_version": 1
+      },
+      "demo631-a959fe11d5e242a4b05a548acd0da4a2-b": null
+    }
+  },
+  "result": "PASS"
+}

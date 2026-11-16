@@ -1,0 +1,224 @@
+{
+  "python": "3.13.7",
+  "executable": "D:\\py\\agent-project\\agent\\.venv-delivery632-20261115\\Scripts\\python.exe",
+  "prefix": "D:\\py\\agent-project\\agent\\.venv-delivery632-20261115",
+  "base_prefix": "D:\\py\\python",
+  "sys_path": [
+    "D:\\py\\agent-project\\agent\\tests",
+    "D:\\py\\agent-project\\agent\\tests",
+    "D:\\py\\agent-project\\agent",
+    "D:\\py\\agent-project\\agent\\docs\\question",
+    "D:\\py\\python\\python313.zip",
+    "D:\\py\\python\\DLLs",
+    "D:\\py\\python\\Lib",
+    "D:\\py\\python",
+    "D:\\py\\agent-project\\agent\\.venv-delivery632-20261115",
+    "D:\\py\\agent-project\\agent\\.venv-delivery632-20261115\\Lib\\site-packages"
+  ],
+  "pyvenv_cfg": "home = D:\\py\\python\ninclude-system-site-packages = false\nversion = 3.13.7\nexecutable = D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe\ncommand = D:\\py\\agent-project\\agent\\.venv\\Scripts\\python.exe -m venv D:\\py\\agent-project\\agent\\.venv-delivery632-20261115\n",
+  "lock_mismatches": {},
+  "locked_count": 90,
+  "commands": [
+    {
+      "args": [
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "output": "No broken requirements found.\n"
+    },
+    {
+      "args": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_config.py",
+        "tests/test_resources.py"
+      ],
+      "exit_code": 0,
+      "output": "...................                                                      [100%]\n19 passed in 12.77s\n"
+    },
+    {
+      "args": [
+        "-m",
+        "ruff",
+        "check",
+        "app",
+        "scripts",
+        "tests"
+      ],
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "args": [
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "app",
+        "scripts",
+        "tests"
+      ],
+      "exit_code": 0,
+      "output": "155 files already formatted\n"
+    }
+  ],
+  "reviewed_evidence_sha256": {
+    "06-delivery-install-evidence-20261115.json": "4f84a61c36ef811e587a9cca10e0646d30857f43b6201636787af80fee1c5520",
+    "06-delivery-clean-gate-evidence-20261115.json": "cc4b72523c7bf8b06b58415127e5a95ea4a70a1a648a4b058998af54b55cfd68",
+    "06-delivery-qwen-regression-evidence-20261115.json": "72593fca77921a3bf7b1c06633de1b9a48250363cb365ebfb3cfa683572da1f5",
+    "06-delivery-fresh-database-evidence-20261115.json": "b8a9f888b0a646b40a1c506e0c8dc07e9e31738e2ea7a0daabc9a52b18184982",
+    "06-database-reproduction-evidence-20261115-r2.json": "dda609c175caee698110cc118bcee376cfde274a8c54e41e7c349292a9fee62a",
+    "06-database-reproduction-cleanup-evidence-20261115.json": "29f564dfc5b6758e14686b0afca5884e9e59cfd7838eab3e13e0ab54ba622684"
+  },
+  "protected_before": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "columns": 3,
+      "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "same_as_full_gate_after": true,
+  "live_status": {
+    "database_status": "ready",
+    "checkpoint_status": "ready",
+    "store_status": "ready",
+    "embedding_status": "disabled",
+    "model_status": "initialized"
+  },
+  "app_pools_closed": true,
+  "protected_after": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "columns": 3,
+      "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "protected_unchanged": true,
+  "audit_pool_closed": true,
+  "remaining_async_tasks": [],
+  "credential_leak_files": [],
+  "result": "PASS"
+}

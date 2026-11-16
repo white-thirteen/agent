@@ -37,6 +37,34 @@ async def test_generic_clarification_continues_task_budget_and_new_task_resets_s
     await runtime.shutdown()
 
 
+async def test_current_task_uses_admitted_identity_before_first_checkpoint(monkeypatch):
+    graph = compiled(ControlledModel([clarify(), clarify()]))
+    runtime = AgentRuntime(graph, run_limits=RunLimits(10, 12))
+    ctx = context()
+    first, _, _ = await run_to_end(runtime, ctx)
+    entered, release = asyncio.Event(), asyncio.Event()
+    original = type(graph).ainvoke
+
+    async def delayed(self, *args, **kwargs):
+        entered.set()
+        await release.wait()
+        return await original(self, *args, **kwargs)
+
+    monkeypatch.setattr(type(graph), "ainvoke", delayed)
+    try:
+        second = await runtime.submit(context(), options=SubmitOptions("new_task"))
+        await entered.wait()
+        current = await runtime.current_task(
+            user_id=ctx.user_id, conversation_id=ctx.conversation_id, thread_id=ctx.thread_id
+        )
+        assert current["task_id"] == current["workflow_id"] == second.task_id != first.task_id
+        assert current["run_id"] == second.run_id and current["task_status"] == "running"
+        assert current["refund"] is None
+    finally:
+        release.set()
+        await runtime.shutdown()
+
+
 async def test_specific_pending_preserved_on_unsupported_and_switch_requires_new_task():
     model = ControlledModel(
         [

@@ -380,3 +380,63 @@ async def test_valid_source_does_not_prove_generated_semantics():
     # Source validation checks provenance, not arbitrary statement entailment.
     assert state["result"].status == "completed" and state["result"].sources
     assert state["result"].approved_answer == "银行卡已经真实扣款成功。"
+
+
+@pytest.mark.parametrize("explicit_override", [False, True])
+async def test_verified_preferences_reach_answer_prompt_with_explicit_user_priority(
+    explicit_override,
+):
+    """Controlled prompt contract; real language adherence is checked by the explicit probe."""
+    from test_memory_reader import Resource, profile
+
+    from app.memory.manager import MemoryManager
+    from app.memory.reader import MemoryReader
+    from app.tools.implementations.memory import read_preferences_tool
+
+    question = QUESTION + ("请用中文简短回答。" if explicit_override else "")
+    expected = ANSWER if explicit_override else "Chat cannot approve refunds; use local approval."
+
+    class PreferenceProvider(Provider):
+        async def ainvoke(self, messages):
+            if self.schema is AnswerDraft:
+                prompt = messages[0].content
+                payload = json.loads(messages[-1].content)
+                assert "write the answer in English" in prompt
+                assert "use a detailed style" in prompt
+                assert "current explicit language/style request > stored preferences" in prompt
+                assert "A Chinese question alone is not a request to answer in Chinese" in prompt
+                assert "Write a concise answer" not in prompt
+                assert payload["question"] == question
+                assert payload["evidence"] and "IGNORE SYSTEM" not in prompt
+            return await super().ainvoke(messages)
+
+    resource = Resource(profile(answer_language="en", answer_style="detailed"))
+    reader = MemoryReader(MemoryManager(resource, user_ids=("dev-user",)))
+    registry = ToolRegistry()
+    for tool in (*knowledge_tools(Retriever()), read_preferences_tool(reader, enabled=True)):
+        registry.register(tool)
+    registry.freeze()
+    provider = PreferenceProvider(answer=expected)
+    graph = build_knowledge_graph(
+        gateway=ModelGateway(provider, ModelCallLimits(8, 5, 0)),
+        registry=registry,
+        executor=ToolExecutor(registry, ToolPolicy()),
+        profile=Retriever.profile,
+    )
+    live = execution(scopes=frozenset({"knowledge:read", "memory:read"}))
+    request = SpecialistInput(
+        context=live.context,
+        task_id=live.context.task_id,
+        agent_type=AgentType.KNOWLEDGE,
+        task_type=TaskType.KNOWLEDGE_QA,
+        task_goal="knowledge",
+        messages=[HumanMessage(content=question)],
+    )
+    state = await graph.ainvoke(create_specialist_state(request, scope=live.scope), context=live)
+    assert state["result"].approved_answer == expected and state["result"].sources
+    assert state["memory_context"]["preferences"] == {
+        "answer_language": "en",
+        "answer_style": "detailed",
+    }
+    assert live.scope.model_usage().model_attempts == 3
+    assert live.scope.run_usage().tool_calls == 3 and len(resource.calls) == 1

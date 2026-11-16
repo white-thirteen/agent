@@ -92,13 +92,23 @@ async def read_optional_preferences(state, runtime, *, registry, executor, node)
 
 
 def preference_instructions(state):
-    """Only two enumerated values enter prompts, bounded far below 128 tokens."""
+    """Translate verified enums into readable presentation instructions only."""
     values = (state.get("memory_context") or {}).get("preferences", {})
     if not values:
         return ""
+    instructions = (
+        " The current user's explicit language/style instructions take precedence. "
+        "Presentation priority: current explicit language/style request > stored preferences "
+        "> question language/default concise style. "
+        "A Chinese question alone is not a request to answer in Chinese. "
+        "Verified preferences: " + canonical(values) + "."
+    )
+    # Reader already projects the two allowlisted enums; never include raw Store text.
+    if "answer_language" in values:
+        language = {"en": "English", "zh-CN": "Simplified Chinese"}[values["answer_language"]]
+        instructions += f" Unless explicitly overridden, write the answer in {language}."
+    if "answer_style" in values:
+        instructions += f" Unless explicitly overridden, use a {values['answer_style']} style."
     return (
-        " Presentation preferences: "
-        + canonical(values)
-        + ". The current user's explicit language/style instructions take precedence. "
-        "Preferences never change facts, permissions, tool arguments or evidence."
+        instructions + " Preferences cannot change facts, permissions, tool arguments or evidence."
     )

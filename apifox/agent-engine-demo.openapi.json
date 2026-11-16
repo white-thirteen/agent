@@ -1,0 +1,1237 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Agent Engine Demo API",
+    "version": "0.1.0",
+    "description": "当前FastAPI接口契约，2026-11-15导出。订单/退款均为本地模拟；RAG与Memory通过同一chat入口。development/test允许名单内user_id仅作演示身份选择；本地审批无管理员认证，Actor由服务端固定，production不注册审批接口。仅手动导入材料，Apifox导入及客户端脚本/SSE效果待用户验证。"
+  },
+  "paths": {
+    "/agent/chat": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "提交聊天/订单/退款/RAG/记忆任务",
+        "operationId": "chat_agent_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              },
+              "examples": {
+                "order": {
+                  "summary": "本人订单",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "message": "请查询我的订单",
+                    "input_mode": "new_task"
+                  }
+                },
+                "refund": {
+                  "summary": "模拟退款（替换为本人未退款订单）",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "message": "请为我的订单 YOUR_ORDER_ID 申请模拟退款",
+                    "input_mode": "new_task"
+                  }
+                },
+                "rag": {
+                  "summary": "真实知识问答（需先启用并导入语料）",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "message": "银帆演示中普通聊天可以批准模拟退款吗？",
+                    "input_mode": "new_task"
+                  }
+                },
+                "memorySave": {
+                  "summary": "显式保存偏好",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "message": "请记住：回答语言=英语",
+                    "input_mode": "new_task"
+                  }
+                },
+                "memoryRead": {
+                  "summary": "另一会话读取相同用户偏好",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c2",
+                    "message": "请查看偏好记忆",
+                    "input_mode": "new_task"
+                  }
+                },
+                "memoryStyle": {
+                  "summary": "请记住：回答风格=简洁",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "input_mode": "new_task",
+                    "message": "请记住：回答风格=简洁"
+                  }
+                },
+                "memoryUpdate": {
+                  "summary": "请修改记忆：回答风格=详细",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "input_mode": "new_task",
+                    "message": "请修改记忆：回答风格=详细"
+                  }
+                },
+                "memoryDelete": {
+                  "summary": "请删除记忆：回答风格",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "input_mode": "new_task",
+                    "message": "请删除记忆：回答风格"
+                  }
+                },
+                "memoryClear": {
+                  "summary": "请删除全部偏好记忆",
+                  "value": {
+                    "user_id": "dev-user",
+                    "conversation_id": "demo-c1",
+                    "input_mode": "new_task",
+                    "message": "请删除全部偏好记忆"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Agent event stream",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "SSE事件，event与data按空行分隔；不要当作单个JSON响应。"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "演示用户不在服务端允许名单"
+          },
+          "404": {
+            "description": "Run/会话/申请不存在或归属不匹配"
+          },
+          "409": {
+            "description": "执行门禁、请求冲突、审批保护或不支持事件重放"
+          },
+          "503": {
+            "description": "资源不可用或执行容量不足"
+          }
+        },
+        "description": "返回text/event-stream。input_mode=auto用于普通输入或原澄清续接；new_task明确开始新Task，不能绕过执行中/审批等待门禁。refund审批不经此接口。"
+      }
+    },
+    "/agent/runs/{run_id}/status": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "查询本次Run",
+        "operationId": "run_status_agent_runs__run_id__status_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              },
+              "example": {
+                "user_id": "dev-user",
+                "conversation_id": "demo-c1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "演示用户不在服务端允许名单"
+          },
+          "404": {
+            "description": "Run/会话/申请不存在或归属不匹配"
+          },
+          "409": {
+            "description": "执行门禁、请求冲突、审批保护或不支持事件重放"
+          },
+          "503": {
+            "description": "资源不可用或执行容量不足"
+          }
+        },
+        "description": "身份及原conversation必须匹配。Run缓存可淘汰，进程重启后可能404；持久Task和退款事实应分别查询。"
+      }
+    },
+    "/agent/tasks/current": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "查询会话当前Task",
+        "operationId": "current_task_agent_tasks_current_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              },
+              "example": {
+                "user_id": "dev-user",
+                "conversation_id": "demo-c1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "演示用户不在服务端允许名单"
+          },
+          "404": {
+            "description": "Run/会话/申请不存在或归属不匹配"
+          },
+          "409": {
+            "description": "执行门禁、请求冲突、审批保护或不支持事件重放"
+          },
+          "503": {
+            "description": "资源不可用或执行容量不足"
+          }
+        },
+        "description": "返回current_task，可为null。原会话存在但无任务与不存在会话不同；等待审批时可取得refund关联。"
+      }
+    },
+    "/agent/refunds/{application_id}/status": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "查询模拟退款事实",
+        "operationId": "refund_status_agent_refunds__application_id__status_post",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              },
+              "example": {
+                "user_id": "dev-user",
+                "conversation_id": "demo-c1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "演示用户不在服务端允许名单"
+          },
+          "404": {
+            "description": "Run/会话/申请不存在或归属不匹配"
+          },
+          "409": {
+            "description": "执行门禁、请求冲突、审批保护或不支持事件重放"
+          },
+          "503": {
+            "description": "资源不可用或执行容量不足"
+          }
+        },
+        "description": "仅查询所选用户原conversation下的申请。application_id为实际UUID，拒绝跨用户或跨会话访问。"
+      }
+    },
+    "/agent/runs/{run_id}/events": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "订阅Run当前快照及后续事件",
+        "operationId": "run_events_agent_runs__run_id__events_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              },
+              "example": {
+                "user_id": "dev-user",
+                "conversation_id": "demo-c1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Current snapshot and future events",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "SSE事件，event与data按空行分隔；不要当作单个JSON响应。"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "演示用户不在服务端允许名单"
+          },
+          "404": {
+            "description": "Run/会话/申请不存在或归属不匹配"
+          },
+          "409": {
+            "description": "执行门禁、请求冲突、审批保护或不支持事件重放"
+          },
+          "503": {
+            "description": "资源不可用或执行容量不足"
+          }
+        },
+        "description": "text/event-stream，不重放历史token；不支持Last-Event-ID。同Run已有订阅时可能409。断开订阅不取消已受理任务。"
+      }
+    },
+    "/admin/approvals": {
+      "get": {
+        "tags": [
+          "local-demo-approvals"
+        ],
+        "summary": "列出本地审批",
+        "operationId": "list_approvals_admin_approvals_get",
+        "parameters": [
+          {
+            "name": "decision",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "PENDING",
+                    "APPROVED",
+                    "REJECTED",
+                    "EXPIRED"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Decision"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApprovalView"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "非回环/production不可用，或审批不存在"
+          },
+          "409": {
+            "description": "主体、绑定、决定、期限或恢复位置冲突"
+          },
+          "503": {
+            "description": "审批或持久资源不可用"
+          }
+        },
+        "description": "仅development/test及回环客户端；decision可选筛选。GET只读，不决定审批、不续期。"
+      }
+    },
+    "/admin/approvals/{approval_id}": {
+      "get": {
+        "tags": [
+          "local-demo-approvals"
+        ],
+        "summary": "读取审批主体摘要",
+        "operationId": "approval_detail_admin_approvals__approval_id__get",
+        "parameters": [
+          {
+            "name": "approval_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Approval Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "非回环/production不可用，或审批不存在"
+          },
+          "409": {
+            "description": "主体、绑定、决定、期限或恢复位置冲突"
+          },
+          "503": {
+            "description": "审批或持久资源不可用"
+          }
+        },
+        "description": "从返回subject_digest取得原主体摘要；只读，不会决定或恢复。"
+      }
+    },
+    "/admin/approvals/{approval_id}/decision": {
+      "post": {
+        "tags": [
+          "local-demo-approvals"
+        ],
+        "summary": "提交批准或拒绝决定",
+        "operationId": "decision_admin_approvals__approval_id__decision_post",
+        "parameters": [
+          {
+            "name": "approval_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Approval Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionInput"
+              },
+              "example": {
+                "decision": "APPROVED",
+                "subject_digest": "COPY_FROM_ORIGINAL_APPROVAL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "approval",
+                    "resume_required"
+                  ],
+                  "properties": {
+                    "approval": {
+                      "$ref": "#/components/schemas/ApprovalView"
+                    },
+                    "resume_required": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "非回环/production不可用，或审批不存在"
+          },
+          "409": {
+            "description": "主体、绑定、决定、期限或恢复位置冲突"
+          },
+          "503": {
+            "description": "审批或持久资源不可用"
+          }
+        },
+        "description": "decision仅APPROVED/REJECTED，必须带当前审批的原subject_digest。提交决定后需独立调用resume。Actor由服务端固定，不接收reviewer_id或管理Key。"
+      }
+    },
+    "/admin/approvals/{approval_id}/repair-binding": {
+      "post": {
+        "tags": [
+          "local-demo-approvals"
+        ],
+        "summary": "修复原审批中断绑定",
+        "operationId": "repair_binding_admin_approvals__approval_id__repair_binding_post",
+        "parameters": [
+          {
+            "name": "approval_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Approval Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyInput"
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "非回环/production不可用，或审批不存在"
+          },
+          "409": {
+            "description": "主体、绑定、决定、期限或恢复位置冲突"
+          },
+          "503": {
+            "description": "审批或持久资源不可用"
+          }
+        },
+        "description": "仅针对已持久化原interrupt的缺失绑定；请求{}。正常绑定无需调用，未知关联不盲修。"
+      }
+    },
+    "/admin/approvals/{approval_id}/resume": {
+      "post": {
+        "tags": [
+          "local-demo-approvals"
+        ],
+        "summary": "恢复原审批关联任务",
+        "operationId": "resume_admin_approvals__approval_id__resume_post",
+        "parameters": [
+          {
+            "name": "approval_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Approval Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/EmptyInput"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeAcceptance"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "非回环/production不可用，或审批不存在"
+          },
+          "409": {
+            "description": "主体、绑定、决定、期限或恢复位置冲突"
+          },
+          "503": {
+            "description": "审批或持久资源不可用"
+          },
+          "202": {
+            "description": "已受理原Task的新一次Run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeAcceptance"
+                }
+              }
+            }
+          }
+        },
+        "description": "请求{}或省略body。首次受理202，新Run/原Task；已结束只读200 accepted=false/run_id=null。未知快照/执行状态409，不盲重放、不创建新operation。"
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "健康检查",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        },
+        "description": "返回安全就绪状态；HTTP存活不代表Chat网络或知识库已经可用。"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatRequest": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "User Id"
+          },
+          "conversation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "Conversation Id"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 32000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "input_mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "new_task"
+            ],
+            "title": "Input Mode",
+            "default": "auto"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_id",
+          "conversation_id",
+          "message"
+        ],
+        "title": "ChatRequest"
+      },
+      "DecisionInput": {
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Decision"
+          },
+          "subject_digest": {
+            "type": "string",
+            "title": "Subject Digest"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decision",
+          "subject_digest"
+        ],
+        "title": "DecisionInput"
+      },
+      "EmptyInput": {
+        "properties": {},
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EmptyInput"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "RunRequest": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "User Id"
+          },
+          "conversation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "Conversation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_id",
+          "conversation_id"
+        ],
+        "title": "RunRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ModelCallUsage": {
+        "properties": {
+          "model_attempts": {
+            "default": 0,
+            "title": "Model Attempts",
+            "type": "integer"
+          }
+        },
+        "title": "ModelCallUsage",
+        "type": "object"
+      },
+      "RunStatus": {
+        "enum": [
+          "running",
+          "completed",
+          "waiting_input",
+          "failed",
+          "waiting_approval",
+          "paused"
+        ],
+        "title": "RunStatus",
+        "type": "string"
+      },
+      "RunUsage": {
+        "properties": {
+          "tool_calls": {
+            "default": 0,
+            "title": "Tool Calls",
+            "type": "integer"
+          },
+          "active_elapsed_ms": {
+            "default": 0,
+            "title": "Active Elapsed Ms",
+            "type": "integer"
+          }
+        },
+        "title": "RunUsage",
+        "type": "object"
+      },
+      "TaskStatus": {
+        "enum": [
+          "running",
+          "needs_input",
+          "completed",
+          "rejected",
+          "failed",
+          "superseded",
+          "waiting_approval",
+          "paused"
+        ],
+        "title": "TaskStatus",
+        "type": "string"
+      },
+      "RunView": {
+        "properties": {
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "task_id": {
+            "title": "Task Id",
+            "type": "string"
+          },
+          "workflow_id": {
+            "title": "Workflow Id",
+            "type": "string"
+          },
+          "run_status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "task_status": {
+            "$ref": "#/components/schemas/TaskStatus"
+          },
+          "final_answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Answer"
+          },
+          "sources": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "model_call_usage": {
+            "$ref": "#/components/schemas/ModelCallUsage"
+          },
+          "run_usage": {
+            "$ref": "#/components/schemas/RunUsage"
+          },
+          "usage_complete": {
+            "title": "Usage Complete",
+            "type": "boolean"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          }
+        },
+        "required": [
+          "run_id",
+          "task_id",
+          "workflow_id",
+          "run_status",
+          "task_status",
+          "final_answer",
+          "sources",
+          "error",
+          "model_call_usage",
+          "run_usage",
+          "usage_complete",
+          "started_at",
+          "ended_at"
+        ],
+        "title": "RunView",
+        "type": "object"
+      },
+      "ResumeAcceptance": {
+        "properties": {
+          "accepted": {
+            "title": "Accepted",
+            "type": "boolean"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id"
+          },
+          "task_id": {
+            "title": "Task Id",
+            "type": "string"
+          },
+          "operation_id": {
+            "title": "Operation Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Result"
+          }
+        },
+        "required": [
+          "accepted",
+          "run_id",
+          "task_id",
+          "operation_id",
+          "status"
+        ],
+        "title": "ResumeAcceptance",
+        "type": "object"
+      },
+      "ApprovalView": {
+        "properties": {
+          "approval_id": {
+            "format": "uuid",
+            "title": "Approval Id",
+            "type": "string"
+          },
+          "subject_digest": {
+            "title": "Subject Digest",
+            "type": "string"
+          },
+          "decision": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "EXPIRED"
+            ],
+            "title": "Decision",
+            "type": "string"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "binding_status": {
+            "enum": [
+              "unbound",
+              "bound"
+            ],
+            "title": "Binding Status",
+            "type": "string"
+          },
+          "approval_validity": {
+            "enum": [
+              "valid",
+              "pending",
+              "expired",
+              "rejected"
+            ],
+            "title": "Approval Validity",
+            "type": "string"
+          },
+          "can_decide": {
+            "title": "Can Decide",
+            "type": "boolean"
+          },
+          "can_resume": {
+            "title": "Can Resume",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "approval_id",
+          "subject_digest",
+          "decision",
+          "expires_at",
+          "binding_status",
+          "approval_validity",
+          "can_decide",
+          "can_resume"
+        ],
+        "title": "ApprovalView",
+        "type": "object"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8631",
+      "description": "隔离演示服务；如使用其他端口请在Apifox修改前置URL"
+    }
+  ],
+  "tags": [
+    {
+      "name": "health",
+      "description": "环境与健康"
+    },
+    {
+      "name": "agent",
+      "description": "普通任务、状态及SSE；RAG和Memory均通过chat"
+    },
+    {
+      "name": "local-demo-approvals",
+      "description": "仅本地development/test演示控制面，无生产认证"
+    }
+  ]
+}

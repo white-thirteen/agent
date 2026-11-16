@@ -1,5 +1,116 @@
 # Agent Engine Demo
 
+## 最新交付状态（2026-11-17）
+
+用户已正式接受06并授权Git提交、推送和合入main，V1六阶段均ACCEPTED。06真实质量门禁及遗留见[最终验收](docs/final-acceptance.md)；本轮不冒称重跑原228项门禁。随后在v2分支开发V2 01，02/03仅设计批准、未授权开发；最新状态以[STATE](docs/STATE.md)为准。旧轮次等待文字保留历史语境。
+
+## 当前交付入口（2026-11-15）
+
+01～05已ACCEPTED并归档；06六Task已独立QA PASS并主Agent技术复核，阶段VERIFIED，06-QA-001已关闭。独立新环境完整真实PG门禁228 passed/0 failed/0 skipped，隔离PG/vector镜像、空双库初始化及精确清理通过。06正式验收及Git归档仍待用户明确批准。以下旧轮次状态保留历史；当前以[STATE](docs/STATE.md)、[最终验收入口](docs/final-acceptance.md)和[06交付报告](docs/06-delivery-report.md)为准。
+
+Supervisor串行调度Order / Refund / Knowledge，Memory是共享基础设施。ToolRegistry、Policy与Executor统一约束工具；订单/退款是有真实数据库状态的模拟业务，不涉及真实支付。
+
+```mermaid
+flowchart LR
+    HTTP[HTTP / SSE] --> Service --> Runtime --> Supervisor
+    Supervisor --> Order
+    Supervisor --> Refund
+    Supervisor --> Knowledge
+    Order & Refund & Knowledge --> Tools[Registry / Policy / Executor]
+    Tools --> PG[PostgreSQL / pgvector]
+    Runtime --> Saver[持久Checkpoint / Interrupt / Resume]
+    Supervisor --> Memory[共享Reader / Manager / Store]
+    Knowledge --> Qwen[本地Qwen CPU / 1024维]
+```
+
+## 首次复现
+
+Windows Python **3.13.7**，单worker；依赖锁在`requirements.txt`，CPU torch **2.9.1+cpu**、sentence-transformers **5.1.2**、transformers **4.57.6**。不复制site-packages，不覆盖现有`.venv`；首次安装示例使用独立环境：
+
+```powershell
+py -3.13 -m venv .venv-reproduce
+.\.venv-reproduce\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv-reproduce\Scripts\python.exe -m pip check
+if (-not (Test-Path -LiteralPath .env)) {
+    Copy-Item -LiteralPath .env.example -Destination .env
+}
+```
+
+以下命令中的`.venv`替换为本轮实际环境。`.env`只在本机填写Chat与各库连接；OpenAI与langchain-openai是兼容Chat SDK，Embedding走本地Qwen，无Embedding API Key。真实Chat沿已验证DeepSeek `deepseek-flash`、function_calling、reasoning_effort=none；更换供应商须重新显式验证，health不探测Chat网络。
+
+数据库为PG **17.6** / vector **0.8.7**，应用库`agent_demo/agent_app`、隔离测试库`agent_demo_test/agent_test`。现有`compose.yaml`是**不含vector的原PG镜像**。完整新环境请先读[固定版本数据库配方与初始化边界](docs/database-reproduction.md)；不得直接重建原VM容器/卷。PG普通重启与从镜像重建含义不同。
+
+新空环境的顺序是：独立PG/vector资源 → bootstrap双库和角色 → 001～006编号迁移 → Saver setup → Store setup → 首次模拟订单种子 → 固定语料导入。仅对**新目标**执行初始化，已有库不重置数据：
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.init_databases
+.\.venv\Scripts\python.exe -m scripts.migrate --target development
+.\.venv\Scripts\python.exe -m scripts.setup_checkpoint --target development
+.\.venv\Scripts\python.exe -m scripts.setup_store --target development
+.\.venv\Scripts\python.exe -m scripts.seed_orders --target development
+.\.venv\Scripts\python.exe -m scripts.ingest_knowledge --target development --root data/knowledge --manifest data/knowledge/manifest.json
+```
+
+初始化test库时分别换为`--target test`；bootstrap只支持本地固定目标，006的CREATE EXTENSION需要管理员在目标库预建vector或执行该迁移所需权限，详见数据库配方。Web启动只检查资源，不执行迁移、setup、seed或导入。
+
+Qwen模型目录`D:/AI/models/qwen3-embedding-0.6b`，实测权重revision `97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3`，须包含REVISION、tokenizer与完整权重。首次下载使用显式`scripts.download_embedding --download`（联网，下载脚本会解析当时revision；要复现旧profile须准备相同revision文件）。运行时离线加载，CPU/bfloat16/2线程、1024输入tokens、batch=1、单worker单实例；1024输出维度固定，导入和查询profile必须一致。不要并行运行导入、Qwen测试和启用Embedding的Web服务。演示进程显式设置`AGENT_EMBEDDING_ENABLED=true`，用户现有`.env`默认关闭状态保留。
+
+复现上述固定revision时，可在**新模型缓存目录**按下列Python代码显式联网下载（本轮未重复下载现有1.2GB权重），核验通过后再设`AGENT_EMBEDDING_MODEL_PATH`。不要覆盖正在运行的模型目录；原始下载与hash出处见[05模型交付](docs/05-local-embedding-delivery-report.md)。
+
+```python
+import hashlib
+from pathlib import Path
+from huggingface_hub import snapshot_download
+import tiktoken
+
+revision = "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+path = Path("D:/AI/models/qwen3-embedding-0.6b-reproduce")
+snapshot_download("Qwen/Qwen3-Embedding-0.6B", revision=revision, local_dir=path,
+                  allow_patterns=["*.json", "*.txt", "*.model", "*.safetensors", "1_Pooling/*"],
+                  max_workers=1)
+with (path / "model.safetensors").open("rb") as weight:
+    assert hashlib.file_digest(weight, "sha256").hexdigest() == "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd"
+assert hashlib.sha256((path / "tokenizer.json").read_bytes()).hexdigest() == "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a"
+(path / "REVISION").write_text(revision, encoding="utf-8")
+tiktoken.get_encoding("cl100k_base")
+```
+
+## 运行、公共协议与关闭
+
+```powershell
+$env:AGENT_EMBEDDING_ENABLED='true'
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --loop app.infrastructure.postgres:selector_event_loop
+```
+
+按Ctrl+C正常关闭并等待Application stopped；Runtime先收敛，再关闭Store、模型/Embedding、Saver和业务池。持久恢复演示必须完整退出旧PID后启动新进程，PG保持运行。仅管理自己记录的PID，勿杀用户进程。完整隔离演示、两次重启、实际业务核对和精确清理见[演示步骤](docs/demo-walkthrough.md)，该流程用UUID测试数据且禁止seed固定订单。
+
+`GET /health`的status=ok仅表示HTTP存活；database/checkpoint/store各自ready，model=initialized只表示SDK初始化，embedding=ready表示本地权重已加载，knowledge_ready还需索引/profile检查通过。agent_ready不等于Chat网络或所有专业能力已经真实调用成功；Embedding关闭仍可执行订单/退款及Memory。
+
+公共chat输入为`user_id/conversation_id/message`及可选`input_mode/request_id`，拒绝旧workflow_id输入。task_id唯一由Runtime生成，workflow_id只是同值别名，thread由session持久绑定。Run状态/事件、当前Task、退款事实及审批接口见[接口文档](docs/apifox-api-guide.md)。SSE只输出批准的最终回复，done结束本Run；断开不取消执行，重订阅无历史token重放。重启后旧Run缓存可404，应查持久Task/原审批并独立resume。
+
+普通user_id是development/test演示选择，服务端执行归属校验，非生产登录认证。本地审批仅回环、固定审计Actor `local-demo-approval`，无管理员Key，production不注册该入口。原审批绑定task/call/args/operation/interrupt，不可通过聊天批准；unknown先人工核对原操作，禁止换ID重发。
+
+## 交付与验收
+
+- [06交付报告：干净环境、命令、实际结果和限制](docs/06-delivery-report.md)
+- [最终能力矩阵与用户验收入口](docs/final-acceptance.md)
+- [06简洁Handoff](docs/06-integration-handoff.md)
+- [演示与精确清理](docs/demo-walkthrough.md)、[OpenAPI/集合导入](docs/apifox-api-guide.md)
+
+用户已确认Postman导入；客户端后置脚本实际执行、变量回填和SSE界面仍未实测。Node受控脚本与真实HTTP证据不能替代这些客户端结果。既有Store即时关闭观测波动、unknown人工核对与六项暂缓差异继续保留，详见最终验收入口。
+
+---
+
+以下为按日期保留的历史实施记录；旧准备层、版本及未启动状态不作为当前操作指引。
+
+2026-11-14：Task6.2.2 隔离和退化路径实施记录见[交付与验证证据](docs/06-isolation-degradation-delivery-report.md)，交主Agent复核与独立QA；真实TCP/PG/Saver/Store/Qwen配合受控Chat及故障注入，99项风险定向回归通过。
+
+2026-11-14：Task6.2.1 核心持久化故障实施记录见[交付与真实进程证据](docs/06-persistence-fault-delivery-report.md)，交主Agent复核与独立QA；范围为原审批/退款恢复的真实PG及独立FastAPI进程验证。
+
+2026-11-14：Task6.1.2 会话/状态/事件统一实施交付，待独立 QA，见[交付与验证记录](docs/06-state-events-delivery-report.md)。修复新 Task 首快照前当前任务查询的关联窗口；真实 PG/Saver/Store/Qwen 配合受控 Chat 验证通过，最终完整真实 PG 225 passed、0 skipped。6.1.1 已独立 QA PASS/主复核 VERIFIED；历史轮次表述保留追溯。
+
+2026-11-14：06 已授权；Task6.1.1 装配实施交付待独立QA，见[装配交付与未闭环项](docs/06-assembly-delivery-report.md)。本轮统一资源关闭顺序、启动时知识索引/profile就绪检查，并明确偏好呈现优先级；同一真实应用两条中文知识问题均按英语偏好回答，四能力路径及清理已验证；最终完整真实PG224 passed、0 skipped。以下“未进入06”等文字保留历史语境。
+
 2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，已以79d576b交付归档并推送核验，[Git回执](docs/05-git-archive-receipt.md)；未进入06。以下各轮记录按原日期保留。
 
 Task 5.3.1 Store / shared Reader implementation and validation: [delivery report](docs/05-store-reader-delivery-report.md). Store setup is explicit (`python -m scripts.setup_store --target test` or `development`); startup only verifies readiness.
@@ -144,6 +255,9 @@ py -3.13 -m venv .venv
 
 ## 开发文档
 
+- [Apifox接口文档、OpenAPI与集合导入说明](docs/apifox-api-guide.md)
+- [Task6.3.1 演示步骤、Postman集合与精确清理](docs/demo-walkthrough.md)
+- [Task6.3.1 文件与真实HTTP演示交付记录（GUI待用户导入）](docs/06-demo-delivery-report.md)
 - [分阶段独立验收、主 Agent 复核及修复任务](docs/question/README.md)
 - [02 AgentRuntime整阶段执行任务](docs/02-agent-runtime-execution-task.md)
 - [02 主Agent协调与验收记录](docs/question/02-agent-runtime-main-review.md)

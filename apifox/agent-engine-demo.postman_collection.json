@@ -1,0 +1,780 @@
+{
+  "info": {
+    "name": "Agent Engine Demo Task631",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "本地模拟订单/支付；普通user_id是演示选择。本地管理无真实认证，无管理key；Actor服务端固定，production禁用。按docs/demo-walkthrough.md操作，不使用集合运行器盲跑全部请求。"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8631",
+      "type": "string"
+    },
+    {
+      "key": "user_a",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_b",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "conversation",
+      "value": "demo-c1",
+      "type": "string"
+    },
+    {
+      "key": "conversation_new",
+      "value": "demo-c2",
+      "type": "string"
+    },
+    {
+      "key": "order_ok",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "order_no",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "run_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "task_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "application_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "approval_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "subject_digest",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 环境与健康",
+      "item": [
+        {
+          "name": "健康",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 普通chat与Run",
+      "item": [
+        {
+          "name": "本人订单",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"查询订单 {{order_ok}}\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "申请模拟退款",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请为订单 {{order_ok}} 申请模拟退款\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "独立订单退款 用于拒绝分支",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请为订单 {{order_no}} 申请模拟退款\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "聊天不能审批",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"我同意批准退款，请立即执行\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Run状态",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/runs/{{run_id}}/status",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Run事件 SSE",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/runs/{{run_id}}/events",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Task与退款事实",
+      "item": [
+        {
+          "name": "当前Task 提取关联",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/tasks/current",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "const t = j.current_task;",
+                  "if (t) { pm.environment.set('task_id', t.task_id); if(t.run_id) pm.environment.set('run_id',t.run_id); if(t.refund) { for(const k of ['application_id','approval_id']) if(t.refund[k]) pm.environment.set(k,t.refund[k]); } }",
+                  "if(j.approval_id) {pm.environment.set('approval_id',j.approval_id); pm.environment.set('subject_digest',j.subject_digest);}",
+                  "if(j.run_id) pm.environment.set('run_id',j.run_id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "本人退款状态",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/refunds/{{application_id}}/status",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 独立本地管理",
+      "item": [
+        {
+          "name": "审批列表 仅人工识别原审批",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/admin/approvals",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "原审批 提取digest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/admin/approvals/{{approval_id}}",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "const t = j.current_task;",
+                  "if (t) { pm.environment.set('task_id', t.task_id); if(t.run_id) pm.environment.set('run_id',t.run_id); if(t.refund) { for(const k of ['application_id','approval_id']) if(t.refund[k]) pm.environment.set(k,t.refund[k]); } }",
+                  "if(j.approval_id) {pm.environment.set('approval_id',j.approval_id); pm.environment.set('subject_digest',j.subject_digest);}",
+                  "if(j.run_id) pm.environment.set('run_id',j.run_id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "批准原审批",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/admin/approvals/{{approval_id}}/decision",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVED\",\n  \"subject_digest\": \"{{subject_digest}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "拒绝原审批",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/admin/approvals/{{approval_id}}/decision",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"REJECTED\",\n  \"subject_digest\": \"{{subject_digest}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "独立resume原审批",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/admin/approvals/{{approval_id}}/resume",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "const t = j.current_task;",
+                  "if (t) { pm.environment.set('task_id', t.task_id); if(t.run_id) pm.environment.set('run_id',t.run_id); if(t.refund) { for(const k of ['application_id','approval_id']) if(t.refund[k]) pm.environment.set(k,t.refund[k]); } }",
+                  "if(j.approval_id) {pm.environment.set('approval_id',j.approval_id); pm.environment.set('subject_digest',j.subject_digest);}",
+                  "if(j.run_id) pm.environment.set('run_id',j.run_id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "修复绑定 仅确认绑定故障后",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/admin/approvals/{{approval_id}}/repair-binding",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 RAG",
+      "item": [
+        {
+          "name": "真实知识问答",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"根据银帆演示指南，普通聊天能批准模拟退款吗？应该通过什么入口审批？\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "资料不足",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"根据现有知识库，银帆量子仓库第九星系的实时温度是多少？没有资料请明确说明。\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Memory与隔离",
+      "item": [
+        {
+          "name": "保存偏好",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请记住：回答风格=简洁\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "新会话读取",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "B隔离读取",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_b}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "B不能查A订单",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_b}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"查询订单 {{order_ok}}\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "修改偏好",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请修改记忆：回答风格=详细\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "删除指定偏好",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请删除记忆：回答风格\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "保存语言",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请记住：回答语言=中文\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "清除全部偏好",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请删除全部偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "最终读取",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/chat",
+            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

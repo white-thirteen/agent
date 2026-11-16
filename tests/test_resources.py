@@ -155,6 +155,35 @@ async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatc
     monkeypatch.setattr(module, "open_checkpoint_pool", checkpoint_opened)
     monkeypatch.setattr(module, "AsyncPostgresSaver", lambda pool, **kwargs: InMemorySaver())
     monkeypatch.setattr(module, "model_resources", controlled_resources)
+
+    @asynccontextmanager
+    async def controlled_store(settings):
+        events.append("store_opened")
+        yield object()
+        assert app.state.agent_runtime._stopping
+        assert all(record.task.done() for record in app.state.agent_runtime._records.values())
+        assert not captured[0].http_async_client.is_closed
+        events.append("store_closed")
+
+    class Embeddings:
+        profile = type("Profile", (), {"key": "controlled"})()
+
+        async def initialize(self):
+            events.append("embedding_opened")
+
+        async def aclose(self):
+            events.append("embedding_closed")
+
+    class Repository:
+        def __init__(self, pool):
+            pass
+
+        async def check_ready(self, profile):
+            assert profile == "controlled"
+
+    monkeypatch.setattr(module, "store_resources", controlled_store)
+    monkeypatch.setattr(module, "create_embeddings", lambda settings: Embeddings())
+    monkeypatch.setattr(module, "KnowledgeRepository", Repository)
     monkeypatch.setattr(module, "SessionRepository", lambda pool: MemorySessions())
     app = create_app(
         Settings(
@@ -164,12 +193,22 @@ async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatc
             model_api_key="test",
             database_url="postgresql://test:unused@localhost/agent_demo_test",
             runtime_shutdown_grace_seconds=0.01,
+            embedding_enabled=True,
         )
     )
     async with app.router.lifespan_context(app):
         handle = await app.state.agent_runtime.submit(context(), options=SubmitOptions())
         await entered.wait()
-    assert events == ["runtime_settled", "model_closed", "checkpoint_closed", "pool_closed"]
+    assert events == [
+        "embedding_opened",
+        "store_opened",
+        "store_closed",
+        "embedding_closed",
+        "runtime_settled",
+        "model_closed",
+        "checkpoint_closed",
+        "pool_closed",
+    ]
     assert captured[0].http_client.is_closed and captured[0].http_async_client.is_closed
     assert app.state.agent_runtime._records[handle.run_id].error["code"] == "run_interrupted"
 
@@ -188,3 +227,140 @@ def test_pool_log_filter_is_installed_outside_lifespan_and_hides_driver_detail()
     )
     assert selected[0].filter(record)
     assert record.getMessage() == "PostgreSQL pool resource event"
+
+
+@pytest.mark.parametrize(
+    "failure", ["database", "checkpoint", "embedding", "knowledge", "store", "graph"]
+)
+async def test_assembly_optional_failures_and_partial_cleanup(monkeypatch, failure):
+    """Actual builders/registry run once; failed optional resources do not disable orders."""
+    import httpx
+    from langgraph.checkpoint.memory import InMemorySaver
+
+    import app.main as module
+    from app.knowledge.models import KnowledgeError
+
+    events, builds = [], []
+
+    class Pool:
+        def __init__(self, name):
+            self.name = name
+
+        async def close(self):
+            events.append(self.name)
+
+    async def database(settings):
+        if failure == "database":
+            raise DatabaseUnavailableError("private DSN must never escape")
+        return Pool("database")
+
+    async def checkpoint(settings):
+        if failure == "checkpoint":
+            raise DatabaseUnavailableError("private DSN must never escape")
+        return Pool("checkpoint")
+
+    @asynccontextmanager
+    async def model(settings):
+        builds.append("model")
+        try:
+            yield object(), object()
+        finally:
+            events.append("model")
+
+    class Embeddings:
+        profile = type("Profile", (), {"key": "controlled"})()
+
+        async def initialize(self):
+            if failure == "embedding":
+                raise KnowledgeError("embedding_unavailable")
+
+        async def aclose(self):
+            events.append("embedding")
+
+    class Repository:
+        def __init__(self, pool):
+            pass
+
+        async def check_ready(self, profile):
+            if failure == "knowledge":
+                raise KnowledgeError("embedding_profile_mismatch")
+
+    @asynccontextmanager
+    async def store(settings):
+        if failure == "store":
+            raise DatabaseUnavailableError("private DSN must never escape")
+        try:
+            yield object()
+        finally:
+            events.append("store")
+
+    original = module.build_supervisor_graph
+
+    def graph(**kwargs):
+        builds.append("graph")
+        if failure == "graph":
+            raise TypeError("controlled construction error")
+        return original(**kwargs)
+
+    monkeypatch.setattr(module, "open_pool", database)
+    monkeypatch.setattr(module, "open_checkpoint_pool", checkpoint)
+    monkeypatch.setattr(module, "model_resources", model)
+    monkeypatch.setattr(module, "create_embeddings", lambda settings: Embeddings())
+    monkeypatch.setattr(module, "KnowledgeRepository", Repository)
+    monkeypatch.setattr(module, "store_resources", store)
+    monkeypatch.setattr(module, "AsyncPostgresSaver", lambda *args, **kwargs: InMemorySaver())
+    monkeypatch.setattr(module, "build_supervisor_graph", graph)
+    app = create_app(
+        Settings(
+            _env_file=None,
+            app_env="test",
+            model_name="controlled",
+            model_api_key="test",
+            database_url="postgresql://test:unused@localhost/agent_demo_test",
+            embedding_enabled=True,
+        )
+    )
+    if failure == "graph":
+        with pytest.raises(TypeError, match="controlled construction error"):
+            async with app.router.lifespan_context(app):
+                pytest.fail("Graph construction should fail startup")
+        assert events == ["store", "embedding", "model", "checkpoint", "database"]
+        return
+    async with app.router.lifespan_context(app):
+        async with httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            for _ in range(2):
+                response = await client.get("/health")
+                health = response.json()
+                assert "private" not in response.text and "postgresql" not in response.text
+                assert health["agent_ready"] == (failure not in {"database", "checkpoint"})
+                assert health["knowledge_ready"] == (
+                    failure not in {"database", "embedding", "knowledge"}
+                )
+            if failure in {"database", "checkpoint"}:
+                response = await client.post(
+                    "/agent/chat",
+                    json={
+                        "user_id": "dev-user",
+                        "conversation_id": "controlled",
+                        "message": "hello",
+                    },
+                )
+                assert response.status_code == 503
+        if app.state.agent_service.is_ready:
+            registry = app.state.tool_registry
+            assert registry.frozen and registry.get("get_order").metadata.enabled
+            assert registry.get("refund_order").metadata.enabled
+            assert registry.get("search_knowledge").metadata.enabled == health["knowledge_ready"]
+            assert registry.get("write_preferences").metadata.enabled == (failure != "store")
+    assert builds.count("model") == 1
+    assert builds.count("graph") == (failure not in {"database", "checkpoint"})
+    expected = ["store", "embedding", "model", "checkpoint", "database"]
+    if failure == "database":
+        expected = ["embedding", "model"]
+    elif failure == "checkpoint":
+        expected.remove("checkpoint")
+    elif failure == "store":
+        expected.remove("store")
+    assert events == expected

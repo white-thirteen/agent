@@ -92,6 +92,9 @@ def test_real_publication_rollback_current_sources_and_exact_cosine(knowledge_da
         try:
             assert await repository.replace(original, [vector])
             assert await repository.is_complete(original)
+            await repository.check_ready(profile)
+            with pytest.raises(KnowledgeError, match="embedding_profile_mismatch"):
+                await repository.check_ready("different-profile")
             assert not await repository.replace(original, [vector])
             results = await repository.search(vector, profile, "platform_help")
             assert results[0].chunk_id == original.chunks[0].chunk_id

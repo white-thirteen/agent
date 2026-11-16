@@ -1,0 +1,47 @@
+{
+  "token": "9ab2d27474a3",
+  "workspace": "/tmp/codex-delivery632-rvjoj7lz",
+  "image": "agent-delivery632-pgvector:9ab2d27474a3",
+  "container": "codex632-pgvector-9ab2d27474a3",
+  "volume": "codex632-data-9ab2d27474a3",
+  "commands": [
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.Status}}|{{.Config.Image}}|{{range .Mounts}}{{.Type}}:{{.Name}}:{{.Source}}:{{.Destination}};{{end}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "rm",
+        "-f",
+        "codex632-pgvector-9ab2d27474a3"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "volume",
+        "rm",
+        "codex632-data-9ab2d27474a3"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.Status}}|{{.Config.Image}}|{{range .Mounts}}{{.Type}}:{{.Name}}:{{.Source}}:{{.Destination}};{{end}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "dockerfile_sha256": "e2350f60655492399d3dc3f6cf6418cad1c25599c762affb2044f8077dfe8ceb",
+  "failure_output": "\ntemplate parsing error: template: :1:73: executing \"\" at <.Name>: map has no entry for key \"Name\"\n",
+  "result": "FAIL",
+  "failure_category": "RuntimeError"
+}
