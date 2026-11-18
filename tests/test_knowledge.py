@@ -27,6 +27,62 @@ def entry(**updates):
     )
 
 
+def test_hybrid_contract_rejects_v1_replay_and_preserves_source_identity():
+    from pydantic import ValidationError
+
+    from app.knowledge.models import (
+        HybridSearchResult,
+        RankedScore,
+        RetrievalCandidate,
+        RetrievalProfile,
+        SearchResult,
+        SparseIndexProfile,
+    )
+
+    source = dict(document_id="demo", document_version="v1", chunk_id="text-id", content_hash="h")
+    candidate = RetrievalCandidate(
+        **source,
+        dense=RankedScore(rank=1, score=0.9),
+        sparse=RankedScore(rank=2, score=4.2),
+        rrf_score=1 / 61 + 1 / 62,
+    )
+    assert {name: getattr(candidate, name) for name in source} == source
+    sparse = SparseIndexProfile()
+    profile = RetrievalProfile(
+        embedding_profile="existing-qwen-profile",
+        sparse_profile=sparse.key,
+        reranker_revision="test-revision",
+        reranker_tokenizer_revision="test-revision",
+    )
+    assert profile.key != profile.model_copy(update={"reranker_revision": "changed"}).key
+    old = SearchResult(
+        status="empty",
+        evidence=(),
+        embedding_profile="existing-qwen-profile",
+        query_fingerprint="q",
+        context_tokens=1,
+        truncated=False,
+        embedding_request_attempts=1,
+        candidate_count=0,
+        elapsed_ms=1,
+        context="[]",
+    )
+    with pytest.raises(ValidationError):
+        HybridSearchResult.model_validate(old.model_dump())
+    result = HybridSearchResult(
+        **old.model_dump(),
+        contract_version=2,
+        mode="hybrid",
+        retrieval_profile=profile.key,
+        sparse_profile=sparse.key,
+        index_watermark=1,
+        candidates=(),
+    )
+    assert HybridSearchResult.model_validate_json(result.model_dump_json()) == result
+    with pytest.raises(ValidationError):
+        SearchResult.model_validate(result.model_dump())
+
+
 async def test_timeout_and_cancel_keep_capacity_and_close_drains():
     embeddings = QwenLocalEmbeddings(Settings(_env_file=None, embedding_timeout_seconds=0.02))
     entered, release = Event(), Event()

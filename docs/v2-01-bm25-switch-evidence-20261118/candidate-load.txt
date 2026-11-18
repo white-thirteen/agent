@@ -1,0 +1,10 @@
+Container=/v201pt-cand-test Image=sha256:d97c42c4bdfafbc0a31f1cc57d518fd408b4303c6d58b2319be1f7d8f6c09203 StartedAt=2026-11-18T05:32:56.25544856Z
+SET
+PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+pg_textsearch|1.5.1
+plpgsql|1.0
+vector|0.8.7
+zhparser|2.4
+pg_textsearch
+7
+doc-refund

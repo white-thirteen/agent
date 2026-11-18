@@ -1,0 +1,11 @@
+== environment ==
+postgresql-17 17.12-1.pgdg12+1
+postgresql-client-17 17.12-1.pgdg12+1
+postgresql-server-dev-17 17.12-1.pgdg12+1
+PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1)
+gcc (Debian 12.2.0-14+deb12u1) 12.2.0
+GNU Make 4.3
+== sources ==
+2e7fb76ed96176afc6d16cc5d095ced2cb233ff27fbeaa8c7bfffc82e02f7498  /work/pt151.tar.gz
+60d50ac3dc42cff3c0b16cb1cfee47d8cb8c8baa142a58bc62854477b81f1af5  /work/scws-1.2.3.tar.bz2
+f54018be7509e9e68fae95a078bcd0a3699bb20b04e5059cc4c7352c1c2fed67  /work/zhparser-21ee.tar.gz

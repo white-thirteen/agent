@@ -1,0 +1,6 @@
+# Preserve exact bytes for the Task 1.1.1 evidence and recorded SHA256 values.
+v2-01-bm25-switch-evidence-20261118/** -text
+v2-01-task111-evidence-20261118/** -text
+v2-01-01-resume-evidence-20261117/** -text
+v2-01-01-compatibility-evidence-20261117.json -text
+v2-01-01-compatibility-executed-20261117.py -text

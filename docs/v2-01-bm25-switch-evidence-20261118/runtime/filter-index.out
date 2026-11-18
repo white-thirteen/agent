@@ -1,0 +1,21 @@
+SET
+DROP INDEX
+SET
+                                               QUERY PLAN                                                
+---------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.01..8.15 rows=1 width=40) (actual rows=2 loops=1)
+   ->  Index Scan using evidence_bm25 on docs  (cost=0.01..8.15 rows=1 width=40) (actual rows=2 loops=1)
+         Order By: (content <@> 'evidence_bm25:退款'::bm25query)
+         Filter: ((domain = 'after_sales_help'::text) AND (doc_version = 1))
+         Rows Removed by Filter: 2
+ Planning Time: 13.596 ms
+ Execution Time: 47.814 ms
+(7 rows)
+
+     id     
+------------
+ doc-refund
+ doc-safety
+(2 rows)
+
+CREATE INDEX

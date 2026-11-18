@@ -1,0 +1,2 @@
+pg_ctl: server is running (PID: 78)
+/usr/lib/postgresql/17/bin/postgres "-p" "55436"

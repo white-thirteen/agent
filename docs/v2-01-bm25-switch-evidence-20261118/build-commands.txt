@@ -1,0 +1,34 @@
+Rebuild executed 2026-11-18 in a dedicated container from:
+postgres:17.12-bookworm@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536
+
+apt-get update -qq
+apt-get install -y -qq gcc make libc6-dev bzip2 curl postgresql-server-dev-17
+pg_config --version
+gcc --version
+make --version
+
+tar xjf scws-1.2.3.tar.bz2
+cd scws-1.2.3
+./configure --prefix=/usr/local
+make -j2
+make install
+ldconfig
+
+tar xzf zhparser-21ee.tar.gz
+cd zhparser-21ee29212e9f3b3c34bafb096e184f26c84111b5
+make PG_CONFIG=/usr/lib/postgresql/17/bin/pg_config with_llvm=no -j2
+make install PG_CONFIG=/usr/lib/postgresql/17/bin/pg_config
+
+tar xzf pt151.tar.gz
+cd pg_textsearch-1.5.1
+make PG_CONFIG=/usr/lib/postgresql/17/bin/pg_config with_llvm=no -j2
+make install PG_CONFIG=/usr/lib/postgresql/17/bin/pg_config
+
+cp zhparser dict.utf8.xdb rules.utf8.ini /usr/share/postgresql/17/tsearch_data/
+
+Candidate runtime image:
+- based on postgres:17.12-bookworm (digest above)
+- apt install postgresql-17-pgvector=0.8.7-1.pgdg12+1
+- copy pg_textsearch.so, zhparser.so, libscws.so.1.1.0, extension control/SQL files, dict/rules
+- ldconfig
+- docker commit v201pt-candidate:1.5.1

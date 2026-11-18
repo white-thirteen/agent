@@ -1,0 +1,2 @@
+postgresql-17 17.12-1.pgdg12+1
+postgresql-17-pgvector 0.8.7-1.pgdg12+2

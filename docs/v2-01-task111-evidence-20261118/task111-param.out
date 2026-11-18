@@ -1,0 +1,49 @@
+SET
+SET
+PREPARED_QUERY
+PREPARE
+CHINESE
+       id       |        score        
+----------------+---------------------
+ zh-refund      | -1.6270842552185059
+ mixed-approval | -0.5077717900276184
+(2 rows)
+
+ENGLISH
+    id     |       score        
+-----------+--------------------
+ en-stream | -4.021807610988617
+(1 row)
+
+MIXED
+       id       |        score        
+----------------+---------------------
+ mixed-approval | -2.9887390732765198
+ zh-refund      | -0.6462550163269043
+(2 rows)
+
+PREPARED_PLAN
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Limit
+   ->  Incremental Sort
+         Sort Key: ((content <@> 'probe111_docs_bm25:退款 银行卡'::bm25query)), id
+         Presorted Key: ((content <@> 'probe111_docs_bm25:退款 银行卡'::bm25query))
+         ->  Index Scan using probe111_docs_bm25 on docs
+               Order By: (content <@> 'probe111_docs_bm25:退款 银行卡'::bm25query)
+               Filter: ((content <@> 'probe111_docs_bm25:退款 银行卡'::bm25query) < '0'::double precision)
+(7 rows)
+
+INDEX_RESOLUTION
+   trusted_index    | injected_index 
+--------------------+----------------
+ probe111_docs_bm25 | 
+(1 row)
+
+INVALID_INDEX_REJECTED
+psql:/work/v201pt-task111-param.sql:24: ERROR:  invalid name syntax
+ docs_after_invalid_index 
+--------------------------
+                        3
+(1 row)
+

@@ -1,0 +1,27 @@
+SET
+DROP INDEX
+SEQ_PLAN
+SET
+SET
+SET
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=21.13..23.66 rows=1 width=48) (actual rows=2 loops=1)
+   ->  WindowAgg  (cost=21.13..23.66 rows=1 width=48) (actual rows=2 loops=1)
+         ->  Sort  (cost=21.13..21.14 rows=1 width=40) (actual rows=2 loops=1)
+               Sort Key: ((docs.content <@> 'evidence_bm25:退款'::bm25query)), docs.id
+               Sort Method: quicksort  Memory: 25kB
+               ->  Seq Scan on docs  (cost=0.00..21.12 rows=1 width=40) (actual rows=2 loops=1)
+                     Filter: ((domain = 'after_sales_help'::text) AND (doc_version = 1) AND ((content <@> 'evidence_bm25:退款'::bm25query) < '0'::double precision))
+                     Rows Removed by Filter: 5
+ Planning Time: 14.844 ms
+ Execution Time: 20.330 ms
+(10 rows)
+
+SEQ_ROWS
+ rank |     id     |       score        
+------+------------+--------------------
+    1 | doc-refund | -0.748994767665863
+    2 | doc-safety | -0.531849205493927
+(2 rows)
+

@@ -1,0 +1,11 @@
+SET
+BEGIN
+INSERT 0 1
+UPDATE 1
+              at               |  phase   | chunk_id  | document_version | is_current 
+-------------------------------+----------+-----------+------------------+------------
+ 2026-11-18 11:40:55.345512+00 | B_commit | v1-refund |                1 | f
+ 2026-11-18 11:40:55.345971+00 | B_commit | v2-refund |                2 | t
+(2 rows)
+
+COMMIT

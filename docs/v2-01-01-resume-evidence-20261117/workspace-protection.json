@@ -1,0 +1,11 @@
+{
+  "baseline_file_count": 523,
+  "intentional_changed_existing_files": [
+    "docs/STATE.md"
+  ],
+  "unexpected_changes": [],
+  "branch": "v2",
+  "head": "232469acf7e576883e84d58c5a140fd598d9b00e",
+  "env_unchanged": true,
+  "existing_business_changes_preserved": true
+}

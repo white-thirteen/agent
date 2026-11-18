@@ -1,0 +1,28 @@
+SET
+IDX_PLAN
+SET
+SET
+SET
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=10.27..15.31 rows=2 width=48) (actual rows=2 loops=1)
+   ->  WindowAgg  (cost=10.27..15.31 rows=2 width=48) (actual rows=2 loops=1)
+         ->  Incremental Sort  (cost=10.23..10.28 rows=2 width=40) (actual rows=2 loops=1)
+               Sort Key: ((docs.content <@> 'evidence_bm25:退款'::bm25query)), docs.id
+               Presorted Key: ((docs.content <@> 'evidence_bm25:退款'::bm25query))
+               Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+               ->  Index Scan using evidence_bm25 on docs  (cost=0.01..10.22 rows=1 width=40) (actual rows=2 loops=1)
+                     Order By: (content <@> 'evidence_bm25:退款'::bm25query)
+                     Filter: ((domain = 'after_sales_help'::text) AND (doc_version = 1) AND ((content <@> 'evidence_bm25:退款'::bm25query) < '0'::double precision))
+                     Rows Removed by Filter: 2
+ Planning Time: 2.007 ms
+ Execution Time: 17.213 ms
+(12 rows)
+
+IDX_ROWS
+ rank |     id     |       score        
+------+------------+--------------------
+    1 | doc-refund | -0.748994767665863
+    2 | doc-safety | -0.531849205493927
+(2 rows)
+

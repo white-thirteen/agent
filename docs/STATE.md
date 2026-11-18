@@ -1,5 +1,59 @@
 # 当前交接状态
 
+## 当前交付（2026-11-18，Task 1.1.1 = ACCEPTED）
+
+Codex 独立复验通过，用户正式接受并授权本 Task 的 Git 归档。固定基线为 PostgreSQL 17.12、pgvector 0.8.7（包 +2）、pg_textsearch 1.5.1、zhparser 2.4 和 SCWS 1.2.3。见[验收和证据索引](v2-01-task111-acceptance.md)。
+
+BM25 并发分数/排序稳定性、应用级 Dense-only 回退、RRF/BGE 和完整质量评测留待后续 Task。V2 01 阶段仍在进行，1.1.2 等待另行启动。以下待复验与旧候选阻塞记录为历史。
+
+## 最新补证（2026-11-18，Task 1.1.1 PENDING_CODEX_REVIEW）
+
+已在隔离候选镜像 `v201pt-candidate:1.5.1-vector2` 完成三项补证：参数化/中英混合 BM25 逐例断言 PASS；`REPEATABLE READ` 下 Dense/Sparse 同快照，版本替换后旧 `v1-refund` 的 `is_current=false`；REINDEX 超时失败后索引仍有效、5000 行校验和不变，重试成功，BM25 索引禁用时 Dense-only Top5 可执行。详见[Task 1.1.1 补证报告](v2-01-task111-report.md)及[证据目录](v2-01-task111-evidence-20261118/)。
+
+未执行 1.1.2 及后续 Task；未修改/重启正式数据库、业务代码、设计、迁移或 V1 配置；未提交 Git。状态待 Codex 独立复验，不自行宣布 Task 1.1.1 ACCEPTED。
+
+## 最新变更（2026-11-18，V2 01 BM25 切换 REQUIRES_FIX）
+
+BM25 主方案已由 ParadeDB pg_search 切换为 Tiger Data pg_textsearch 1.5.1，中文采用 zhparser 2.4 + SCWS 1.2.3；PostgreSQL 17.12/vector 0.8.7 及既有 Dense 路径不变。隔离环境完成 PG17.12 headers 安全构建、扩展加载、中文索引、事务回滚、增量更新、重启、过滤后 TopK、5000 Chunk 压力及并发可见性复测，详见[切换报告](v2-01-bm25-switch-report.md)。
+
+本轮完成与正式基线一致的 pgvector `0.8.7-1.pgdg12+2` 候选镜像重建；候选容器内 7 项实际加载产物 SHA256 全部 `OK`，过滤 TopK 顺序扫描与 BM25 索引扫描逐行一致，DELETE 提交后旧关键词不再命中。并发只证明固定夹具下未提交变更不可见、提交后可见，不对历史“返回 0”作根因结论。临时语料上 Jieba 与 zhparser 的 BM25 质量接近（Jieba Recall@10 0.8792 / MRR 0.9167；zhparser 0.8625 / 0.9167），未冒充 V2 冻结语料或完整 RAG 质量通过。
+
+本轮仅改 `app/knowledge/models.py` 的 SparseIndexProfile 及设计/状态/报告文档；未改业务数据、迁移、`.env`、V1 代码或正式数据库，未启用 pg_search，未提交 Git，未进入 1.1.2。Codex 独立验收为 `REQUIRES_FIX`；第二轮修复映射见[QA 修复报告](question/v2-01-bm25-switch-qa-fix-report.md)，构建/运行原始证据见[证据目录](v2-01-bm25-switch-evidence-20261118/)。正式镜像含 `pg_search.so`，但数据库未安装、未启用；三态事实见[正式事实](v2-01-bm25-switch-evidence-20261118/formal-facts.txt)。
+
+## 最新门禁结果（2026-11-17，1.1.1续作 BLOCKED）
+
+PG17.12隔离环境完整功能探针退出0：中文/英文标识、过滤后Top K、参数化、事务更新/删除回滚、Dense/Sparse同快照及重启持久化通过，专用容器/卷已精确清理。本地契约7 passed。
+但固定pg_search0.26.6源码依赖pgrx0.19.3，上游要求修复版pgrx和修复后的PG headers重建，现缺安全构建证明。独立QA确认V201-111-QA-002/P1 OPEN；Task1.1.1仍BLOCKED，不进入1.1.2。
+[续作实现](v2-01-01-compatibility-resume-report.md)、[独立QA](question/v2-01-01-compatibility-resume-qa-report.md)、[主复核及路线](v2-01-01-resume-main-review.md)。原001在17.12基线的加载阻塞解除，17.6历史失败仍保留，不冒称已修复旧组合。
+正式容器保持healthy且未重启，pg_search未启用，业务/迁移/.env/冻结设计未改；无Git提交推送。下一步需确定可追溯安全构建路线，当前VM约1.15GB空闲，不盲目启动大型源码编译、不删除备份/卷。
+
+## 最新续执行授权（2026-11-17，V2 01）
+
+用户在原库升级完成后明确要求继续01开发。本轮恢复Task 1.1.1：以已批准的新运行基线PG17.12/vector0.8.7核查pg_search安全构建来源，补齐独立环境的完整兼容门禁及契约，原始17.6失败证据保留。
+Implementer与QA采用新建gpt-6.1-terra/high、干净上下文，按Task串行；1.1.1经独立QA及主复核通过后才推进1.1.2及后续依赖Task。安全构建或部署门禁未满足时不得假通过，不擅自重启正式库或改用SQL BM25。
+本轮不进入V2 02/03，不从开发授权推导阶段ACCEPTED或Git提交/推送授权；已有工作区改动、正式HBA绑定、原卷及备份继续保护。下文升级轮次的停止条款由此次明确续执行授权覆盖。
+
+## 当前运行基线（2026-11-17，PG17.12 升级完成）
+
+用户已明确批准原库升级。原端点192.168.150.101:5432现为PG17.12/vector0.8.7（包+2，17.12 headers来源已核），
+采用最终停写备份恢复的新卷；原17.6容器/原卷及全部备份保留。独立最终QA PASS、主复核通过，
+两库各13表完整数据/结构/权限与最终备份一致；验证库完整真实Qwen/PG门禁229 passed/0 failed/0 skipped，
+切换后原配置应用健康通过，Embedding原开关仍禁用，不冒称生产RAG通过。
+见[升级报告及配置依赖/回退边界](v2-01-pg1712-upgrade-report.md)、[最终QA](question/v2-01-pg1712-upgrade-final-qa-report.md)。
+已开放正常写入，禁止未经增量核对直接切回旧库；当前升级根目录包含正式HBA绑定，不能清理。
+原.env、业务代码及迁移未改，Git仍为v2/232469a且未提交本轮改动。
+
+V2 01仍IN_PROGRESS，pg_search尚未在正式库启用，启用/安全重构建及完整兼容门禁未完成；
+本轮不进入1.1.2或02/03开发，不把原PG17.6兼容失败历史改写为已通过。
+用户另要求全部原生子Agent使用gpt-6.1-terra/high，项目默认及Implementer/QA配置已生效并实测调用；旧子会话已停止，后续只用经核对的新模型。
+下文PG17.6未升级等描述为此前轮次记录，以本段及最新用户指令为准。
+
+## 当前开发（2026-11-17，V2 01 IN_PROGRESS）
+
+06交付98af9d8、归档回执232469a已推送real-model-chat/main，v2从main创建并推送同基线，远端SHA已核验。六项旧遗留与三份批准设计未混入06；保护摘要核对无变化。当前仅V2 01获开发授权，从[Task1.1.1](v2-01-01-compatibility-execution-task.md)开始串行实施/独立QA；其余Task等待该门禁，02/03不开发。V2 01当前IN_PROGRESS，设计批准不等于技术/正式验收。
+
+1.1.1真实兼容门禁现为BLOCKED，独立QA及[主复核](v2-01-01-main-review.md)确认V201-111-QA-001/P1 OPEN：[原始证据](v2-01-01-compatibility-evidence-20261117.json)、[实现报告](v2-01-01-compatibility-report.md)。官方pg_search0.26.6包在固定PG17.6/vector0.8.7隔离镜像构建成功，但预加载失败，缺少`pg_mblen_cstr`符号；不能据此泛称所有ParadeDB版本均不支持PG17.6。两库全public行/列摘要、原容器/包版本前后不变，候选容器/卷/镜像及外层传输目录已精确清理。中文/过滤/事务/快照/重启语义未执行，不进入1.1.2、不启用新契约、不擅自升级PG或切SQL。用户技术路线裁决已请求；V2代码/设计尚未Git归档。
+
 ## 最新授权（2026-11-17，06 ACCEPTED与V2 01）
 
 用户已正式授权06提交/推送、合入main，再创建v2分支开发V2 01。06采用已有六Task独立QA及主复核证据，状态ACCEPTED；228 passed/0 failed/0 skipped为既有真实门禁，并非本轮重跑。客户端脚本/回填/SSE未实测、Store旧时序观察及六项暂缓差异保留。06交付98af9d8已推送real-model-chat和main并核验，V2设计和旧遗留未混入；见[06归档回执](06-git-archive-receipt.md)。

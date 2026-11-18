@@ -1,0 +1,97 @@
+SET
+BASELINE
+ rows |             checksum             
+------+----------------------------------
+ 5000 | a168afc9315af6158916c054a432d6cd
+(1 row)
+
+ id |         score          
+----+------------------------
+  1 | -9.998500172514468e-05
+  2 | -9.998500172514468e-05
+  3 | -9.998500172514468e-05
+(3 rows)
+
+                              QUERY PLAN                               
+-----------------------------------------------------------------------
+ Limit
+   ->  Index Scan using probe111_maint_bm25 on maint
+         Order By: (content <@> 'probe111_maint_bm25:退款'::bm25query)
+(3 rows)
+
+FAILED_REINDEX
+SET
+psql:/work/v201pt-task111-maint.sql:12: ERROR:  canceling statement due to statement timeout
+RESET
+AFTER_FAILED_REINDEX
+ indisvalid 
+------------
+ t
+(1 row)
+
+ rows |             checksum             
+------+----------------------------------
+ 5000 | a168afc9315af6158916c054a432d6cd
+(1 row)
+
+ id |         score          
+----+------------------------
+  1 | -9.998500172514468e-05
+  2 | -9.998500172514468e-05
+  3 | -9.998500172514468e-05
+(3 rows)
+
+RETRY_REINDEX
+psql:/work/v201pt-task111-maint.sql:22: NOTICE:  BM25 index build started for relation probe111_maint_bm25
+psql:/work/v201pt-task111-maint.sql:22: NOTICE:  Using text search configuration: public.chinese
+psql:/work/v201pt-task111-maint.sql:22: NOTICE:  Using index options: k1=1.20, b=0.75
+psql:/work/v201pt-task111-maint.sql:22: NOTICE:  BM25 index build completed: 5000 documents, avg_length=5.00
+REINDEX
+AFTER_RETRY
+ indisvalid 
+------------
+ t
+(1 row)
+
+ rows |             checksum             
+------+----------------------------------
+ 5000 | a168afc9315af6158916c054a432d6cd
+(1 row)
+
+ id |         score          
+----+------------------------
+  1 | -9.998500172514468e-05
+  2 | -9.998500172514468e-05
+  3 | -9.998500172514468e-05
+(3 rows)
+
+DENSE_ONLY_FALLBACK
+ALTER INDEX
+ rows |             checksum             
+------+----------------------------------
+ 5000 | a168afc9315af6158916c054a432d6cd
+(1 row)
+
+ id | distance 
+----+----------
+  1 |        0
+  2 |        0
+  3 |        0
+  4 |        0
+  5 |        0
+(5 rows)
+
+ALTER INDEX
+RESTORED
+ rows |             checksum             
+------+----------------------------------
+ 5000 | a168afc9315af6158916c054a432d6cd
+(1 row)
+
+ id |         score          
+----+------------------------
+  1 | -9.998500172514468e-05
+  2 | -9.998500172514468e-05
+  3 | -9.998500172514468e-05
+(3 rows)
+

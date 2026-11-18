@@ -1,0 +1,18 @@
+waiting for server to shut down.... done
+server stopped
+waiting for server to start....2026-11-18 05:35:33.297 UTC [78] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+2026-11-18 05:35:33.304 UTC [78] LOG:  listening on Unix socket "/tmp/.s.PGSQL.55436"
+2026-11-18 05:35:33.381 UTC [81] LOG:  database system was shut down at 2026-11-18 05:35:32 UTC
+2026-11-18 05:35:33.468 UTC [78] LOG:  database system is ready to accept connections
+ done
+server started
+2026-11-18 05:35:35.815 UTC [87] LOG:  zhparser: custom dict "/work/pgdata/base/zhprs_dict_postgres.txt" not loaded (missing or unreadable; run zhparser.sync_zhprs_custom_word() if expected)
+2026-11-18 05:35:35.815 UTC [87] STATEMENT:  SELECT id FROM docs WHERE domain='after_sales_help' AND doc_version=1 ORDER BY content <@> to_bm25query('退款','evidence_bm25') LIMIT 1;
+2026-11-18 05:38:17.575 UTC [101] LOG:  zhparser: custom dict "/work/pgdata/base/zhprs_dict_postgres.txt" not loaded (missing or unreadable; run zhparser.sync_zhprs_custom_word() if expected)
+2026-11-18 05:38:17.575 UTC [101] STATEMENT:  EXPLAIN (ANALYZE, TIMING OFF, SUMMARY ON) SELECT id FROM evidence.docs WHERE domain='after_sales_help' AND doc_version=1 ORDER BY content <@> to_bm25query('退款','evidence_bm25') LIMIT 3;
+2026-11-18 05:40:33.506 UTC [79] LOG:  checkpoint starting: time
+2026-11-18 05:40:35.171 UTC [79] LOG:  checkpoint complete: wrote 17 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.557 s, sync=0.009 s, total=1.668 s; sync files=16, longest=0.005 s, average=0.001 s; distance=68 kB, estimate=68 kB; lsn=0/2270AD8, redo lsn=0/2270A80
+2026-11-18 05:43:05.117 UTC [115] ERROR:  index "evidence_bm25" does not exist
+2026-11-18 05:43:05.117 UTC [115] STATEMENT:  select version(); select extname, extversion from pg_extension order by 1; show shared_preload_libraries; select count(*) from evidence.docs; select id from evidence.docs where domain='after_sales_help' order by content <@> to_bm25query('退款','evidence_bm25') limit 1;
+2026-11-18 05:44:04.687 UTC [126] LOG:  zhparser: custom dict "/work/pgdata/base/zhprs_dict_postgres.txt" not loaded (missing or unreadable; run zhparser.sync_zhprs_custom_word() if expected)
+2026-11-18 05:44:04.687 UTC [126] STATEMENT:  set search_path=evidence,public; select version(); select extname, extversion from pg_extension order by 1; show shared_preload_libraries; select count(*) from evidence.docs; select id from evidence.docs where domain='after_sales_help' order by content <@> to_bm25query('退款','evidence_bm25') limit 1;

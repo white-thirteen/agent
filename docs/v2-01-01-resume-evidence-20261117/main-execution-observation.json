@@ -1,0 +1,20 @@
+{
+  "observed_by": "main_agent",
+  "transport": "authorized SSH white7@192.168.150.101",
+  "process_exit_code": 0,
+  "exit_observation": "printf SEMANTIC_PROCESS_EXIT immediately after foreground process returned; observed 0",
+  "remote_receipt_sha256": "125f95f5d350bbd17471ea8817b6a865992283018a12caab384b3e87119777bc",
+  "local_receipt_sha256": "125f95f5d350bbd17471ea8817b6a865992283018a12caab384b3e87119777bc",
+  "production_after": {
+    "container": "agent-engine-demo-db-postgres-1",
+    "id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+    "running": true,
+    "health": "healthy",
+    "started_at": "2026-11-17T14:59:05.899044319Z"
+  },
+  "filesystem_free_bytes_before_preflight": 1150676992,
+  "filesystem_free_bytes_after_cleanup": 1150414848,
+  "production_sql_access_by_probe": false,
+  "business_row_snapshot_comparison_performed": false,
+  "remaining_transfer_files": "Two source copies in /home/white7 and private /home/white7/v201-111-resume-20261117-815c directory retained; not active database dependencies."
+}

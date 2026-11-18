@@ -1,0 +1,114 @@
+{
+  "schema": "v2-01-bm25-switch-evidence/v3",
+  "date": "2026-11-18",
+  "status": "REQUIRES_FIX pending Codex re-review",
+  "scope": "BM25 switch only; no 1.1.2, no formal DB change",
+  "environment": {
+    "postgresql": "17.12 (Debian 17.12-1.pgdg12+1)",
+    "postgresql_server_dev": "17.12-1.pgdg12+1",
+    "pgvector_package": "0.8.7-1.pgdg12+2",
+    "formal_pgvector_package": "0.8.7-1.pgdg12+2",
+    "gcc": "Debian 12.2.0-14+deb12u1",
+    "pgvector": "0.8.7",
+    "pg_textsearch": "1.5.1",
+    "zhparser": "2.4",
+    "zhparser_commit": "21ee29212e9f3b3c34bafb096e184f26c84111b5",
+    "scws": "1.2.3",
+    "isolation": "dedicated container, unix socket only, no host port"
+  },
+  "build": {
+    "base_image": "postgres:17.12-bookworm@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536",
+    "candidate_image": "v201pt-candidate:1.5.1-vector2",
+    "candidate_image_id_digest": "sha256:748b51b8d45a51bc517424a9cd78aab4c8d268fe2155cca018b66f84c361ce85",
+    "candidate_repo_digest": "v201pt-candidate@sha256:748b51b8d45a51bc517424a9cd78aab4c8d268fe2155cca018b66f84c361ce85",
+    "hash_check": "candidate2-hashcheck-clean.out; all 7 loaded artifacts OK",
+    "evidence_dir": "docs/v2-01-bm25-switch-evidence-20261118/",
+    "logs": ["build.log", "build-env.txt", "build-commands.txt", "artifacts.sha256", "candidate2-image.txt", "candidate2-hashcheck-clean.out", "candidate-vector2-package.txt"]
+  },
+  "profile": {
+    "extension": "pg_textsearch",
+    "extension_version": "1.5.1",
+    "result_identity_field": "chunk_id",
+    "text_field": "search_text",
+    "indexed_fields": ["search_text"],
+    "text_config": "public.chinese",
+    "tokenizer": "zhparser",
+    "tokenizer_version": "2.4",
+    "dictionary_version": "scws-1.2.3",
+    "score_order": "ascending_negative"
+  },
+  "sha256": {
+    "pg_textsearch_source": "2E7FB76ED96176AFC6D16CC5D095CED2CB233FF27FBEAA8C7BFFFC82E02F7498",
+    "zhparser_source": "F54018BE7509E9E68FAE95A078BCD0A3699BB20B04E5059CC4C7352C1C2FED67",
+    "scws_source": "60D50AC3DC42CFF3C0B16CB1CFEE47D8CB8C8BAA142A58BC62854477B81F1AF5",
+    "pg_textsearch_so": "6d2906e39c2e60acf03437359f5b3c3cf23d183445c6a8cc6a8eb782a40cbd88",
+    "zhparser_so": "30bb78ec7b788360c00eabf374f9d804373e5a2ea7dba132acbba65133ca8fb9",
+    "libscws_so": "7795483ed9f7b7924fe406b319344711fc984ab9cd074b8a73ac6b5bd837e8a8",
+    "dict_utf8_xdb": "FD76A689F996C4E68CE53325A6A24DC652A678B1E7F676E4C5CA76265609A3E2",
+    "rules_utf8_ini": "45395F794226581FB1CC02B44AE1481804152511FC59FA677E2F7B755440479C",
+    "pg_textsearch_control": "1b258c1923dd10eb2eebfaeafeac648e035d790f494161d41ccf1a22e367080c",
+    "zhparser_control": "e13001b23e35e102e370dfa4df6346556f77b41060d61de970db5533466e9d92"
+  },
+  "functional": {
+    "extension_load": "pass",
+    "chinese_index": "pass",
+    "transaction_rollback": "pass",
+    "incremental_insert_update_delete": "pass",
+    "delete_after_commit": "pass; old keyword 0 hits",
+    "restart_recovery": "pass",
+    "filtered_topk": {
+      "result": "seq scan and BM25 index scan identical: 2 rows doc-refund, doc-safety",
+      "effective_candidates": 2,
+      "requested_k": 5,
+      "zero_score_fill": false,
+      "evidence": ["runtime/filter-seq.out", "runtime/filter-idx.out", "runtime/filter-compare-clean.out"]
+    },
+    "concurrent_visibility": {
+      "before_update_matches": 0,
+      "write_started_utc": "2026-11-18T11:24:11.933757+00:00",
+      "write_txid": 1064,
+      "during_uncommitted_matches": 0,
+      "during_utc": "2026-11-18T11:24:12.91385+00:00",
+      "after_commit_matches": 1,
+      "after_utc": "2026-11-18T11:24:15.2333+00:00",
+      "conclusion": "fixed fixture only: uncommitted changes invisible, committed changes visible; no historical root-cause claim",
+      "evidence": ["runtime/candidate2-conc-before.out", "runtime/candidate2-conc-write.out", "runtime/candidate2-conc-during.out", "runtime/candidate2-conc-after.out"]
+    }
+  },
+  "stress": {
+    "chunks": 5000,
+    "bm25_index_bytes": 417792,
+    "table_total_bytes": 1114112,
+    "filtered_top10_ms": 2.365,
+    "unfiltered_top10_ms": 0.527,
+    "container_idle_rss_mib": 22.1,
+    "container_memory_limit": "1.2GiB",
+    "note": "idle after restart with 5000 chunks; active peak not separately sampled",
+    "memory_limit_setting": "128MB"
+  },
+  "quality_provisional": {
+    "corpus": "16 docs / 39 chunks; 6 official + 10 labeled synthetic",
+    "questions": 24,
+    "answerable": 20,
+    "jieba": {"recall_at_10": 0.8791666667, "mrr_at_10": 0.9166666667},
+    "zhparser": {"recall_at_10": 0.8625, "mrr_at_10": 0.9166666667},
+    "ndcg": "not reported; doc/chunk duplication made nDCG>1",
+    "scope": "provisional, not V2 frozen corpus"
+  },
+  "paradedb": {
+    "runtime_dependency": "none",
+    "formal_image_contains_pg_search_so": true,
+    "formal_database_installed_extension": false,
+    "formal_database_preloaded": false,
+    "quality_baseline_only": true
+  },
+  "formal_database": {
+    "container": "agent-engine-demo-db-postgres-1",
+    "image_id_digest": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+    "image_tags": ["pg1712-upgrade:final-6595e98667c4", "codex-pg1712restore:228a7f5b8d92"],
+    "started_at": "2026-11-17T14:59:05.899044319Z",
+    "volume": "pg1712-final-data-6595e98667c4",
+    "status": "running; no restart/volume change",
+    "evidence": ["formal-facts.txt"]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "snapshot-a.out": "44570ec68ed2e82201dfc04d64974c642af6a4cacbe510f5a61ab22f650fe4a2",
+  "snapshot-b.out": "4a98a44a6d886500809766bcd5d83eee6c080bf59387f762c6b3f0a2d01ffae5",
+  "snapshot-c.out": "d494f12d904a223f512bf95745f4662287f38a782fba19dbc812f53fd99d9e3f",
+  "task111-assert.out": "7c15c7b4d75c797a7704ad85d3a87b2adf0f3902f4c1b1fd330f8fe1f2cea35d",
+  "task111-environment.out": "fc1dde68b04855e7e41e5d08945347ee6a81c0b2ba6b5fb58e6913067cfc8b2b",
+  "task111-maint.out": "5220f9b1f1ab99faf3b49fdac739c7bc89ca073aee75a2359dde0cd096984c03",
+  "task111-param.out": "d046eecad0bbfc89544d86831862d04303cabf522ab9a0e780dec99af7e1eac2",
+  "v201pt-task111-assert.sql": "c6103f6587b381a93e127955a5f0cb6c9e4e18871bd5fd8674dcb630c0c495a8",
+  "v201pt-task111-maint.sql": "cf7ae03801dec4c8de8009b0bb7bc8a70bf27a26a54f967ba5a1dea087dcca3b",
+  "v201pt-task111-param.sql": "4de4d8bfc0910619b27e3707b4f2b8da956e359fa79ed2b1e52d146259e33456",
+  "v201pt-task111-setup.sql": "0999fcc2613b4fdb000e36f3a13eb6529fbf274ae2f5ea666209be21f2bc2b55",
+  "v201pt-task111-snapshot-a.sql": "24c7684437ef5f1b8b3672d29193884dca614568da8b2af76f44d730db97a1f7",
+  "v201pt-task111-snapshot-b.sql": "0d91ea27402ec09b76d6862f8299a79748a2e32e53f896993f42e045f33df7ae",
+  "v201pt-task111-snapshot-c.sql": "240968fb26e166f7b137d412f2a70bfb890d63363129e03af1538e9bad19fdb4"
+}

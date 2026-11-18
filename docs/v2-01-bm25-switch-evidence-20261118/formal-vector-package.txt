@@ -1,0 +1,1 @@
+postgresql-17-pgvector 0.8.7-1.pgdg12+2

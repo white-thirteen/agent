@@ -1,0 +1,744 @@
+{
+  "status": "FUNCTIONAL_PASSED_SAFETY_UNVERIFIED",
+  "token": "067be7e2e429",
+  "image": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.Os}}|{{.Architecture}}",
+        "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4"
+      ],
+      "exit_code": 0,
+      "stdout": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4|linux|amd64",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "codex.v201sem=067be7e2e429",
+        "codex-v201sem-data-067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201sem-data-067be7e2e429",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "create",
+        "--name",
+        "codex-v201sem-067be7e2e429",
+        "--network",
+        "none",
+        "--memory",
+        "768m",
+        "--cpus",
+        "1",
+        "--pids-limit",
+        "128",
+        "--label",
+        "codex.v201sem=067be7e2e429",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=trust",
+        "-e",
+        "OPENBLAS_NUM_THREADS=1",
+        "-e",
+        "OMP_NUM_THREADS=1",
+        "--mount",
+        "type=volume,source=codex-v201sem-data-067be7e2e429,target=/var/lib/postgresql/data",
+        "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+        "-c",
+        "shared_preload_libraries=pg_search"
+      ],
+      "exit_code": 0,
+      "stdout": "7df46d7385f8ee2ad24ff8f668541c42b1e814400c29f3ecfe49223057e2a0e9",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "start",
+        "codex-v201sem-067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201sem-067be7e2e429",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 2,
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "exit_code": 0,
+      "stdout": "/var/run/postgresql:5432 - accepting connections",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "dpkg-query",
+        "-W",
+        "-f=${Package}=${Version}\n",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector",
+        "postgresql-17-pg-search"
+      ],
+      "exit_code": 0,
+      "stdout": "postgresql-17=17.12-1.pgdg12+1\npostgresql-17-pg-search=0.26.6\npostgresql-17-pgvector=0.8.7-1.pgdg12+2\npostgresql-client-17=17.12-1.pgdg12+1",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201sem-067be7e2e429",
+        "sha256sum",
+        "/usr/lib/postgresql/17/lib/pg_search.so"
+      ],
+      "exit_code": 0,
+      "stdout": "e3b19a5d350efc27d3c9b23587f68004eee5d2468b96dc88422b73ad4432a598  /usr/lib/postgresql/17/lib/pg_search.so",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201sem-067be7e2e429",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "exit_code": 0,
+      "stdout": "170012\npg_search=0.26.6\nplpgsql=1.0\nvector=0.8.7",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "/home/white7/v201-111-resume-20261117-815c/verify_v2_01_pg1712_semantics_resume.py",
+        "--child",
+        "codex-v201sem-067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"calls\": [{\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"[\\\"南京\\\",\\\"京市\\\",\\\"南京市\\\",\\\"长江\\\",\\\"大桥\\\",\\\"长江大桥\\\"]\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"deny-1\", \"stderr\": \"WARNING:  Query has LIMIT 1 but is not using Top K scan (using Normal instead). Reason: only partial prefix of ORDER BY can be pushed down (1 columns matched). This may cause poor performance on large datasets. Remedies: Ensure all ORDER BY columns are indexed with pdb::literal tokenizer for strings, or verify that normalizer/collation matches the index. To disable this warning: SET paradedb.planner_warnings = 'off' (table: probe_chunks)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id-v2\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"target-text-id-v2\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"0\", \"stderr\": \"WARNING:  Aggregate Scan (DataFusion) not used: all tables in the join must have ParadeDB indexes (table: join)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"2026-11-17 15:33:28.057595+00\\nrestart-text-id\\nrestart-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}, {\"command\": [\"docker\", \"restart\", \"codex-v201sem-067be7e2e429\"], \"exit_code\": 0, \"stdout\": \"codex-v201sem-067be7e2e429\", \"stderr\": \"\"}, {\"command\": [\"docker\", \"exec\", \"-i\", \"codex-v201sem-067be7e2e429\", \"psql\", \"-X\", \"-q\", \"-U\", \"postgres\", \"-v\", \"ON_ERROR_STOP=1\", \"-At\"], \"exit_code\": 0, \"stdout\": \"2026-11-17 15:34:38.630849+00\\nrestart-text-id\\nrestart-text-id\", \"stderr\": \"WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\"}], \"checks\": {\"jieba_tokens\": [\"南京\", \"京市\", \"南京市\", \"长江\", \"大桥\", \"长江大桥\"], \"text_id_chinese_english_domain_current_version_topk\": true, \"unfiltered_top1\": \"deny-1\", \"prepared_parameters\": true, \"update_delete_rollback\": true, \"repeatable_read_dense_sparse_and_final_source_invalidation\": true, \"restart_persistence\": {\"before\": [\"2026-11-17 15:33:28.057595+00\", \"restart-text-id\", \"restart-text-id\"], \"after\": [\"2026-11-17 15:34:38.630849+00\", \"restart-text-id\", \"restart-text-id\"]}}, \"status\": \"PASSED\"}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=codex.v201sem=067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "7df46d7385f8",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "rm",
+        "-f",
+        "7df46d7385f8"
+      ],
+      "exit_code": 0,
+      "stdout": "7df46d7385f8",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201sem=067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201sem-data-067be7e2e429",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "rm",
+        "codex-v201sem-data-067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201sem-data-067be7e2e429",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=codex.v201sem=067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201sem=067be7e2e429"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": "7a4f7ede10b433879479a9c4e502139a36e666a52513b99cb899c2d88099b750",
+  "semantics_source_sha256": "bc9fbc05b2b15ac1aff00da41c29f44dbf4e24e3c7825cc5e799f3bc9d9b96d1",
+  "build_safety": "NOT_VERIFIED",
+  "free_bytes": 1150488576,
+  "minimum_free_bytes": 805306368,
+  "semantics": {
+    "calls": [
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "[\"南京\",\"京市\",\"南京市\",\"长江\",\"大桥\",\"长江大桥\"]",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "deny-1",
+        "stderr": "WARNING:  Query has LIMIT 1 but is not using Top K scan (using Normal instead). Reason: only partial prefix of ORDER BY can be pushed down (1 columns matched). This may cause poor performance on large datasets. Remedies: Ensure all ORDER BY columns are indexed with pdb::literal tokenizer for strings, or verify that normalizer/collation matches the index. To disable this warning: SET paradedb.planner_warnings = 'off' (table: probe_chunks)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id-v2",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "target-text-id-v2",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "0",
+        "stderr": "WARNING:  Aggregate Scan (DataFusion) not used: all tables in the join must have ParadeDB indexes (table: join)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "2026-11-17 15:33:28.057595+00\nrestart-text-id\nrestart-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      },
+      {
+        "command": [
+          "docker",
+          "restart",
+          "codex-v201sem-067be7e2e429"
+        ],
+        "exit_code": 0,
+        "stdout": "codex-v201sem-067be7e2e429",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "-i",
+          "codex-v201sem-067be7e2e429",
+          "psql",
+          "-X",
+          "-q",
+          "-U",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "exit_code": 0,
+        "stdout": "2026-11-17 15:34:38.630849+00\nrestart-text-id\nrestart-text-id",
+        "stderr": "WARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)\nWARNING:  JoinScan not used: at least one relation lacks a ParadeDB index (tables: c, d)"
+      }
+    ],
+    "checks": {
+      "jieba_tokens": [
+        "南京",
+        "京市",
+        "南京市",
+        "长江",
+        "大桥",
+        "长江大桥"
+      ],
+      "text_id_chinese_english_domain_current_version_topk": true,
+      "unfiltered_top1": "deny-1",
+      "prepared_parameters": true,
+      "update_delete_rollback": true,
+      "repeatable_read_dense_sparse_and_final_source_invalidation": true,
+      "restart_persistence": {
+        "before": [
+          "2026-11-17 15:33:28.057595+00",
+          "restart-text-id",
+          "restart-text-id"
+        ],
+        "after": [
+          "2026-11-17 15:34:38.630849+00",
+          "restart-text-id",
+          "restart-text-id"
+        ]
+      }
+    },
+    "status": "PASSED"
+  },
+  "cleanup_complete": true
+}

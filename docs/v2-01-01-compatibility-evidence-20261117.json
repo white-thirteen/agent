@@ -1,0 +1,482 @@
+{
+  "token": "701f14b96a80",
+  "status": "BLOCKED",
+  "package_url": "https://github.com/paradedb/paradedb/releases/download/v0.26.6/postgresql-17-pg-search_0.26.6-1PARADEDB-bookworm_amd64.deb",
+  "expected_sha256": "16a14d382f088bc23e7c8624e4860fd8bf01a939c67c7695348de0615e323ddb",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 0,
+      "stdout": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "exit_code": 0,
+      "stdout": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "dpkg-deb",
+        "-f",
+        "/tmp/codex-v201111-eluweeqv/postgresql-17-pg-search_0.26.6-1PARADEDB-bookworm_amd64.deb",
+        "Package",
+        "Version",
+        "Architecture",
+        "Depends"
+      ],
+      "exit_code": 0,
+      "stdout": "Package: postgresql-17-pg-search\nVersion: 0.26.6\nArchitecture: amd64\nDepends: postgresql-17, libopenblas0",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "DOCKER_BUILDKIT=0",
+        "docker",
+        "build",
+        "--label",
+        "codex.v201111=701f14b96a80",
+        "-t",
+        "codex-v201111:701f14b96a80",
+        "/tmp/codex-v201111-eluweeqv"
+      ],
+      "exit_code": 0,
+      "stdout": "Sending build context to Docker daemon  54.28MB\n\nStep 1/4 : FROM postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3\n ---> f3bd19c606e4\nStep 2/4 : COPY postgresql-17-pg-search_0.26.6-1PARADEDB-bookworm_amd64.deb /tmp/pg_search.deb\n ---> e02635e8c80e\nStep 3/4 : RUN apt-get update && apt-get install -y --no-remove --no-install-recommends     postgresql-17=17.6-2.pgdg12+1 postgresql-client-17=17.6-2.pgdg12+1     postgresql-17-pgvector=0.8.7-1.pgdg12+1 /tmp/pg_search.deb     && test \"$(pg_config --version)\" = 'PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1)'     && test \"$(dpkg-query -W -f='${Version}' postgresql-17-pgvector)\" = '0.8.7-1.pgdg12+1'     && rm -rf /var/lib/apt/lists/* /tmp/pg_search.deb\n ---> Running in 1ee6144d7b39\nGet:1 http://deb.debian.org/debian bookworm InRelease [151 kB]\nGet:2 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg InRelease [189 kB]\nGet:3 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]\nGet:4 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]\nGet:5 http://deb.debian.org/debian bookworm/main amd64 Packages [8,790 kB]\nGet:6 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/17 amd64 Packages [7,532 B]\nGet:7 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6,924 B]\nGet:8 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages [1,159 kB]\nGet:9 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [375 kB]\nFetched 10.8 MB in 25s (428 kB/s)\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\npostgresql-17 is already the newest version (17.6-2.pgdg12+1).\npostgresql-client-17 is already the newest version (17.6-2.pgdg12+1).\npostgresql-client-17 set to manually installed.\nThe following additional packages will be installed:\n  libgfortran5 libopenblas0 libopenblas0-pthread libquadmath0\nThe following NEW packages will be installed:\n  libgfortran5 libopenblas0 libopenblas0-pthread libquadmath0\n  postgresql-17-pg-search postgresql-17-pgvector\n0 upgraded, 6 newly installed, 0 to remove and 53 not upgraded.\nNeed to get 7,952 kB/62.2 MB of archives.\nAfter this operation, 48.4 MB of additional disk space will be used.\nGet:1 http://deb.debian.org/debian bookworm/main amd64 libquadmath0 amd64 12.2.0-14+deb12u1 [145 kB]\nGet:2 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-17-pgvector amd64 0.8.7-1.pgdg12+1 [273 kB]\nGet:3 /tmp/pg_search.deb postgresql-17-pg-search amd64 0.26.6 [54.3 MB]\nGet:4 http://deb.debian.org/debian bookworm/main amd64 libgfortran5 amd64 12.2.0-14+deb12u1 [793 kB]\nGet:5 http://deb.debian.org/debian bookworm/main amd64 libopenblas0-pthread amd64 0.3.21+ds-4 [6,709 kB]\nGet:6 http://deb.debian.org/debian bookworm/main amd64 libopenblas0 amd64 0.3.21+ds-4 [32.6 kB]\n\u001b[91mdebconf: delaying package configuration, since apt-utils is not installed\n\u001b[0mFetched 7,952 kB in 9s (864 kB/s)\nSelecting previously unselected package libquadmath0:amd64.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 12074 files and directories currently installed.)\nPreparing to unpack .../0-libquadmath0_12.2.0-14+deb12u1_amd64.deb ...\nUnpacking libquadmath0:amd64 (12.2.0-14+deb12u1) ...\nSelecting previously unselected package libgfortran5:amd64.\nPreparing to unpack .../1-libgfortran5_12.2.0-14+deb12u1_amd64.deb ...\nUnpacking libgfortran5:amd64 (12.2.0-14+deb12u1) ...\nSelecting previously unselected package libopenblas0-pthread:amd64.\nPreparing to unpack .../2-libopenblas0-pthread_0.3.21+ds-4_amd64.deb ...\nUnpacking libopenblas0-pthread:amd64 (0.3.21+ds-4) ...\nSelecting previously unselected package libopenblas0:amd64.\nPreparing to unpack .../3-libopenblas0_0.3.21+ds-4_amd64.deb ...\nUnpacking libopenblas0:amd64 (0.3.21+ds-4) ...\nSelecting previously unselected package postgresql-17-pg-search.\nPreparing to unpack .../4-pg_search.deb ...\nUnpacking postgresql-17-pg-search (0.26.6) ...\nSelecting previously unselected package postgresql-17-pgvector.\nPreparing to unpack .../5-postgresql-17-pgvector_0.8.7-1.pgdg12+1_amd64.deb ...\nUnpacking postgresql-17-pgvector (0.8.7-1.pgdg12+1) ...\nSetting up postgresql-17-pgvector (0.8.7-1.pgdg12+1) ...\nSetting up libquadmath0:amd64 (12.2.0-14+deb12u1) ...\nSetting up libgfortran5:amd64 (12.2.0-14+deb12u1) ...\nSetting up libopenblas0-pthread:amd64 (0.3.21+ds-4) ...\nupdate-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 to provide /usr/lib/x86_64-linux-gnu/libblas.so.3 (libblas.so.3-x86_64-linux-gnu) in auto mode\nupdate-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode\nupdate-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblas.so.0 to provide /usr/lib/x86_64-linux-gnu/libopenblas.so.0 (libopenblas.so.0-x86_64-linux-gnu) in auto mode\nSetting up libopenblas0:amd64 (0.3.21+ds-4) ...\nSetting up postgresql-17-pg-search (0.26.6) ...\nProcessing triggers for postgresql-common (285.pgdg12+1) ...\ndebconf: unable to initialize frontend: Dialog\ndebconf: (TERM is not set, so the dialog frontend is not usable.)\ndebconf: falling back to frontend: Readline\ndebconf: unable to initialize frontend: Readline\ndebconf: (This frontend requires a controlling tty.)\ndebconf: falling back to frontend: Teletype\nBuilding PostgreSQL dictionaries from installed myspell/hunspell packages...\nRemoving obsolete dictionary files:\nProcessing triggers for libc-bin (2.36-9+deb12u13) ...\n ---> Removed intermediate container 1ee6144d7b39\n ---> 6eacdd8a689f\nStep 4/4 : LABEL codex.v201111=701f14b96a80\n ---> Running in a87a6ec5f4f2\n ---> Removed intermediate container a87a6ec5f4f2\n ---> 59b67e939083\nSuccessfully built 59b67e939083\nSuccessfully tagged codex-v201111:701f14b96a80",
+      "stderr": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0\n            environment-variable."
+    },
+    {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "codex-v201111:701f14b96a80",
+        "sh",
+        "-c",
+        "pg_config --version; dpkg-query -W postgresql-17 postgresql-client-17 postgresql-17-pgvector postgresql-17-pg-search libopenblas0; ldd /usr/lib/postgresql/17/lib/pg_search.so"
+      ],
+      "exit_code": 0,
+      "stdout": "PostgreSQL 17.6 (Debian 17.6-2.pgdg12+1)\nlibopenblas0:amd64\t0.3.21+ds-4\npostgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pg-search\t0.26.6\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1\n\tlinux-vdso.so.1 (0x00007d80b9afe000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d80aa3a1000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007d80aa2c1000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007d80aa0df000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d80b9b00000)",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "codex.v201111=701f14b96a80",
+        "codex-v201111-data-701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201111-data-701f14b96a80",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "codex-v201111-701f14b96a80",
+        "--network",
+        "none",
+        "--label",
+        "codex.v201111=701f14b96a80",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=trust",
+        "--mount",
+        "type=volume,source=codex-v201111-data-701f14b96a80,target=/var/lib/postgresql/data",
+        "codex-v201111:701f14b96a80",
+        "-c",
+        "shared_preload_libraries=pg_search"
+      ],
+      "exit_code": 0,
+      "stdout": "fcf56f24c7f66d842791ebd35804d5f7ec46b61f7e2ad992a097c39676b66b16",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "logs",
+        "codex-v201111-701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "The files belonging to this database system will be owned by user \"postgres\".\nThis user must also own the server process.\n\nThe database cluster will be initialized with locale \"en_US.utf8\".\nThe default database encoding has accordingly been set to \"UTF8\".\nThe default text search configuration will be set to \"english\".\n\nData page checksums are disabled.\n\nfixing permissions on existing directory /var/lib/postgresql/data ... ok\ncreating subdirectories ... ok\nselecting dynamic shared memory implementation ... posix\nselecting default \"max_connections\" ... 100\nselecting default \"shared_buffers\" ... 128MB\nselecting default time zone ... Etc/UTC\ncreating configuration files ... ok\nrunning bootstrap script ... ok\nperforming post-bootstrap initialization ... ok\nsyncing data to disk ... ok\n\n\nSuccess. You can now start the database server using:\n\n    pg_ctl -D /var/lib/postgresql/data -l logfile start\n\nwaiting for server to start....2026-11-16 17:37:52.939 UTC [78] FATAL:  could not load library \"/usr/lib/postgresql/17/lib/pg_search.so\": /usr/lib/postgresql/17/lib/pg_search.so: undefined symbol: pg_mblen_cstr\n2026-11-16 17:37:52.939 UTC [78] LOG:  database system is shut down\n stopped waiting",
+      "stderr": "********************************************************************************\nWARNING: POSTGRES_HOST_AUTH_METHOD has been set to \"trust\". This will allow\n         anyone with access to the Postgres port to access your database without\n         a password, even if POSTGRES_PASSWORD is set. See PostgreSQL\n         documentation about \"trust\":\n         https://www.postgresql.org/docs/current/auth-trust.html\n         In Docker's default configuration, this is effectively any other\n         container on the same system.\n\n         It is not recommended to use POSTGRES_HOST_AUTH_METHOD=trust. Replace\n         it with \"-e POSTGRES_PASSWORD=password\" instead to set a password in\n         \"docker run\".\n********************************************************************************\ninitdb: warning: enabling \"trust\" authentication for local connections\ninitdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.\npg_ctl: could not start server\nExamine the log output."
+    },
+    {
+      "command": [
+        "docker",
+        "rm",
+        "-f",
+        "codex-v201111-701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201111-701f14b96a80",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "rm",
+        "codex-v201111-data-701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-v201111-data-701f14b96a80",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "rm",
+        "codex-v201111:701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "Untagged: codex-v201111:701f14b96a80\nDeleted: sha256:59b67e9390830780e8475720c037c03e2dddc1387b5a80cb894ea79304b0690d\nDeleted: sha256:6eacdd8a689f697785555c40bc82b9af1869c652da40a3f6240a9e601391bf28\nDeleted: sha256:e02635e8c80e71655bd123a6094da7274960ca6f35b79d294ce0af6f4e13106f",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=codex.v201111=701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201111=701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201111=701f14b96a80"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "exit_code": 0,
+      "stdout": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "exit_code": 0,
+      "stdout": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "exit_code": 0,
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": ""
+    }
+  ],
+  "semantic_checks": "not_executed",
+  "protected_before": {
+    "container": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+    "databases": {
+      "agent_demo": {
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      },
+      "agent_demo_test": {
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      }
+    }
+  },
+  "actual_sha256": "16a14d382f088bc23e7c8624e4860fd8bf01a939c67c7695348de0615e323ddb",
+  "package_bytes": 54276840,
+  "failure": "Exact-version PostgreSQL with preload did not start",
+  "cleanup_complete": true,
+  "protected_after": {
+    "container": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+    "databases": {
+      "agent_demo": {
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      },
+      "agent_demo_test": {
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      }
+    }
+  },
+  "protected_unchanged": true,
+  "workspace_removed": true
+}

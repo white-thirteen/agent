@@ -1,0 +1,7 @@
+{
+  "main-execution-observation.json": "4160b0efdb9b0207fe1339a91b3ba522f3b7b6ef122afc955afb8c10b660ce6b",
+  "semantic-evidence.json": "125f95f5d350bbd17471ea8817b6a865992283018a12caab384b3e87119777bc",
+  "verify_v2_01_compatibility.py": "bc9fbc05b2b15ac1aff00da41c29f44dbf4e24e3c7825cc5e799f3bc9d9b96d1",
+  "verify_v2_01_pg1712_semantics_resume.py": "7a4f7ede10b433879479a9c4e502139a36e666a52513b99cb899c2d88099b750",
+  "workspace-protection.json": "c8c4788cf96c832f86232d4c5de5f83dc24bac751b4eacc563b2e0c6408a056e"
+}
