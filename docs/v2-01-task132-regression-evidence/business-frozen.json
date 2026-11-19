@@ -1,0 +1,300 @@
+{
+  "isolation": "codex-task131-0e62",
+  "cases": [
+    {
+      "label": "normal",
+      "expected": "completed",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "0a7e169a-d7c2-4990-9415-2e03b03a8777",
+          "task_id": "c56e7b44-9fc0-4e26-9758-bacda03da33b",
+          "workflow_id": "c56e7b44-9fc0-4e26-9758-bacda03da33b",
+          "sequence": 2
+        },
+        {
+          "content": "不会。该模拟项目不连接真实支付机构，退款只改动本地模拟业务数据，因此不会从真实银行卡扣款。另外，同一退款操作会用稳定的操作编号来防止重复产生副作用；若结果不确定，应先核对原操作，不要盲目再次退款。",
+          "sources": [
+            {
+              "evidence_id": "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f",
+              "document_id": "demo-refund-safety",
+              "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+              "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+              "source_title": "模拟退款安全说明",
+              "source_key": "refund-safety",
+              "section": "模拟退款安全说明 / 模拟支付",
+              "page": null,
+              "checked_at": "2026-11-18T14:32:45.297070Z"
+            }
+          ],
+          "run_id": "0a7e169a-d7c2-4990-9415-2e03b03a8777",
+          "task_id": "c56e7b44-9fc0-4e26-9758-bacda03da33b",
+          "workflow_id": "c56e7b44-9fc0-4e26-9758-bacda03da33b",
+          "sequence": 4
+        }
+      ],
+      "actual": "completed",
+      "approved_answer": "不会。该模拟项目不连接真实支付机构，退款只改动本地模拟业务数据，因此不会从真实银行卡扣款。另外，同一退款操作会用稳定的操作编号来防止重复产生副作用；若结果不确定，应先核对原操作，不要盲目再次退款。",
+      "sources": [
+        {
+          "evidence_id": "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f",
+          "document_id": "demo-refund-safety",
+          "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "source_title": "模拟退款安全说明",
+          "source_key": "refund-safety",
+          "section": "模拟退款安全说明 / 模拟支付",
+          "page": null,
+          "checked_at": "2026-11-18T14:32:45.297070Z"
+        }
+      ],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "sufficient",
+        "selected_ids": [
+          "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f"
+        ],
+        "reason": "《模拟退款安全说明》明确指出该项目不连接真实支付机构，退款仅改变本地模拟业务数据，因此不会扣真实银行卡的钱；证据为当前版本、来源一致，足以回答。",
+        "question": null
+      },
+      "error_code": null,
+      "evidence_document_ids": [
+        "demo-refund-safety",
+        "demo-refund-entry",
+        "demo-approval-wait"
+      ],
+      "pass": true,
+      "seconds": 15.942
+    },
+    {
+      "label": "Q21",
+      "expected": "rejected",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "02bb62cc-0bee-443d-ac45-bcd5689986f4",
+          "task_id": "f187f02d-3cb7-46d0-92e0-77bed4f9e834",
+          "workflow_id": "f187f02d-3cb7-46d0-92e0-77bed4f9e834",
+          "sequence": 2
+        },
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "02bb62cc-0bee-443d-ac45-bcd5689986f4",
+          "task_id": "f187f02d-3cb7-46d0-92e0-77bed4f9e834",
+          "workflow_id": "f187f02d-3cb7-46d0-92e0-77bed4f9e834",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "insufficient",
+        "selected_ids": [],
+        "reason": "检索到的三条证据分别为退款页面使用说明、模拟退款申请渠道说明和消息流页面说明，均未涉及\"火星基地量子发动机\"或任何产品的保修期年限，无法回答该问题。",
+        "question": null
+      },
+      "error_code": "evidence_insufficient",
+      "evidence_document_ids": [
+        "task132-distractor-08",
+        "demo-refund-entry",
+        "task132-distractor-05"
+      ],
+      "pass": true,
+      "seconds": 6.529
+    },
+    {
+      "label": "Q22",
+      "expected": "rejected",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "52ee10ab-8b96-4a8d-9256-ad2add6829b2",
+          "task_id": "dcb17fc5-833a-42ba-9e69-3a1a1a573213",
+          "workflow_id": "dcb17fc5-833a-42ba-9e69-3a1a1a573213",
+          "sequence": 2
+        },
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "52ee10ab-8b96-4a8d-9256-ad2add6829b2",
+          "task_id": "dcb17fc5-833a-42ba-9e69-3a1a1a573213",
+          "workflow_id": "dcb17fc5-833a-42ba-9e69-3a1a1a573213",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "insufficient",
+        "selected_ids": [
+          "d7cb234419abec728e3d7465de9b190f8f714a186e2a32c53b3e9a5f5689e5a4",
+          "dd74f8bc6eb2d075d68845dad0e2e5c6688dd5b7d3c7075421c5697ab540261a",
+          "90aa0a41e7a4025d7118449c6bd2baa04e69b4e943fbe04087f2c3b27015298a"
+        ],
+        "reason": "检索到的三段内容均为自编 Demo 语料，分别只说明退款审批等待流程、模拟退款记录字段与售后页面申请列表，未包含任何关于真实银行卡退款到账时限（天数）的说明，无法回答问题。",
+        "question": null
+      },
+      "error_code": "evidence_insufficient",
+      "evidence_document_ids": [
+        "demo-approval-wait",
+        "task132-distractor-07",
+        "task132-distractor-08"
+      ],
+      "pass": true,
+      "seconds": 7.554
+    },
+    {
+      "label": "Q23",
+      "expected": "rejected",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "9c48cca4-f033-4d40-a558-e032c38ae358",
+          "task_id": "e9741aba-94a6-48a8-a3a2-99b1ba02a070",
+          "workflow_id": "e9741aba-94a6-48a8-a3a2-99b1ba02a070",
+          "sequence": 2
+        },
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "9c48cca4-f033-4d40-a558-e032c38ae358",
+          "task_id": "e9741aba-94a6-48a8-a3a2-99b1ba02a070",
+          "workflow_id": "e9741aba-94a6-48a8-a3a2-99b1ba02a070",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "insufficient",
+        "selected_ids": [
+          "02b561ba490afec0f99546b4e64d30e752e30b46e05bccb01b2a6844392adeaa"
+        ],
+        "reason": "知识库仅含演示账户说明（演示身份用于本地测试，非真实生产登录），未提供任何生产账号密码重置流程；其余检索结果为身份切换、退款页面等无关内容。",
+        "question": null
+      },
+      "error_code": "evidence_insufficient",
+      "evidence_document_ids": [
+        "demo-account-help",
+        "task132-distractor-02",
+        "task132-distractor-08"
+      ],
+      "pass": true,
+      "seconds": 7.169
+    },
+    {
+      "label": "Q24",
+      "expected": "rejected",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "31334623-a1ba-484d-88c3-3f41c5c88c78",
+          "task_id": "72cd077e-dd4b-4ccb-b21e-b1f161bef37d",
+          "workflow_id": "72cd077e-dd4b-4ccb-b21e-b1f161bef37d",
+          "sequence": 2
+        },
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "31334623-a1ba-484d-88c3-3f41c5c88c78",
+          "task_id": "72cd077e-dd4b-4ccb-b21e-b1f161bef37d",
+          "workflow_id": "72cd077e-dd4b-4ccb-b21e-b1f161bef37d",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "insufficient",
+        "selected_ids": [],
+        "reason": "知识库检索到的三篇文档均为演示平台的订单详情、操作记录与订单查询说明，未包含任何关于国际物流费用计算规则的内容，无法回答该问题。",
+        "question": null
+      },
+      "error_code": "evidence_insufficient",
+      "evidence_document_ids": [
+        "task132-distractor-04",
+        "task132-distractor-12",
+        "demo-order-query"
+      ],
+      "pass": true,
+      "seconds": 6.638
+    },
+    {
+      "label": "conflict",
+      "expected": "rejected",
+      "events": [
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "f8ba80ec-7bb7-461f-98ef-87423f0e47a6",
+          "task_id": "aa080642-79f4-46be-b891-b7230380162c",
+          "workflow_id": "aa080642-79f4-46be-b891-b7230380162c",
+          "sequence": 2
+        },
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "f8ba80ec-7bb7-461f-98ef-87423f0e47a6",
+          "task_id": "aa080642-79f4-46be-b891-b7230380162c",
+          "workflow_id": "aa080642-79f4-46be-b891-b7230380162c",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 10,
+      "assessment": {
+        "status": "conflicting",
+        "selected_ids": [
+          "3c429cc4524c42ab89c5ca46f2c7211dda87de27e1a02f1d1a0528fafd02d46c",
+          "c77d9c8a0ab03b5c2a464dcb8b34f1e29f578dd36a6bcdf89b1e4419e7e839f7"
+        ],
+        "reason": "知识库中两份同为当前版本的《Demo蓝星计划》条目相互矛盾：一份称资料保留期固定为30天，另一份称固定为90天，无法判定正确值。第三条证据（审批等待说明）与保留期无关。",
+        "question": null
+      },
+      "error_code": "evidence_conflicting",
+      "evidence_document_ids": [
+        "task132-360b00eabf8e-conflict-0",
+        "task132-360b00eabf8e-conflict-1",
+        "demo-approval-wait"
+      ],
+      "pass": true,
+      "seconds": 7.16
+    }
+  ],
+  "model_name": "deepseek-flash",
+  "normal_frozen_chunk_count": 18,
+  "exact_cleanup": {
+    "conversations": 6,
+    "conflict_documents": 2
+  },
+  "passed": 6,
+  "resources_closed": true
+}

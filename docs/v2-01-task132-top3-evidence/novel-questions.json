@@ -1,0 +1,8 @@
+[
+  {"id":"N01","text":"关闭页面以后，还能在普通聊天里输入同意，让原来的模拟退款申请继续吗？","grades":{"demo-stream-help":2,"demo-approval-wait":2},"reason":"连接断开的影响和普通聊天的审批边界各需一份证据。"},
+  {"id":"N02","text":"只给订单编号，可以查询其他演示用户的订单，或者绕过模拟退款资格检查吗？","grades":{"demo-order-query":2,"demo-refund-entry":2},"reason":"订单归属过滤和退款资格检查是两个独立事实。"},
+  {"id":"N03","text":"This demo isn't a real production login. Does it send refunds to actual banks, and what are the names of the demo accounts?","grades":{"demo-account-help":2,"demo-refund-safety":2},"reason":"演示账号名称和不连接真实支付机构分别由两份文档支持。"},
+  {"id":"N04","text":"Chat disconnected during a simulated refund with an unknown outcome. Should I submit a new refund or check the original task?","grades":{"demo-stream-help":2,"demo-refund-safety":2},"reason":"断线后查原任务及未知结果先核对原操作分别由两份文档支持。"},
+  {"id":"N05","text":"如何通过短信验证码找回演示账号？","grades":{},"reason":"语料不含短信验证或账号找回规则。"},
+  {"id":"N06","text":"模拟订单已经下单，如何修改收货地址？","grades":{},"reason":"语料不含收货地址修改流程。"}
+]

@@ -11,7 +11,7 @@ from pydantic import SecretStr
 
 from app.core.config import Settings
 
-EXPECTED_SCHEMA_VERSION = 6
+EXPECTED_SCHEMA_VERSION = 7
 MIGRATION_LOCK_ID = 1701001
 
 

@@ -23,7 +23,11 @@ from app.core.config import Settings
 from app.infrastructure.postgres import open_pool, validate_test_target
 from app.main import create_app
 from scripts import run_async
-from scripts.verify_05_memory_manage import database_snapshot, fingerprints
+from scripts.verify_05_memory_manage import (
+    compare_publication_snapshots,
+    database_snapshot,
+    fingerprints,
+)
 
 
 async def snapshot(settings):
@@ -76,7 +80,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--qwen-evidence", type=Path, required=True)
+    parser.add_argument(
+        "--expected-publication-delta",
+        type=int,
+        default=0,
+        help="Explicitly audited publication increments for this run; default requires none",
+    )
     args = parser.parse_args()
+    assert args.expected_publication_delta >= 0
     print(f"Delivery verifier PID={os.getpid()}", flush=True)
     assert not args.output.exists() and not args.qwen_evidence.exists()
     original = Settings()
@@ -114,6 +125,7 @@ def main():
         "paid_chat_calls": 0,
         "pytest_args": ["-q"],
         "real_qwen_enabled": True,
+        "expected_publication_delta": args.expected_publication_delta,
     }
     before = run_async(snapshot(settings))
     report["protected_before"] = fingerprints(before)
@@ -135,9 +147,12 @@ def main():
     finally:
         after = run_async(snapshot(settings))
         report["protected_after"] = fingerprints(after)
-        report["protected_unchanged"] = before == after
+        comparison = compare_publication_snapshots(
+            before, after, expected_delta=args.expected_publication_delta
+        )
+        report.update(comparison)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2), "utf-8")
-        assert before == after
+        assert comparison["protected_unchanged"]
 
 
 if __name__ == "__main__":

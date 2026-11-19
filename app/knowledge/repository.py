@@ -1,11 +1,16 @@
 """Current-version publication and exact cosine search using bound PostgreSQL SQL."""
 
+import asyncio
+
 import psycopg
 from psycopg.rows import dict_row
 from psycopg_pool import PoolClosed, PoolTimeout
 
 from app.knowledge.embedding import validate_vectors
 from app.knowledge.models import Document, EvidenceChunk, KnowledgeError, digest
+from app.knowledge.sparse import INDEX_NAME, check_sparse_ready, lock_publication, search_text
+
+HYBRID_DATABASE_TIMEOUT_SECONDS = 5
 
 
 class KnowledgeRepository:
@@ -42,6 +47,17 @@ class KnowledgeRepository:
         except (psycopg.Error, PoolClosed, PoolTimeout):
             raise KnowledgeError("knowledge_index_unavailable") from None
 
+    async def check_hybrid_ready(self) -> None:
+        """Check sparse readiness without publishing or changing the index."""
+        try:
+            async with asyncio.timeout(HYBRID_DATABASE_TIMEOUT_SECONDS):
+                async with self.pool.connection() as connection, connection.transaction():
+                    await connection.execute("SET TRANSACTION READ ONLY")
+                    await connection.execute("SET LOCAL statement_timeout = '5s'")
+                    await check_sparse_ready(connection)
+        except (psycopg.Error, PoolClosed, PoolTimeout, TimeoutError):
+            raise KnowledgeError("knowledge_index_unavailable") from None
+
     async def is_complete(self, document: Document) -> bool:
         async with self.pool.connection() as connection:
             cursor = await connection.execute(
@@ -63,6 +79,7 @@ class KnowledgeRepository:
     async def replace(self, document: Document, vectors: list[list[float]]) -> bool:
         vectors = validate_vectors(vectors, len(document.chunks))
         async with self.pool.connection() as connection, connection.transaction():
+            await lock_publication(connection)
             # Advisory lock covers first publication too; no lock is held during embedding.
             await connection.execute(
                 "SELECT pg_advisory_xact_lock(hashtextextended(%s,0))",
@@ -106,8 +123,9 @@ class KnowledgeRepository:
             for chunk, vector in zip(document.chunks, vectors, strict=True):
                 await connection.execute(
                     "INSERT INTO knowledge_chunks(chunk_id,document_id,document_version,ordinal,"
-                    "section,page,line_start,line_end,content,content_hash,token_count,embedding) "
-                    "VALUES (%s,%s,%s,%s,%s,NULL,%s,%s,%s,%s,%s,%s::vector)",
+                    "section,page,line_start,line_end,content,content_hash,token_count,"
+                    "embedding,search_text) "
+                    "VALUES (%s,%s,%s,%s,%s,NULL,%s,%s,%s,%s,%s,%s::vector,%s)",
                     (
                         chunk.chunk_id,
                         chunk.document_id,
@@ -120,12 +138,17 @@ class KnowledgeRepository:
                         chunk.content_hash,
                         chunk.token_count,
                         str(vector),
+                        search_text(document.entry.source_title, chunk.section, chunk.content),
                     ),
                 )
+            await connection.execute(
+                "UPDATE knowledge_index_state SET watermark=watermark+1 WHERE singleton"
+            )
             return True
 
     async def remove(self, document_id: str):
         async with self.pool.connection() as connection, connection.transaction():
+            await lock_publication(connection)
             await connection.execute(
                 "SELECT pg_advisory_xact_lock(hashtextextended(%s,0))",
                 ("knowledge:" + document_id,),
@@ -133,9 +156,13 @@ class KnowledgeRepository:
             await connection.execute(
                 "DELETE FROM knowledge_chunks WHERE document_id=%s", (document_id,)
             )
-            await connection.execute(
+            cursor = await connection.execute(
                 "DELETE FROM knowledge_documents WHERE document_id=%s", (document_id,)
             )
+            if cursor.rowcount:
+                await connection.execute(
+                    "UPDATE knowledge_index_state SET watermark=watermark+1 WHERE singleton"
+                )
 
     async def search(self, vector, profile: str, domain: str | None):
         vector = validate_vectors([vector], 1)[0]
@@ -166,6 +193,81 @@ class KnowledgeRepository:
         except psycopg.errors.QueryCanceled:
             raise KnowledgeError("retrieval_timeout") from None
         except psycopg.Error:
+            raise KnowledgeError("knowledge_index_unavailable") from None
+
+    async def hybrid_candidates(self, vector, query: str, profile: str, domain: str | None):
+        """Read readiness and both filtered rankings from one read-only snapshot."""
+        vector = validate_vectors([vector], 1)[0]
+        fields = (
+            "c.chunk_id,c.document_id,c.document_version,c.content_hash,c.content,"
+            "c.section,c.line_start,c.line_end,d.source_title,d.public_source_key,d.domain,"
+        )
+        source = (
+            " FROM knowledge_chunks c JOIN knowledge_documents d "
+            "ON c.document_id=d.document_id AND c.document_version=d.document_version "
+            "WHERE d.embedding_profile=%s AND (%s::text IS NULL OR d.domain=%s) "
+        )
+        tie = "c.document_id,c.document_version,c.chunk_id,c.content_hash"
+        try:
+            async with asyncio.timeout(HYBRID_DATABASE_TIMEOUT_SECONDS):
+                async with self.pool.connection() as connection, connection.transaction():
+                    await connection.execute(
+                        "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY"
+                    )
+                    await connection.execute(
+                        "SELECT set_config('statement_timeout', %s, true)",
+                        (f"{HYBRID_DATABASE_TIMEOUT_SECONDS}s",),
+                    )
+                    watermark = await check_sparse_ready(connection)
+                    async with connection.cursor(row_factory=dict_row) as cursor:
+                        await cursor.execute(
+                            "SELECT EXISTS(SELECT 1 FROM knowledge_documents "
+                            "WHERE embedding_profile<>%s)",
+                            (profile,),
+                        )
+                        if (await cursor.fetchone())["exists"]:
+                            raise KnowledgeError("embedding_profile_mismatch")
+                        await cursor.execute(
+                            "SELECT "
+                            + fields
+                            + "1-(c.embedding <=> %s::vector) AS retrieval_score"
+                            + source
+                            + "ORDER BY c.embedding <=> %s::vector,"
+                            + tie
+                            + " LIMIT 10",
+                            (str(vector), profile, domain, domain, str(vector)),
+                        )
+                        dense = await cursor.fetchall()
+                        await cursor.execute(
+                            "SELECT "
+                            + fields
+                            + "c.search_text <@> to_bm25query(%s,%s) AS retrieval_score"
+                            + source
+                            + "AND c.search_text <@> to_bm25query(%s,%s) < 0 "
+                            + "ORDER BY retrieval_score,"
+                            + tie
+                            + " LIMIT 10",
+                            (
+                                query,
+                                "public." + INDEX_NAME,
+                                profile,
+                                domain,
+                                domain,
+                                query,
+                                "public." + INDEX_NAME,
+                            ),
+                        )
+                        sparse = await cursor.fetchall()
+
+            def convert(rows):
+                return tuple(
+                    EvidenceChunk(evidence_id=digest(row["chunk_id"]), **row) for row in rows
+                )
+
+            return watermark, convert(dense), convert(sparse)
+        except (TimeoutError, PoolTimeout, psycopg.errors.QueryCanceled):
+            raise KnowledgeError("retrieval_timeout") from None
+        except (psycopg.Error, PoolClosed):
             raise KnowledgeError("knowledge_index_unavailable") from None
 
     async def validate_evidence(self, refs):

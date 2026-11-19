@@ -1,0 +1,9 @@
+# Task 1.3.2 fixture hashes cover the original source bytes.
+/data/knowledge/*.md text eol=crlf
+/data/knowledge/manifest.json text eol=crlf
+/data/v2-01-quality/** -text
+
+# Preserve raw evidence bytes for the archived SHA256 chains.
+/docs/v2-01-task132-evidence/** -text
+/docs/v2-01-task132-regression-evidence/** -text
+/docs/v2-01-task132-top3-evidence/** -text

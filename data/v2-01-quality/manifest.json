@@ -1,0 +1,86 @@
+[
+  {
+    "document_id": "task132-distractor-01",
+    "filename": "distractor-01.md",
+    "source_title": "会话建立",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-01"
+  },
+  {
+    "document_id": "task132-distractor-02",
+    "filename": "distractor-02.md",
+    "source_title": "身份选择",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-02"
+  },
+  {
+    "document_id": "task132-distractor-03",
+    "filename": "distractor-03.md",
+    "source_title": "订单列表",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-03"
+  },
+  {
+    "document_id": "task132-distractor-04",
+    "filename": "distractor-04.md",
+    "source_title": "订单详情",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-04"
+  },
+  {
+    "document_id": "task132-distractor-05",
+    "filename": "distractor-05.md",
+    "source_title": "消息流",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-05"
+  },
+  {
+    "document_id": "task132-distractor-06",
+    "filename": "distractor-06.md",
+    "source_title": "会话记录",
+    "domain": "platform_help",
+    "public_source_key": "task132-distractor-06"
+  },
+  {
+    "document_id": "task132-distractor-07",
+    "filename": "distractor-07.md",
+    "source_title": "退款记录",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-07"
+  },
+  {
+    "document_id": "task132-distractor-08",
+    "filename": "distractor-08.md",
+    "source_title": "退款页面",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-08"
+  },
+  {
+    "document_id": "task132-distractor-09",
+    "filename": "distractor-09.md",
+    "source_title": "审批界面",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-09"
+  },
+  {
+    "document_id": "task132-distractor-10",
+    "filename": "distractor-10.md",
+    "source_title": "审批记录",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-10"
+  },
+  {
+    "document_id": "task132-distractor-11",
+    "filename": "distractor-11.md",
+    "source_title": "模拟服务",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-11"
+  },
+  {
+    "document_id": "task132-distractor-12",
+    "filename": "distractor-12.md",
+    "source_title": "操作记录",
+    "domain": "after_sales_help",
+    "public_source_key": "task132-distractor-12"
+  }
+]

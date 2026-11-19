@@ -22,8 +22,10 @@ from app.graph.state import SpecialistState
 from app.knowledge.models import (
     Contract,
     EvidenceReference,
+    HybridSearchResult,
     KnowledgeError,
     SearchResult,
+    SparseIndexProfile,
     canonical,
     digest,
 )
@@ -82,7 +84,15 @@ class KnowledgeState(SpecialistState, total=False):
     question: str | None
 
 
-def build_knowledge_graph(*, gateway=None, registry=None, executor=None, profile=None):
+def build_knowledge_graph(
+    *,
+    gateway=None,
+    registry=None,
+    executor=None,
+    profile=None,
+    mode="dense",
+    retrieval_profile=None,
+):
     """An unconfigured graph reports unavailable; ready resources are injected once."""
 
     def usage(runtime):
@@ -129,7 +139,10 @@ def build_knowledge_graph(*, gateway=None, registry=None, executor=None, profile
             ):
                 raise GraphProtocolError("Knowledge call ID protocol conflict")
             checked = await executor.assess(call, context=ctx)
-            if checked.decision is PolicyDecision.ALLOW:
+            if (
+                checked.decision is PolicyDecision.ALLOW
+                and call.name != "validate_knowledge_sources"
+            ):
                 raw = previous["result"]
                 result = ToolExecutionResult(**{**raw, "run_usage": RunUsage(**raw["run_usage"])})
                 return result, records
@@ -290,6 +303,14 @@ def build_knowledge_graph(*, gateway=None, registry=None, executor=None, profile
         ctx = tool_context(
             runtime, "search_knowledge", state["retrieval_query"], allowed=len(calls) == 1
         )
+        definition = registry.get("search_knowledge")
+        if (
+            not definition
+            or definition.metadata.version != ("2" if mode == "hybrid" else "1")
+            or [tuple(item) for item in state.get("selected_tools", [])]
+            != [("search_knowledge", definition.metadata.version)]
+        ):
+            return failed("tool_result_invalid")
         records = state["call_records"]
         results = []
         for call in calls:
@@ -308,9 +329,40 @@ def build_knowledge_graph(*, gateway=None, registry=None, executor=None, profile
                 **failed(results[0].code if len(results) == 1 else "invalid_tool_call"),
             }
         try:
-            observation = SearchResult.model_validate(results[0].data)
+            observation = (HybridSearchResult if mode == "hybrid" else SearchResult).model_validate(
+                results[0].data
+            )
             if (
-                observation.embedding_profile != profile
+                (
+                    mode == "hybrid"
+                    and (
+                        observation.retrieval_profile != retrieval_profile
+                        or observation.sparse_profile != SparseIndexProfile().key
+                    )
+                )
+                or (
+                    mode == "hybrid"
+                    and (
+                        observation.candidate_count != len(observation.candidates)
+                        or len(observation.evidence) > state["retrieval_query"]["top_k"]
+                        or observation.context
+                        != canonical([e.model_dump() for e in observation.evidence])
+                        or any(digest(e.content) != e.content_hash for e in observation.evidence)
+                        or any(c.reranker_score is None for c in observation.candidates)
+                        or any(
+                            not any(
+                                all(
+                                    getattr(e, k) == getattr(c, k)
+                                    for k in EvidenceReference.model_fields
+                                )
+                                and e.retrieval_score == c.reranker_score
+                                for c in observation.candidates
+                            )
+                            for e in observation.evidence
+                        )
+                    )
+                )
+                or observation.embedding_profile != profile
                 or observation.query_fingerprint != digest(state["retrieval_query"]["query"])
                 or observation.status != ("found" if observation.evidence else "empty")
                 or len({e.evidence_id for e in observation.evidence}) != len(observation.evidence)

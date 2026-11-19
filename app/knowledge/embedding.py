@@ -8,6 +8,7 @@ from threading import Lock
 from langchain_core.embeddings import Embeddings
 
 from app.core.config import Settings
+from app.knowledge.cpu_capacity import cpu_capacity
 from app.knowledge.models import EmbeddingProfile, KnowledgeError, digest
 
 QUERY_PROMPT = (
@@ -90,13 +91,21 @@ class QwenLocalEmbeddings(Embeddings):
                 raise KnowledgeError("embedding_unavailable")
             if self._busy:
                 raise KnowledgeError("embedding_busy")
+            if not cpu_capacity.acquire(blocking=False):
+                raise KnowledgeError("embedding_busy")
             self._busy = True
-            future = self._executor.submit(function, *args)
+            try:
+                future = self._executor.submit(function, *args)
+            except BaseException:
+                self._busy = False
+                cpu_capacity.release()
+                raise
             self._future = future
 
         def settled(_):
             with self._lock:
                 self._busy = False
+                cpu_capacity.release()
 
         future.add_done_callback(settled)
         return future

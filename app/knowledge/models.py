@@ -79,6 +79,7 @@ class RetrievalProfile(Contract):
         "query-title-section-content-v1"
     )
     reranker_score: Literal["raw_logit"] = "raw_logit"
+    reranker_order: Literal["rrf-top3-bge-local-v1"] = "rrf-top3-bge-local-v1"
     reranker_max_tokens: Literal[512] = 512
     context_policy: Literal["complete-chunks-2400tokens-24kib-v1"] = (
         "complete-chunks-2400tokens-24kib-v1"
@@ -176,11 +177,27 @@ class RetrievalCandidate(EvidenceReference):
     reranker_score: float | None = Field(default=None, allow_inf_nan=False)
 
 
+class HybridCandidate(Contract):
+    """Unbound retrieval candidate for the later reranking step."""
+
+    evidence: EvidenceChunk
+    scores: RetrievalCandidate
+
+
+class HybridCandidates(Contract):
+    status: Literal["found", "empty"]
+    embedding_profile: str
+    sparse_profile: str
+    index_watermark: int = Field(strict=True, ge=1)
+    candidates: tuple[HybridCandidate, ...]
+
+
 class HybridSearchResult(SearchResult):
     """V2 wire contract. Required discriminators prevent accepting V1 cached results.
 
-    In this mode EvidenceChunk.retrieval_score is the final reranker raw logit;
-    route-native scores remain separate in candidates.
+    EvidenceChunk.retrieval_score is the raw reranker logit, not a sort key for
+    the whole result: only the RRF top three are reordered by that score.
+    Route-native scores remain separate in candidates.
     V1 tools/Graph continue to parse SearchResult until the separately authorized
     integration Task switches the tool version and parser together.
     """

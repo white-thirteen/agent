@@ -28,7 +28,8 @@ from app.infrastructure.store import store_resources
 from app.knowledge.embedding import create_embeddings
 from app.knowledge.models import KnowledgeError
 from app.knowledge.repository import KnowledgeRepository
-from app.knowledge.retriever import VectorRetriever
+from app.knowledge.reranker import BGEReranker
+from app.knowledge.retriever import HybridRetriever, VectorRetriever
 from app.memory.manager import MemoryManager
 from app.memory.reader import MemoryReader
 from app.runtime.agent_runtime import AgentRuntime, RunLimits
@@ -107,14 +108,33 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         repository = KnowledgeRepository(pool)
                         try:
                             await repository.check_ready(embeddings.profile.key)
+                            if settings.knowledge_retrieval_mode == "hybrid":
+                                await repository.check_hybrid_ready()
                         except KnowledgeError:
                             application.state.knowledge_status = "unavailable"
                             logger.warning("Knowledge index unavailable or incompatible")
                         else:
-                            application.state.knowledge_retriever = VectorRetriever(
-                                repository, embeddings, embeddings.profile.key
-                            )
-                            application.state.knowledge_status = "ready"
+                            if settings.knowledge_retrieval_mode == "hybrid":
+                                reranker = BGEReranker(settings)
+                                resources.push_async_callback(reranker.aclose)
+                                try:
+                                    await reranker.initialize()
+                                except KnowledgeError:
+                                    logger.warning("Local reranker resource unavailable")
+                                else:
+                                    application.state.knowledge_retriever = HybridRetriever(
+                                        repository,
+                                        embeddings,
+                                        reranker,
+                                        embeddings.profile.key,
+                                        settings.knowledge_retrieval_timeout_seconds,
+                                    )
+                            else:
+                                application.state.knowledge_retriever = VectorRetriever(
+                                    repository, embeddings, embeddings.profile.key
+                                )
+                            if application.state.knowledge_retriever:
+                                application.state.knowledge_status = "ready"
             application.state.store_status = "not_configured"
             application.state.memory_store = None
             if pool:
@@ -158,7 +178,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     application.state.refund_service, timeout_seconds=settings.tool_timeout_seconds
                 )
             )
-            for definition in knowledge_tools(application.state.knowledge_retriever):
+            for definition in knowledge_tools(
+                application.state.knowledge_retriever,
+                mode=settings.knowledge_retrieval_mode,
+                retrieval_timeout=settings.knowledge_retrieval_timeout_seconds,
+            ):
                 registry.register(definition)
             registry.register(
                 read_preferences_tool(
@@ -204,6 +228,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         profile=application.state.knowledge_retriever.profile
                         if application.state.knowledge_retriever
                         else None,
+                        mode=settings.knowledge_retrieval_mode,
+                        retrieval_profile=getattr(
+                            application.state.knowledge_retriever, "retrieval_profile", None
+                        ),
                     ),
                 },
             )
