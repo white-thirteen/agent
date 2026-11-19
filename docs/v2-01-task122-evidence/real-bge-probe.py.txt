@@ -1,0 +1,92 @@
+"""Task 1.2.2 real CPU probe. No API, database or .env access."""
+import asyncio
+import ctypes
+from ctypes import wintypes
+import hashlib
+import json
+import math
+from pathlib import Path
+import sys
+from time import perf_counter
+sys.path.insert(0,str(Path.cwd()))
+from app.core.config import Settings
+from app.knowledge.chunking import prepare_document, read_manifest
+from app.knowledge.models import EvidenceChunk, KnowledgeError
+from app.knowledge.reranker import BGEReranker
+from scripts import run_async
+from app.knowledge.sparse import search_text
+from app.knowledge.cpu_capacity import cpu_capacity
+class Counters(ctypes.Structure):
+    _fields_=[('cb',wintypes.DWORD),('PageFaultCount',wintypes.DWORD)]+[(n,ctypes.c_size_t) for n in (
+        'PeakWorkingSetSize','WorkingSetSize','QuotaPeakPagedPoolUsage','QuotaPagedPoolUsage',
+        'QuotaPeakNonPagedPoolUsage','QuotaNonPagedPoolUsage','PagefileUsage','PeakPagefileUsage','PrivateUsage')]
+kernel=ctypes.WinDLL('kernel32', use_last_error=True)
+kernel.GetCurrentProcess.restype=wintypes.HANDLE
+psapi=ctypes.WinDLL('psapi',use_last_error=True)
+psapi.GetProcessMemoryInfo.argtypes=[wintypes.HANDLE,ctypes.POINTER(Counters),wintypes.DWORD]
+def usage():
+    c=Counters()
+    c.cb=ctypes.sizeof(c)
+    if not psapi.GetProcessMemoryInfo(kernel.GetCurrentProcess(),ctypes.byref(c),c.cb):raise ctypes.WinError(ctypes.get_last_error())
+    return {n.lower()+'_bytes':getattr(c,n) for n in ('WorkingSetSize','PeakWorkingSetSize','PrivateUsage','PeakPagefileUsage')}
+root=Path('data/knowledge')
+docs=[prepare_document(root,e,'bge-input-audit') for e in read_manifest(root,root/'manifest.json')]
+evidence=[EvidenceChunk(document_id=d.entry.document_id,document_version=d.document_version,chunk_id=c.chunk_id,
+    content_hash=c.content_hash,evidence_id=c.chunk_id,source_title=d.entry.source_title,public_source_key=d.entry.public_source_key,
+    section=c.section,page=None,line_start=c.line_start,line_end=c.line_end,content=c.content,retrieval_score=0.0,domain=d.entry.domain)
+    for d in docs for c in d.chunks]
+questions=[('zh','模拟退款会扣真实银行卡的钱吗？'),('en','If the stream disconnects, does the accepted task continue?')]
+async def main():
+    settings=Settings(_env_file=None)
+    path=settings.reranker_model_path
+    with (path/'model.safetensors').open('rb') as f:
+        sha=hashlib.file_digest(f,'sha256').hexdigest()
+    assert sha=='ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd'
+    result={'device':'cpu','revision':path.name,'weights_sha256':sha,'before':usage(),'queries':[]}
+    engine=BGEReranker(settings)
+    t=perf_counter()
+    try:
+        await engine.initialize()
+        result['initialize_seconds']=round(perf_counter()-t,3)
+        result['loaded']=usage()
+        print('BGE initialized',result['initialize_seconds'],result['loaded'],flush=True)
+        for lang,question in questions:
+            t=perf_counter()
+            scores=await engine.score(question,evidence)
+            assert len(scores)==len(evidence) and all(math.isfinite(x) for x in scores)
+            lengths=[len(engine._model.tokenizer(question,search_text(c.source_title,c.section,c.content),add_special_tokens=True,truncation=False)['input_ids']) for c in evidence]
+            row={'language':lang,'seconds':round(perf_counter()-t,3),'tokens':lengths,
+                 'scores_by_source':{c.document_id:s for c,s in zip(evidence,scores,strict=True)},'memory':usage()}
+            result['queries'].append(row)
+            print('BGE inference',lang,row['seconds'],flush=True)
+        try:
+            await engine.score('退款 '*601,[evidence[0]])
+        except KnowledgeError as error:
+            assert str(error)=='rerank_input_too_long'
+            result['oversize']='rerank_input_too_long'
+        else:raise AssertionError('Oversize query accepted')
+        assert any(abs(score)>1 for q in result['queries'] for score in q['scores_by_source'].values())
+        engine.settings=settings.model_copy(update={'reranker_timeout_seconds':0.001})
+        try:
+            await engine.score(questions[0][1],evidence)
+        except KnowledgeError as error:
+            assert str(error)=='rerank_timeout'
+            result['forced_inference_timeout']='rerank_timeout'
+        else:raise AssertionError('Expected real job to exceed 1ms')
+        try:
+            await engine.score(questions[1][1],evidence)
+        except KnowledgeError as error:
+            assert str(error)=='rerank_busy'
+            result['inflight_after_timeout']='rerank_busy'
+        else:raise AssertionError('Inference capacity was released early')
+    finally:
+        t=perf_counter()
+        await engine.aclose()
+        result['close_seconds']=round(perf_counter()-t,3)
+        result['after_close']=usage()
+        assert cpu_capacity.acquire(blocking=False)
+        cpu_capacity.release()
+        result['capacity_released_after_close']=True
+    Path('.git/task122-real-bge-receipt.json').write_bytes((json.dumps(result,ensure_ascii=False,indent=2)+'\n').encode())
+    print(json.dumps(result,ensure_ascii=False),flush=True)
+run_async(main())

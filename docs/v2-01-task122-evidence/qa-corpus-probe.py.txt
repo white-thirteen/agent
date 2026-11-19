@@ -1,0 +1,20 @@
+import json,re
+from pathlib import Path
+from transformers import AutoTokenizer
+from app.knowledge.chunking import read_manifest,prepare_document
+from app.knowledge.sparse import search_text
+root=Path('data/knowledge')
+entries=read_manifest(root,root/'manifest.json')
+chunks=[(entry,chunk) for entry in entries for chunk in prepare_document(root,entry,'qa').chunks]
+design=Path('docs/v2-01-knowledge-rag-enhancement-detailed-design.md').read_text('utf-8')
+questions=dict(re.findall(r'^\| (Q\d{2}) \| (.*?) \|',design,re.M))
+questions.update({'V1-'+a['sample_id']:a['question'] for a in json.loads(Path('tests/fixtures/knowledge_cases.json').read_text('utf-8'))})
+assert len(questions)==36 and len(chunks)==6
+model='D:/AI/models/bge-reranker-base/2cfc18c9415c912f9d8155881c133215df768a70'
+tokenizer=AutoTokenizer.from_pretrained(model,local_files_only=True,trust_remote_code=False)
+actual={(q,e.document_id,c.ordinal):len(tokenizer(t,search_text(e.source_title,c.section,c.content),add_special_tokens=True,truncation=False)['input_ids']) for q,t in questions.items() for e,c in chunks}
+r=json.loads(Path('.git/task122-bge-tokenizer-preflight.json').read_text('utf-8'))
+recorded={(p['question'],p['document'],p['ordinal']):p['tokens'] for p in r['pairs']}
+assert len(actual)==216 and len(recorded)==216 and actual==recorded
+assert (r['questions'],r['chunks'],r['pair_count'],r['max_tokens'],r['over_512'])==(36,6,216,max(actual.values()),[])
+print('PREFLIGHT_INDEPENDENT_MATCH pairs=216 max=',max(actual.values()),'over_512=',sum(x>512 for x in actual.values()))

@@ -1,0 +1,49 @@
+import asyncio, os, time
+from pathlib import Path
+import psycopg
+from psycopg_pool import AsyncConnectionPool
+from app.knowledge import repository as module
+from app.knowledge.repository import KnowledgeRepository
+from app.knowledge.sparse import activate
+from app.knowledge.retriever import HybridCandidateRetriever
+from app.knowledge.models import SearchQuery
+from app.runtime.context import DemoIdentity
+from scripts import run_async
+
+pw=Path('.git/task121-isolated-password').read_text(encoding='ascii')
+dsn=f'postgresql://agent_hybrid_task121:{pw}@127.0.0.1:56421/agent_hybrid_task121_test'
+async def run():
+    pool=AsyncConnectionPool(conninfo=dsn,open=False,min_size=1,max_size=2)
+    await pool.open(wait=True)
+    created=False
+    try:
+        async with pool.connection() as c, c.transaction():
+            assert await (await c.execute("SELECT current_database(),current_user,shobj_description(oid,'pg_database') FROM pg_database WHERE datname=current_database()")).fetchone()==('agent_hybrid_task121_test','agent_hybrid_task121','codex-task121-9db5')
+            assert await (await c.execute("SELECT to_regclass('public.knowledge_documents'),to_regclass('public.knowledge_chunks'),to_regclass('public.knowledge_index_state')")).fetchone()==(None,None,None)
+            await c.execute(Path('migrations/006_knowledge_vectors.sql').read_text('utf-8'))
+            await c.execute(Path('migrations/007_knowledge_sparse.sql').read_text('utf-8'))
+        created=True
+        await activate(pool)
+        actual=module.check_sparse_ready
+        async def slow(c):
+            result=await actual(c)
+            await c.execute('SELECT pg_sleep(2.7)')
+            await c.execute('SELECT pg_sleep(2.7)')
+            return result
+        module.check_sparse_ready=slow
+        class Embed:
+            async def aembed_query(self,q): return [1.0]+[0.0]*1023
+        retriever=HybridCandidateRetriever(KnowledgeRepository(pool),Embed(),'controlled')
+        start=time.monotonic()
+        result=await retriever.search(SearchQuery(query='退款'),identity=DemoIdentity(user_id='u',permission_scopes=frozenset({'knowledge:read'})))
+        elapsed=time.monotonic()-start
+        assert elapsed>5 and result.status=='empty'
+        print(f'AGGREGATE_TIMEOUT_REPRO elapsed={elapsed:.2f}s status={result.status}')
+    finally:
+        if created:
+            async with pool.connection() as c, c.transaction():
+                await c.execute('DROP TABLE knowledge_index_state')
+                await c.execute('DROP TABLE knowledge_chunks')
+                await c.execute('DROP TABLE knowledge_documents')
+        await pool.close()
+run_async(run())

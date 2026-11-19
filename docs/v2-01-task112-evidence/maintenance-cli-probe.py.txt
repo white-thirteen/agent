@@ -1,0 +1,30 @@
+"""Smoke the real maintenance CLI using a separate disposable database."""
+from pathlib import Path
+import os
+import subprocess
+import sys
+import psycopg
+sys.path.insert(0,str(Path.cwd()))
+from pydantic import SecretStr
+from scripts import run_async
+from scripts.migrate import apply_migrations
+pw=Path('.git/task112-isolated-password').read_text(encoding='ascii')
+base='127.0.0.1:56412'
+admin=f'postgresql://postgres:{pw}@{base}/postgres'
+db='agent_sparse_task112_cli'
+with psycopg.connect(admin,autocommit=True) as c:
+ assert c.execute("SELECT count(*) FROM pg_database WHERE shobj_description(oid,'pg_database')='codex-task112-7c41'").fetchone()==(3,)
+ c.execute("CREATE DATABASE agent_sparse_task112_cli OWNER agent_sparse_task112")
+ c.execute("COMMENT ON DATABASE agent_sparse_task112_cli IS 'codex-task112-cli-7c41'")
+with psycopg.connect(f'postgresql://postgres:{pw}@{base}/{db}',autocommit=True) as c:
+ c.execute("CREATE EXTENSION vector VERSION '0.8.7'; CREATE EXTENSION pg_textsearch VERSION '1.5.1'; CREATE EXTENSION zhparser VERSION '2.4'")
+ c.execute("CREATE TEXT SEARCH CONFIGURATION public.chinese (PARSER=zhparser); ALTER TEXT SEARCH CONFIGURATION public.chinese ADD MAPPING FOR n,v,a,i,e,l WITH simple")
+dsn=f'postgresql://agent_sparse_task112:{pw}@{base}/{db}'
+assert run_async(apply_migrations(SecretStr(dsn),target='development'))==list(range(1,8))
+env={**os.environ,'AGENT_DATABASE_URL':dsn,'AGENT_TEST_DATABASE_URL':f'postgresql://agent_test:{pw}@{base}/agent_demo_test','AGENT_APP_ENV':'development'}
+for action in ['backfill','activate','check','activate','check']:
+ result=subprocess.run([sys.executable,'-B','-m','scripts.prepare_sparse_knowledge','--target','development',action],env=env,check=True,capture_output=True,text=True)
+ print(action,result.returncode,result.stdout.strip())
+with psycopg.connect(dsn,autocommit=True,options='-c default_transaction_read_only=on') as c:
+ assert c.execute("SELECT ready,watermark,index_name FROM knowledge_index_state").fetchone()==(True,2,'knowledge_chunks_bm25_idx')
+ print('CLI state verified: ready, watermark=2, one BM25 index')

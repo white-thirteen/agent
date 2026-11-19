@@ -1,0 +1,83 @@
+{
+  "device": "cpu",
+  "revision": "2cfc18c9415c912f9d8155881c133215df768a70",
+  "weights_sha256": "ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd",
+  "before": {
+    "workingsetsize_bytes": 73535488,
+    "peakworkingsetsize_bytes": 74547200,
+    "privateusage_bytes": 59265024,
+    "peakpagefileusage_bytes": 60780544
+  },
+  "queries": [
+    {
+      "language": "zh",
+      "seconds": 4.309,
+      "tokens": [
+        78,
+        65,
+        86,
+        89,
+        89,
+        87
+      ],
+      "scores_by_source": {
+        "demo-account-help": -10.162351608276367,
+        "demo-order-query": -9.199403762817383,
+        "demo-refund-entry": 0.3382931351661682,
+        "demo-approval-wait": 0.019000984728336334,
+        "demo-stream-help": -9.416478157043457,
+        "demo-refund-safety": 4.5195817947387695
+      },
+      "memory": {
+        "workingsetsize_bytes": 1019498496,
+        "peakworkingsetsize_bytes": 1020796928,
+        "privateusage_bytes": 2801098752,
+        "peakpagefileusage_bytes": 3648540672
+      }
+    },
+    {
+      "language": "en",
+      "seconds": 1.19,
+      "tokens": [
+        79,
+        66,
+        87,
+        90,
+        90,
+        88
+      ],
+      "scores_by_source": {
+        "demo-account-help": -10.194204330444336,
+        "demo-order-query": -10.195069313049316,
+        "demo-refund-entry": -10.195893287658691,
+        "demo-approval-wait": -7.488038063049316,
+        "demo-stream-help": -2.4319682121276855,
+        "demo-refund-safety": -10.19610595703125
+      },
+      "memory": {
+        "workingsetsize_bytes": 1019736064,
+        "peakworkingsetsize_bytes": 1020796928,
+        "privateusage_bytes": 2804670464,
+        "peakpagefileusage_bytes": 3648540672
+      }
+    }
+  ],
+  "initialize_seconds": 18.02,
+  "loaded": {
+    "workingsetsize_bytes": 680796160,
+    "peakworkingsetsize_bytes": 748445696,
+    "privateusage_bytes": 2807967744,
+    "peakpagefileusage_bytes": 3648540672
+  },
+  "oversize": "rerank_input_too_long",
+  "forced_inference_timeout": "rerank_timeout",
+  "inflight_after_timeout": "rerank_busy",
+  "close_seconds": 1.272,
+  "after_close": {
+    "workingsetsize_bytes": 1019678720,
+    "peakworkingsetsize_bytes": 1020796928,
+    "privateusage_bytes": 2805616640,
+    "peakpagefileusage_bytes": 3648540672
+  },
+  "capacity_released_after_close": true
+}

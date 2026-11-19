@@ -4,6 +4,10 @@
 /data/v2-01-quality/** -text
 
 # Preserve raw evidence bytes for the archived SHA256 chains.
+/docs/v2-01-task112-evidence/** -text
+/docs/v2-01-task121-evidence/** -text
+/docs/v2-01-task122-evidence/** -text
+/docs/v2-01-task131-evidence/** -text
 /docs/v2-01-task132-evidence/** -text
 /docs/v2-01-task132-regression-evidence/** -text
 /docs/v2-01-task132-top3-evidence/** -text

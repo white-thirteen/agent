@@ -1,8 +1,8 @@
 # Agent Engine Demo
 
-## V2 当前状态（2026-11-18）
+## V2 当前状态（2026-11-19）
 
-Task 1.1.1 已验收（`ACCEPTED`）。技术基线、独立 QA 与遗留边界见[验收归档](docs/v2-01-task111-acceptance.md)。1.1.2 等待另行启动。
+V2 01 已正式验收（`ACCEPTED`），六个 Task 的交付与独立 QA 已归档。技术基线、证据与遗留风险见[阶段正式验收](docs/v2-01-stage-acceptance.md)。V2 02/03 维持设计状态。
 
 ## V1 最新交付状态（2026-11-17）
 

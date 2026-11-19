@@ -1,0 +1,93 @@
+{
+  "git_head": "2f5d5a29fde237dfae04ad93205799d2bd8c8693",
+  "protected_files_unchanged": [
+    "compose.yaml",
+    "deploy/postgres-vector.Dockerfile",
+    "migrations/001_sessions.sql",
+    "migrations/002_deferred_thread_uniqueness.sql",
+    "migrations/003_demo_orders.sql",
+    "migrations/004_refund_approvals.sql",
+    "migrations/005_approval_subject_constraint.sql",
+    "migrations/006_knowledge_vectors.sql"
+  ],
+  "verified_source_sha256": {
+    "app/infrastructure/postgres.py": "59fc352c6bf47bddddb05ae1284b7dc98e06a619270a8ec42abddc09f1a362a8",
+    "app/knowledge/repository.py": "00326639fceb7e04f871fce81faa8f316ecbec290cbf7d391a9aac90c0897708",
+    "app/knowledge/sparse.py": "ba954a0c4562d896d1aaf782397e750671c0f9a30d8b1f6b8213e472e99fcc95",
+    "migrations/007_knowledge_sparse.sql": "54c52a2dc4b4ce269a2bdcc563c8728bf7cdc46cec97463f35e47d2e715f6aa0",
+    "scripts/prepare_sparse_knowledge.py": "8c7cab2af0a141a7f48052a2466172312ef462794cce48b064e67f477d64cebc",
+    "tests/test_sparse_task112_postgres.py": "8747c63752bf4696da4d0e704594cc29f294d28baaf0f6979d42ef0d833f1b1e"
+  },
+  "qa_failure_probe_sha256": "59f03c2f845130efe43c1f742d3b1a6f69c239de35ade2763eb098b3bc655207",
+  "isolated_image": "sha256:748b51b8d45a51bc517424a9cd78aab4c8d268fe2155cca018b66f84c361ce85",
+  "isolated_container_id": "dade1c560238c989c7fa0701bf72e7bd9e7b47bfdad4e1f6cfd98ebcfc206eaf",
+  "packages": {
+    "postgresql-17": "17.12-1.pgdg12+1",
+    "postgresql-17-pgvector": "0.8.7-1.pgdg12+2"
+  },
+  "isolation": "unique databases, roles and marker, fresh volume, host loopback reached through SSH",
+  "candidate_runtime_hashes_matched_task111_manifest": 7,
+  "v1_regression": {
+    "files": [
+      "tests/test_postgres.py",
+      "tests/test_knowledge_postgres.py",
+      "tests/test_order_postgres.py",
+      "tests/test_memory_postgres.py",
+      "tests/test_memory_manage_postgres.py",
+      "tests/test_refund_repair_postgres.py"
+    ],
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "elapsed_seconds": 83.07,
+    "installed_extensions": [
+      "plpgsql",
+      "vector"
+    ]
+  },
+  "v1_health": {
+    "database": "ready",
+    "checkpoint": "ready",
+    "store": "ready",
+    "agent_ready": true,
+    "embedding": "disabled",
+    "business_pool_closed": true,
+    "checkpoint_pool_closed": true
+  },
+  "maintenance_cli": {
+    "backfill_rows": 0,
+    "actions": [
+      "backfill",
+      "activate",
+      "check",
+      "activate",
+      "check"
+    ],
+    "exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_watermark": 2,
+    "ready": true
+  },
+  "independent_QA": {
+    "result": "PASS",
+    "focused_real_db_passed": 1,
+    "additional_failure_probe_passed": 1
+  },
+  "production": {
+    "container_id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+    "started_at_before_and_after": "2026-11-17T14:59:05.899044319Z",
+    "health_before_and_after": "healthy",
+    "application_sql_connections_by_task": 0
+  },
+  "cleanup": {
+    "task_label": "codex.task112=7c41",
+    "remaining_containers": 0,
+    "remaining_volumes": 0
+  }
+}
