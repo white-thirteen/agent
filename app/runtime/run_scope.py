@@ -27,6 +27,21 @@ class RunScope:
         self._finished: RunUsage | None = None
         self._deadline: asyncio.Timeout | None = None
         self._emit = emit
+        self._context_view = None
+        self.context_history_override = None
+
+    def record_context_view(self, view):
+        self._context_view = view
+
+    def record_context_usage(self, usage):
+        if self._context_view is not None:
+            from dataclasses import asdict
+
+            self._context_view = {**self._context_view, "provider_usage": asdict(usage)}
+
+    @property
+    def context_view(self):
+        return self._context_view
 
     def model_usage(self) -> ModelCallUsage:
         return self._model

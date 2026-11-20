@@ -39,6 +39,11 @@ class AgentState(TypedDict):
     error: dict | None
     model_call_usage: dict
     run_usage: dict
+    context_ref: dict | None
+    context_history: list[list[AnyMessage]]
+    context_view: dict | None
+    public_message_metadata: dict
+    context_migration_status: str
 
 
 class SpecialistState(TypedDict):
@@ -47,6 +52,8 @@ class SpecialistState(TypedDict):
     memory_read_status: str
     call_records: dict
     request: SpecialistInput
+    context_history: list[list[AnyMessage]]
+    context_view: dict | None
     messages: Annotated[list[AnyMessage], add_messages]
     selected_tools: list[str]
     result: SpecialistResult | None
@@ -82,6 +89,14 @@ def create_turn_state(
     ids.append(f"user:{context.run_id}")
     return AgentState(
         messages=[HumanMessage(content=message, id=f"user:{context.run_id}")],
+        public_message_metadata={
+            **(saved_task.get("public_message_metadata", {}) if saved_task else {}),
+            f"user:{context.run_id}": {
+                "task_id": context.task_id,
+                "run_id": context.run_id,
+                "task_status": "running",
+            },
+        },
         agent_type=pending.task_type.target_agent if pending else AgentType.SUPERVISOR,
         user_id=context.user_id,
         conversation_id=context.conversation_id,

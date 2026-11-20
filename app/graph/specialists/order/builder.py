@@ -183,7 +183,21 @@ def build_order_graph(*, gateway, registry, executor):
             result = await gateway.invoke(
                 [SystemMessage(content=instructions), *state["messages"]],
                 context=ModelCallContext(
-                    state["request"].context.run_id, state["request"].task_id, AgentType.ORDER
+                    state["request"].context.run_id,
+                    state["request"].task_id,
+                    AgentType.ORDER,
+                    history=tuple(
+                        tuple(i)
+                        for i in (
+                            scope.context_history_override
+                            if scope.context_history_override is not None
+                            else state.get("context_history", state["request"].history)
+                        )
+                    ),
+                    on_context_view=scope.record_context_view,
+                    on_context_usage=scope.record_context_usage,
+                    on_compact=runtime.context.context_compactor,
+                    current_usage=scope.model_usage,
                 ),
                 model_usage=scope.model_usage(),
                 tools=schemas,
@@ -385,12 +399,20 @@ def build_order_graph(*, gateway, registry, executor):
     def next_after_observe(state):
         return "map_result" if state.get("outcome") else "plan_query"
 
+    async def tracked_plan_query(state: OrderState, runtime: Runtime[RunExecutionContext]):
+        update = await plan_query(state, runtime)
+        scope = runtime.context.scope
+        if scope.context_history_override is not None:
+            update["context_history"] = scope.context_history_override
+        update["context_view"] = scope.context_view
+        return update
+
     graph = StateGraph(OrderState, context_schema=RunExecutionContext)
     for name, node in [
         ("check_request", check_request),
         ("prepare_query", prepare_query),
         ("select_tools", select_tools),
-        ("plan_query", plan_query),
+        ("plan_query", tracked_plan_query),
         ("execute_query", execute_query),
         ("observe_order", observe_order),
         ("map_result", map_result),

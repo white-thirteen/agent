@@ -1,0 +1,361 @@
+{
+  "date": "2026-11-20",
+  "source": "Native session_meta and turn_context, not agent self-report",
+  "explicit_spawn": "agent_type implementer/qa, model gpt-6.1-terra, reasoning_effort high, fork_turns none",
+  "configuration_sources": [
+    {
+      "path": ".codex/config.toml",
+      "sha256": "91fc886e9791f8f11c8236d9dfeec8a8660ebe68aa64009d3d5ca3e4ef79a8c2"
+    },
+    {
+      "path": ".codex/agents/implementer.toml",
+      "sha256": "fb37630aa0cb1eabdb280071fcebfe1f27b9969a72720ecd989b7b83ba933b61"
+    },
+    {
+      "path": ".codex/agents/qa.toml",
+      "sha256": "56ff02156e0e96488d083a46b823de02c877d334b5b8689096c2a19170236263"
+    }
+  ],
+  "user_configuration": "C:/Users/15294/.codex/config.toml read during takeover; its main default does not determine actual child model",
+  "permission_note": "Inherited danger-full-access/never; QA read-only is a role behavior constraint, not an isolated sandbox",
+  "agents": [
+    {
+      "agent_path": "/root/v202_task211_impl",
+      "session_id": "01a1f257-127c-7a63-8976-62483426c360",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task211_qa",
+      "session_id": "01a1f25e-1e1f-7da2-a382-445bec4a0d58",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task212_impl",
+      "session_id": "01a1f264-b10a-7f81-a8a5-3d6f8e39c03a",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task212_qa",
+      "session_id": "01a1f26c-eeb3-7153-9386-11d0f72467e2",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task221_impl",
+      "session_id": "01a1f270-3102-71a3-a3b0-803f35156954",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task221_qa",
+      "session_id": "01a1f282-bfe8-7c80-bfdc-b6e7f5c49e19",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task222_impl",
+      "session_id": "01a1f285-ae43-7882-a5bc-d870bc971e43",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task222_qa",
+      "session_id": "01a1f38f-dfac-73e0-9b2e-66a91724dde9",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task231_impl",
+      "session_id": "01a1f399-e717-7ac1-bd58-f9c1f37ba357",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task231_qa",
+      "session_id": "01a1f4af-bf62-7f60-8215-d82cbf2bc313",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task232_impl",
+      "session_id": "01a1f4bd-7538-7271-b3d8-eb1968cb4bc9",
+      "agent_role": "implementer",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    },
+    {
+      "agent_path": "/root/v202_task232_qa",
+      "session_id": "01a1f4ce-1d77-7702-9eb0-990bb962457b",
+      "agent_role": "qa",
+      "observed_turns": [
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        },
+        {
+          "model": "gpt-6.1-terra",
+          "effort": "high",
+          "approval_policy": "never",
+          "sandbox_policy": {
+            "type": "danger-full-access"
+          }
+        }
+      ],
+      "verified_terra_high": true
+    }
+  ],
+  "captured_at_utc": "2026-11-20T04:58:05.468567+00:00",
+  "parent_thread_id": "01a1f256-6373-77f1-b5a0-3ad522366927"
+}

@@ -51,6 +51,19 @@ class MemoryBusinessContext(BusinessExecutionContext):
 
 
 @dataclass(frozen=True, slots=True)
+class PreferenceControlContext:
+    """Server-issued control command; it does not impersonate a graph Task."""
+
+    user_id: str
+    command_id: str
+    operation_id: str
+    command_digest: str
+    expected_revision: int
+    permission_scopes: frozenset[str]
+    replay_check_only: bool = False
+
+
+@dataclass(frozen=True, slots=True)
 class BusinessRejection:
     code: str
     message: str

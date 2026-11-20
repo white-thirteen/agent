@@ -47,58 +47,13 @@
                     "input_mode": "new_task"
                   }
                 },
-                "memorySave": {
-                  "summary": "显式保存偏好",
-                  "value": {
-                    "user_id": "dev-user",
-                    "conversation_id": "demo-c1",
-                    "message": "请记住：回答语言=英语",
-                    "input_mode": "new_task"
-                  }
-                },
-                "memoryRead": {
-                  "summary": "另一会话读取相同用户偏好",
+                "legacyPreferenceHint": {
+                  "summary": "旧偏好命令：只返回新接口迁移提示",
                   "value": {
                     "user_id": "dev-user",
                     "conversation_id": "demo-c2",
                     "message": "请查看偏好记忆",
                     "input_mode": "new_task"
-                  }
-                },
-                "memoryStyle": {
-                  "summary": "请记住：回答风格=简洁",
-                  "value": {
-                    "user_id": "dev-user",
-                    "conversation_id": "demo-c1",
-                    "input_mode": "new_task",
-                    "message": "请记住：回答风格=简洁"
-                  }
-                },
-                "memoryUpdate": {
-                  "summary": "请修改记忆：回答风格=详细",
-                  "value": {
-                    "user_id": "dev-user",
-                    "conversation_id": "demo-c1",
-                    "input_mode": "new_task",
-                    "message": "请修改记忆：回答风格=详细"
-                  }
-                },
-                "memoryDelete": {
-                  "summary": "请删除记忆：回答风格",
-                  "value": {
-                    "user_id": "dev-user",
-                    "conversation_id": "demo-c1",
-                    "input_mode": "new_task",
-                    "message": "请删除记忆：回答风格"
-                  }
-                },
-                "memoryClear": {
-                  "summary": "请删除全部偏好记忆",
-                  "value": {
-                    "user_id": "dev-user",
-                    "conversation_id": "demo-c1",
-                    "input_mode": "new_task",
-                    "message": "请删除全部偏好记忆"
                   }
                 }
               }
@@ -782,6 +737,137 @@
         },
         "description": "返回安全就绪状态；HTTP存活不代表Chat网络或知识库已经可用。"
       }
+    },
+    "/agent/preferences/read": {
+      "post": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Read",
+        "operationId": "read_agent_preferences_read_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferenceIdentity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/preferences/mutations": {
+      "post": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Mutate",
+        "operationId": "mutate_agent_preferences_mutations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferenceMutation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/preferences/operations/{operation_id}/status": {
+      "post": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Status",
+        "operationId": "status_agent_preferences_operations__operation_id__status_post",
+        "parameters": [
+          {
+            "name": "operation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[^\\x00]+$",
+              "title": "Operation Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferenceIdentity"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1211,6 +1297,110 @@
         ],
         "title": "ApprovalView",
         "type": "object"
+      },
+      "PreferenceIdentity": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "User Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_id"
+        ],
+        "title": "PreferenceIdentity"
+      },
+      "PreferenceMutation": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "User Id"
+          },
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00]+$",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "command": {
+            "$ref": "#/components/schemas/MemoryCommand"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_id",
+          "operation_id",
+          "expected_revision",
+          "command"
+        ],
+        "title": "PreferenceMutation"
+      },
+      "MemoryCommand": {
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "read",
+              "upsert",
+              "delete",
+              "clear"
+            ],
+            "title": "Operation"
+          },
+          "field": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "answer_language",
+                  "answer_style"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Field"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "zh-CN",
+                  "en",
+                  "concise",
+                  "detailed"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation"
+        ],
+        "title": "MemoryCommand"
       }
     }
   },

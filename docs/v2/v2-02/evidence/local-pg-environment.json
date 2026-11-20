@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-19",
+  "purpose": "V2 02 isolated Archive metadata, filesystem and publication failure verification",
+  "distribution": "EDB official PostgreSQL Windows x64 binary archive",
+  "source": "https://get.enterprisedb.com/postgresql/postgresql-17.12-1-windows-x64-binaries.zip",
+  "official_download_page": "https://www.enterprisedb.com/download-postgresql-binaries",
+  "archive_bytes": 386263884,
+  "observed_sha256": "a2cd8a774389347b70be7748ac4a37ef43cb6ee539c5fc3e85ae264b15e4a04c",
+  "hash_note": "Locally observed artifact hash, not independently matched to an upstream published checksum",
+  "executable_version": "postgres (PostgreSQL) 17.12",
+  "sql_server_version_num": 170012,
+  "listen_address": "127.0.0.1",
+  "port": 56422,
+  "database": "agent_context_test",
+  "database_role": "agent_test",
+  "database_comment_guard": "codex-v202-local-20261119",
+  "authentication": "scram-sha-256",
+  "registered_system_service": false,
+  "private_runtime_config": ".git/v202-local-pg-private.json",
+  "safety_boundary": "Independent new local data directory. No formal database, original VM, original volumes, .env or service changed. Tests use unique schemas and exact cleanup.",
+  "limitations": "Archive database has no vector requirement; new V1 twin databases now have real pgvector0.8.7. No BM25/zhparser enabled; Linux Hybrid gate not established.",
+  "setup_observations": "Download connection interrupted after initial portion, resumed with HTTP206. Server started successfully; inherited pg_ctl output pipe kept its launcher session open. Private admin credentials were reset only in this new local instance with a brief local HBA change, restored to scram-sha-256 before any tests. SQL identity and marker check passed.",
+  "additional_v1_environment": {
+    "databases": [
+      "agent_demo",
+      "agent_demo_test"
+    ],
+    "vector_version": "0.8.7",
+    "source": "https://codeload.github.com/pgvector/pgvector/zip/refs/tags/v0.8.7",
+    "source_zip_sha256": "7b3b8188a5cc0aa96db3c8f3fca1e78a8a612c46545065490c76448705c6b29e",
+    "build": "Existing MSVC x64, upstream Makefile.win build and install to new temporary PGROOT only",
+    "initialized_migrations": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "saver_store_initialized": true,
+    "new_fixture_orders_per_new_database": 5
+  }
+}

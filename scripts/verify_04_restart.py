@@ -636,7 +636,9 @@ def main():
                     evidence["evidence"]
                 )
                 evidence.pop("before")
-                destination = Path("docs") / ("04-restart-evidence-" + mode + ".json")
+                destination = Path("docs/v1/v1-04/evidence") / (
+                    "04-restart-evidence-" + mode + ".json"
+                )
                 destination.write_text(
                     json.dumps(evidence, ensure_ascii=False, indent=2), encoding="utf-8"
                 )

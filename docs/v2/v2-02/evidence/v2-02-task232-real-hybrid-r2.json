@@ -1,0 +1,359 @@
+{
+  "cases": [
+    {
+      "query": "模拟退款会扣真实银行卡的钱吗？",
+      "result": {
+        "status": "found",
+        "evidence": [
+          {
+            "document_id": "demo-refund-safety",
+            "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+            "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+            "content_hash": "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646",
+            "evidence_id": "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f",
+            "source_title": "模拟退款安全说明",
+            "public_source_key": "refund-safety",
+            "section": "模拟退款安全说明 / 模拟支付",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。此项目不连接真实支付机构，退款仅改变本地模拟业务数据。相同退款操作采用稳定操作编号防止重复副作用；结果未知时先核对原操作，不盲目再次退款。",
+            "retrieval_score": 4.519582748413086,
+            "domain": "after_sales_help",
+            "is_current_version": true
+          },
+          {
+            "document_id": "demo-refund-entry",
+            "document_version": "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+            "chunk_id": "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+            "content_hash": "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d",
+            "evidence_id": "296c0cedbe1cc21787304e670c3f3c4e406a48788eeb04f91e4b0eed7fe8c027",
+            "source_title": "模拟退款申请",
+            "public_source_key": "refund-entry",
+            "section": "模拟退款申请 / 申请渠道",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。需要模拟退款时，在聊天中明确提出退款并提供订单编号。系统检查订单归属和资格，建立模拟退款申请，等待本地审批。知识说明不会改变资格和金额规则。",
+            "retrieval_score": 0.33829325437545776,
+            "domain": "after_sales_help",
+            "is_current_version": true
+          },
+          {
+            "document_id": "demo-approval-wait",
+            "document_version": "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+            "chunk_id": "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+            "content_hash": "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d",
+            "evidence_id": "d7cb234419abec728e3d7465de9b190f8f714a186e2a32c53b3e9a5f5689e5a4",
+            "source_title": "审批等待说明",
+            "public_source_key": "approval-wait",
+            "section": "审批等待说明 / 等待与恢复",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。模拟退款处于等待审批状态时，普通聊天不能批准退款。请由本地演示审批控制面处理原申请。审批通过后系统恢复原任务并重新核验，批准不代表任意调用都被放行。",
+            "retrieval_score": 0.019000984728336334,
+            "domain": "after_sales_help",
+            "is_current_version": true
+          }
+        ],
+        "embedding_profile": "{\"dimensions\":1024,\"dtype\":\"bfloat16\",\"model\":\"Qwen/Qwen3-Embedding-0.6B\",\"normalization\":\"l2\",\"provider\":\"qwen_local\",\"query_prompt\":\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:\",\"revision\":\"demo-v1\",\"tokenizer\":\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\",\"weights_revision\":\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\"}",
+        "query_fingerprint": "7c14d7b1d50e7132bff3e84d6358a2d49297dcb0197cfb3f8c084dfee66b26ad",
+        "context_tokens": 1009,
+        "truncated": false,
+        "embedding_request_attempts": 1,
+        "candidate_count": 6,
+        "elapsed_ms": 3851.8074000021443,
+        "context": "[{\"chunk_id\":\"6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5\",\"content\":\"这是自编 Demo 语料。此项目不连接真实支付机构，退款仅改变本地模拟业务数据。相同退款操作采用稳定操作编号防止重复副作用；结果未知时先核对原操作，不盲目再次退款。\",\"content_hash\":\"52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646\",\"document_id\":\"demo-refund-safety\",\"document_version\":\"e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411\",\"domain\":\"after_sales_help\",\"evidence_id\":\"39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"refund-safety\",\"retrieval_score\":4.519582748413086,\"section\":\"模拟退款安全说明 / 模拟支付\",\"source_title\":\"模拟退款安全说明\"},{\"chunk_id\":\"ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e\",\"content\":\"这是自编 Demo 语料。需要模拟退款时，在聊天中明确提出退款并提供订单编号。系统检查订单归属和资格，建立模拟退款申请，等待本地审批。知识说明不会改变资格和金额规则。\",\"content_hash\":\"d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d\",\"document_id\":\"demo-refund-entry\",\"document_version\":\"b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8\",\"domain\":\"after_sales_help\",\"evidence_id\":\"296c0cedbe1cc21787304e670c3f3c4e406a48788eeb04f91e4b0eed7fe8c027\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"refund-entry\",\"retrieval_score\":0.33829325437545776,\"section\":\"模拟退款申请 / 申请渠道\",\"source_title\":\"模拟退款申请\"},{\"chunk_id\":\"4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6\",\"content\":\"这是自编 Demo 语料。模拟退款处于等待审批状态时，普通聊天不能批准退款。请由本地演示审批控制面处理原申请。审批通过后系统恢复原任务并重新核验，批准不代表任意调用都被放行。\",\"content_hash\":\"1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d\",\"document_id\":\"demo-approval-wait\",\"document_version\":\"66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc\",\"domain\":\"after_sales_help\",\"evidence_id\":\"d7cb234419abec728e3d7465de9b190f8f714a186e2a32c53b3e9a5f5689e5a4\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"approval-wait\",\"retrieval_score\":0.019000984728336334,\"section\":\"审批等待说明 / 等待与恢复\",\"source_title\":\"审批等待说明\"}]",
+        "contract_version": 2,
+        "mode": "hybrid",
+        "retrieval_profile": "{\"context_policy\":\"complete-chunks-2400tokens-24kib-v1\",\"dense_candidates\":10,\"embedding_profile\":\"{\\\"dimensions\\\":1024,\\\"dtype\\\":\\\"bfloat16\\\",\\\"model\\\":\\\"Qwen/Qwen3-Embedding-0.6B\\\",\\\"normalization\\\":\\\"l2\\\",\\\"provider\\\":\\\"qwen_local\\\",\\\"query_prompt\\\":\\\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\\\nQuery:\\\",\\\"revision\\\":\\\"demo-v1\\\",\\\"tokenizer\\\":\\\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\\\",\\\"weights_revision\\\":\\\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\\"}\",\"fused_candidates\":10,\"reranker_input_format\":\"query-title-section-content-v1\",\"reranker_max_tokens\":512,\"reranker_model\":\"BAAI/bge-reranker-base\",\"reranker_order\":\"rrf-top3-bge-local-v1\",\"reranker_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"reranker_score\":\"raw_logit\",\"reranker_tokenizer_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"rrf_constant\":60,\"rrf_weights\":[1,1],\"sparse_candidates\":10,\"sparse_profile\":\"{\\\"bm25_parameters\\\":\\\"extension_defaults\\\",\\\"dictionary_version\\\":\\\"scws-1.2.3\\\",\\\"extension\\\":\\\"pg_textsearch\\\",\\\"extension_version\\\":\\\"1.5.1\\\",\\\"indexed_fields\\\":[\\\"search_text\\\"],\\\"input_format\\\":\\\"title-section-content-v1\\\",\\\"result_identity_field\\\":\\\"chunk_id\\\",\\\"score_order\\\":\\\"ascending_negative\\\",\\\"text_config\\\":\\\"public.chinese\\\",\\\"text_field\\\":\\\"search_text\\\",\\\"tokenizer\\\":\\\"zhparser\\\",\\\"tokenizer_version\\\":\\\"2.4\\\"}\"}",
+        "sparse_profile": "{\"bm25_parameters\":\"extension_defaults\",\"dictionary_version\":\"scws-1.2.3\",\"extension\":\"pg_textsearch\",\"extension_version\":\"1.5.1\",\"indexed_fields\":[\"search_text\"],\"input_format\":\"title-section-content-v1\",\"result_identity_field\":\"chunk_id\",\"score_order\":\"ascending_negative\",\"text_config\":\"public.chinese\",\"text_field\":\"search_text\",\"tokenizer\":\"zhparser\",\"tokenizer_version\":\"2.4\"}",
+        "index_watermark": 30,
+        "candidates": [
+          {
+            "document_id": "demo-refund-safety",
+            "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+            "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+            "content_hash": "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646",
+            "dense": {
+              "rank": 1,
+              "score": 0.7055572350295717
+            },
+            "sparse": {
+              "rank": 1,
+              "score": -3.5170546770095825
+            },
+            "rrf_score": 0.03278688524590164,
+            "reranker_score": 4.519582748413086
+          },
+          {
+            "document_id": "demo-refund-entry",
+            "document_version": "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+            "chunk_id": "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+            "content_hash": "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d",
+            "dense": {
+              "rank": 2,
+              "score": 0.6882470875316886
+            },
+            "sparse": {
+              "rank": 2,
+              "score": -2.126267910003662
+            },
+            "rrf_score": 0.03225806451612903,
+            "reranker_score": 0.33829325437545776
+          },
+          {
+            "document_id": "demo-approval-wait",
+            "document_version": "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+            "chunk_id": "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+            "content_hash": "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d",
+            "dense": {
+              "rank": 3,
+              "score": 0.5139229160923194
+            },
+            "sparse": {
+              "rank": 4,
+              "score": -1.2747007608413696
+            },
+            "rrf_score": 0.03149801587301587,
+            "reranker_score": 0.019000984728336334
+          },
+          {
+            "document_id": "demo-account-help",
+            "document_version": "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+            "chunk_id": "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+            "content_hash": "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d",
+            "dense": {
+              "rank": 6,
+              "score": 0.29199365114868625
+            },
+            "sparse": {
+              "rank": 3,
+              "score": -1.5901738405227661
+            },
+            "rrf_score": 0.031024531024531024,
+            "reranker_score": -10.162352561950684
+          },
+          {
+            "document_id": "demo-stream-help",
+            "document_version": "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+            "chunk_id": "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+            "content_hash": "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c",
+            "dense": {
+              "rank": 4,
+              "score": 0.44810216174742334
+            },
+            "sparse": {
+              "rank": 6,
+              "score": -0.5676778554916382
+            },
+            "rrf_score": 0.030776515151515152,
+            "reranker_score": -9.416478157043457
+          },
+          {
+            "document_id": "demo-order-query",
+            "document_version": "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+            "chunk_id": "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+            "content_hash": "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5",
+            "dense": {
+              "rank": 5,
+              "score": 0.42062807036189787
+            },
+            "sparse": {
+              "rank": 5,
+              "score": -0.6704202890396118
+            },
+            "rrf_score": 0.03076923076923077,
+            "reranker_score": -9.199405670166016
+          }
+        ]
+      },
+      "source_check": {
+        "valid": true,
+        "invalid_evidence_ids": []
+      }
+    },
+    {
+      "query": "If the stream disconnects, does the accepted task continue?",
+      "result": {
+        "status": "found",
+        "evidence": [
+          {
+            "document_id": "demo-stream-help",
+            "document_version": "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+            "chunk_id": "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+            "content_hash": "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c",
+            "evidence_id": "e5f5129bfff83f675069e9de1d32f7fc973f0d124fda27275743c40cb9e07b15",
+            "source_title": "聊天连接帮助",
+            "public_source_key": "stream-help",
+            "section": "聊天连接帮助 / 断开连接",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。聊天输出采用流式连接。关闭页面或断开连接只结束订阅，已受理的模拟业务任务仍由系统执行。请使用原任务状态查询入口核对结果，不要仅根据连接断开判断操作失败。",
+            "retrieval_score": -2.4319682121276855,
+            "domain": "platform_help",
+            "is_current_version": true
+          },
+          {
+            "document_id": "demo-approval-wait",
+            "document_version": "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+            "chunk_id": "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+            "content_hash": "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d",
+            "evidence_id": "d7cb234419abec728e3d7465de9b190f8f714a186e2a32c53b3e9a5f5689e5a4",
+            "source_title": "审批等待说明",
+            "public_source_key": "approval-wait",
+            "section": "审批等待说明 / 等待与恢复",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。模拟退款处于等待审批状态时，普通聊天不能批准退款。请由本地演示审批控制面处理原申请。审批通过后系统恢复原任务并重新核验，批准不代表任意调用都被放行。",
+            "retrieval_score": -7.488038063049316,
+            "domain": "after_sales_help",
+            "is_current_version": true
+          },
+          {
+            "document_id": "demo-refund-entry",
+            "document_version": "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+            "chunk_id": "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+            "content_hash": "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d",
+            "evidence_id": "296c0cedbe1cc21787304e670c3f3c4e406a48788eeb04f91e4b0eed7fe8c027",
+            "source_title": "模拟退款申请",
+            "public_source_key": "refund-entry",
+            "section": "模拟退款申请 / 申请渠道",
+            "page": null,
+            "line_start": 5,
+            "line_end": 5,
+            "content": "这是自编 Demo 语料。需要模拟退款时，在聊天中明确提出退款并提供订单编号。系统检查订单归属和资格，建立模拟退款申请，等待本地审批。知识说明不会改变资格和金额规则。",
+            "retrieval_score": -10.195893287658691,
+            "domain": "after_sales_help",
+            "is_current_version": true
+          }
+        ],
+        "embedding_profile": "{\"dimensions\":1024,\"dtype\":\"bfloat16\",\"model\":\"Qwen/Qwen3-Embedding-0.6B\",\"normalization\":\"l2\",\"provider\":\"qwen_local\",\"query_prompt\":\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:\",\"revision\":\"demo-v1\",\"tokenizer\":\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\",\"weights_revision\":\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\"}",
+        "query_fingerprint": "3416abc42f1205f0f049a4f079b3032ffd95ea00fa950680d16d48bbfc746c13",
+        "context_tokens": 1006,
+        "truncated": false,
+        "embedding_request_attempts": 1,
+        "candidate_count": 6,
+        "elapsed_ms": 1148.6071998951957,
+        "context": "[{\"chunk_id\":\"82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d\",\"content\":\"这是自编 Demo 语料。聊天输出采用流式连接。关闭页面或断开连接只结束订阅，已受理的模拟业务任务仍由系统执行。请使用原任务状态查询入口核对结果，不要仅根据连接断开判断操作失败。\",\"content_hash\":\"cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c\",\"document_id\":\"demo-stream-help\",\"document_version\":\"b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4\",\"domain\":\"platform_help\",\"evidence_id\":\"e5f5129bfff83f675069e9de1d32f7fc973f0d124fda27275743c40cb9e07b15\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"stream-help\",\"retrieval_score\":-2.4319682121276855,\"section\":\"聊天连接帮助 / 断开连接\",\"source_title\":\"聊天连接帮助\"},{\"chunk_id\":\"4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6\",\"content\":\"这是自编 Demo 语料。模拟退款处于等待审批状态时，普通聊天不能批准退款。请由本地演示审批控制面处理原申请。审批通过后系统恢复原任务并重新核验，批准不代表任意调用都被放行。\",\"content_hash\":\"1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d\",\"document_id\":\"demo-approval-wait\",\"document_version\":\"66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc\",\"domain\":\"after_sales_help\",\"evidence_id\":\"d7cb234419abec728e3d7465de9b190f8f714a186e2a32c53b3e9a5f5689e5a4\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"approval-wait\",\"retrieval_score\":-7.488038063049316,\"section\":\"审批等待说明 / 等待与恢复\",\"source_title\":\"审批等待说明\"},{\"chunk_id\":\"ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e\",\"content\":\"这是自编 Demo 语料。需要模拟退款时，在聊天中明确提出退款并提供订单编号。系统检查订单归属和资格，建立模拟退款申请，等待本地审批。知识说明不会改变资格和金额规则。\",\"content_hash\":\"d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d\",\"document_id\":\"demo-refund-entry\",\"document_version\":\"b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8\",\"domain\":\"after_sales_help\",\"evidence_id\":\"296c0cedbe1cc21787304e670c3f3c4e406a48788eeb04f91e4b0eed7fe8c027\",\"is_current_version\":true,\"line_end\":5,\"line_start\":5,\"page\":null,\"public_source_key\":\"refund-entry\",\"retrieval_score\":-10.195893287658691,\"section\":\"模拟退款申请 / 申请渠道\",\"source_title\":\"模拟退款申请\"}]",
+        "contract_version": 2,
+        "mode": "hybrid",
+        "retrieval_profile": "{\"context_policy\":\"complete-chunks-2400tokens-24kib-v1\",\"dense_candidates\":10,\"embedding_profile\":\"{\\\"dimensions\\\":1024,\\\"dtype\\\":\\\"bfloat16\\\",\\\"model\\\":\\\"Qwen/Qwen3-Embedding-0.6B\\\",\\\"normalization\\\":\\\"l2\\\",\\\"provider\\\":\\\"qwen_local\\\",\\\"query_prompt\\\":\\\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\\\nQuery:\\\",\\\"revision\\\":\\\"demo-v1\\\",\\\"tokenizer\\\":\\\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\\\",\\\"weights_revision\\\":\\\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\\"}\",\"fused_candidates\":10,\"reranker_input_format\":\"query-title-section-content-v1\",\"reranker_max_tokens\":512,\"reranker_model\":\"BAAI/bge-reranker-base\",\"reranker_order\":\"rrf-top3-bge-local-v1\",\"reranker_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"reranker_score\":\"raw_logit\",\"reranker_tokenizer_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"rrf_constant\":60,\"rrf_weights\":[1,1],\"sparse_candidates\":10,\"sparse_profile\":\"{\\\"bm25_parameters\\\":\\\"extension_defaults\\\",\\\"dictionary_version\\\":\\\"scws-1.2.3\\\",\\\"extension\\\":\\\"pg_textsearch\\\",\\\"extension_version\\\":\\\"1.5.1\\\",\\\"indexed_fields\\\":[\\\"search_text\\\"],\\\"input_format\\\":\\\"title-section-content-v1\\\",\\\"result_identity_field\\\":\\\"chunk_id\\\",\\\"score_order\\\":\\\"ascending_negative\\\",\\\"text_config\\\":\\\"public.chinese\\\",\\\"text_field\\\":\\\"search_text\\\",\\\"tokenizer\\\":\\\"zhparser\\\",\\\"tokenizer_version\\\":\\\"2.4\\\"}\"}",
+        "sparse_profile": "{\"bm25_parameters\":\"extension_defaults\",\"dictionary_version\":\"scws-1.2.3\",\"extension\":\"pg_textsearch\",\"extension_version\":\"1.5.1\",\"indexed_fields\":[\"search_text\"],\"input_format\":\"title-section-content-v1\",\"result_identity_field\":\"chunk_id\",\"score_order\":\"ascending_negative\",\"text_config\":\"public.chinese\",\"text_field\":\"search_text\",\"tokenizer\":\"zhparser\",\"tokenizer_version\":\"2.4\"}",
+        "index_watermark": 30,
+        "candidates": [
+          {
+            "document_id": "demo-stream-help",
+            "document_version": "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+            "chunk_id": "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+            "content_hash": "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c",
+            "dense": {
+              "rank": 1,
+              "score": 0.4946906896341967
+            },
+            "sparse": null,
+            "rrf_score": 0.01639344262295082,
+            "reranker_score": -2.4319682121276855
+          },
+          {
+            "document_id": "demo-approval-wait",
+            "document_version": "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+            "chunk_id": "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+            "content_hash": "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d",
+            "dense": {
+              "rank": 2,
+              "score": 0.3644990806835735
+            },
+            "sparse": null,
+            "rrf_score": 0.016129032258064516,
+            "reranker_score": -7.488038063049316
+          },
+          {
+            "document_id": "demo-refund-entry",
+            "document_version": "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+            "chunk_id": "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+            "content_hash": "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d",
+            "dense": {
+              "rank": 3,
+              "score": 0.2690203124359264
+            },
+            "sparse": null,
+            "rrf_score": 0.015873015873015872,
+            "reranker_score": -10.195893287658691
+          },
+          {
+            "document_id": "demo-refund-safety",
+            "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+            "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+            "content_hash": "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646",
+            "dense": {
+              "rank": 4,
+              "score": 0.25613656498388315
+            },
+            "sparse": null,
+            "rrf_score": 0.015625,
+            "reranker_score": -10.19610595703125
+          },
+          {
+            "document_id": "demo-account-help",
+            "document_version": "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+            "chunk_id": "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+            "content_hash": "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d",
+            "dense": {
+              "rank": 5,
+              "score": 0.18787955113572785
+            },
+            "sparse": null,
+            "rrf_score": 0.015384615384615385,
+            "reranker_score": -10.194204330444336
+          },
+          {
+            "document_id": "demo-order-query",
+            "document_version": "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+            "chunk_id": "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+            "content_hash": "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5",
+            "dense": {
+              "rank": 6,
+              "score": 0.17386881160611178
+            },
+            "sparse": null,
+            "rrf_score": 0.015151515151515152,
+            "reranker_score": -10.195069313049316
+          }
+        ]
+      },
+      "source_check": {
+        "valid": true,
+        "invalid_evidence_ids": []
+      }
+    }
+  ],
+  "cleanup": {
+    "protected_unchanged": true,
+    "watermark_before": 24,
+    "watermark_after": 36
+  },
+  "import": {
+    "published": [
+      "demo-account-help",
+      "demo-order-query",
+      "demo-refund-entry",
+      "demo-approval-wait",
+      "demo-stream-help",
+      "demo-refund-safety"
+    ],
+    "unchanged": [],
+    "embedding_batches": 6
+  },
+  "removed_ids": [
+    "demo-account-help",
+    "demo-order-query",
+    "demo-refund-entry",
+    "demo-approval-wait",
+    "demo-stream-help",
+    "demo-refund-safety"
+  ]
+}

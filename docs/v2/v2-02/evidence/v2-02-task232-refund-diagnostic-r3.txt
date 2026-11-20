@@ -1,0 +1,36 @@
+{'status': 'running', 'type': 'refund_apply', 'has_next': True, 'has_pending': False}
+{'missing_task': True, 'keys': ['messages'], 'metadata': {'step': -1, 'source': 'input', 'parents': {}}, 'has_next': True}
+Traceback (most recent call last):
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\linux-pg-launcher.py", line 123, in <module>
+    main()
+    ~~~~^^
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\linux-pg-launcher.py", line 117, in main
+    runpy.run_module(module, run_name="__main__")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\v2-02-task232-refund-diagnostic.py", line 42, in <module>
+    test_real_repair_response_loss_concurrency_audit_and_expired_graph()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\py\agent-project\agent\tests\test_refund_repair_postgres.py", line 386, in test_real_repair_response_loss_concurrency_audit_and_expired_graph
+    run_async(scenario())
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "D:\py\agent-project\agent\scripts\__init__.py", line 13, in run_async
+    return runner.run(coroutine)
+           ~~~~~~~~~~^^^^^^^^^^^
+  File "D:\py\python\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\py\python\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "D:\py\agent-project\agent\tests\test_refund_repair_postgres.py", line 216, in scenario
+    async with waiting("concurrent-repair", unbound=True) as (
+               ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\py\python\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\py\agent-project\agent\tests\test_refund_repair_postgres.py", line 96, in waiting
+    assert response.status_code == 200
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

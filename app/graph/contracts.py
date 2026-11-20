@@ -99,6 +99,18 @@ class SupervisorOutput(GraphContract):
         return self
 
 
+class NewRouteDecision(RouteDecision):
+    """Model-visible route set; the legacy enum remains readable in checkpoints."""
+
+    task_type: Literal[
+        TaskType.ORDER_QUERY, TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA, TaskType.CLARIFICATION
+    ]
+
+
+class NewSupervisorOutput(SupervisorOutput):
+    decision: NewRouteDecision | None = None
+
+
 class PublicCitation(GraphContract):
     """Server-built citation with no model URL, content, vector or private profile."""
 
@@ -133,6 +145,7 @@ class SpecialistInput(GraphContract):
     task_goal: TaskGoal
     entities: dict[str, JsonValue] = Field(default_factory=dict)
     messages: list[AnyMessage] = Field(default_factory=list)
+    history: list[list[AnyMessage]] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_specialist_input(self) -> Self:
@@ -146,6 +159,13 @@ class SpecialistInput(GraphContract):
                 message.tool_calls or message.invalid_tool_calls
             ):
                 raise ValueError("Tool-call history belongs to the private specialist state")
+        for interaction in self.history:
+            for message in interaction:
+                if not isinstance(message, (HumanMessage, AIMessage)) or (
+                    isinstance(message, AIMessage)
+                    and (message.tool_calls or message.invalid_tool_calls)
+                ):
+                    raise ValueError("Background only accepts public text messages")
         return self
 
 

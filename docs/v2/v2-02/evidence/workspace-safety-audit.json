@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-20",
+  "head": "1ff92e082c5a348b715b221fbc0b687d8acf02e8",
+  "branch": "v2",
+  "head_matches_takeover": true,
+  "protected_existing_count": 492,
+  "protected_changes": [],
+  "frozen_fixture_hashes_match": {
+    "summary-quality-fixtures.json": true,
+    "context-resource-fixture.json": true
+  },
+  "changed_existing_dirty_files_since_takeover": [
+    "README.md",
+    "docs/STATE.md",
+    "docs/README.md",
+    "docs/v2/README.md",
+    "docs/v2/v2-02/README.md"
+  ],
+  "status_counts": {
+    " M": 65,
+    " D": 385,
+    "??": 676
+  },
+  "staged_changes": false,
+  "note": "Original dirty work was protected by takeover hashes; initially clean tracked implementation files are the V2 02 diff. No commit or push performed."
+}

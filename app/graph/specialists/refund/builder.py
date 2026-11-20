@@ -63,9 +63,16 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
     """Compile one task-local graph; its child checkpoints inherit the parent Saver."""
 
     def usage(runtime):
+        scope = runtime.context.scope
         return {
-            "model_call_usage": asdict(runtime.context.scope.model_usage()),
-            "run_usage": asdict(runtime.context.scope.run_usage()),
+            "model_call_usage": asdict(scope.model_usage()),
+            "run_usage": asdict(scope.run_usage()),
+            "context_view": scope.context_view,
+            **(
+                {"context_history": scope.context_history_override}
+                if scope.context_history_override is not None
+                else {}
+            ),
         }
 
     def original(state):
@@ -229,6 +236,18 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
                     runtime.context.context.run_id,
                     runtime.context.context.task_id,
                     AgentType.REFUND,
+                    history=tuple(
+                        tuple(i)
+                        for i in (
+                            runtime.context.scope.context_history_override
+                            if runtime.context.scope.context_history_override is not None
+                            else state.get("context_history", state["request"].history)
+                        )
+                    ),
+                    on_context_view=runtime.context.scope.record_context_view,
+                    on_context_usage=runtime.context.scope.record_context_usage,
+                    on_compact=runtime.context.context_compactor,
+                    current_usage=runtime.context.scope.model_usage,
                 ),
                 model_usage=runtime.context.scope.model_usage(),
                 tools=schemas,
@@ -572,6 +591,18 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
                     runtime.context.context.run_id,
                     runtime.context.context.task_id,
                     AgentType.REFUND,
+                    history=tuple(
+                        tuple(i)
+                        for i in (
+                            runtime.context.scope.context_history_override
+                            if runtime.context.scope.context_history_override is not None
+                            else state.get("context_history", state["request"].history)
+                        )
+                    ),
+                    on_context_view=runtime.context.scope.record_context_view,
+                    on_context_usage=runtime.context.scope.record_context_usage,
+                    on_compact=runtime.context.context_compactor,
+                    current_usage=runtime.context.scope.model_usage,
                 ),
                 model_usage=runtime.context.scope.model_usage(),
             )

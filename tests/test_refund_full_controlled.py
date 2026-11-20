@@ -45,6 +45,10 @@ class Provider(ControlledModel):
         assert len(tools) == 1 and tools[0]["function"]["name"] == "refund_order"
         return self
 
+    def bind(self, **kwargs):
+        assert kwargs == {"max_tokens": 128}
+        return self
+
     async def ainvoke(self, messages):
         self.order_tool_calls += 1
         if self.order_tool_calls == 1:
@@ -236,7 +240,9 @@ class ControlledApprovals:
 )
 async def test_compiled_refund_graph_pauses_and_resumes_original_call(decision_value, fault):
     provider = Provider()
-    gateway = ModelGateway(provider, ModelCallLimits(8, 5, 0))
+    gateway = ModelGateway(
+        provider, ModelCallLimits(8, 5, 0), context_window=8192, output_reserve=128
+    )
     refunds = ControlledRefunds(fault)
     approvals = ControlledApprovals(refunds)
     registry = ToolRegistry()
@@ -286,7 +292,7 @@ async def test_compiled_refund_graph_pauses_and_resumes_original_call(decision_v
                 json={
                     "user_id": "dev-user",
                     "conversation_id": "refund-flow",
-                    "message": "申请退款",
+                    "message": "申请订单 order-1 退款",
                 },
             )
             assert chat.status_code == 200 and "event: workflow_paused" in chat.text
@@ -294,6 +300,12 @@ async def test_compiled_refund_graph_pauses_and_resumes_original_call(decision_v
             first = next(iter(runtime._records.values()))
             assert first.task_status == "waiting_approval"
             assert refunds.effect_count == 0 and approvals.row["interrupt_id"]
+            paused = await graph.aget_state(
+                {"configurable": {"thread_id": first.context.thread_id}}, subgraphs=True
+            )
+            child = paused.tasks[0].state
+            assert child.values["context_view"]["input_hash"]
+            assert child.values["context_view"]["count_status"] == "estimated"
             body = {"user_id": "dev-user", "conversation_id": "refund-flow"}
             current = await client.post("/agent/tasks/current", json=body)
             assert current.status_code == 200

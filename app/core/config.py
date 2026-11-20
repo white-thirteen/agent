@@ -35,6 +35,15 @@ class Settings(BaseSettings):
     model_timeout_seconds: float = Field(default=30, gt=0, allow_inf_nan=False)
     model_max_attempts: int = Field(default=8, gt=0)
     model_max_retries: int = Field(default=1, ge=0)
+    context_model_window_tokens: int | None = Field(default=None, gt=0)
+    context_model_output_tokens: int | None = Field(default=None, gt=0)
+    context_summary_output_tokens: int | None = Field(default=None, gt=0)
+    context_archive_root: Path = PROJECT_ROOT / "var" / "context-archive"
+    context_archive_segment_messages: int = Field(default=24, gt=0)
+    context_archive_retain_interactions: int = Field(default=3, ge=0)
+    context_archive_candidate_limit: int = Field(default=4, gt=0)
+    context_archive_read_bytes: int = Field(default=1048576, gt=0)
+    context_archive_read_tokens: int = Field(default=8192, gt=0)
     run_timeout_seconds: float = Field(default=120, gt=0, allow_inf_nan=False)
     run_max_tool_calls: int = Field(default=12, gt=0)
     tool_timeout_seconds: float = Field(default=5, gt=0, allow_inf_nan=False)
@@ -115,6 +124,21 @@ class Settings(BaseSettings):
     def validate_pool_sizes(self) -> "Settings":
         if self.database_pool_min_size > self.database_pool_max_size:
             raise ValueError("Database pool minimum exceeds maximum")
+        if (self.context_model_window_tokens is None) != (self.context_model_output_tokens is None):
+            raise ValueError("Context model window and output limits must be configured together")
+        if (
+            self.context_model_window_tokens is not None
+            and self.context_model_output_tokens >= self.context_model_window_tokens
+        ):
+            raise ValueError("Context output limit must be smaller than the model window")
+        if self.context_summary_output_tokens is not None and (
+            self.context_model_output_tokens is None
+            or self.context_summary_output_tokens > self.context_model_output_tokens
+            or self.context_archive_read_tokens <= self.context_summary_output_tokens
+            or self.context_archive_read_tokens + self.context_summary_output_tokens
+            > self.context_model_window_tokens
+        ):
+            raise ValueError("Summary limits require compatible configured model limits")
         return self
 
     @property

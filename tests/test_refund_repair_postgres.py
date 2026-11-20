@@ -90,7 +90,7 @@ def test_real_repair_response_loss_concurrency_audit_and_expired_graph():
                             json={
                                 "user_id": owner,
                                 "conversation_id": kind,
-                                "message": "申请模拟退款",
+                                "message": "申请模拟退款，订单号 " + order,
                             },
                         )
                         assert response.status_code == 200

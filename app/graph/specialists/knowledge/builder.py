@@ -96,9 +96,16 @@ def build_knowledge_graph(
     """An unconfigured graph reports unavailable; ready resources are injected once."""
 
     def usage(runtime):
+        scope = runtime.context.scope
         return {
-            "model_call_usage": asdict(runtime.context.scope.model_usage()),
-            "run_usage": asdict(runtime.context.scope.run_usage()),
+            "model_call_usage": asdict(scope.model_usage()),
+            "run_usage": asdict(scope.run_usage()),
+            "context_view": scope.context_view,
+            **(
+                {"context_history": scope.context_history_override}
+                if scope.context_history_override is not None
+                else {}
+            ),
         }
 
     def failed(code):
@@ -164,7 +171,21 @@ def build_knowledge_graph(
         scope = runtime.context.scope
         kwargs = dict(
             context=ModelCallContext(
-                runtime.context.context.run_id, state["request"].task_id, AgentType.KNOWLEDGE
+                runtime.context.context.run_id,
+                state["request"].task_id,
+                AgentType.KNOWLEDGE,
+                history=tuple(
+                    tuple(i)
+                    for i in (
+                        scope.context_history_override
+                        if scope.context_history_override is not None
+                        else state.get("context_history", state["request"].history)
+                    )
+                ),
+                on_context_view=scope.record_context_view,
+                on_context_usage=scope.record_context_usage,
+                on_compact=runtime.context.context_compactor,
+                current_usage=scope.model_usage,
             ),
             model_usage=scope.model_usage(),
         )
@@ -174,7 +195,7 @@ def build_knowledge_graph(
                 content=instructions
                 + (preference_instructions(state) if schema is AnswerDraft else "")
             ),
-            *(state["messages"] if schema is EvidenceAssessment else []),
+            *state["messages"],
             HumanMessage(
                 content=canonical(
                     {

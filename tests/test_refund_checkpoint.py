@@ -380,6 +380,13 @@ async def test_runtime_resume_pending_ended_post_gate_and_unknown():
     }
     assert execution.context.task_id == "task" and execution.context.run_id == accepted.run_id
     assert execution.execution_mode == "resume" and durability == "sync"
+    graph.current = root._replace(
+        values={**root.values, "context_ref": {"revision": 1, "summary_id": "s"}}
+    )
+    with pytest.raises(RuntimeRequestError) as unavailable:
+        await runtime.resume_approval(reference, actor=actor)
+    assert unavailable.value.code == "state_unavailable" and len(graph.inputs) == 1
+    graph.current = root
     post = child._replace(
         next=("execute_refund",), interrupts=(), values={**child.values, "prepared_attempt": None}
     )

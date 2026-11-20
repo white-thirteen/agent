@@ -197,7 +197,7 @@ def main():
                 "resume_run": run_id,
                 "topology": "uvicorn TCP production lifespan with controlled model",
             }
-            Path("docs/04-restart-evidence-tcp.json").write_text(
+            Path("docs/v1/v1-04/evidence/04-restart-evidence-tcp.json").write_text(
                 json.dumps(evidence, ensure_ascii=False, indent=2), encoding="utf-8"
             )
             print("UVICORN_TCP_FULL_PROCESS_RESTART_PASS", flush=True)

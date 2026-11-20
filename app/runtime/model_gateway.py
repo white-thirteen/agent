@@ -6,9 +6,10 @@ This gateway owns neither Run timing nor tool execution and keeps no request sta
 
 import asyncio
 import logging
-from collections.abc import Sequence
+import time
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, Protocol
 
 import openai
 from langchain_core.messages import AIMessage
@@ -38,6 +39,36 @@ class ModelCallContext:
     run_id: str
     task_id: str
     agent_type: AgentType
+    deadline_monotonic: float | None = None
+    on_attempt: Callable[[ModelCallUsage], None] | None = None
+    history: tuple = ()
+    on_context_view: Callable[[dict], None] | None = None
+    on_context_usage: Callable | None = None
+    on_compact: Callable | None = None
+    current_usage: Callable | None = None
+    prevalidated_summary: bool = False
+
+
+class MaintenanceBudget(Protocol):
+    """Durable reservations are consumed even if the process dies during a call."""
+
+    async def reserve_attempt(self, maintenance_id: str) -> str: ...
+
+    async def record_attempt(
+        self, maintenance_id: str, attempt_id: str, usage: "UsageReport"
+    ) -> None: ...
+
+
+@dataclass(frozen=True, slots=True)
+class MaintenanceCallContext:
+    maintenance_id: str
+    budget: MaintenanceBudget
+    deadline_monotonic: float
+    max_output_tokens: int
+
+    def __post_init__(self):
+        if self.deadline_monotonic > time.monotonic() + 30 or self.max_output_tokens <= 0:
+            raise ValueError("Invalid maintenance budget")
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,24 +120,133 @@ def _sum_usage(reports: list[UsageReport]) -> UsageReport:
         totals.append(
             sum(values) if values and all(value is not None for value in values) else None
         )
-    return UsageReport(*totals, status="known" if all(v is not None for v in totals) else "unknown")
+    status = (
+        "unknown"
+        if not reports or any(report.status == "unknown" for report in reports)
+        else "estimated"
+        if any(report.status == "estimated" for report in reports)
+        else "known"
+    )
+    return UsageReport(*totals, status=status)
 
 
 class ModelGateway:
-    def __init__(self, model, limits: ModelCallLimits):
+    def __init__(
+        self,
+        model,
+        limits: ModelCallLimits,
+        *,
+        context_window=None,
+        output_reserve=None,
+        require_context_limits=False,
+    ):
         self._model = model
         self._limits = limits
+        self._context_window = context_window
+        self._output_reserve = output_reserve
+        self._require_context_limits = require_context_limits
+
+    async def _build_input(self, messages, *, context, model_usage, tools=(), schema=None):
+        from langchain_core.messages.utils import count_tokens_approximately
+
+        from app.context.builder import (
+            ContextBudgetExceeded,
+            ContextBuilder,
+            ContextHistoryBudgetExceeded,
+        )
+
+        if context.prevalidated_summary:
+            return messages
+        if self._context_window is None or self._output_reserve is None:
+            if self._require_context_limits:
+                raise ModelCallError(
+                    "context_budget_unavailable",
+                    model_usage=model_usage,
+                    usage=UsageReport(None, None, None, "unknown"),
+                )
+            return messages
+        builder = ContextBuilder(
+            token_counter=count_tokens_approximately, count_method="langchain_approximate"
+        )
+
+        def build(history):
+            return builder.build(
+                mandatory=messages,
+                history=history,
+                tools=tools,
+                schema=schema,
+                window_tokens=self._context_window,
+                output_tokens=self._output_reserve,
+            )
+
+        try:
+            result = build(context.history)
+        except ContextHistoryBudgetExceeded:
+            if context.on_compact is None:
+                raise ModelCallError(
+                    "context_budget_exceeded",
+                    model_usage=model_usage,
+                    usage=UsageReport(None, None, None, "unknown"),
+                ) from None
+            history = await context.on_compact(context)
+            try:
+                result = build(history)
+            except ContextBudgetExceeded:
+                raise ModelCallError(
+                    "context_budget_exceeded",
+                    model_usage=context.current_usage(),
+                    usage=UsageReport(None, None, None, "unknown"),
+                ) from None
+        except ContextBudgetExceeded:
+            raise ModelCallError(
+                "context_budget_exceeded",
+                model_usage=model_usage,
+                usage=UsageReport(None, None, None, "unknown"),
+            ) from None
+        if context.on_context_view:
+            context.on_context_view(
+                {
+                    "input_hash": result.input_hash,
+                    "history_ids": list(result.history_ids),
+                    "input_tokens": result.input_tokens,
+                    "count_status": "estimated",
+                    "count_method": result.count_method,
+                }
+            )
+        return list(result.messages)
 
     async def invoke(
         self,
         messages,
         *,
-        context: ModelCallContext,
+        context: ModelCallContext | MaintenanceCallContext,
         model_usage: ModelCallUsage,
         tools: Sequence[BaseTool | dict] = (),
+        max_output_tokens: int | None = None,
     ) -> ModelCallResult:
-        runnable = self._model.bind_tools(tools) if tools else self._model
-        return await self._call(
+        if isinstance(context, MaintenanceCallContext):
+            if tools or context.max_output_tokens <= 0:
+                raise ValueError("Invalid maintenance model call")
+            runnable = self._model.bind(max_tokens=context.max_output_tokens, temperature=0)
+        else:
+            messages = await self._build_input(
+                messages, context=context, model_usage=model_usage, tools=tools
+            )
+            if context.current_usage:
+                model_usage = context.current_usage()
+            if max_output_tokens is not None and max_output_tokens <= 0:
+                raise ValueError("Invalid model output limit")
+            runnable = self._model.bind_tools(tools) if tools else self._model
+            if max_output_tokens is None:
+                max_output_tokens = self._output_reserve
+            options = {}
+            if max_output_tokens is not None:
+                options["max_tokens"] = max_output_tokens
+            if context.prevalidated_summary:
+                options["temperature"] = 0
+            if options:
+                runnable = runnable.bind(**options)
+        return await self._call_recorded(
             runnable,
             messages,
             context=context,
@@ -122,12 +262,18 @@ class ModelGateway:
         context: ModelCallContext,
         model_usage: ModelCallUsage,
     ) -> ModelCallResult:
+        messages = await self._build_input(
+            messages, context=context, model_usage=model_usage, schema=schema
+        )
+        if context.current_usage:
+            model_usage = context.current_usage()
         runnable = self._model.with_structured_output(
             schema,
             method=STRUCTURED_METHOD,
             include_raw=True,
+            **({"max_tokens": self._output_reserve} if self._output_reserve else {}),
         )
-        return await self._call(
+        return await self._call_recorded(
             runnable,
             messages,
             context=context,
@@ -135,29 +281,69 @@ class ModelGateway:
             structured=True,
         )
 
+    async def _call_recorded(self, runnable, messages, *, context, model_usage, structured):
+        try:
+            result = await self._call(
+                runnable, messages, context=context, model_usage=model_usage, structured=structured
+            )
+        except ModelCallError as error:
+            if isinstance(context, ModelCallContext) and context.on_context_usage:
+                context.on_context_usage(error.usage)
+            raise
+        if isinstance(context, ModelCallContext) and context.on_context_usage:
+            context.on_context_usage(result.usage)
+        return result
+
     async def _call(self, runnable, messages, *, context, model_usage, structured):
         reports = []
         current = model_usage
         for retry in range(self._limits.max_retries + 1):
-            if current.model_attempts >= self._limits.max_attempts:
+            maintenance = isinstance(context, MaintenanceCallContext)
+            limit = min(self._limits.max_attempts, 2) if maintenance else self._limits.max_attempts
+            deadline = context.deadline_monotonic
+            remaining = deadline - time.monotonic() if deadline is not None else None
+            if current.model_attempts >= limit or (remaining is not None and remaining <= 0):
                 raise ModelCallError(
                     "model_limit_exceeded",
                     model_usage=current,
                     usage=_sum_usage(reports),
                 )
+            if maintenance:
+                attempt_id = await context.budget.reserve_attempt(context.maintenance_id)
             current = ModelCallUsage(current.model_attempts + 1)
-            logger.info(
-                "Model attempt task_id=%s run_id=%s agent=%s attempt=%s",
-                context.task_id,
-                context.run_id,
-                context.agent_type.value,
-                current.model_attempts,
-            )
+            if not maintenance and context.on_attempt is not None:
+                context.on_attempt(current)
+            if maintenance:
+                logger.info(
+                    "Model maintenance attempt id=%s attempt=%s",
+                    context.maintenance_id,
+                    current.model_attempts,
+                )
+            else:
+                logger.info(
+                    "Model attempt task_id=%s run_id=%s agent=%s attempt=%s",
+                    context.task_id,
+                    context.run_id,
+                    context.agent_type.value,
+                    current.model_attempts,
+                )
             try:
-                async with asyncio.timeout(self._limits.timeout_seconds):
+                timeout_seconds = (
+                    min(
+                        self._limits.timeout_seconds,
+                        max(0, context.deadline_monotonic - time.monotonic()),
+                    )
+                    if deadline is not None
+                    else self._limits.timeout_seconds
+                )
+                async with asyncio.timeout(timeout_seconds):
                     output = await runnable.ainvoke(messages)
             except (TimeoutError, openai.APIError) as error:
                 reports.append(_token_usage(None))
+                if maintenance:
+                    await context.budget.record_attempt(
+                        context.maintenance_id, attempt_id, reports[-1]
+                    )
                 timeout = isinstance(error, (TimeoutError, openai.APITimeoutError))
                 retryable = (
                     timeout
@@ -182,6 +368,8 @@ class ModelGateway:
 
             message = output.get("raw") if structured else output
             reports.append(_token_usage(message if isinstance(message, AIMessage) else None))
+            if maintenance:
+                await context.budget.record_attempt(context.maintenance_id, attempt_id, reports[-1])
             parsed = output.get("parsed") if structured else None
             if (
                 not isinstance(message, AIMessage)

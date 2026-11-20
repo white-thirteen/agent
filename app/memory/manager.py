@@ -102,14 +102,16 @@ class MemoryManager:
         """
         from app.domain.refunds import canonical_digest
         from app.memory.models import MemoryCommand, MemoryMutationResult
-        from app.tools.models import MemoryBusinessContext
+        from app.tools.models import MemoryBusinessContext, PreferenceControlContext
 
         command = MemoryCommand.model_validate(command)
         if (
-            not isinstance(context, MemoryBusinessContext)
+            not isinstance(context, (MemoryBusinessContext, PreferenceControlContext))
             or context.user_id not in self.user_ids
-            or not context.task_id
-            or not context.run_id
+            or isinstance(context, MemoryBusinessContext)
+            and (not context.task_id or not context.run_id)
+            or isinstance(context, PreferenceControlContext)
+            and not context.command_id
             or not context.operation_id
             or context.command_digest != canonical_digest(command.model_dump(mode="json"))
             or type(context.expected_revision) is not int
@@ -156,7 +158,12 @@ class MemoryManager:
                 if last.get("command_digest") != context.command_digest:
                     return result("conflict", snapshot)
                 if (
-                    last.get("task_id") == context.task_id
+                    (
+                        last.get("task_id") == context.task_id
+                        if isinstance(context, MemoryBusinessContext)
+                        else last.get("source")
+                        == {"kind": "preference_control", "command_id": context.command_id}
+                    )
                     and last.get("result_revision") == revision == context.expected_revision + 1
                     and isinstance(last.get("changed_fields"), list)
                     and set(last["changed_fields"]) <= PREFERENCE_VALUES.keys()
@@ -185,7 +192,16 @@ class MemoryManager:
                 "preferences": preferences,
                 "last_mutation": {
                     "operation_id": context.operation_id,
-                    "task_id": context.task_id,
+                    **(
+                        {"task_id": context.task_id}
+                        if isinstance(context, MemoryBusinessContext)
+                        else {
+                            "source": {
+                                "kind": "preference_control",
+                                "command_id": context.command_id,
+                            }
+                        }
+                    ),
                     "command_digest": context.command_digest,
                     "result_revision": revision + 1,
                     "changed_fields": changed,

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\local-pg-launcher.py", line 97, in <module>
+    main()
+    ~~~~^^
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\local-pg-launcher.py", line 64, in main
+    configure()
+    ~~~~~~~~~^^
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\local-pg-launcher.py", line 41, in configure
+    with psycopg.connect(
+         ~~~~~~~~~~~~~~~^
+        connection,
+        ^^^^^^^^^^^
+    ...<2 lines>...
+        options="-c default_transaction_read_only=on",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as conn:
+    ^
+  File "D:\py\agent-project\agent\.venv\Lib\site-packages\psycopg\connection.py", line 126, in connect
+    raise last_ex.with_traceback(None)
+psycopg.errors.ConnectionTimeout: connection timeout expired

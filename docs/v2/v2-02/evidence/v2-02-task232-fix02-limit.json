@@ -1,0 +1,25 @@
+{
+  "request": {
+    "model": "deepseek-flash",
+    "max_tokens": 8,
+    "max_completion_tokens": null,
+    "reasoning_effort": "none"
+  },
+  "response": {
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 14,
+      "completion_tokens": 8,
+      "total_tokens": 22,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 14
+    },
+    "finish_reason": "length"
+  },
+  "schema_cleaned": true,
+  "gateway_attempts": 1,
+  "persisted_reserved": 1
+}

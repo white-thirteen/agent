@@ -277,7 +277,7 @@ async def test_real_topology_scope_settlement_and_no_post_end_update(monkeypatch
 
 @pytest.mark.parametrize(
     "task",
-    [TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA, TaskType.MEMORY_MANAGE],
+    [TaskType.REFUND_APPLY, TaskType.KNOWLEDGE_QA],
 )
 async def test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks(task):
     runtime = AgentRuntime(compiled(ControlledModel([route(task)])), run_limits=RunLimits(10, 12))
@@ -357,6 +357,58 @@ async def test_nested_success_is_approved_once_and_foreign_request_is_rejected()
     await runtime.shutdown()
 
 
+async def test_history_order_identifier_cannot_authorize_refund_target():
+    from runtime_support import ControlledModel
+
+    from app.core.config import Settings
+    from app.graph.builder import build_supervisor_graph
+    from app.graph.contracts import SupervisorOutput
+    from app.runtime.model_gateway import ModelCallLimits, ModelGateway
+
+    class BoundProvider(ControlledModel):
+        def bind(self, **kwargs):
+            return self
+
+    provider = BoundProvider(
+        [
+            SupervisorOutput(kind="unsupported"),
+            route(TaskType.REFUND_APPLY, entities={"order_id": "order-1"}),
+        ]
+    )
+    gateway = ModelGateway(
+        provider, ModelCallLimits(8, 5, 0), context_window=8192, output_reserve=256
+    )
+    from order_skeleton import build_order_graph
+    from refund_skeleton import build_refund_graph
+
+    from app.graph.specialists.knowledge.builder import build_knowledge_graph
+
+    graph = build_supervisor_graph(
+        gateway=gateway,
+        checkpointer=InMemorySaver(),
+        specialists={
+            AgentType.ORDER: build_order_graph(),
+            AgentType.REFUND: build_refund_graph(),
+            AgentType.KNOWLEDGE: build_knowledge_graph(),
+        },
+    )
+    settings = Settings(
+        _env_file=None, context_model_window_tokens=8192, context_model_output_tokens=256
+    )
+    runtime = AgentRuntime(graph, run_limits=RunLimits(10, 12), context_settings=settings)
+    try:
+        first, _, _ = await run_to_end(runtime, context(message="查询 order-1"))
+        await runtime._records[first.run_id].task
+        second, view, _ = await run_to_end(runtime, context(message="帮我退之前那单"))
+        await runtime._records[second.run_id].task
+        assert view.task_status == "needs_input"
+        snapshot = await graph.aget_state({"configurable": {"thread_id": "thread"}})
+        assert "order_id" not in snapshot.values["pending_task"].entities
+        assert any("order-1" in str(message.content) for message in provider.messages[1][:-1])
+    finally:
+        await runtime.shutdown()
+
+
 def test_task_message_window_excludes_other_tasks_reasoning_and_metadata():
     from app.graph.transfers import public_task_messages
 
@@ -365,7 +417,7 @@ def test_task_message_window_excludes_other_tasks_reasoning_and_metadata():
     state["task_message_ids"] += [f"public-{i}" for i in range(20)]
     state["messages"].append(AIMessage(content="other task private", id="not-in-this-task"))
     selected = public_task_messages(state)
-    assert len(selected) == 12 and selected[0].content == "8"
+    assert len(selected) == 21 and selected[0].content == "show my orders"
     assert all(message.content != "other task private" for message in selected)
 
 

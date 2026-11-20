@@ -1,0 +1,2 @@
+PASS: task spanning two segments, message anchor and same-user other-conversation isolation
+PASS: unique schema removed

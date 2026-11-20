@@ -82,6 +82,10 @@ class AgentRuntime:
         approval_service=None,
         refund_service=None,
         scope_resolver=None,
+        context_manager=None,
+        context_read_bytes=1048576,
+        context_settings=None,
+        context_gateway=None,
     ):
         self._graph = graph
         self._limits = run_limits
@@ -93,11 +97,21 @@ class AgentRuntime:
         self._approval_service = approval_service
         self._refund_service = refund_service
         self._scope_resolver = scope_resolver
+        self._context_manager = context_manager
+        self._context_read_bytes = context_read_bytes
+        self._context_settings = context_settings
         self._records: dict[str, RunRecord] = {}
         self._requests: dict[tuple, str] = {}
         self._claims: dict[str, object] = {}
         self._uncertain: set[str] = set()
         self._stopping = False
+        self._maintenance = None
+        if context_manager and graph and context_settings:
+            from app.context.maintenance import ContextMaintenance
+
+            self._maintenance = ContextMaintenance(
+                self, context_manager, graph, context_gateway, context_settings
+            )
 
     @property
     def is_ready(self) -> bool:
@@ -497,6 +511,38 @@ class AgentRuntime:
                 run_usage=run_usage,
                 emit=lambda code: self._progress(record, code),
             )
+            scope.record_context_view(child.get("context_view"))
+            child_history = child.get("context_history")
+            if child_history is None:
+                child_history = SpecialistInput.model_validate(child["request"]).history
+            scope.context_history_override = child_history
+            if self._context_manager:
+                try:
+                    root = await self._graph.aget_state(
+                        {"configurable": {"thread_id": thread}}, subgraphs=True
+                    )
+                    if (
+                        self._context_settings is not None
+                        and not self._context_settings.context_model_window_tokens
+                        and (root.values.get("context_ref") or child_history)
+                    ):
+                        raise RuntimeRequestError("state_unavailable")
+                    await self._verify_bound_history(
+                        subject["user_id"],
+                        subject["conversation_id"],
+                        root.values.get("context_ref"),
+                        child_history,
+                    )
+                except (GraphProtocolError, OSError, psycopg.Error, PoolClosed, PoolTimeout):
+                    raise RuntimeRequestError("state_unavailable") from None
+            else:
+                root = await self._graph.aget_state(
+                    {"configurable": {"thread_id": thread}}, subgraphs=True
+                )
+                if root.values.get("context_ref") or any(
+                    m.id and m.id.startswith("summary:") for i in child_history for m in i
+                ):
+                    raise RuntimeRequestError("state_unavailable")
             execution = RunExecutionContext(
                 trusted,
                 thread,
@@ -668,6 +714,9 @@ class AgentRuntime:
         options: SubmitOptions,
         subscription_owner: SubscriptionOwner | None = None,
     ) -> RunHandle:
+        import psycopg
+        from psycopg_pool import PoolClosed, PoolTimeout
+
         self._prune()
         if self._stopping:
             raise RuntimeRequestError("runtime_stopping")
@@ -702,6 +751,56 @@ class AgentRuntime:
             if self._stopping:
                 raise RuntimeRequestError("runtime_stopping")
             mode = self._input_mode(saved, options)
+            migration_status = None
+            if (
+                saved
+                and mode == "new"
+                and saved["task_status"] in (TaskStatus.COMPLETED, TaskStatus.REJECTED)
+                and self._context_manager
+            ):
+                from app.context.migration import recover_public_metadata
+
+                try:
+                    metadata, migration_status = await recover_public_metadata(
+                        self._graph, thread, context.user_id, context.conversation_id, saved
+                    )
+                except Exception as error:
+                    logger.warning(
+                        "Checkpoint history read failed category=%s", type(error).__name__
+                    )
+                    raise RuntimeRequestError("state_unavailable") from None
+                saved = {**saved, "public_message_metadata": metadata}
+            plan = None
+            stale_revision = None
+            context_enabled = self._context_settings is None or bool(
+                self._context_settings.context_model_window_tokens
+                and self._context_settings.context_model_output_tokens
+            )
+            if (
+                not context_enabled
+                and saved
+                and (
+                    saved.get("context_ref") or mode == "continue" and saved.get("context_history")
+                )
+            ):
+                raise RuntimeRequestError("state_unavailable")
+            if self._context_manager and saved:
+                await self._confirm_context(
+                    context.thread_id,
+                    context.user_id,
+                    context.conversation_id,
+                    record_receipt=False,
+                )
+                if (
+                    context_enabled
+                    and mode == "new"
+                    and saved["task_status"]
+                    in (
+                        TaskStatus.COMPLETED,
+                        TaskStatus.REJECTED,
+                    )
+                ):
+                    plan, stale_revision = await self._context_candidate(context, saved)
             task_id = saved["task_id"] if mode == "continue" else str(uuid4())
             trusted = ExecutionContext(
                 user_id=context.user_id,
@@ -711,13 +810,64 @@ class AgentRuntime:
                 run_id=context.run_id,
             )
             prepared = create_turn_state(trusted, context.message, task_mode=mode, saved_task=saved)
+            if migration_status is not None:
+                prepared["context_migration_status"] = migration_status
+            try:
+                prepared["context_history"] = (
+                    (
+                        await self._context_history(context, saved, plan)
+                        if mode == "new"
+                        else deepcopy(saved.get("context_history", []))
+                    )
+                    if context_enabled
+                    else []
+                )
+                if self._context_manager and saved and mode == "continue":
+                    await self._verify_bound_history(
+                        context.user_id,
+                        context.conversation_id,
+                        saved.get("context_ref"),
+                        prepared["context_history"],
+                    )
+            except (GraphProtocolError, OSError, psycopg.Error, PoolClosed, PoolTimeout):
+                raise RuntimeRequestError("state_unavailable") from None
             scope = RunScope(
                 limits=self._limits,
                 model_usage=ModelCallUsage(**prepared["model_call_usage"]),
                 run_usage=RunUsage(**prepared["run_usage"]),
                 emit=lambda code: self._progress(record, code),
             )
-            execution = RunExecutionContext(trusted, thread, context.permission_scopes, scope)
+            if mode == "continue":
+                scope.record_context_view(saved.get("context_view"))
+            compactor = None
+            if (
+                self._maintenance
+                and self._maintenance.enabled
+                and mode == "new"
+                and saved
+                and plan is None
+                and saved["task_status"] in (TaskStatus.COMPLETED, TaskStatus.REJECTED)
+            ):
+                source_snapshot = await self._graph.aget_state(
+                    {"configurable": {"thread_id": thread}}
+                )
+                compactor = self._run_compactor(context, source_snapshot, scope)
+            execution = RunExecutionContext(
+                trusted,
+                thread,
+                context.permission_scopes,
+                scope,
+                context_adoption=plan,
+                stale_context_revision=stale_revision,
+                allow_context_receipt=(
+                    mode == "new"
+                    and (
+                        saved is None
+                        or saved["task_status"] in (TaskStatus.COMPLETED, TaskStatus.REJECTED)
+                    )
+                ),
+                context_compactor=compactor,
+            )
             record = RunRecord(
                 context, execution, options.request_id, fingerprint, datetime.now(UTC)
             )
@@ -744,6 +894,278 @@ class AgentRuntime:
                     if options.request_id is not None:
                         self._requests.pop(key, None)
                 self._release(thread, token)
+
+    async def _confirm_context(self, thread_id, user_id, conversation_id, *, record_receipt=True):
+        """Receipt only follows a real Saver read; it never advances or resumes the graph."""
+        from app.context.models import SessionIdentity
+
+        snapshot = await self._graph.aget_state({"configurable": {"thread_id": thread_id}})
+        saved = await self._graph.checkpointer.aget_tuple(snapshot.config)
+        values = saved.checkpoint["channel_values"] if saved else {}
+        ref = values.get("context_ref") if values else None
+        if not ref:
+            return
+        if values.get("user_id") != user_id or values.get("conversation_id") != conversation_id:
+            raise GraphProtocolError("Context checkpoint owner mismatch")
+        identity = SessionIdentity(user_id=user_id, conversation_id=conversation_id)
+        revision = await self._context_manager.repository.get_revision(identity, ref["revision"])
+        if (
+            revision is None
+            or revision.summary_id != ref["summary_id"]
+            or revision.status not in {"PUBLISHED", "APPLIED"}
+            or any(m.id in revision.message_ids for m in values.get("messages", []))
+        ):
+            raise GraphProtocolError("Context checkpoint reference mismatch")
+        if revision.status == "PUBLISHED" and record_receipt:
+            await self._context_manager.repository.mark_revision(
+                identity,
+                revision.revision,
+                "APPLIED",
+                snapshot.config["configurable"]["checkpoint_id"],
+            )
+
+    async def reconcile_context_receipt(self, *, thread_id, user_id, conversation_id):
+        """Repair only a receipt while owning the session; never resume its execution."""
+        if self._stopping:
+            raise RuntimeRequestError("runtime_stopping")
+        if thread_id in self._claims:
+            raise RuntimeRequestError("thread_busy")
+        token = object()
+        self._claims[thread_id] = token
+        try:
+            if self._context_manager is not None:
+                await self._confirm_context(thread_id, user_id, conversation_id)
+        finally:
+            self._release(thread_id, token)
+
+    async def _context_candidate(self, context, saved):
+        from app.context.models import SessionIdentity
+
+        identity = SessionIdentity(user_id=context.user_id, conversation_id=context.conversation_id)
+        ref = saved.get("context_ref")
+        base = ref.get("revision") if ref else None
+        repo = self._context_manager.repository
+        candidate = await repo.candidate_revision(identity, base)
+        if candidate is None:
+            return None, None
+        current = await self._graph.aget_state({"configurable": {"thread_id": context.thread_id}})
+        source = await self._graph.aget_state(
+            {
+                "configurable": {
+                    "thread_id": context.thread_id,
+                    "checkpoint_id": candidate.source_checkpoint_id,
+                }
+            }
+        )
+        plan = await self._context_manager.adoption_plan(
+            identity, current, source, candidate, max_bytes=self._context_read_bytes
+        )
+        return plan, candidate.revision if plan is None else None
+
+    async def _context_history(self, context, saved, plan):
+        """Read only the checkpoint-bound summary and complete public hot tasks."""
+        from langchain_core.messages import AIMessage, HumanMessage
+
+        from app.context.models import SessionIdentity
+
+        if not saved:
+            return []
+        history = []
+        ref = (
+            {"revision": plan["revision"], "summary_id": plan["summary_id"]}
+            if plan
+            else saved.get("context_ref")
+        )
+        if ref:
+            if self._context_manager is None:
+                raise GraphProtocolError("Context manager unavailable")
+            identity = SessionIdentity(
+                user_id=context.user_id, conversation_id=context.conversation_id
+            )
+            revision = await self._context_manager.repository.get_revision(
+                identity, ref["revision"]
+            )
+            summary = await self._context_manager.repository.get_summary(
+                identity, ref["summary_id"]
+            )
+            if (
+                revision is None
+                or revision.summary_id != ref["summary_id"]
+                or revision.status not in {"PUBLISHED", "APPLIED"}
+                or summary is None
+            ):
+                raise GraphProtocolError("Context reference unavailable")
+            await self._verify_bound_history(context.user_id, context.conversation_id, ref, [])
+            history.append([HumanMessage(content=summary.text, id="summary:" + summary.summary_id)])
+        removed = set(plan["message_ids"]) if plan else set()
+        metadata = saved.get("public_message_metadata", {})
+        groups = []
+        for message in saved.get("messages", []):
+            if message.id in removed:
+                continue
+            item = metadata.get(message.id)
+            if (
+                not item
+                or item.get("task_status") not in ("completed", "rejected")
+                or type(message) not in (HumanMessage, AIMessage)
+                or not isinstance(message.content, str)
+                or isinstance(message, AIMessage)
+                and (message.tool_calls or message.invalid_tool_calls)
+            ):
+                continue
+            task_id = item.get("task_id")
+            if not task_id:
+                continue
+            if not groups or groups[-1][0] != task_id:
+                groups.append((task_id, []))
+            groups[-1][1].append(type(message)(content=message.content, id=message.id))
+        for _, messages in groups:
+            if (
+                messages
+                and isinstance(messages[0], HumanMessage)
+                and isinstance(messages[-1], AIMessage)
+            ):
+                history.append(messages)
+        return history
+
+    async def _verify_bound_history(self, user_id, conversation_id, ref, history):
+        """Verify the immutable original summaries and all archive dependencies."""
+        from app.context.models import SessionIdentity
+
+        identity = SessionIdentity(user_id=user_id, conversation_id=conversation_id)
+        required = {}
+        if ref:
+            revision = await self._context_manager.repository.get_revision(
+                identity, ref["revision"]
+            )
+            if (
+                revision is None
+                or revision.summary_id != ref["summary_id"]
+                or revision.status not in {"PUBLISHED", "APPLIED"}
+            ):
+                raise GraphProtocolError("Context revision unavailable")
+            required[ref["summary_id"]] = None
+        for interaction in history:
+            for message in interaction:
+                if message.id and message.id.startswith("summary:"):
+                    required[message.id.removeprefix("summary:")] = message.content
+        for summary_id, expected in required.items():
+            summary = await self._context_manager.repository.get_summary(identity, summary_id)
+            if summary is None or (expected is not None and expected != summary.text):
+                raise GraphProtocolError("Context summary unavailable")
+            remaining = self._context_read_bytes
+            messages = []
+            for archive_ref in summary.archive_refs:
+                archive = await self._context_manager.repository.get(identity, archive_ref)
+                if archive is None:
+                    raise GraphProtocolError("Context archive unavailable")
+                try:
+                    size = self._context_manager.store._path(archive.relative_path).stat().st_size
+                    if size > remaining:
+                        raise GraphProtocolError("Context archive exceeds read budget")
+                    messages.extend(self._context_manager.store.read(archive, remaining))
+                except (OSError, ValueError):
+                    raise GraphProtocolError("Context archive integrity failure") from None
+                remaining -= size
+            if tuple(m.message_id for m in messages) != summary.message_ids:
+                raise GraphProtocolError("Context summary coverage mismatch")
+
+    def _run_compactor(self, context, snapshot, scope):
+        """Compress only already-completed checkpoint history using this Run's budget."""
+        from dataclasses import replace
+
+        from langchain_core.messages import HumanMessage
+        from langchain_core.messages.utils import count_tokens_approximately
+
+        from app.context.compaction import SUMMARY_PROMPT_VERSION
+        from app.context.models import SessionIdentity
+        from app.runtime.model_gateway import ModelCallError, UsageReport
+
+        used = False
+
+        async def compact(model_context):
+            nonlocal used
+            if used or self._stopping or scope.finished:
+                raise ModelCallError(
+                    "context_budget_exceeded",
+                    model_usage=scope.model_usage(),
+                    usage=UsageReport(None, None, None, "unknown"),
+                )
+            used = True
+            identity = SessionIdentity(
+                user_id=context.user_id, conversation_id=context.conversation_id
+            )
+            try:
+                source = await self._maintenance._source(identity, snapshot, retain_recent=0)
+                if source is None:
+                    raise ValueError("No completed history available")
+                archive = await self._context_manager.publish(
+                    identity,
+                    source["checkpoint"],
+                    source["parts"],
+                    retain_recent=0,
+                    max_messages=self._context_settings.context_archive_segment_messages,
+                    session_status="RUNNING",
+                    run_scope=scope,
+                    execution_mode="normal",
+                )
+                if archive.archive_ref != source["archive_ref"]:
+                    raise ValueError("Compaction archive source mismatch")
+                base, parent = source["base"], source["parent"]
+                summary, _ = await self._context_manager.compact(
+                    identity,
+                    archive_refs=source["refs"],
+                    parent_summary_id=parent.summary_id if parent else None,
+                    source_checkpoint_id=source["checkpoint"],
+                    version=base["revision"] + 1 if base else 1,
+                    policy_version="context-run-v2-231",
+                    model_version=self._context_settings.model_name,
+                    prompt_version=SUMMARY_PROMPT_VERSION,
+                    max_bytes=self._context_settings.context_archive_read_bytes,
+                    gateway=self._maintenance.gateway,
+                    token_counter=count_tokens_approximately,
+                    max_input_tokens=self._context_settings.context_archive_read_tokens,
+                    max_output_tokens=self._context_settings.context_summary_output_tokens,
+                    settings=self._context_settings,
+                    run_scope=scope,
+                    run_context=replace(
+                        model_context,
+                        history=(),
+                        on_compact=None,
+                        on_context_view=None,
+                        on_context_usage=None,
+                        prevalidated_summary=True,
+                    ),
+                    execution_mode="normal",
+                )
+                selected = {m.message_id for m in source["selected"]}
+                remainder = []
+                for interaction in model_context.history:
+                    ids = {m.id for m in interaction}
+                    if parent and ids == {"summary:" + parent.summary_id}:
+                        continue
+                    if ids & selected:
+                        if not ids <= selected:
+                            raise ValueError("Compaction cannot split an interaction")
+                        continue
+                    remainder.append(list(interaction))
+                result = [
+                    [HumanMessage(content=summary.text, id="summary:" + summary.summary_id)],
+                    *remainder,
+                ]
+                scope.context_history_override = result
+                return tuple(tuple(i) for i in result)
+            except ModelCallError:
+                raise
+            except Exception as error:
+                logger.warning("Run context compaction failed category=%s", type(error).__name__)
+                raise ModelCallError(
+                    "context_compaction_failed",
+                    model_usage=scope.model_usage(),
+                    usage=UsageReport(None, None, None, "unknown"),
+                ) from None
+
+        return compact
 
     def _input_mode(self, saved, options):
         if not saved:
@@ -799,8 +1221,18 @@ class AgentRuntime:
 
     async def _execute(self, record, prepared, token):
         scope = record.execution.scope
+        work = None
         scope.start_active_period()
         try:
+            if record.execution.stale_context_revision is not None:
+                from app.context.models import SessionIdentity
+
+                identity = SessionIdentity(
+                    user_id=record.context.user_id, conversation_id=record.context.conversation_id
+                )
+                await self._context_manager.repository.mark_revision(
+                    identity, record.execution.stale_context_revision, "STALE"
+                )
             if (
                 scope.remaining_active_seconds() <= 0
                 and record.execution.execution_mode == "normal"
@@ -867,7 +1299,35 @@ class AgentRuntime:
             )
             self._fail_uncertain(record, "agent_execution_failed")
         finally:
+            if (
+                self._context_manager
+                and record.execution.execution_mode == "normal"
+                and record.execution.allow_context_receipt
+            ):
+                try:
+                    await self._confirm_context(
+                        record.context.thread_id,
+                        record.context.user_id,
+                        record.context.conversation_id,
+                    )
+                except Exception as error:
+                    logger.warning("Context receipt pending category=%s", type(error).__name__)
+            if (
+                self._maintenance
+                and not self._stopping
+                and record.ended_at is not None
+                and record.task_status in (TaskStatus.COMPLETED, TaskStatus.REJECTED)
+                and record.context.thread_id not in self._uncertain
+            ):
+                try:
+                    work = await self._maintenance.register(record)
+                except Exception as error:
+                    logger.warning(
+                        "Context maintenance registration failed category=%s", type(error).__name__
+                    )
             self._release(record.context.thread_id, token)
+            if work is not None:
+                self._maintenance.schedule(*work)
 
     async def _finalize_approval_pause(self, record, interrupts):
         """Publish waiting only after reading and binding the real child interrupt."""
@@ -1285,6 +1745,8 @@ class AgentRuntime:
 
     async def shutdown(self) -> None:
         self._stopping = True
+        if self._maintenance is not None:
+            await self._maintenance.shutdown()
         tasks = [
             record.task
             for record in self._records.values()

@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-20",
+  "method": "Read-only docker inspect through the existing authorized VM account; no database connection or container mutation",
+  "container": "agent-engine-demo-db-postgres-1",
+  "container_id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+  "image_id": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "running": true,
+  "started_at": "2026-11-17T14:59:05.899044319Z",
+  "container_id_and_started_at_match_takeover_observation": true,
+  "scope": "Confirms container identity and no restart since the recorded start; not a row-level audit of the formal database"
+}

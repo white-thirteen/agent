@@ -80,6 +80,8 @@ def make_specialist_node(subgraph, *, memory_graph=None):
         return {
             **apply_specialist_result(result_state, output["result"]),
             "memory_read_record": output.get("memory_read_record"),
+            "context_history": output.get("context_history", state.get("context_history", [])),
+            "context_view": output.get("context_view", state.get("context_view")),
             **({"run_id": effective.run_id} if continuing else {}),
             "model_call_usage": asdict(scope.model_usage()),
             "run_usage": asdict(scope.run_usage()),

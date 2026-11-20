@@ -1,0 +1,1 @@
+{"all_rows_and_columns_match_with_watermark_restored": true, "mismatches": [], "before_watermark": 1, "after_watermark": 10}

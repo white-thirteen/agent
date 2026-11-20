@@ -90,7 +90,7 @@ async def test_model_candidates_and_old_ai_cannot_authorize_writes():
                 entities={"operation": "upsert", "field": "answer_language", "value": "en"},
             )
         ]
-        * 3,
+        * 4,
     )
     runtime = AgentRuntime(graph, run_limits=RunLimits(30, 12))
     try:
@@ -131,7 +131,11 @@ async def test_model_candidates_and_old_ai_cannot_authorize_writes():
                     thread_id="thread" if index == 0 else f"thread-{index}",
                 ),
             )
-            assert view.task_status == "needs_input" and view.run_usage.tool_calls == 0
+            assert view.run_usage.tool_calls == 0
+            if index == 1:
+                assert view.task_status == "rejected" and "/agent/preferences/" in view.final_answer
+            else:
+                assert view.task_status == "failed" and view.error["code"] == "model_output_invalid"
     finally:
         await runtime.shutdown()
 

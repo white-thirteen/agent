@@ -1,16 +1,18 @@
 # Agent Engine Demo
 
-## V2 当前状态（2026-11-19）
+[开发文档总览](docs/README.md) · [V1](docs/v1/README.md) · [V2](docs/v2/README.md)
 
-V2 01 已正式验收（`ACCEPTED`），六个 Task 的交付与独立 QA 已归档。技术基线、证据与遗留风险见[阶段正式验收](docs/v2-01-stage-acceptance.md)。V2 02/03 维持设计状态。
+## V2 当前状态（2026-11-20）
+
+V2 01 已正式验收（`ACCEPTED`），六个 Task 的交付与独立 QA 已归档。技术基线、证据与遗留风险见[阶段正式验收](docs/v2/v2-01/v2-01-stage-acceptance.md)。V2 02 六Task已完成开发、自测、独立QA及主复核，阶段VERIFIED；完整隔离回归290 passed/0 failed/0 skipped，独立QA定向38 passed。见[Context Engineering交付报告](docs/v2/v2-02/v2-02-stage-delivery-report.md)。等待人工验收与Git授权，V2 03未开发。
 
 ## V1 最新交付状态（2026-11-17）
 
-用户已正式接受06并授权Git提交、推送和合入main，V1六阶段均ACCEPTED。06真实质量门禁及遗留见[最终验收](docs/final-acceptance.md)；本轮不冒称重跑原228项门禁。随后在v2分支开发V2 01，02/03仅设计批准、未授权开发；最新状态以[STATE](docs/STATE.md)为准。旧轮次等待文字保留历史语境。
+用户已正式接受06并授权Git提交、推送和合入main，V1六阶段均ACCEPTED。06真实质量门禁及遗留见[最终验收](docs/v1/v1-06/final-acceptance.md)；本轮不冒称重跑原228项门禁。随后在v2分支开发V2 01，02/03仅设计批准、未授权开发；最新状态以[STATE](docs/STATE.md)为准。旧轮次等待文字保留历史语境。
 
 ## 当前交付入口（2026-11-15）
 
-01～05已ACCEPTED并归档；06六Task已独立QA PASS并主Agent技术复核，阶段VERIFIED，06-QA-001已关闭。独立新环境完整真实PG门禁228 passed/0 failed/0 skipped，隔离PG/vector镜像、空双库初始化及精确清理通过。06正式验收及Git归档仍待用户明确批准。以下旧轮次状态保留历史；当前以[STATE](docs/STATE.md)、[最终验收入口](docs/final-acceptance.md)和[06交付报告](docs/06-delivery-report.md)为准。
+01～05已ACCEPTED并归档；06六Task已独立QA PASS并主Agent技术复核，阶段VERIFIED，06-QA-001已关闭。独立新环境完整真实PG门禁228 passed/0 failed/0 skipped，隔离PG/vector镜像、空双库初始化及精确清理通过。06正式验收及Git归档仍待用户明确批准。以下旧轮次状态保留历史；当前以[STATE](docs/STATE.md)、[最终验收入口](docs/v1/v1-06/final-acceptance.md)和[06交付报告](docs/v1/v1-06/06-delivery-report.md)为准。
 
 Supervisor串行调度Order / Refund / Knowledge，Memory是共享基础设施。ToolRegistry、Policy与Executor统一约束工具；订单/退款是有真实数据库状态的模拟业务，不涉及真实支付。
 
@@ -42,7 +44,7 @@ if (-not (Test-Path -LiteralPath .env)) {
 
 以下命令中的`.venv`替换为本轮实际环境。`.env`只在本机填写Chat与各库连接；OpenAI与langchain-openai是兼容Chat SDK，Embedding走本地Qwen，无Embedding API Key。真实Chat沿已验证DeepSeek `deepseek-flash`、function_calling、reasoning_effort=none；更换供应商须重新显式验证，health不探测Chat网络。
 
-数据库为PG **17.6** / vector **0.8.7**，应用库`agent_demo/agent_app`、隔离测试库`agent_demo_test/agent_test`。现有`compose.yaml`是**不含vector的原PG镜像**。完整新环境请先读[固定版本数据库配方与初始化边界](docs/database-reproduction.md)；不得直接重建原VM容器/卷。PG普通重启与从镜像重建含义不同。
+数据库为PG **17.6** / vector **0.8.7**，应用库`agent_demo/agent_app`、隔离测试库`agent_demo_test/agent_test`。现有`compose.yaml`是**不含vector的原PG镜像**。完整新环境请先读[固定版本数据库配方与初始化边界](docs/v1/v1-06/database-reproduction.md)；不得直接重建原VM容器/卷。PG普通重启与从镜像重建含义不同。
 
 新空环境的顺序是：独立PG/vector资源 → bootstrap双库和角色 → 001～006编号迁移 → Saver setup → Store setup → 首次模拟订单种子 → 固定语料导入。仅对**新目标**执行初始化，已有库不重置数据：
 
@@ -59,7 +61,7 @@ if (-not (Test-Path -LiteralPath .env)) {
 
 Qwen模型目录`D:/AI/models/qwen3-embedding-0.6b`，实测权重revision `97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3`，须包含REVISION、tokenizer与完整权重。首次下载使用显式`scripts.download_embedding --download`（联网，下载脚本会解析当时revision；要复现旧profile须准备相同revision文件）。运行时离线加载，CPU/bfloat16/2线程、1024输入tokens、batch=1、单worker单实例；1024输出维度固定，导入和查询profile必须一致。不要并行运行导入、Qwen测试和启用Embedding的Web服务。演示进程显式设置`AGENT_EMBEDDING_ENABLED=true`，用户现有`.env`默认关闭状态保留。
 
-复现上述固定revision时，可在**新模型缓存目录**按下列Python代码显式联网下载（本轮未重复下载现有1.2GB权重），核验通过后再设`AGENT_EMBEDDING_MODEL_PATH`。不要覆盖正在运行的模型目录；原始下载与hash出处见[05模型交付](docs/05-local-embedding-delivery-report.md)。
+复现上述固定revision时，可在**新模型缓存目录**按下列Python代码显式联网下载（本轮未重复下载现有1.2GB权重），核验通过后再设`AGENT_EMBEDDING_MODEL_PATH`。不要覆盖正在运行的模型目录；原始下载与hash出处见[05模型交付](docs/v1/v1-05/05-local-embedding-delivery-report.md)。
 
 ```python
 import hashlib
@@ -86,20 +88,20 @@ $env:AGENT_EMBEDDING_ENABLED='true'
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --loop app.infrastructure.postgres:selector_event_loop
 ```
 
-按Ctrl+C正常关闭并等待Application stopped；Runtime先收敛，再关闭Store、模型/Embedding、Saver和业务池。持久恢复演示必须完整退出旧PID后启动新进程，PG保持运行。仅管理自己记录的PID，勿杀用户进程。完整隔离演示、两次重启、实际业务核对和精确清理见[演示步骤](docs/demo-walkthrough.md)，该流程用UUID测试数据且禁止seed固定订单。
+按Ctrl+C正常关闭并等待Application stopped；Runtime先收敛，再关闭Store、模型/Embedding、Saver和业务池。持久恢复演示必须完整退出旧PID后启动新进程，PG保持运行。仅管理自己记录的PID，勿杀用户进程。完整隔离演示、两次重启、实际业务核对和精确清理见[演示步骤](docs/v1/v1-06/demo-walkthrough.md)，该流程用UUID测试数据且禁止seed固定订单。
 
 `GET /health`的status=ok仅表示HTTP存活；database/checkpoint/store各自ready，model=initialized只表示SDK初始化，embedding=ready表示本地权重已加载，knowledge_ready还需索引/profile检查通过。agent_ready不等于Chat网络或所有专业能力已经真实调用成功；Embedding关闭仍可执行订单/退款及Memory。
 
-公共chat输入为`user_id/conversation_id/message`及可选`input_mode/request_id`，拒绝旧workflow_id输入。task_id唯一由Runtime生成，workflow_id只是同值别名，thread由session持久绑定。Run状态/事件、当前Task、退款事实及审批接口见[接口文档](docs/apifox-api-guide.md)。SSE只输出批准的最终回复，done结束本Run；断开不取消执行，重订阅无历史token重放。重启后旧Run缓存可404，应查持久Task/原审批并独立resume。
+公共chat输入为`user_id/conversation_id/message`及可选`input_mode/request_id`，拒绝旧workflow_id输入。task_id唯一由Runtime生成，workflow_id只是同值别名，thread由session持久绑定。Run状态/事件、当前Task、退款事实及审批接口见[接口文档](docs/v1/v1-06/apifox-api-guide.md)。SSE只输出批准的最终回复，done结束本Run；断开不取消执行，重订阅无历史token重放。重启后旧Run缓存可404，应查持久Task/原审批并独立resume。
 
 普通user_id是development/test演示选择，服务端执行归属校验，非生产登录认证。本地审批仅回环、固定审计Actor `local-demo-approval`，无管理员Key，production不注册该入口。原审批绑定task/call/args/operation/interrupt，不可通过聊天批准；unknown先人工核对原操作，禁止换ID重发。
 
 ## 交付与验收
 
-- [06交付报告：干净环境、命令、实际结果和限制](docs/06-delivery-report.md)
-- [最终能力矩阵与用户验收入口](docs/final-acceptance.md)
-- [06简洁Handoff](docs/06-integration-handoff.md)
-- [演示与精确清理](docs/demo-walkthrough.md)、[OpenAPI/集合导入](docs/apifox-api-guide.md)
+- [06交付报告：干净环境、命令、实际结果和限制](docs/v1/v1-06/06-delivery-report.md)
+- [最终能力矩阵与用户验收入口](docs/v1/v1-06/final-acceptance.md)
+- [06简洁Handoff](docs/v1/v1-06/06-integration-handoff.md)
+- [演示与精确清理](docs/v1/v1-06/demo-walkthrough.md)、[OpenAPI/集合导入](docs/v1/v1-06/apifox-api-guide.md)
 
 用户已确认Postman导入；客户端后置脚本实际执行、变量回填和SSE界面仍未实测。Node受控脚本与真实HTTP证据不能替代这些客户端结果。既有Store即时关闭观测波动、unknown人工核对与六项暂缓差异继续保留，详见最终验收入口。
 
@@ -107,39 +109,39 @@ $env:AGENT_EMBEDDING_ENABLED='true'
 
 以下为按日期保留的历史实施记录；旧准备层、版本及未启动状态不作为当前操作指引。
 
-2026-11-14：Task6.2.2 隔离和退化路径实施记录见[交付与验证证据](docs/06-isolation-degradation-delivery-report.md)，交主Agent复核与独立QA；真实TCP/PG/Saver/Store/Qwen配合受控Chat及故障注入，99项风险定向回归通过。
+2026-11-14：Task6.2.2 隔离和退化路径实施记录见[交付与验证证据](docs/v1/v1-06/06-isolation-degradation-delivery-report.md)，交主Agent复核与独立QA；真实TCP/PG/Saver/Store/Qwen配合受控Chat及故障注入，99项风险定向回归通过。
 
-2026-11-14：Task6.2.1 核心持久化故障实施记录见[交付与真实进程证据](docs/06-persistence-fault-delivery-report.md)，交主Agent复核与独立QA；范围为原审批/退款恢复的真实PG及独立FastAPI进程验证。
+2026-11-14：Task6.2.1 核心持久化故障实施记录见[交付与真实进程证据](docs/v1/v1-06/06-persistence-fault-delivery-report.md)，交主Agent复核与独立QA；范围为原审批/退款恢复的真实PG及独立FastAPI进程验证。
 
-2026-11-14：Task6.1.2 会话/状态/事件统一实施交付，待独立 QA，见[交付与验证记录](docs/06-state-events-delivery-report.md)。修复新 Task 首快照前当前任务查询的关联窗口；真实 PG/Saver/Store/Qwen 配合受控 Chat 验证通过，最终完整真实 PG 225 passed、0 skipped。6.1.1 已独立 QA PASS/主复核 VERIFIED；历史轮次表述保留追溯。
+2026-11-14：Task6.1.2 会话/状态/事件统一实施交付，待独立 QA，见[交付与验证记录](docs/v1/v1-06/06-state-events-delivery-report.md)。修复新 Task 首快照前当前任务查询的关联窗口；真实 PG/Saver/Store/Qwen 配合受控 Chat 验证通过，最终完整真实 PG 225 passed、0 skipped。6.1.1 已独立 QA PASS/主复核 VERIFIED；历史轮次表述保留追溯。
 
-2026-11-14：06 已授权；Task6.1.1 装配实施交付待独立QA，见[装配交付与未闭环项](docs/06-assembly-delivery-report.md)。本轮统一资源关闭顺序、启动时知识索引/profile就绪检查，并明确偏好呈现优先级；同一真实应用两条中文知识问题均按英语偏好回答，四能力路径及清理已验证；最终完整真实PG224 passed、0 skipped。以下“未进入06”等文字保留历史语境。
+2026-11-14：06 已授权；Task6.1.1 装配实施交付待独立QA，见[装配交付与未闭环项](docs/v1/v1-06/06-assembly-delivery-report.md)。本轮统一资源关闭顺序、启动时知识索引/profile就绪检查，并明确偏好呈现优先级；同一真实应用两条中文知识问题均按英语偏好回答，四能力路径及清理已验证；最终完整真实PG224 passed、0 skipped。以下“未进入06”等文字保留历史语境。
 
-2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/question/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，已以79d576b交付归档并推送核验，[Git回执](docs/05-git-archive-receipt.md)；未进入06。以下各轮记录按原日期保留。
+2026-11-14：**05 RAG/Store六Task已通过独立QA及主Agent复核，用户已正式验收（ACCEPTED）。** 最新完整真实PG216 passed/0 failed/0 skipped；[阶段验收与使用边界](docs/v1/v1-05/qa/05-rag-memory-stage-acceptance.md)、[简洁Handoff](docs/v1/v1-05/05-rag-memory-handoff.md)、[STATE](docs/STATE.md)。05-QA-001已关闭，已以79d576b交付归档并推送核验，[Git回执](docs/v1/v1-05/05-git-archive-receipt.md)；未进入06。以下各轮记录按原日期保留。
 
-Task 5.3.1 Store / shared Reader implementation and validation: [delivery report](docs/05-store-reader-delivery-report.md). Store setup is explicit (`python -m scripts.setup_store --target test` or `development`); startup only verifies readiness.
+Task 5.3.1 Store / shared Reader implementation and validation: [delivery report](docs/v1/v1-05/05-store-reader-delivery-report.md). Store setup is explicit (`python -m scripts.setup_store --target test` or `development`); startup only verifies readiness.
 
-Task 5.3.2 显式偏好管理已实现，独立QA及主Agent复核通过（VERIFIED）：[交付报告](docs/05-memory-manage-delivery-report.md)、[有限真实 Chat 证据](docs/05-memory-manage-real-chat-evidence.json)、[英语偏好＋真实 Qwen/Chat/PG RAG 补验](docs/05-memory-manage-real-rag-evidence-20261114.json)。支持“请记住：回答语言=英语”“请修改记忆：回答风格=详细”“请删除我的回答语言偏好”“请删除全部偏好记忆”“请查看偏好记忆”等冻结格式。Store 命令就绪独立于 Embedding；写入 unknown 时须先人工核对原操作，再提交新修改。真实 RAG 补验按澄清授权仅在验证进程启用原 Qwen，用户 `.env` 不变；此前未验证记录保留历史，见报告末尾追加。
+Task 5.3.2 显式偏好管理已实现，独立QA及主Agent复核通过（VERIFIED）：[交付报告](docs/v1/v1-05/05-memory-manage-delivery-report.md)、[有限真实 Chat 证据](docs/v1/v1-05/evidence/05-memory-manage-real-chat-evidence.json)、[英语偏好＋真实 Qwen/Chat/PG RAG 补验](docs/v1/v1-05/evidence/05-memory-manage-real-rag-evidence-20261114.json)。支持“请记住：回答语言=英语”“请修改记忆：回答风格=详细”“请删除我的回答语言偏好”“请删除全部偏好记忆”“请查看偏好记忆”等冻结格式。Store 命令就绪独立于 Embedding；写入 unknown 时须先人工核对原操作，再提交新修改。真实 RAG 补验按澄清授权仅在验证进程启用原 Qwen，用户 `.env` 不变；此前未验证记录保留历史，见报告末尾追加。
 
-2026-11-13：本地 Qwen CPU Embedding 与 pgvector 检索工作单元已通过独立QA和主Agent复核（VERIFIED），见[独立QA](docs/question/05-local-embedding-qa-report.md)；范围与实际验证见[执行任务](docs/05-local-embedding-execution-task.md)及[交付报告](docs/05-local-embedding-delivery-report.md)。启用方式、离线导入和真实验证命令均在报告内；05 整阶段尚未验收。下文旧状态按原轮次保留。
+2026-11-13：本地 Qwen CPU Embedding 与 pgvector 检索工作单元已通过独立QA和主Agent复核（VERIFIED），见[独立QA](docs/v1/v1-05/qa/05-local-embedding-qa-report.md)；范围与实际验证见[执行任务](docs/v1/v1-05/05-local-embedding-execution-task.md)及[交付报告](docs/v1/v1-05/05-local-embedding-delivery-report.md)。启用方式、离线导入和真实验证命令均在报告内；05 整阶段尚未验收。下文旧状态按原轮次保留。
 
 ## 当前实施状态
 
-01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，已以ab30f12完成Git交付归档并核验远端；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/question/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/question/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
+01–03 已验收归档；04已完成六Task、独立QA、两轮修复及独立复测，主Agent技术验收通过，用户已正式验收，状态 **ACCEPTED**，已以ab30f12完成Git交付归档并核验远端；05等待用户设置角色配置，未开始。最终完整真实库165 passed/0 skipped，真实uvicorn重启、SQL/Checkpoint故障及真实模型证据齐备。入口见[当前交接STATE](docs/STATE.md)、[04技术验收](docs/v1/v1-04/qa/04-hitl-checkpoint-refund-stage-acceptance.md)、[最终独立复测](docs/v1/v1-04/qa/04-hitl-checkpoint-refund-fix-02-regression-report.md)与[4.3.2交付报告](docs/v1/v1-04/04-hitl-checkpoint-refund-restart-report.md)。以下较早轮次记录保留当时语境。
 
 ## 03 工具治理与模拟订单（ACCEPTED，用户已正式验收）
 
-03六Task、独立QA及两项修复回归已通过主Agent技术验收，最新完整真实库137项及27个不同外部场景取得通过证据，详见[03技术验收报告](docs/question/03-tool-governance-stage-acceptance.md)。实现、真实数据库和真实模型证据见 [03 开发交付报告](docs/03-tool-governance-delivery-report.md)。订单查询通过冻结工具目录、策略和统一执行器访问 PostgreSQL 中的模拟数据；本人单订单及分页列表由可信查询目标约束，最终回复由核验事实生成。退款、知识检索、审批和持久恢复仍属于后续阶段。
+03六Task、独立QA及两项修复回归已通过主Agent技术验收，最新完整真实库137项及27个不同外部场景取得通过证据，详见[03技术验收报告](docs/v1/v1-03/qa/03-tool-governance-stage-acceptance.md)。实现、真实数据库和真实模型证据见 [03 开发交付报告](docs/v1/v1-03/03-tool-governance-delivery-report.md)。订单查询通过冻结工具目录、策略和统一执行器访问 PostgreSQL 中的模拟数据；本人单订单及分页列表由可信查询目标约束，最终回复由核验事实生成。退款、知识检索、审批和持久恢复仍属于后续阶段。
 
 迁移到 schema 3 后，可显式执行 `.\.venv\Scripts\python.exe -m scripts.seed_orders --target development` 或使用 `--target test` 初始化固定双用户模拟订单；种子不会重置已有退款状态。应用启动不会自动迁移或写入种子。`.\.venv\Scripts\python.exe -m scripts.verify_03_real` 是显式真实模型与专用测试库探针，会产生模型调用；默认 pytest 不调用真实模型。
 
 ## 02 复测与技术验收（2026-11-11）
 
-02六Task及独立QA、两轮输出脱敏修复回归已完成，用户已正式验收，阶段为ACCEPTED。最新独立完整真实库119项与外部补测3项通过。用户已授权02 Git归档及归档后推进03，见[02技术验收报告](docs/question/02-agent-runtime-stage-acceptance.md)及[独立回归报告](docs/question/02-agent-runtime-redaction-regression-report.md)。历史凭据暴露及配置密码复用按用户决定保留为Demo遗留，暂缓换密；端口实际范围见[协调记录](docs/question/02-agent-runtime-main-review.md)。
+02六Task及独立QA、两轮输出脱敏修复回归已完成，用户已正式验收，阶段为ACCEPTED。最新独立完整真实库119项与外部补测3项通过。用户已授权02 Git归档及归档后推进03，见[02技术验收报告](docs/v1/v1-02/qa/02-agent-runtime-stage-acceptance.md)及[独立回归报告](docs/v1/v1-02/qa/02-agent-runtime-redaction-regression-report.md)。历史凭据暴露及配置密码复用按用户决定保留为Demo遗留，暂缓换密；端口实际范围见[协调记录](docs/v1/v1-02/qa/02-agent-runtime-main-review.md)。
 
 ## 02 执行会话交付（2026-11-10轮次记录）
 
-六个 Task 的实现和开发自测见 [02 交付报告](docs/02-agent-runtime-delivery-report.md)。本段描述本轮实际接口，后文此前 01 准备层和历史验收记录保留其原轮次语境。
+六个 Task 的实现和开发自测见 [02 交付报告](docs/v1/v1-02/02-agent-runtime-delivery-report.md)。本段描述本轮实际接口，后文此前 01 准备层和历史验收记录保留其原轮次语境。
 
 `POST /agent/chat` 已接通 Service → Runtime → Supervisor 主图，受理后返回 SSE。通用澄清可在下一 Run 识别具体目标并保留 Task，具体业务缺参保留原目标。取消等不支持能力返回固定边界说明。Order / Refund / Knowledge 当前均为真实编译的三节点骨架，合法专业请求返回 `capability_unavailable`。
 
@@ -160,11 +162,11 @@ SSE 事件为 status / token / error / done，关联包含 run_id、task_id、wo
 
 ## 当前状态
 
-2026-11-12当前01/02为ACCEPTED，02已以94cf205归档推送并核验远端；03已获用户正式验收，状态ACCEPTED，已以62b5eb2归档推送并核验，04未启动。进展及遗留裁决见 [02主Agent协调记录](docs/question/02-agent-runtime-main-review.md)。下文此前状态及人工转交文字属于历史交接记录。
+2026-11-12当前01/02为ACCEPTED，02已以94cf205归档推送并核验远端；03已获用户正式验收，状态ACCEPTED，已以62b5eb2归档推送并核验，04未启动。进展及遗留裁决见 [02主Agent协调记录](docs/v1/v1-02/qa/02-agent-runtime-main-review.md)。下文此前状态及人工转交文字属于历史交接记录。
 
-2026-11-10 最新协调结果为01已正式验收（ACCEPTED）并完成Git归档，Baseline `f89db15`、Delivery `cf3e763`已推送至`origin/real-model-chat`。02已获进入许可，待用户人工启动执行会话，任务见 [02整阶段执行提示词](docs/02-agent-runtime-execution-task.md)。下段及文末保留前轮实施和验收过程记录。
+2026-11-10 最新协调结果为01已正式验收（ACCEPTED）并完成Git归档，Baseline `f89db15`、Delivery `cf3e763`已推送至`origin/real-model-chat`。02已获进入许可，待用户人工启动执行会话，任务见 [02整阶段执行提示词](docs/v1/v1-02/02-agent-runtime-execution-task.md)。下段及文末保留前轮实施和验收过程记录。
 
-2026-11-09 已实施一级阶段 01 的六个 Task，验收证据和遗留见 [01 阶段交付报告](docs/01-foundation-detailed-design.md#01-正式开发交付报告2026-11-09)。2026-11-10 独立 QA 结束，P2-01 修复及独立回归经主 Agent 复核通过并关闭，阶段状态为 VERIFIED，正式验收待用户批准，详见 [复核决定与阶段状态](docs/question/01-foundation-main-review.md)。02 尚未开始。
+2026-11-09 已实施一级阶段 01 的六个 Task，验收证据和遗留见 [01 阶段交付报告](docs/v1/v1-01/01-foundation-detailed-design.md#01-正式开发交付报告2026-11-09)。2026-11-10 独立 QA 结束，P2-01 修复及独立回归经主 Agent 复核通过并关闭，阶段状态为 VERIFIED，正式验收待用户批准，详见 [复核决定与阶段状态](docs/v1/v1-01/qa/01-foundation-main-review.md)。02 尚未开始。
 
 当前提供配置、安全错误、HTTP 存活/准备层状态、PostgreSQL 双库与显式迁移、连接池、持久 Session、ModelGateway、普通演示身份和请求准备层。已有主图/映射和 SSE formatter 复用，内存 Saver 保留。专业业务、正式 Task、独立执行与订阅、持久 Checkpoint、审批、RAG 和 Store 按后续阶段实施。
 
@@ -259,29 +261,29 @@ py -3.13 -m venv .venv
 
 ## 开发文档
 
-- [Apifox接口文档、OpenAPI与集合导入说明](docs/apifox-api-guide.md)
-- [Task6.3.1 演示步骤、Postman集合与精确清理](docs/demo-walkthrough.md)
-- [Task6.3.1 文件与真实HTTP演示交付记录（GUI待用户导入）](docs/06-demo-delivery-report.md)
-- [分阶段独立验收、主 Agent 复核及修复任务](docs/question/README.md)
-- [02 AgentRuntime整阶段执行任务](docs/02-agent-runtime-execution-task.md)
-- [02 主Agent协调与验收记录](docs/question/02-agent-runtime-main-review.md)
-- [修复会话提示词与修复记录](docs/resume/README.md)
-- [04 首轮 QA 修复与开发自测报告](docs/resume/record/04-hitl-checkpoint-refund-fix-01-report.md)
-- [04-QA-007绑定修复与开发补验报告](docs/resume/record/04-hitl-checkpoint-refund-fix-02-report.md)
-- [04 Task 4.3.2重启及重放开发自测报告](docs/04-hitl-checkpoint-refund-restart-report.md)
-- [03 工具治理 QA 修复与开发自测报告](docs/resume/record/03-tool-governance-fix-report.md)
-- [01 / P2-01 修复与开发自测报告](docs/resume/record/01-foundation-fix-report.md)
-- [项目定位、架构与V1范围（权威文档）](docs/agent-engine-demo-plan.md)
-- [唯一有效的V1路线图：六阶段、18个二级环节、36项三级任务](docs/development-roadmap.md)
-- [01 正式设计基线——工程、PostgreSQL、模型与普通演示身份](docs/01-foundation-detailed-design.md)
-- [02 正式设计基线——Supervisor、三专业Subgraph、Runtime与SSE](docs/02-agent-runtime-detailed-design.md)
-- [03 正式设计基线——ToolRegistry、Policy、Executor与模拟订单](docs/03-tool-governance-detailed-design.md)
-- [04 正式设计基线——HITL、PG Checkpoint、原调用恢复与退款幂等](docs/04-hitl-checkpoint-refund-detailed-design.md)
-- [05 正式设计基线——生成式RAG、来源校验、Store与Memory V1](docs/05-rag-memory-detailed-design.md)
-- [05 Task5.2.1 知识工具与八节点子图开发交付](docs/05-knowledge-tools-delivery-report.md)
-- [05 Task5.2.2 真实RAG联调与语义/来源验证](docs/rag-validation.md)
-- [05 Task5.3.2 显式记忆管理实现、自测与未验证边界](docs/05-memory-manage-delivery-report.md)
-- [06 正式设计基线——完整演示装配、故障验收与最终交付](docs/06-integration-and-final-delivery-detailed-design.md)
+- [Apifox接口文档、OpenAPI与集合导入说明](docs/v1/v1-06/apifox-api-guide.md)
+- [Task6.3.1 演示步骤、Postman集合与精确清理](docs/v1/v1-06/demo-walkthrough.md)
+- [Task6.3.1 文件与真实HTTP演示交付记录（GUI待用户导入）](docs/v1/v1-06/06-demo-delivery-report.md)
+- [分阶段独立验收、主 Agent 复核及修复任务](docs/v1/qa-index.md)
+- [02 AgentRuntime整阶段执行任务](docs/v1/v1-02/02-agent-runtime-execution-task.md)
+- [02 主Agent协调与验收记录](docs/v1/v1-02/qa/02-agent-runtime-main-review.md)
+- [修复会话提示词与修复记录](docs/v1/fix-index.md)
+- [04 首轮 QA 修复与开发自测报告](docs/v1/v1-04/fixes/records/04-hitl-checkpoint-refund-fix-01-report.md)
+- [04-QA-007绑定修复与开发补验报告](docs/v1/v1-04/fixes/records/04-hitl-checkpoint-refund-fix-02-report.md)
+- [04 Task 4.3.2重启及重放开发自测报告](docs/v1/v1-04/04-hitl-checkpoint-refund-restart-report.md)
+- [03 工具治理 QA 修复与开发自测报告](docs/v1/v1-03/fixes/records/03-tool-governance-fix-report.md)
+- [01 / P2-01 修复与开发自测报告](docs/v1/v1-01/fixes/records/01-foundation-fix-report.md)
+- [项目定位、架构与V1范围（权威文档）](docs/v1/agent-engine-demo-plan.md)
+- [唯一有效的V1路线图：六阶段、18个二级环节、36项三级任务](docs/v1/development-roadmap.md)
+- [01 正式设计基线——工程、PostgreSQL、模型与普通演示身份](docs/v1/v1-01/01-foundation-detailed-design.md)
+- [02 正式设计基线——Supervisor、三专业Subgraph、Runtime与SSE](docs/v1/v1-02/02-agent-runtime-detailed-design.md)
+- [03 正式设计基线——ToolRegistry、Policy、Executor与模拟订单](docs/v1/v1-03/03-tool-governance-detailed-design.md)
+- [04 正式设计基线——HITL、PG Checkpoint、原调用恢复与退款幂等](docs/v1/v1-04/04-hitl-checkpoint-refund-detailed-design.md)
+- [05 正式设计基线——生成式RAG、来源校验、Store与Memory V1](docs/v1/v1-05/05-rag-memory-detailed-design.md)
+- [05 Task5.2.1 知识工具与八节点子图开发交付](docs/v1/v1-05/05-knowledge-tools-delivery-report.md)
+- [05 Task5.2.2 真实RAG联调与语义/来源验证](docs/v1/v1-05/rag-validation.md)
+- [05 Task5.3.2 显式记忆管理实现、自测与未验证边界](docs/v1/v1-05/05-memory-manage-delivery-report.md)
+- [06 正式设计基线——完整演示装配、故障验收与最终交付](docs/v1/v1-06/06-integration-and-final-delivery-detailed-design.md)
 - [当前代码的 Graph 协议参考](docs/graph-protocol.md)
 - [历史资料索引：旧九阶段路线图与阶段设计（不再作为V1依据）](docs/history/README.md)
 - [Agent Engine Demo 开发规范](AGENTS.md)

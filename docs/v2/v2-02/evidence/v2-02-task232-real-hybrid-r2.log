@@ -1,0 +1,5 @@
+2026-11-20 01:39:52,657 INFO sentence_transformers.SentenceTransformer Load pretrained SentenceTransformer: D:\AI\models\qwen3-embedding-0.6b
+2026-11-20 01:39:53,378 INFO sentence_transformers.SentenceTransformer 1 prompt is loaded, with the key: query
+2026-11-20 01:39:55,087 INFO app.main Application started; preparation_ready=True
+You're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+2026-11-20 01:40:07,103 INFO app.main Application stopped

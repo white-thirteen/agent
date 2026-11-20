@@ -1,0 +1,36 @@
+...........F                                                             [100%]
+================================== FAILURES ===================================
+_____ test_real_repair_response_loss_concurrency_audit_and_expired_graph ______
+tests\test_refund_repair_postgres.py:386: in test_real_repair_response_loss_concurrency_audit_and_expired_graph
+    run_async(scenario())
+scripts\__init__.py:13: in run_async
+    return runner.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_refund_repair_postgres.py:216: in scenario
+    async with waiting("concurrent-repair", unbound=True) as (
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\contextlib.py:214: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests\test_refund_repair_postgres.py:96: in waiting
+    assert response.status_code == 200
+E   assert 503 == 200
+E    +  where 503 = <Response [503 Service Unavailable]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  app.runtime.agent_runtime:agent_runtime.py:1373 Approval pause binding failed category=OperationalError
+WARNING  app.main:main.py:285 Legacy preference cutover gate unavailable or not safe
+============================== warnings summary ===============================
+tests/test_resources.py::test_shutdown_settles_execution_before_model_and_pool_close
+  D:\py\agent-project\agent\.venv\Lib\site-packages\trustcall\_base.py:46: LangGraphDeprecatedSinceV10: Importing Send from langgraph.constants is deprecated. Please use 'from langgraph.types import Send' instead. Deprecated in LangGraph V1.0 to be removed in V2.0.
+    from langgraph.constants import Send
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_refund_repair_postgres.py::test_real_repair_response_loss_concurrency_audit_and_expired_graph
+1 failed, 11 passed, 1 warning in 17.63s

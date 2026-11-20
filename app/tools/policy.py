@@ -3,7 +3,12 @@
 from pydantic import ValidationError
 
 from app.agents.types import AgentType, TaskType
-from app.tools.models import ApprovalRequirement, PolicyDecision, PolicyEvaluation
+from app.tools.models import (
+    ApprovalRequirement,
+    PolicyDecision,
+    PolicyEvaluation,
+    PreferenceControlContext,
+)
 
 
 class ToolPolicy:
@@ -26,6 +31,31 @@ class ToolPolicy:
         if definition is None:
             return deny("tool_not_allowed")
         meta = definition.metadata
+        if isinstance(context, PreferenceControlContext):
+            from app.domain.refunds import canonical_digest
+
+            if (
+                not meta.enabled
+                or meta.name not in {"read_preferences", "write_preferences"}
+                or not meta.required_scopes <= context.permission_scopes
+                or meta.approval_required
+                or meta.risk_level != "low"
+                or not context.user_id
+                or not context.command_id
+            ):
+                return deny("tool_not_allowed")
+            try:
+                args = definition.args_schema.model_validate(call.raw_args)
+            except ValidationError:
+                return deny("invalid_tool_arguments")
+            if meta.name == "write_preferences" and (
+                not context.operation_id
+                or context.command_digest != canonical_digest(args.model_dump(mode="json"))
+                or type(context.expected_revision) is not int
+                or context.expected_revision < 0
+            ):
+                return deny("invalid_tool_arguments", args)
+            return PolicyEvaluation(PolicyDecision.ALLOW, "allowed", "Tool call allowed.", args)
         if meta.name == "read_preferences" and "memory:read" not in context.permission_scopes:
             return deny("memory_scope_denied")
         if not meta.enabled or (meta.name, meta.version) not in context.allowed_tools:
