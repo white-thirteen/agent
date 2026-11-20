@@ -2,6 +2,8 @@
 
 ## 全项目联调及合并授权（2026-11-20）
 
+已完成：V2及联调记录以3c344af无冲突合入main，origin/main与origin/v2已原子推送并核验；见[合并回执](integration/2026-11-20/git-main-merge-receipt.md)。IT-001/IT-002按用户决定暂不修复。以下授权过程及旧Git状态保留历史语境。
+
 当前V2基线完整回归322 passed/0 failed/0 skipped，真实TCP订单/隔离/知识/跨进程退款恢复、偏好控制、Context维护及SSE断流场景完成。两项发现保留：IT-001能力介绍输入曾路由失败、根因未确定；IT-002订单确定性中文展示限制。用户明确“记录即可，无需现在修复”，并授权V2分支合入main；见[联调报告](integration/2026-11-20/report.md)和[处理决定](integration/2026-11-20/issue-disposition.md)。本次不修复业务代码，不将两项发现标为已解决，合并与远端状态以实际Git回执为准。
 
 ## V2 03 = VERIFIED（2026-11-20，已归档推送）
