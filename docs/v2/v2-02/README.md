@@ -1,8 +1,8 @@
 # V2 02 Context Engineering
 
-当前状态：VERIFIED。六个Task开发、自测、独立QA及主复核完成，正式验收及Git归档待另行授权，不进入V2 03。
+当前状态：VERIFIED。六个Task开发、自测、独立QA及主复核完成，Git已按用户授权归档推送，正式验收仍待用户确认，不进入V2 03。
 
-用户后续已授权Git提交与推送，本轮执行记录见[归档回执](v2-02-git-archive-receipt.md)，其余开发与验收边界保持。
+Git交付与远端核验见[归档回执](v2-02-git-archive-receipt.md)，其余开发与验收边界保持。
 
 - [冻结设计](v2-02-context-engineering-detailed-design.md)
 - [执行与协调记录](v2-02-execution-ledger.md)

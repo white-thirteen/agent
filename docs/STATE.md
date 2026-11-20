@@ -2,7 +2,7 @@
 
 ## V2 02 = VERIFIED（2026-11-20，等待人工验收）
 
-用户随后明确授权“提交git并push到远程”，本轮执行v2分支归档；[Git回执](v2/v2-02/v2-02-git-archive-receipt.md)记录必要文档前置、交付提交及远程校验。不推导合入main、正式迁移、V2 03或额外人工验收状态变更。
+用户随后明确授权“提交git并push到远程”。V2 02已以9821ab7交付到origin/v2并核验，必要文档前置为790fa08，另补记归档回执；见[Git回执](v2/v2-02/v2-02-git-archive-receipt.md)。不推导合入main、正式迁移、V2 03或额外人工验收状态变更。
 
 六Task实施、自测、独立QA和主复核完成。最终完整真实隔离回归290 passed/0 failed/0 skipped，正式独立QA定向38 passed/0 failed/0 skipped；数据保护及真实Qwen/PG/Saver/Store启停通过。当前v5固定八例语义独立PASS，资源消费input6958→225，摘要成本单列；真实输出参数/截断、来源边界及缺失信息推断问题均已修复复测，所有编号问题关闭，原失败保留。
 

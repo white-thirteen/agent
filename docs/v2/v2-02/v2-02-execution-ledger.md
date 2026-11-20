@@ -112,3 +112,5 @@ fix02后受控30 passed、真实本机PG截断1 passed，真实DeepSeek wire max
 当前v5固定八例r6独立逐项语义PASS；最终完整真实回归r3为290 passed/0 failed/0 skipped、保护通过、水位36→47与预审计11次一致。当前v5资源r3同节点消费input6958→225，摘要另6121/136、1.70秒，真实Run三次尝试和清理通过。
 
 [正式独立QA](qa/v2-02-task232-qa-report.md)另串行38 passed/0 failed/0 skipped，无新编号问题。[主复核](v2-02-task232-main-review.md)关闭232-QA-001/002/003，六Task均VERIFIED，当前无未关闭编号问题。[阶段报告](v2-02-stage-delivery-report.md)及[建议归档范围](v2-02-git-archive-proposal.md)已整理。停止开发，不进入V2 03，等待人工ACCEPTED与Git归档授权；未提交推送，正式库/.env保持。
+
+用户随后明确授权Git提交与push。必要文档/模型配置前置790fa08及V2 02交付9821ab7已推送origin/v2并核验，另以文档提交补记[归档回执](v2-02-git-archive-receipt.md)。四个无关原文件继续保留，未合入main、不更改正式数据库或开发V2 03；正式人工验收状态不因本次Git授权自动变更。
