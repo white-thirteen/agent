@@ -1,0 +1,26 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+___________ test_runtime_resume_pending_ended_post_gate_and_unknown ___________
+tests\test_refund_checkpoint.py:376: in test_runtime_resume_pending_ended_post_gate_and_unknown
+    assert accepted.accepted and len(graph.inputs) == 1
+E   AssertionError: assert (True and 0 == 1)
+E    +  where True = ResumeAcceptance(accepted=True, run_id='01449750-4fd2-46cb-aecd-1420a2be4f0c', task_id='task', operation_id='44707739-54ed-4db8-8fad-d0cd465a9250', status='running', result=None).accepted
+E    +  and   0 = len([])
+E    +    where [] = <test_refund_checkpoint.test_runtime_resume_pending_ended_post_gate_and_unknown.<locals>.Graph object at 0x000001FE062D0EC0>.inputs
+------------------------------ Captured log call ------------------------------
+ERROR    app.runtime.agent_runtime:agent_runtime.py:1367 Run failed run_id=01449750-4fd2-46cb-aecd-1420a2be4f0c task_id=task category=AttributeError
+__________ test_runtime_publishes_pause_only_after_matching_binding ___________
+tests\test_refund_checkpoint.py:529: in test_runtime_publishes_pause_only_after_matching_binding
+    assert handle.task_id == "task" and view.task_status == "waiting_approval"
+E   AssertionError: assert ('task' == 'task'
+E     
+E       task and <TaskStatus.FAILED: 'failed'> == 'waiting_approval'
+E     
+E     - waiting_approval
+E     + failed)
+------------------------------ Captured log call ------------------------------
+ERROR    app.runtime.agent_runtime:agent_runtime.py:1367 Run failed run_id=run task_id=task category=AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_refund_checkpoint.py::test_runtime_resume_pending_ended_post_gate_and_unknown
+FAILED tests/test_refund_checkpoint.py::test_runtime_publishes_pause_only_after_matching_binding
+2 failed in 4.71s

@@ -4,7 +4,7 @@
 
 ## V2 当前状态（2026-11-20）
 
-V2 01 已正式验收（`ACCEPTED`），六个 Task 的交付与独立 QA 已归档。技术基线、证据与遗留风险见[阶段正式验收](docs/v2/v2-01/v2-01-stage-acceptance.md)。V2 02 六Task已完成开发、自测、独立QA及主复核，阶段VERIFIED；完整隔离回归290 passed/0 failed/0 skipped，独立QA定向38 passed。见[Context Engineering交付报告](docs/v2/v2-02/v2-02-stage-delivery-report.md)及[Git归档回执](docs/v2/v2-02/v2-02-git-archive-receipt.md)。已按授权推送v2，等待人工验收，V2 03未开发。
+V2 01 已正式验收（`ACCEPTED`），六个 Task 的交付与独立 QA 已归档。技术基线、证据与遗留风险见[阶段正式验收](docs/v2/v2-01/v2-01-stage-acceptance.md)。V2 02 六Task已完成开发、自测、独立QA及主复核，阶段VERIFIED；完整隔离回归290 passed/0 failed/0 skipped，独立QA定向38 passed。见[Context Engineering交付报告](docs/v2/v2-02/v2-02-stage-delivery-report.md)及[Git归档回执](docs/v2/v2-02/v2-02-git-archive-receipt.md)。V2 03接管、修复和独立QA已完成，六Task均VERIFIED，完整隔离回归322 passed/0 failed/0 skipped；见[交付报告](docs/v2/v2-03/v2-03-stage-delivery-report.md)。当前等待人工验收与Git归档授权，未提交推送或修改正式库。
 
 ## V1 最新交付状态（2026-11-17）
 

@@ -74,6 +74,7 @@ def make_supervisor_node(gateway):
             on_context_view=scope.record_context_view,
             on_context_usage=scope.record_context_usage,
             on_compact=execution.context_compactor,
+            before_attempt=scope.reserve_model_attempt,
             current_usage=scope.model_usage,
         )
         for correction in range(2):

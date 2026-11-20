@@ -1,5 +1,6 @@
 """Seven-node order agent. All database access goes through the governed executor."""
 
+import json
 from dataclasses import asdict
 
 from langchain_core.messages import SystemMessage
@@ -19,6 +20,7 @@ from app.graph.state import SpecialistState
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallContext, ModelCallError
 from app.runtime.models import RunUsage
+from app.tools.discovery import get_production_purpose
 from app.tools.implementations.orders import (
     GetOrderArgs,
     GetOrderData,
@@ -27,6 +29,7 @@ from app.tools.implementations.orders import (
 )
 from app.tools.messages import execute_tool_calls, parse_tool_calls, to_tool_message
 from app.tools.models import ParsedToolCall, ToolExecutionContext, ToolExecutionResult
+from app.tools.selector import ToolSelector
 
 
 class OrderState(SpecialistState, total=False):
@@ -43,8 +46,9 @@ class OrderState(SpecialistState, total=False):
     selected_tools: list[tuple[str, str]]
 
 
-def build_order_graph(*, gateway, registry, executor):
+def build_order_graph(*, gateway, registry, executor, selector=None):
     """Construct the bounded model/tool loop with one target-specific tool."""
+    active_selector = selector or ToolSelector(registry, gateway)
 
     def check_request(state: OrderState, runtime: Runtime[RunExecutionContext]):
         request = SpecialistInput.model_validate(state["request"])
@@ -66,6 +70,7 @@ def build_order_graph(*, gateway, registry, executor):
             "question": None,
             "missing_fields": [],
             "selected_tools": [],
+            "tool_selection_record": state.get("tool_selection_record"),
         }
 
     def prepare_query_core(state: OrderState):
@@ -144,36 +149,91 @@ def build_order_graph(*, gateway, registry, executor):
             return update
         return {**update, **prepare_query_core(state)}
 
-    def select_tools(state: OrderState, runtime: Runtime[RunExecutionContext]):
-        target = "get_order" if state["query_spec"]["kind"] == "get" else "list_orders"
-        views = registry.list(
-            agent_type=AgentType.ORDER, permission_scopes=runtime.context.permission_scopes
+    async def select_tools(state: OrderState, runtime: Runtime[RunExecutionContext]):
+        kind = state["query_spec"]["kind"]
+        target = "get_order" if kind == "get" else "list_orders"
+        purpose_spec = get_production_purpose("order.get" if kind == "get" else "order.list")
+        outcome = await active_selector.select(
+            execution=runtime.context.context,
+            agent_type=AgentType.ORDER,
+            task_type=TaskType.ORDER_QUERY,
+            purpose_spec=purpose_spec,
+            permission_scopes=runtime.context.permission_scopes,
+            scope=runtime.context.scope,
+            need_text=json.dumps(
+                {"goal": state["request"].task_goal, "query": state["query_spec"]},
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            deterministic_target=target,
+            existing_record=state.get("tool_selection_record"),
+            has_pending_calls=bool(state.get("pending_calls")),
+            business_calls_reserved=1,
         )
-        allowed = [view for view in views if view.metadata.name == target]
-        if not allowed:
-            definition = registry.get(target)
+        if outcome.status != "selected" or outcome.record is None or outcome.binding is None:
             return {
-                "outcome": "rejected" if definition and definition.metadata.enabled else "failed",
-                "error_code": "tool_not_allowed"
-                if definition and definition.metadata.enabled
-                else "capability_unavailable",
+                **(
+                    {"tool_selection_record": outcome.record.model_dump(mode="json")}
+                    if outcome.record
+                    else {}
+                ),
+                "model_call_usage": asdict(runtime.context.scope.model_usage()),
+                "context_view": runtime.context.scope.context_view,
+                "selector_receipts": runtime.context.scope.selector_receipts,
+                "outcome": "rejected" if outcome.status == "rejected" else "failed",
+                "error_code": outcome.error_code or "tool_not_allowed",
             }
-        return {"selected_tools": [(target, allowed[0].metadata.version)]}
+        return {
+            "selected_tools": outcome.record.selected_tools,
+            "tool_selection_record": outcome.record.model_dump(mode="json"),
+            "context_view": runtime.context.scope.context_view,
+            "selector_receipts": runtime.context.scope.selector_receipts,
+        }
 
     async def plan_query(state: OrderState, runtime: Runtime[RunExecutionContext]):
         scope = runtime.context.scope
         spec = state["query_spec"]
-        selected = state["selected_tools"]
-        views = registry.list(
-            agent_type=AgentType.ORDER, permission_scopes=runtime.context.permission_scopes
+        kind = spec["kind"]
+        target = "get_order" if kind == "get" else "list_orders"
+        purpose_spec = get_production_purpose("order.get" if kind == "get" else "order.list")
+        outcome = await active_selector.select(
+            execution=runtime.context.context,
+            agent_type=AgentType.ORDER,
+            task_type=TaskType.ORDER_QUERY,
+            purpose_spec=purpose_spec,
+            permission_scopes=runtime.context.permission_scopes,
+            scope=scope,
+            need_text=json.dumps(
+                {"goal": state["request"].task_goal, "query": state["query_spec"]},
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            deterministic_target=target,
+            existing_record=state.get("tool_selection_record"),
+            has_pending_calls=bool(state.get("pending_calls")),
+            business_calls_reserved=1,
         )
-        schemas = [
-            view.model_schema
-            for view in views
-            if (view.metadata.name, view.metadata.version) in selected
-        ]
-        if len(schemas) != 1:
-            return {"outcome": "failed", "error_code": "tool_not_allowed"}
+        if (
+            outcome.status != "selected"
+            or outcome.binding is None
+            or outcome.record is None
+            or len(outcome.binding.schemas) != 1
+        ):
+            return {
+                "outcome": "failed",
+                "error_code": outcome.error_code or "tool_not_allowed",
+                "model_call_usage": asdict(scope.model_usage()),
+                **(
+                    {"tool_selection_record": outcome.record.model_dump(mode="json")}
+                    if outcome.record
+                    else {}
+                ),
+            }
+        selection_update = {
+            "selected_tools": outcome.record.selected_tools,
+            "tool_selection_record": outcome.record.model_dump(mode="json"),
+        }
+        schemas = list(outcome.binding.schemas)
         instructions = (
             "You are an order query planner. Use only the supplied tool and exact target. "
             "Do not invent order facts. If a tool result is already present, finish briefly. "
@@ -197,6 +257,7 @@ def build_order_graph(*, gateway, registry, executor):
                     on_context_view=scope.record_context_view,
                     on_context_usage=scope.record_context_usage,
                     on_compact=runtime.context.context_compactor,
+                    before_attempt=scope.reserve_model_attempt,
                     current_usage=scope.model_usage,
                 ),
                 model_usage=scope.model_usage(),
@@ -206,6 +267,7 @@ def build_order_graph(*, gateway, registry, executor):
         except ModelCallError as error:
             scope.adopt_model_usage(error.model_usage)
             return {
+                **selection_update,
                 "outcome": "failed",
                 "error_code": error.code,
                 "model_call_usage": asdict(scope.model_usage()),
@@ -219,23 +281,34 @@ def build_order_graph(*, gateway, registry, executor):
             )
         except ValueError:
             return {
+                **selection_update,
                 "outcome": "failed",
                 "error_code": "invalid_tool_call",
                 "model_call_usage": asdict(scope.model_usage()),
             }
         if calls:
+            if any(call.name not in outcome.binding.tool_names for call in calls):
+                return {
+                    **selection_update,
+                    "outcome": "failed",
+                    "error_code": "tool_not_allowed",
+                    "model_call_usage": asdict(scope.model_usage()),
+                }
             return {
+                **selection_update,
                 "messages": [message],
                 "pending_calls": [asdict(call) for call in calls],
                 "model_call_usage": asdict(scope.model_usage()),
             }
         if not state.get("verified_order_facts"):
             return {
+                **selection_update,
                 "outcome": "failed",
                 "error_code": "model_answer_without_facts",
                 "model_call_usage": asdict(scope.model_usage()),
             }
         return {
+            **selection_update,
             "outcome": "completed",
             "candidate_answer": str(message.content),
             "model_call_usage": asdict(scope.model_usage()),
@@ -405,6 +478,7 @@ def build_order_graph(*, gateway, registry, executor):
         if scope.context_history_override is not None:
             update["context_history"] = scope.context_history_override
         update["context_view"] = scope.context_view
+        update["selector_receipts"] = scope.selector_receipts
         return update
 
     graph = StateGraph(OrderState, context_schema=RunExecutionContext)

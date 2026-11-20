@@ -78,7 +78,7 @@ def knowledge_tools(retriever, *, mode="dense", retrieval_timeout=30):
             )
         )
 
-    def metadata(name, description, timeout, retries, tags):
+    def metadata(name, description, timeout, retries, tags, *, model_discoverable=False):
         return ToolMetadata(
             name=name,
             version="2" if name == "search_knowledge" and mode == "hybrid" else "1",
@@ -94,6 +94,7 @@ def knowledge_tools(retriever, *, mode="dense", retrieval_timeout=30):
             timeout_seconds=timeout,
             max_retries=retries,
             tags=frozenset(tags),
+            model_discoverable=model_discoverable,
         )
 
     return (
@@ -104,6 +105,7 @@ def knowledge_tools(retriever, *, mode="dense", retrieval_timeout=30):
                 retrieval_timeout if mode == "hybrid" else 15,
                 0,
                 {"knowledge", "read", "vector"},
+                model_discoverable=True,
             ),
             SearchKnowledgeArgs,
             HybridSearchResult if mode == "hybrid" else SearchResult,

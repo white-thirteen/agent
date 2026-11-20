@@ -41,6 +41,7 @@ from app.tools.implementations.orders import order_tools
 from app.tools.implementations.refunds import refund_node_tools, refund_order_tool
 from app.tools.policy import ToolPolicy
 from app.tools.registry import ToolRegistry
+from app.tools.selector import ToolSelector
 from app.workflows.approvals import ApprovalService, LocalDemoApprovalActor
 
 logger = logging.getLogger(__name__)
@@ -227,6 +228,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 approval_service=application.state.approval_service,
             )
             application.state.tool_registry = registry
+            selector = ToolSelector(
+                registry,
+                gateway,
+                max_selector_attempts=settings.tool_selector_max_attempts,
+                selector_timeout_seconds=settings.tool_selector_timeout_seconds,
+            )
             graph = build_supervisor_graph(
                 gateway=gateway,
                 checkpointer=AsyncPostgresSaver(
@@ -234,7 +241,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 ),
                 specialists={
                     AgentType.ORDER: build_order_graph(
-                        gateway=gateway, registry=registry, executor=executor
+                        gateway=gateway, registry=registry, executor=executor, selector=selector
                     ),
                     AgentType.REFUND: build_refund_graph(
                         gateway=gateway,
@@ -242,6 +249,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         executor=executor,
                         approval_service=application.state.approval_service,
                         refund_service=application.state.refund_service,
+                        selector=selector,
                     ),
                     AgentType.KNOWLEDGE: build_knowledge_graph(
                         gateway=gateway,
@@ -254,6 +262,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         retrieval_profile=getattr(
                             application.state.knowledge_retriever, "retrieval_profile", None
                         ),
+                        selector=selector,
                     ),
                 },
             )

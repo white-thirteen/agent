@@ -39,6 +39,7 @@ def run_finish_node(state: AgentState, runtime: Runtime[RunExecutionContext]):
         "model_call_usage": asdict(scope.model_usage()),
         "run_usage": asdict(scope.finish_active_period()),
         "context_view": scope.context_view,
+        "selector_receipts": scope.selector_receipts,
         "context_history": (
             scope.context_history_override
             if scope.context_history_override is not None

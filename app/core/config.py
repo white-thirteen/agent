@@ -49,6 +49,8 @@ class Settings(BaseSettings):
     tool_timeout_seconds: float = Field(default=5, gt=0, allow_inf_nan=False)
     tool_read_max_retries: int = Field(default=1, ge=0, le=1)
     tool_max_calls_per_message: int = Field(default=4, gt=0)
+    tool_selector_max_attempts: int = Field(default=2, gt=0)
+    tool_selector_timeout_seconds: float = Field(default=15, gt=0, allow_inf_nan=False)
     runtime_queue_capacity: int = Field(default=64, ge=2)
     runtime_max_active_runs: int = Field(default=8, gt=0)
     runtime_retained_runs: int = Field(default=100, gt=0)

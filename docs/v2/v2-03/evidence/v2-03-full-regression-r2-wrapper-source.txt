@@ -1,0 +1,35 @@
+"""Private launcher: persist protection snapshots before starting the full gate."""
+import asyncio,json,os,runpy,sys,time
+from pathlib import Path
+root=Path(__file__).resolve().parent.parent
+os.chdir(root)
+sys.path.insert(0,str(root))
+os.environ['PYTHONIOENCODING']='utf-8'
+os.environ['PYTHONUTF8']='1'
+os.environ.pop('AGENT_RUN_REAL_MODEL_TESTS',None)
+launcher=runpy.run_path(str(root/'docs/v2/v2-02/evidence/linux-pg-launcher.py'))
+launcher['configure']()
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+from scripts import verify_06_delivery as gate
+from scripts.verify_05_memory_manage import fingerprints
+import pytest
+base=root/'docs/v2/v2-03/evidence'
+original_snapshot=gate.snapshot
+snapshots=[]
+async def snapshot(settings):
+ value=await original_snapshot(settings)
+ snapshots.append(fingerprints(value))
+ (base/'v2-03-full-regression-r2-protection-snapshots.json').write_text(json.dumps({'snapshots':snapshots},indent=2)+'\n',encoding='utf-8')
+ return value
+gate.snapshot=snapshot
+original_pytest=pytest.main
+class Progress:
+ def pytest_runtest_logstart(self,nodeid,location):
+  print('\nV203_GATE_BEGIN '+nodeid,flush=True)
+def run_pytest(args,plugins):
+ actual=[*args,'--tb=short']
+ (base/'v2-03-full-regression-r2-invocation.json').write_text(json.dumps({'pytest_args':actual,'real_model_opt_in':os.environ.get('AGENT_RUN_REAL_MODEL_TESTS'),'snapshot_capture':'Read-only fingerprints emitted immediately before and after original unmodified delivery verifier.'},indent=2)+'\n',encoding='utf-8')
+ return original_pytest(actual,plugins=[*plugins,Progress()])
+pytest.main=run_pytest
+sys.argv=['scripts.verify_06_delivery','--output',str(base/'v2-03-full-regression-r2.json'),'--qwen-evidence',str(base/'v2-03-qwen-evidence-r2.json'),'--expected-publication-delta','11']
+gate.main()

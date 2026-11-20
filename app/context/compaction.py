@@ -109,7 +109,9 @@ async def summarize_for_run(messages, *, scope, context, execution_mode, **kwarg
         raise ValueError("Run deadline exceeded")
     context = replace(
         context,
-        deadline_monotonic=time.monotonic() + remaining,
+        deadline_monotonic=min(context.deadline_monotonic, time.monotonic() + remaining)
+        if context.deadline_monotonic is not None
+        else time.monotonic() + remaining,
         on_attempt=scope.adopt_model_usage,
     )
     return await summarize_messages(

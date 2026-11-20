@@ -434,6 +434,17 @@ async def test_refund_wrapper_reentry_uses_saved_child_and_current_run():
     old_request = build_specialist_input(state)
     current = graph_context(run_id="run-2")
     scope = RunScope(limits=RunLimits(10, 12), model_usage=ModelCallUsage(), run_usage=RunUsage())
+    receipt = {
+        "id": "r1",
+        "task_id": current.task_id,
+        "run_id": "run-1",
+        "status": "selected",
+        "provider_calls": 1,
+        "reserved_attempts": 1,
+        "usage": {"status": "known"},
+        "error_code": None,
+    }
+    scope.adopt_selector_receipts([receipt])
     execution = RunExecutionContext(
         current, "thread", frozenset({"refunds:request"}), scope, "resume"
     )
@@ -450,6 +461,8 @@ async def test_refund_wrapper_reentry_uses_saved_child_and_current_run():
 
     update = await make_specialist_node(Child())(state, {}, SimpleNamespace(context=execution))
     assert update["run_id"] == "run-2" and update["specialist_result"].run_id == "run-2"
+    assert update["selector_receipts"] == [receipt]
+    assert "selector_receipts" not in update["specialist_result"].facts
     foreign = RunExecutionContext(
         graph_context(user_id="other", run_id="run-2"),
         "thread",

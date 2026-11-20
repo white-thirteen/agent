@@ -19,3 +19,6 @@
 /docs/v2/v2-02/v2-02-context-engineering-detailed-design.md -text
 /.codex/config.toml -text
 /.codex/agents/*.toml -text
+
+# Keep V2 03 raw test evidence and captured driver bytes unchanged on checkout.
+/docs/v2/v2-03/evidence/** -text

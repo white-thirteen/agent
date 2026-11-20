@@ -36,6 +36,8 @@ class AgentState(TypedDict):
     final_answer: str | None
     sources: list[PublicCitation]
     memory_read_record: dict | None
+    tool_selection_record: dict | None
+    selector_receipts: list[dict]
     error: dict | None
     model_call_usage: dict
     run_usage: dict
@@ -56,6 +58,8 @@ class SpecialistState(TypedDict):
     context_view: dict | None
     messages: Annotated[list[AnyMessage], add_messages]
     selected_tools: list[str]
+    tool_selection_record: dict | None
+    selector_receipts: list[dict]
     result: SpecialistResult | None
     model_call_usage: dict
     run_usage: dict
@@ -113,6 +117,8 @@ def create_turn_state(
         final_answer=None,
         sources=[],
         memory_read_record=saved_task.get("memory_read_record") if pending else None,
+        tool_selection_record=saved_task.get("tool_selection_record") if pending else None,
+        selector_receipts=list(saved_task.get("selector_receipts", [])) if pending else [],
         error=None,
         model_call_usage=dict(saved_task["model_call_usage"]) if pending else {"model_attempts": 0},
         run_usage=dict(saved_task["run_usage"])

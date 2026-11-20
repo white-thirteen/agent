@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-20",
+  "head": "1f3d73643af84fdc55f7f314d6c0db6f0c34560a",
+  "branch": "v2",
+  "frozen_design_sha256": "847c4387bd24a0f8b64d4dd1d233ddf9daf5338b1c20781bf282e6b7bc3bbfe5",
+  "files": [
+    {
+      "status": " M",
+      "path": ".env.example",
+      "sha256": "293b3170c17202ede3647f7bf717122c0f4a76c4b67a66cfee75fb4a392d5148"
+    },
+    {
+      "status": " M",
+      "path": "app/core/config.py",
+      "sha256": "1b2750be220b9dcd2f2124f0e090fb4c32939250141e378071abaf52fab2af89"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/nodes/specialist.py",
+      "sha256": "fa159657705553d8a0670b8e83a60ac5959de3f94fff2e8a864de5e600d982e3"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/specialists/knowledge/builder.py",
+      "sha256": "07b0c7a665558ee52ba87dd7de1a4b66cdeff44fab77e93988d692d4353ae788"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/specialists/order/builder.py",
+      "sha256": "bfbf8b54ef383f80572e4b9597e49685ed46c5f62e61194e1d4f4ca6271c2108"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/specialists/refund/builder.py",
+      "sha256": "5e6f5ec4d7004fd624283910b61eae5674e201edb446f6c8217106b32350a105"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/state.py",
+      "sha256": "41f7de6792ab1304374ae5c43208fc4b3e333578938271fe65dc480deb151e94"
+    },
+    {
+      "status": " M",
+      "path": "app/graph/transfers.py",
+      "sha256": "cbcf307249f88f27f6679950c996d534769395f19415b25b96ed36492ea47e64"
+    },
+    {
+      "status": " M",
+      "path": "app/main.py",
+      "sha256": "9e5af8d4b22a59105faf8ee0694cab6480bb512b9c9cd370a8706f897c7b0649"
+    },
+    {
+      "status": " M",
+      "path": "app/runtime/model_gateway.py",
+      "sha256": "8ec0e84e1ade470f0263a6a9d2fbe0afa878ae9eaa2d1efc2edd183956519ec3"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/discovery.py",
+      "sha256": "a7b6a627e54f823da498aabf32b20cf64a13346196b5d8f70e50a6bd4901b600"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/implementations/knowledge.py",
+      "sha256": "d39a190e3880e23af18a7f2f05298821ddbb38c7195da9e8587c2f660bfe3f22"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/implementations/orders.py",
+      "sha256": "7ff934d08e68ec92bce07913cdc1d5465cd31b2579f95b2ba1c744f4739ac474"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/implementations/refunds.py",
+      "sha256": "b7a08a46ed4af089cb51aab91a33eab0e95c55c0be3d78544a6530c17eef2acf"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/models.py",
+      "sha256": "2b8f6ae466f24c6833cc8c89b3d15ca661b05258cc592a5a58595ec82397048d"
+    },
+    {
+      "status": " M",
+      "path": "app/tools/registry.py",
+      "sha256": "b8d62d2008e8b3af7b233902e6f8cc20508551859e5f1acb854d5338d071ddff"
+    },
+    {
+      "status": "??",
+      "path": "app/agents/prompts/general.py",
+      "sha256": "4a14ee4e1c5bb3b4b3ce4a5dd9c1763f7f71bde4014b69a2dc5c6594264a7172"
+    },
+    {
+      "status": "??",
+      "path": "app/tools/selector.py",
+      "sha256": "c57fe4f14c7b96a9a75f4c95d8135033a21bc2df585dc794a71ca512e0b7d356"
+    },
+    {
+      "status": "??",
+      "path": "scripts/rehearse_v2_01_pg1712_restore.py",
+      "sha256": "72e82a48d034d75f659ddb729fea9cde8b7e404a4aa4f1d43264d62a2d7ecd1c"
+    },
+    {
+      "status": "??",
+      "path": "scripts/upgrade_v2_01_pg1712.py",
+      "sha256": "a0124fd3c480eb538fc2e597abe1f3e9834343a7573be840c3d80f4d5efb57f7"
+    },
+    {
+      "status": "??",
+      "path": "scripts/verify_v2_01_pg1712_compatibility.py",
+      "sha256": "2b6b10e0fdb813e2a170e5bfad2faa9e427d5000be2a97cb698c6fd14dc4345a"
+    },
+    {
+      "status": "??",
+      "path": "tests/test_tool_progressive_disclosure.py",
+      "sha256": "a2e0031498c4113229c19932c5c6f0ae6870f35483974563e8b5f182344e96aa"
+    }
+  ],
+  "unrelated_preserve": [
+    "app/agents/prompts/general.py",
+    "scripts/rehearse_v2_01_pg1712_restore.py",
+    "scripts/upgrade_v2_01_pg1712.py",
+    "scripts/verify_v2_01_pg1712_compatibility.py"
+  ]
+}

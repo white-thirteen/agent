@@ -1,0 +1,10 @@
+...F                                                                     [100%]
+================================== FAILURES ===================================
+_________ test_selector_processing_allowance_leaves_room_for_business _________
+tests\test_tool_progressive_disclosure.py:1252: in test_selector_processing_allowance_leaves_room_for_business
+    context=ModelCallContext("run", "task", AgentType.ORDER),
+            ^^^^^^^^^^^^^^^^
+E   NameError: name 'ModelCallContext' is not defined
+=========================== short test summary info ===========================
+FAILED tests/test_tool_progressive_disclosure.py::test_selector_processing_allowance_leaves_room_for_business
+1 failed, 3 passed, 20 deselected in 4.50s

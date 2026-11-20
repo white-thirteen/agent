@@ -1,0 +1,13 @@
+{
+  "unrelated_original_files_unchanged": {
+    "app/agents/prompts/general.py": true,
+    "scripts/rehearse_v2_01_pg1712_restore.py": true,
+    "scripts/upgrade_v2_01_pg1712.py": true,
+    "scripts/verify_v2_01_pg1712_compatibility.py": true
+  },
+  "prior_stage_file_count": 649,
+  "prior_stage_changed": [],
+  "frozen_design_sha256": "847c4387bd24a0f8b64d4dd1d233ddf9daf5338b1c20781bf282e6b7bc3bbfe5",
+  "secret_value_scan_hits": [],
+  "scope": "Known configured model API secret and private isolated environment passwords; values omitted."
+}

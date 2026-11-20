@@ -1,0 +1,177 @@
+................F                                                        [100%]
+================================== FAILURES ===================================
+________ test_compaction_reserves_current_and_following_business_calls ________
+async def test_compaction_reserves_current_and_following_business_calls():
+        from dataclasses import replace
+        from types import SimpleNamespace
+        from unittest.mock import AsyncMock
+    
+        from app.runtime.agent_runtime import AgentRuntime
+        from app.runtime.model_gateway import ModelCallContext
+    
+        class Model:
+            def __init__(self):
+                self.calls = 0
+    
+            async def ainvoke(self, messages):
+                self.calls += 1
+                return AIMessage(content="controlled")
+    
+        model = Model()
+        gateway = ModelGateway(model, ModelCallLimits(3, 10, 0))
+        scope = _scope()
+        source = {
+            "checkpoint": "cp",
+            "parts": [],
+            "archive_ref": "archive",
+            "base": None,
+            "parent": None,
+            "refs": ["archive"],
+            "selected": [],
+        }
+    
+        async def summarize(*args, run_context, run_scope, **kwargs):
+            result = await gateway.invoke(
+                [HumanMessage(content="summary")],
+                context=replace(run_context, on_attempt=run_scope.adopt_model_usage),
+                model_usage=run_scope.model_usage(),
+            )
+            return SimpleNamespace(text=result.message.content, summary_id="summary"), None
+    
+        manager = SimpleNamespace(
+            publish=AsyncMock(return_value=SimpleNamespace(archive_ref="archive")), compact=summarize
+        )
+        settings = SimpleNamespace(
+            context_archive_segment_messages=10,
+            model_name="controlled",
+            context_archive_read_bytes=1000,
+            context_archive_read_tokens=1000,
+            context_summary_output_tokens=64,
+        )
+        fake_runtime = SimpleNamespace(
+            _maintenance=SimpleNamespace(gateway=gateway, _source=AsyncMock(return_value=source)),
+            _stopping=False,
+            _context_manager=manager,
+            _context_settings=settings,
+        )
+        compact = AgentRuntime._run_compactor(fake_runtime, _execution(), None, scope)
+        context = ModelCallContext("run", "task", AgentType.ORDER, reserved_attempts=1)
+>       await compact(context)
+
+tests\test_tool_progressive_disclosure.py:1012: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model_context = ModelCallContext(run_id='run', task_id='task', agent_type=<AgentType.ORDER: 'order'>, deadline_monotonic=None, on_atte...age=None, on_compact=None, current_usage=None, prevalidated_summary=False, reserved_attempts=1, max_call_attempts=None)
+
+    async def compact(model_context):
+        nonlocal used
+        if used or self._stopping or scope.finished:
+            raise ModelCallError(
+                "context_budget_exceeded",
+                model_usage=scope.model_usage(),
+                usage=UsageReport(None, None, None, "unknown"),
+            )
+        # The summary is an additional model call; retain the business calls
+        # and their configured time before publishing or invoking it.
+        reserved = 1 + model_context.reserved_attempts
+        limits = self._maintenance.gateway.limits
+        available = scope.remaining_active_seconds() - reserved * limits.timeout_seconds
+        if (
+            limits.max_attempts - scope.model_usage().model_attempts <= reserved
+            or available <= 0
+        ):
+            raise ModelCallError(
+                "model_limit_exceeded",
+                model_usage=scope.model_usage(),
+                usage=UsageReport(None, None, None, "unknown"),
+            )
+        summary_deadline = time.monotonic() + available
+        used = True
+        identity = SessionIdentity(
+            user_id=context.user_id, conversation_id=context.conversation_id
+        )
+        try:
+            source = await self._maintenance._source(identity, snapshot, retain_recent=0)
+            if source is None:
+                raise ValueError("No completed history available")
+            archive = await self._context_manager.publish(
+                identity,
+                source["checkpoint"],
+                source["parts"],
+                retain_recent=0,
+                max_messages=self._context_settings.context_archive_segment_messages,
+                session_status="RUNNING",
+                run_scope=scope,
+                execution_mode="normal",
+            )
+            if archive.archive_ref != source["archive_ref"]:
+                raise ValueError("Compaction archive source mismatch")
+            base, parent = source["base"], source["parent"]
+            summary, _ = await self._context_manager.compact(
+                identity,
+                archive_refs=source["refs"],
+                parent_summary_id=parent.summary_id if parent else None,
+                source_checkpoint_id=source["checkpoint"],
+                version=base["revision"] + 1 if base else 1,
+                policy_version="context-run-v2-231",
+                model_version=self._context_settings.model_name,
+                prompt_version=SUMMARY_PROMPT_VERSION,
+                max_bytes=self._context_settings.context_archive_read_bytes,
+                gateway=self._maintenance.gateway,
+                token_counter=count_tokens_approximately,
+                max_input_tokens=self._context_settings.context_archive_read_tokens,
+                max_output_tokens=self._context_settings.context_summary_output_tokens,
+                settings=self._context_settings,
+                run_scope=scope,
+                run_context=replace(
+                    model_context,
+                    history=(),
+                    on_compact=None,
+                    on_context_view=None,
+                    on_context_usage=None,
+                    prevalidated_summary=True,
+                    reserved_attempts=reserved,
+                    deadline_monotonic=summary_deadline,
+                ),
+                execution_mode="normal",
+            )
+            selected = {m.message_id for m in source["selected"]}
+            remainder = []
+            for interaction in model_context.history:
+                ids = {m.id for m in interaction}
+                if parent and ids == {"summary:" + parent.summary_id}:
+                    continue
+                if ids & selected:
+                    if not ids <= selected:
+                        raise ValueError("Compaction cannot split an interaction")
+                    continue
+                remainder.append(list(interaction))
+            result = [
+                [HumanMessage(content=summary.text, id="summary:" + summary.summary_id)],
+                *remainder,
+            ]
+            scope.context_history_override = result
+            return tuple(tuple(i) for i in result)
+        except ModelCallError:
+            raise
+        except Exception as error:
+            logger.warning("Run context compaction failed category=%s", type(error).__name__)
+>           raise ModelCallError(
+                "context_compaction_failed",
+                model_usage=scope.model_usage(),
+                usage=UsageReport(None, None, None, "unknown"),
+            ) from None
+E           app.runtime.model_gateway.ModelCallError: context_compaction_failed
+
+app\runtime\agent_runtime.py:1179: ModelCallError
+------------------------------ Captured log call ------------------------------
+WARNING  app.runtime.agent_runtime:agent_runtime.py:1178 Run context compaction failed category=AttributeError
+============================== warnings summary ===============================
+tests/test_tool_progressive_disclosure.py::test_run_compaction_preserves_business_budget_before_source[1-0-0-120]
+  D:\py\agent-project\agent\.venv\Lib\site-packages\trustcall\_base.py:46: LangGraphDeprecatedSinceV10: Importing Send from langgraph.constants is deprecated. Please use 'from langgraph.types import Send' instead. Deprecated in LangGraph V1.0 to be removed in V2.0.
+    from langgraph.constants import Send
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_tool_progressive_disclosure.py::test_compaction_reserves_current_and_following_business_calls
+1 failed, 16 passed, 1 warning in 5.33s

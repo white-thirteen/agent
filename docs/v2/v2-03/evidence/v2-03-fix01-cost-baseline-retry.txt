@@ -1,0 +1,1 @@
+{"current": {"bindings": [["get_order"], ["get_order"]], "business_attempts": 2, "selector_calls": 0, "status": "completed"}, "head_before": {"bindings": [["get_order"], ["get_order"]], "business_attempts": 2, "selector_calls": 0, "status": "completed"}}

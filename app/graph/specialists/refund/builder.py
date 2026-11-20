@@ -1,5 +1,6 @@
 """Refund specialist: original tool call, durable approval gate and guarded execution."""
 
+import json
 from dataclasses import asdict
 from uuid import NAMESPACE_URL, uuid5
 
@@ -26,6 +27,7 @@ from app.graph.specialists.preferences import preference_instructions, read_opti
 from app.graph.state import SpecialistState
 from app.runtime.context import RunExecutionContext
 from app.runtime.model_gateway import ModelCallContext, ModelCallError
+from app.tools.discovery import get_production_purpose
 from app.tools.messages import parse_tool_calls, to_tool_message
 from app.tools.models import (
     ParsedToolCall,
@@ -34,6 +36,7 @@ from app.tools.models import (
     ToolExecutionContext,
     ToolExecutionResult,
 )
+from app.tools.selector import ToolSelector
 from app.workflows.approvals import ApprovalError, ApprovalReference, InterruptBinding
 
 
@@ -59,8 +62,11 @@ class RefundState(SpecialistState, total=False):
     tool_result: ToolExecutionResult | None
 
 
-def build_refund_graph(*, gateway, registry, executor, approval_service, refund_service):
+def build_refund_graph(
+    *, gateway, registry, executor, approval_service, refund_service, selector=None
+):
     """Compile one task-local graph; its child checkpoints inherit the parent Saver."""
+    active_selector = selector or ToolSelector(registry, gateway)
 
     def usage(runtime):
         scope = runtime.context.scope
@@ -68,6 +74,7 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
             "model_call_usage": asdict(scope.model_usage()),
             "run_usage": asdict(scope.run_usage()),
             "context_view": scope.context_view,
+            "selector_receipts": scope.selector_receipts,
             **(
                 {"context_history": scope.context_history_override}
                 if scope.context_history_override is not None
@@ -217,12 +224,41 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
         return error or {"eligibility": result, **usage(runtime)}
 
     async def plan_refund_call(state, runtime):
-        views = registry.list(
-            agent_type=AgentType.REFUND, permission_scopes=runtime.context.permission_scopes
+        outcome = await active_selector.select(
+            execution=runtime.context.context,
+            agent_type=AgentType.REFUND,
+            task_type=TaskType.REFUND_APPLY,
+            purpose_spec=get_production_purpose("refund.plan"),
+            permission_scopes=runtime.context.permission_scopes,
+            scope=runtime.context.scope,
+            need_text=json.dumps(
+                {"goal": state["request"].task_goal, "order_id": state["order_id"]},
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            existing_record=state.get("tool_selection_record"),
+            has_pending_calls=bool(state.get("pending_refund_call")),
+            waiting_approval_or_unknown=bool(
+                state.get("approval_id") or runtime.context.refund_recovery is not None
+            ),
+            business_calls_reserved=1,
         )
-        schemas = [view.model_schema for view in views if view.metadata.name == "refund_order"]
-        if len(schemas) != 1:
-            return {"outcome": "failed", "error_code": "capability_unavailable"}
+        if outcome.status != "selected" or outcome.binding is None or outcome.record is None:
+            return {
+                **(
+                    {"tool_selection_record": outcome.record.model_dump(mode="json")}
+                    if outcome.record
+                    else {}
+                ),
+                "model_call_usage": asdict(runtime.context.scope.model_usage()),
+                "outcome": "rejected" if outcome.status == "rejected" else "failed",
+                "error_code": outcome.error_code or "capability_unavailable",
+            }
+        selection_update = {
+            "selected_tools": outcome.record.selected_tools,
+            "tool_selection_record": outcome.record.model_dump(mode="json"),
+        }
+        schemas = list(outcome.binding.schemas)
         try:
             result = await gateway.invoke(
                 [
@@ -247,6 +283,7 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
                     on_context_view=runtime.context.scope.record_context_view,
                     on_context_usage=runtime.context.scope.record_context_usage,
                     on_compact=runtime.context.context_compactor,
+                    before_attempt=runtime.context.scope.reserve_model_attempt,
                     current_usage=runtime.context.scope.model_usage,
                 ),
                 model_usage=runtime.context.scope.model_usage(),
@@ -255,18 +292,38 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
             runtime.context.scope.adopt_model_usage(result.model_usage)
         except ModelCallError as error:
             runtime.context.scope.adopt_model_usage(error.model_usage)
-            return {"outcome": "failed", "error_code": error.code, **usage(runtime)}
+            return {
+                "outcome": "failed",
+                "error_code": error.code,
+                **selection_update,
+                **usage(runtime),
+            }
         try:
             calls = parse_tool_calls(result.message, used_ids=set(), max_calls=1)
         except ValueError:
-            return {"outcome": "failed", "error_code": "invalid_tool_call", **usage(runtime)}
-        if len(calls) != 1 or calls[0].name != "refund_order":
-            return {"outcome": "failed", "error_code": "invalid_tool_call", **usage(runtime)}
+            return {
+                "outcome": "failed",
+                "error_code": "invalid_tool_call",
+                **selection_update,
+                **usage(runtime),
+            }
+        if len(calls) != 1 or calls[0].name not in outcome.binding.tool_names:
+            return {
+                "outcome": "failed",
+                "error_code": "invalid_tool_call",
+                **selection_update,
+                **usage(runtime),
+            }
         call = calls[0]
         ctx = tool_context(state, runtime, "refund_order", None, {"order_id": state["order_id"]})
         evaluation = await executor.assess(call, context=ctx)
         if evaluation.decision is not PolicyDecision.REQUIRE_APPROVAL:
-            return {"outcome": "failed", "error_code": evaluation.code, **usage(runtime)}
+            return {
+                "outcome": "failed",
+                "error_code": evaluation.code,
+                **selection_update,
+                **usage(runtime),
+            }
         version = registry.get("refund_order").metadata.version
         key = f"{runtime.context.context.task_id}:{call.call_id}:refund_order:{version}"
         return {
@@ -278,6 +335,8 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
             "operation_id": str(uuid5(NAMESPACE_URL, "operation:" + key)),
             "application_id": str(uuid5(NAMESPACE_URL, "application:" + key)),
             "approval_id": str(uuid5(NAMESPACE_URL, "approval:" + key)),
+            "selected_tools": outcome.record.selected_tools,
+            "tool_selection_record": outcome.record.model_dump(mode="json"),
             **usage(runtime),
         }
 
@@ -602,6 +661,7 @@ def build_refund_graph(*, gateway, registry, executor, approval_service, refund_
                     on_context_view=runtime.context.scope.record_context_view,
                     on_context_usage=runtime.context.scope.record_context_usage,
                     on_compact=runtime.context.context_compactor,
+                    before_attempt=runtime.context.scope.reserve_model_attempt,
                     current_usage=runtime.context.scope.model_usage,
                 ),
                 model_usage=runtime.context.scope.model_usage(),

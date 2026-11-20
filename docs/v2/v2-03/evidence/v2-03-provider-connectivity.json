@@ -1,0 +1,8 @@
+{
+  "date": "2026-11-20",
+  "method": "Authenticated read-only GET /models; no paid chat call",
+  "host": "api.deepseek.com",
+  "configured_model": "deepseek-flash",
+  "status_code": 200,
+  "configured_model_listed": true
+}

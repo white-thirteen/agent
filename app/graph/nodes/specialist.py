@@ -64,6 +64,7 @@ def make_specialist_node(subgraph, *, memory_graph=None):
             else {
                 **create_specialist_state(request, scope=scope),
                 "memory_read_record": state.get("memory_read_record"),
+                "tool_selection_record": state.get("tool_selection_record"),
                 **memory_input,
             },
             config,
@@ -80,6 +81,8 @@ def make_specialist_node(subgraph, *, memory_graph=None):
         return {
             **apply_specialist_result(result_state, output["result"]),
             "memory_read_record": output.get("memory_read_record"),
+            "tool_selection_record": output.get("tool_selection_record"),
+            "selector_receipts": scope.selector_receipts,
             "context_history": output.get("context_history", state.get("context_history", [])),
             "context_view": output.get("context_view", state.get("context_view")),
             **({"run_id": effective.run_id} if continuing else {}),

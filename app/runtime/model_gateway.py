@@ -41,12 +41,23 @@ class ModelCallContext:
     agent_type: AgentType
     deadline_monotonic: float | None = None
     on_attempt: Callable[[ModelCallUsage], None] | None = None
+    before_attempt: Callable | None = None
+    remaining_call_seconds: Callable[[], float] | None = None
+    on_provider_call: Callable[[], None] | None = None
     history: tuple = ()
     on_context_view: Callable[[dict], None] | None = None
     on_context_usage: Callable | None = None
     on_compact: Callable | None = None
     current_usage: Callable | None = None
     prevalidated_summary: bool = False
+    reserved_attempts: int = 0
+    max_call_attempts: int | None = None
+
+    def __post_init__(self):
+        if self.reserved_attempts < 0 or (
+            self.max_call_attempts is not None and self.max_call_attempts < 1
+        ):
+            raise ValueError("Invalid call attempt bounds")
 
 
 class MaintenanceBudget(Protocol):
@@ -145,6 +156,10 @@ class ModelGateway:
         self._context_window = context_window
         self._output_reserve = output_reserve
         self._require_context_limits = require_context_limits
+
+    @property
+    def limits(self) -> ModelCallLimits:
+        return self._limits
 
     async def _build_input(self, messages, *, context, model_usage, tools=(), schema=None):
         from langchain_core.messages.utils import count_tokens_approximately
@@ -297,9 +312,19 @@ class ModelGateway:
     async def _call(self, runnable, messages, *, context, model_usage, structured):
         reports = []
         current = model_usage
-        for retry in range(self._limits.max_retries + 1):
-            maintenance = isinstance(context, MaintenanceCallContext)
-            limit = min(self._limits.max_attempts, 2) if maintenance else self._limits.max_attempts
+        maintenance = isinstance(context, MaintenanceCallContext)
+        initial_attempts = current.model_attempts
+        max_retries_for_call = self._limits.max_retries
+        if not maintenance and context.max_call_attempts is not None:
+            max_retries_for_call = min(max_retries_for_call, max(0, context.max_call_attempts - 1))
+        for retry in range(max_retries_for_call + 1):
+            limit = (
+                min(self._limits.max_attempts, 2)
+                if maintenance
+                else max(0, self._limits.max_attempts - context.reserved_attempts)
+            )
+            if not maintenance and context.max_call_attempts is not None:
+                limit = min(limit, initial_attempts + context.max_call_attempts)
             deadline = context.deadline_monotonic
             remaining = deadline - time.monotonic() if deadline is not None else None
             if current.model_attempts >= limit or (remaining is not None and remaining <= 0):
@@ -311,8 +336,20 @@ class ModelGateway:
             if maintenance:
                 attempt_id = await context.budget.reserve_attempt(context.maintenance_id)
             current = ModelCallUsage(current.model_attempts + 1)
+            if not maintenance and context.before_attempt is not None:
+                await context.before_attempt(current)
             if not maintenance and context.on_attempt is not None:
                 context.on_attempt(current)
+            # Persistence and input preparation consume the same Run deadline.
+            # Recheck after the durable attempt reservation, including on retries.
+            remaining = deadline - time.monotonic() if deadline is not None else None
+            if not maintenance and context.remaining_call_seconds is not None:
+                scoped = context.remaining_call_seconds()
+                remaining = min(remaining, scoped) if remaining is not None else scoped
+            if remaining is not None and remaining <= 0:
+                raise ModelCallError(
+                    "model_limit_exceeded", model_usage=current, usage=_sum_usage(reports)
+                )
             if maintenance:
                 logger.info(
                     "Model maintenance attempt id=%s attempt=%s",
@@ -328,15 +365,23 @@ class ModelGateway:
                     current.model_attempts,
                 )
             try:
-                timeout_seconds = (
-                    min(
-                        self._limits.timeout_seconds,
-                        max(0, context.deadline_monotonic - time.monotonic()),
+                # Logging and other local work also consume the granted time.
+                remaining = deadline - time.monotonic() if deadline is not None else None
+                if not maintenance and context.remaining_call_seconds is not None:
+                    scoped = context.remaining_call_seconds()
+                    remaining = min(remaining, scoped) if remaining is not None else scoped
+                if remaining is not None and remaining <= 0:
+                    raise ModelCallError(
+                        "model_limit_exceeded", model_usage=current, usage=_sum_usage(reports)
                     )
-                    if deadline is not None
+                timeout_seconds = (
+                    min(self._limits.timeout_seconds, remaining)
+                    if remaining is not None
                     else self._limits.timeout_seconds
                 )
                 async with asyncio.timeout(timeout_seconds):
+                    if not maintenance and context.on_provider_call is not None:
+                        context.on_provider_call()
                     output = await runnable.ainvoke(messages)
             except (TimeoutError, openai.APIError) as error:
                 reports.append(_token_usage(None))
@@ -357,7 +402,7 @@ class ModelGateway:
                     or isinstance(error, openai.APIStatusError)
                     and error.status_code >= 500
                 )
-                if retryable and retry < self._limits.max_retries:
+                if retryable and retry < max_retries_for_call:
                     await asyncio.sleep(0.1)
                     continue
                 raise ModelCallError(

@@ -1,0 +1,1 @@
+{"checkpoint_values": {"attempts": 0}, "cleanup_thread_absent": true, "failure": "controlled node exception", "guard": "launcher: agent_demo_test / agent_test / PG 170012 / codex-task131-0e62", "local_attempts_after_failure": 1, "local_attempts_after_resume": 2, "next_nodes": ["call"], "pending_write_channels": ["__error__"], "resumed_values": {"attempts": 1}}

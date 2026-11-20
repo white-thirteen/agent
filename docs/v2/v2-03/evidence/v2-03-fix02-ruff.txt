@@ -1,0 +1,23 @@
+F821 Undefined name `pytest`
+   --> tests\test_refund_checkpoint.py:622:13
+    |
+620 |         await asyncio.gather(waiter, return_exceptions=True)
+621 |         if task.done():
+622 |             pytest.fail(
+    |             ^^^^^^
+623 |                 f"Resume task ended before graph entry: {runtime._records[first.run_id].error}"
+624 |             )
+    |
+
+F821 Undefined name `pytest`
+   --> tests\test_refund_checkpoint.py:626:9
+    |
+624 |             )
+625 |         await runtime.shutdown()
+626 |         pytest.fail("Resume graph did not start within the test timeout")
+    |         ^^^^^^
+627 |     second = await runtime.resume_approval(reference, actor=actor)
+628 |     assert first.accepted and not second.accepted and second.run_id == first.run_id
+    |
+
+Found 2 errors.

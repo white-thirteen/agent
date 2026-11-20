@@ -512,6 +512,7 @@ class AgentRuntime:
                 emit=lambda code: self._progress(record, code),
             )
             scope.record_context_view(child.get("context_view"))
+            scope.adopt_selector_receipts(child.get("selector_receipts", []))
             child_history = child.get("context_history")
             if child_history is None:
                 child_history = SpecialistInput.model_validate(child["request"]).history
@@ -839,6 +840,7 @@ class AgentRuntime:
             )
             if mode == "continue":
                 scope.record_context_view(saved.get("context_view"))
+                scope.adopt_selector_receipts(saved.get("selector_receipts", []))
             compactor = None
             if (
                 self._maintenance
@@ -1091,6 +1093,21 @@ class AgentRuntime:
                     model_usage=scope.model_usage(),
                     usage=UsageReport(None, None, None, "unknown"),
                 )
+            # The summary is an additional model call; retain the business calls
+            # and their configured time before publishing or invoking it.
+            reserved = 1 + model_context.reserved_attempts
+            limits = self._maintenance.gateway.limits
+            available = scope.remaining_active_seconds() - reserved * limits.timeout_seconds
+            if (
+                limits.max_attempts - scope.model_usage().model_attempts <= reserved
+                or available <= 0
+            ):
+                raise ModelCallError(
+                    "model_limit_exceeded",
+                    model_usage=scope.model_usage(),
+                    usage=UsageReport(None, None, None, "unknown"),
+                )
+            summary_deadline = time.monotonic() + available
             used = True
             identity = SessionIdentity(
                 user_id=context.user_id, conversation_id=context.conversation_id
@@ -1135,6 +1152,8 @@ class AgentRuntime:
                         on_context_view=None,
                         on_context_usage=None,
                         prevalidated_summary=True,
+                        reserved_attempts=reserved,
+                        deadline_monotonic=summary_deadline,
                     ),
                     execution_mode="normal",
                 )
@@ -1224,6 +1243,56 @@ class AgentRuntime:
         work = None
         scope.start_active_period()
         try:
+            from app.runtime.selection_reservation import SelectionReservation
+
+            source = await self._graph.aget_state(
+                {"configurable": {"thread_id": record.context.thread_id}},
+                subgraphs=record.execution.execution_mode != "normal",
+            )
+            owner = {
+                key: getattr(record.execution.context, key)
+                for key in ("user_id", "conversation_id", "task_id")
+            }
+            reservation = SelectionReservation(
+                self._graph.checkpointer,
+                thread_id=record.context.thread_id,
+                owner=owner,
+                run_id=record.execution.context.run_id,
+                source_checkpoint_id=source.config.get("configurable", {}).get("checkpoint_id"),
+            )
+            if source.config.get("configurable", {}).get("checkpoint_id"):
+                saved_source = await self._graph.checkpointer.aget_tuple(source.config)
+                if saved_source is None:
+                    raise GraphProtocolError("Selection source checkpoint unavailable")
+                source = source._replace(values=saved_source.checkpoint["channel_values"])
+            if record.execution.execution_mode != "normal" and source.tasks:
+                child = source.tasks[0].state
+                if child is not None and hasattr(child, "config"):
+                    saved_child = await self._graph.checkpointer.aget_tuple(child.config)
+                    if saved_child is None:
+                        raise GraphProtocolError("Selection child checkpoint unavailable")
+                    child_values = saved_child.checkpoint["channel_values"]
+                    source = source._replace(
+                        values={
+                            **source.values,
+                            "model_call_usage": child_values["model_call_usage"],
+                            "tool_selection_record": child_values.get("tool_selection_record"),
+                        }
+                    )
+            is_reconcile = record.execution.execution_mode == "reconcile"
+            await reservation.load(source, reconcile_original=is_reconcile)
+            if reservation.value is not None:
+                scope.adopt_selector_receipts(reservation.value.get("selector_receipts", []))
+            scope.selection_reservation = reservation
+            if record.execution.execution_mode != "normal" and reservation.value is not None:
+                scope.adopt_model_usage(
+                    ModelCallUsage(
+                        max(scope.model_usage().model_attempts, reservation.value["attempts"])
+                    )
+                )
+                await reservation.begin_existing(
+                    scope.model_usage().model_attempts, reconcile_original=is_reconcile
+                )
             if record.execution.stale_context_revision is not None:
                 from app.context.models import SessionIdentity
 
@@ -1265,6 +1334,14 @@ class AgentRuntime:
                     "run_usage"
                 ] != asdict(scope.run_usage()):
                     raise GraphProtocolError("Graph returned inconsistent budget settlement")
+                committed = await self._graph.aget_state(
+                    {"configurable": {"thread_id": record.context.thread_id}}
+                )
+                saved_committed = await self._graph.checkpointer.aget_tuple(committed.config)
+                if saved_committed is None:
+                    raise GraphProtocolError("Selection result checkpoint unavailable")
+                committed = committed._replace(values=saved_committed.checkpoint["channel_values"])
+                await reservation.confirm(committed)
                 status = TaskStatus(result["task_status"])
                 if status not in (
                     TaskStatus.COMPLETED,
@@ -1358,6 +1435,22 @@ class AgentRuntime:
             inspected = await self._inspect_refund_checkpoint(approval, application)
             if inspected.kind != "pending" or inspected.interrupt_id != interrupt.id:
                 raise ValueError("Interrupt checkpoint mismatch")
+            reservation = record.execution.scope.selection_reservation
+            if (
+                reservation is not None
+                and reservation.value is not None
+                and reservation.value["inflight"]
+            ):
+                child_saved = await self._graph.checkpointer.aget_tuple(inspected.child.config)
+                root_saved = await self._graph.aget_state(
+                    {"configurable": {"thread_id": record.context.thread_id}}
+                )
+                if child_saved is None:
+                    raise ValueError("Approval child checkpoint unavailable")
+                await reservation.confirm_pause(
+                    child_saved.checkpoint["channel_values"],
+                    root_checkpoint_id=root_saved.config["configurable"]["checkpoint_id"],
+                )
             if not inspected.bound:
                 await self._approval_service.bind_interrupt(
                     approval_id,
