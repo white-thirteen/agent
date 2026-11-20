@@ -1,8 +1,8 @@
 # 当前交接状态
 
-## V2 03 = VERIFIED（2026-11-20，等待人工验收与Git授权）
+## V2 03 = VERIFIED（2026-11-20，已归档推送）
 
-用户随后明确授权“提交并push git”，本轮按V2 03范围归档到origin/v2，不含4项无关遗留文件；下文等待Git/未提交为技术交付时状态，归档事实以后续回执为准，阶段仍VERIFIED。
+用户随后明确授权“提交并push git”，V2 03已以a6ba906交付到origin/v2并核验远端，另补文档回执；见[Git归档回执](v2/v2-03/v2-03-git-archive-receipt.md)。4项无关遗留文件保留本地，阶段仍VERIFIED；下文等待Git/未提交为技术交付时状态，不推导合并main或后续开发授权。
 
 Gemini六Task初步交付经两轮定向修复、原生独立QA与主Agent复核，六Task均VERIFIED，V203-QA-001～008关闭。完整真实隔离回归322 passed/0 failed/0 skipped，固定订单及受保护数据前后比较通过；真实Qwen和服务启停通过。独立真实模型13次/6710 known tokens，固定五题5/5，两条多候选完整PG链路及单工具成本对照通过，未声称收益。见[交付报告](v2/v2-03/v2-03-stage-delivery-report.md)、[最终独立QA](v2/v2-03/qa/v2-03-final-qa-report.md)及[接管记录](v2/v2-03/v2-03-takeover-ledger.md)。原FAIL、中断、编码和环境失败保留；全范围Ruff三项基线E501及旧审批跨进程等未覆盖边界如实留档。实际Subagent均Terra/high，源码已停止修改，尚无Git或正式数据库授权；HEAD仍1f3d736，未暂存/提交/推送。等待人工正式验收与Git归档授权，不进入后续开发。V2 02及更早记录保持，下文旧状态仅保留历史语境。
 
