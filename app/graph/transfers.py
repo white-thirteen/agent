@@ -39,7 +39,7 @@ def public_task_messages(state: AgentState) -> list:
                 if isinstance(block, dict) and block.get("type") == "text"
             )
         messages.append(type(message)(content=content, id=message.id))
-    return messages[-12:]
+    return messages
 
 
 def apply_route_decision(state: AgentState, decision: RouteDecision) -> RouteUpdate:
@@ -110,6 +110,7 @@ def build_specialist_input(state: AgentState) -> SpecialistInput:
         task_goal=decision.task_goal,
         entities=deepcopy(decision.entities),
         messages=messages,
+        history=deepcopy(state.get("context_history", [])),
     )
 
 
@@ -117,8 +118,12 @@ def create_specialist_state(request: SpecialistInput, *, scope=None) -> Speciali
     request = SpecialistInput.model_validate(request).model_copy(deep=True)
     return SpecialistState(
         request=request,
+        context_history=deepcopy(request.history),
+        context_view=None,
         messages=deepcopy(request.messages),
         selected_tools=[],
+        tool_selection_record=None,
+        selector_receipts=scope.selector_receipts if scope else [],
         result=None,
         model_call_usage=asdict(scope.model_usage()) if scope else {"model_attempts": 0},
         run_usage=asdict(scope.run_usage()) if scope else {"tool_calls": 0, "active_elapsed_ms": 0},

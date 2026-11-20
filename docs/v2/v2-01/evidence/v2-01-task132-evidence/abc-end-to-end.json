@@ -1,0 +1,865 @@
+{
+  "fixture_sha256": "404b70e8732b6c7be1eedeae97055c1763643daf12a382853d21794b4665d2df",
+  "baseline_sha256": "7c0dfdbf0f35c2cea91f4d4bd1f2450e5d882245d16286430bf6c135fc4fdf06",
+  "order": "round, Q01..Q24, A then B then C",
+  "qwen_cold_seconds": 18.816809199983254,
+  "ingestion": {
+    "published": [
+      "task132-distractor-01",
+      "task132-distractor-02",
+      "task132-distractor-03",
+      "task132-distractor-04",
+      "task132-distractor-05",
+      "task132-distractor-06",
+      "task132-distractor-07",
+      "task132-distractor-08",
+      "task132-distractor-09",
+      "task132-distractor-10",
+      "task132-distractor-11",
+      "task132-distractor-12"
+    ],
+    "unchanged": [],
+    "embedding_batches": 12
+  },
+  "cleanup_ok": true,
+  "rank_drift": true,
+  "summaries": {
+    "A": {
+      "attempts": 4,
+      "failures": 0,
+      "answered_success_samples": 4,
+      "p50_ms": 371.3782000122592,
+      "p95_ms": 471.1200000019744
+    },
+    "B": {
+      "attempts": 4,
+      "failures": 1,
+      "answered_success_samples": 3,
+      "p50_ms": 342.68059994792566,
+      "p95_ms": 387.88699998985976
+    },
+    "C": {
+      "attempts": 3,
+      "failures": 0,
+      "answered_success_samples": 3,
+      "p50_ms": 654.0242999908514,
+      "p95_ms": 668.7039999524131
+    }
+  },
+  "attempts": [
+    {
+      "round": 1,
+      "id": "Q01",
+      "group": "A",
+      "error": null,
+      "ranked": [
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "task132-distractor-12",
+          "8a324d250cdc3e57b92e189beb30ecf9038b7ffa856a5578733ec9193fd51319",
+          "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+          "fadc008ce8490b5b7ca017c4189e2a733459692564bb68c23a845fffd06044c2"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ],
+        [
+          "task132-distractor-11",
+          "db331e6998e178e4a73d074bf3810afba8b4268eb67ed8a0a39f958ebeb41e9d",
+          "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+          "8e55f74a9650769a7f6bfef2cae6f402ba9e51fb55906029523182e9803b454f"
+        ],
+        [
+          "task132-distractor-01",
+          "577904a228546c9d51f5415f6a4ce00a6e6988207a155e09ca842f3056ab000d",
+          "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0",
+          "0b56cf1c799b2b7ace6c46e64123d199ea934e2d3436900f9b6f802c5b2eb18f"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "demo-stream-help",
+          "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+          "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+          "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c"
+        ]
+      ],
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+        "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c"
+      ],
+      "context_tokens": 1402,
+      "context_bytes": 3697,
+      "elapsed_ms": 435.0140999886207
+    },
+    {
+      "round": 1,
+      "id": "Q01",
+      "group": "B",
+      "error": null,
+      "ranked": [
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-12",
+          "8a324d250cdc3e57b92e189beb30ecf9038b7ffa856a5578733ec9193fd51319",
+          "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+          "fadc008ce8490b5b7ca017c4189e2a733459692564bb68c23a845fffd06044c2"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "task132-distractor-06",
+          "f9190f448b420210cd1b4c0327a7a0395c649464a783b212cad6b5c0cf0deb3a",
+          "3d839cb616102b1373251cc9ec24008fefed3ef0cc4db151774ac2d19f7200f7",
+          "cce2aef7aa7be22504edc9942e2a3d5d3295c17b4fe770f0e1de3539198505f6"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ]
+      ],
+      "evidence_ids": [
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "context_tokens": 1480,
+      "context_bytes": 3869,
+      "elapsed_ms": 234.35809998773038
+    },
+    {
+      "round": 1,
+      "id": "Q01",
+      "group": "C",
+      "error": null,
+      "ranked": [
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "task132-distractor-12",
+          "8a324d250cdc3e57b92e189beb30ecf9038b7ffa856a5578733ec9193fd51319",
+          "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+          "fadc008ce8490b5b7ca017c4189e2a733459692564bb68c23a845fffd06044c2"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-11",
+          "db331e6998e178e4a73d074bf3810afba8b4268eb67ed8a0a39f958ebeb41e9d",
+          "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+          "8e55f74a9650769a7f6bfef2cae6f402ba9e51fb55906029523182e9803b454f"
+        ]
+      ],
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d"
+      ],
+      "context_tokens": 1399,
+      "context_bytes": 3683,
+      "elapsed_ms": 542.4236999824643
+    },
+    {
+      "round": 1,
+      "id": "Q02",
+      "group": "A",
+      "error": null,
+      "ranked": [
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "task132-distractor-12",
+          "8a324d250cdc3e57b92e189beb30ecf9038b7ffa856a5578733ec9193fd51319",
+          "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+          "fadc008ce8490b5b7ca017c4189e2a733459692564bb68c23a845fffd06044c2"
+        ],
+        [
+          "task132-distractor-01",
+          "577904a228546c9d51f5415f6a4ce00a6e6988207a155e09ca842f3056ab000d",
+          "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0",
+          "0b56cf1c799b2b7ace6c46e64123d199ea934e2d3436900f9b6f802c5b2eb18f"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "demo-stream-help",
+          "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+          "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+          "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ],
+        [
+          "task132-distractor-05",
+          "40e88f078da202e29dd97658ca386ae7c422d8985eb87b4a7ff15d0cbdf095de",
+          "0f56a9e0dac911910a74727f68379b4562bb6ff3e95e727a86fdad0e567d7d31",
+          "ba06503241d9d515e211a13a88d08f8bef0f83429a7c201433d74ae9d65896cf"
+        ]
+      ],
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0"
+      ],
+      "context_tokens": 1472,
+      "context_bytes": 3852,
+      "elapsed_ms": 471.1200000019744
+    },
+    {
+      "round": 1,
+      "id": "Q02",
+      "group": "B",
+      "error": null,
+      "ranked": [
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ]
+      ],
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5"
+      ],
+      "context_tokens": 918,
+      "context_bytes": 2406,
+      "elapsed_ms": 387.88699998985976
+    },
+    {
+      "round": 1,
+      "id": "Q02",
+      "group": "C",
+      "error": null,
+      "ranked": [
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-02",
+          "8d13658e5fe4d3917625d7452a2b8fa036678d92052d1234801bc90f05788cdd",
+          "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+          "3624360d10b7e16c1d3b0dd9a4627fd7a1bd79a35de173ae28426fcb811201ac"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "task132-distractor-12",
+          "8a324d250cdc3e57b92e189beb30ecf9038b7ffa856a5578733ec9193fd51319",
+          "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+          "fadc008ce8490b5b7ca017c4189e2a733459692564bb68c23a845fffd06044c2"
+        ],
+        [
+          "task132-distractor-01",
+          "577904a228546c9d51f5415f6a4ce00a6e6988207a155e09ca842f3056ab000d",
+          "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0",
+          "0b56cf1c799b2b7ace6c46e64123d199ea934e2d3436900f9b6f802c5b2eb18f"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "demo-stream-help",
+          "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+          "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+          "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ],
+        [
+          "task132-distractor-05",
+          "40e88f078da202e29dd97658ca386ae7c422d8985eb87b4a7ff15d0cbdf095de",
+          "0f56a9e0dac911910a74727f68379b4562bb6ff3e95e727a86fdad0e567d7d31",
+          "ba06503241d9d515e211a13a88d08f8bef0f83429a7c201433d74ae9d65896cf"
+        ]
+      ],
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0"
+      ],
+      "context_tokens": 1472,
+      "context_bytes": 3852,
+      "elapsed_ms": 654.0242999908514
+    },
+    {
+      "round": 1,
+      "id": "Q03",
+      "group": "A",
+      "error": null,
+      "ranked": [
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "demo-approval-wait",
+          "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+          "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+          "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "demo-stream-help",
+          "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+          "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+          "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ]
+      ],
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6"
+      ],
+      "context_tokens": 1559,
+      "context_bytes": 4027,
+      "elapsed_ms": 370.8710999926552
+    },
+    {
+      "round": 1,
+      "id": "Q03",
+      "group": "B",
+      "error": null,
+      "ranked": [
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "demo-approval-wait",
+          "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+          "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+          "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d"
+        ],
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ],
+        [
+          "task132-distractor-11",
+          "db331e6998e178e4a73d074bf3810afba8b4268eb67ed8a0a39f958ebeb41e9d",
+          "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+          "8e55f74a9650769a7f6bfef2cae6f402ba9e51fb55906029523182e9803b454f"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ]
+      ],
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6"
+      ],
+      "context_tokens": 1556,
+      "context_bytes": 4029,
+      "elapsed_ms": 342.68059994792566
+    },
+    {
+      "round": 1,
+      "id": "Q03",
+      "group": "C",
+      "error": null,
+      "ranked": [
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "demo-approval-wait",
+          "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+          "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+          "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ],
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ]
+      ],
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6"
+      ],
+      "context_tokens": 1559,
+      "context_bytes": 4027,
+      "elapsed_ms": 668.7039999524131
+    },
+    {
+      "round": 1,
+      "id": "Q04",
+      "group": "A",
+      "error": null,
+      "ranked": [
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "demo-approval-wait",
+          "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+          "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+          "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "demo-stream-help",
+          "b159b7bb41b3c3e4148628c29ffac109242e31aaa6cc431d60e24ab6541e99f4",
+          "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+          "cfcdbb0b9ce1a047a9012fc4f7c08009cb1673e655054370acee00295afd2a1c"
+        ],
+        [
+          "task132-distractor-03",
+          "e46814a36ecb2425690ef7f12a371d9306fb0cfab8c4be8f29986062e871ecd6",
+          "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+          "768e899d5b4f6108173182fdbd4dbe83cb9823ea504ec0b50d37201319eb6198"
+        ]
+      ],
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6"
+      ],
+      "context_tokens": 1559,
+      "context_bytes": 4027,
+      "elapsed_ms": 371.3782000122592
+    },
+    {
+      "round": 1,
+      "id": "Q04",
+      "group": "B",
+      "error": "rank_or_identity_drift",
+      "ranked": [
+        [
+          "demo-refund-entry",
+          "b0857c16ef52a28cc7f2ec194afc25320c583184a02df8eebcd5b7b8be997da8",
+          "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+          "d4c6d004bb3faed0ed8cc9bc1ec4a0ea19cb9141722c318918317174b757d81d"
+        ],
+        [
+          "task132-distractor-08",
+          "ab7d7e555b1f19d463c8c9cc68b0e96a0b480bc5ca358bc819834675be6d12d8",
+          "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+          "acbc25c6f76a7f9b15901590af002346ec4238ca9e1e2fa675662a2fce5b2566"
+        ],
+        [
+          "task132-distractor-07",
+          "c82d56dfa243bc39c4ec39d7e401dc1970de5de44877e9ca727775e39704ab85",
+          "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+          "0a898fb2b769554d410871adc59c0c0d2142927c6f6c2d2cc5b25ef93c13963e"
+        ],
+        [
+          "task132-distractor-04",
+          "c09ab8fe07b3ad3a44a4ef999d0f750aedcdc10ea94a25c09540db7fbb2d01e3",
+          "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+          "9ef4c8be96c04a02a4d49b9fdd1f24437feb470e0f63589e72328d697c852b6d"
+        ],
+        [
+          "task132-distractor-10",
+          "8a70f3082030a568fc78ebe85b7db066d28dbcfa8801ee92d129f53ba03cd84a",
+          "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+          "7b8ced91aa1b6eaef5662c3f8e26b43f7ef5fc001ba3d71210abc59b8ab65e60"
+        ],
+        [
+          "demo-refund-safety",
+          "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "52c160f68e155ccc136d695306f353d6c8d94d4239602a9e1982e3a821955646"
+        ],
+        [
+          "demo-approval-wait",
+          "66912f18e3c494c69010aac3d9173859f8a45dd129a3c3954adad904185e22bc",
+          "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+          "1a09e46dae8f9fcc385b0e2e26887825a28c5c53c2612f08611a24df57fa069d"
+        ],
+        [
+          "task132-distractor-09",
+          "b82659d88a13f2400f7e91087eb55eea8419aaeeaac17aa575ecdb8083813bca",
+          "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+          "7085db363fa5046d22560de46bde7e9d87ad873a765e3d80977ab563a9fc1c12"
+        ],
+        [
+          "demo-order-query",
+          "ea3b37db8161e2ff54a8f3ed374c68d7178f6bbb43eb124d0d040c94fb3c6521",
+          "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+          "a372bf79b910a45338bf2633d361576193ccba6c97fafa6a045398cbde5aeaf5"
+        ],
+        [
+          "demo-account-help",
+          "bf147e210295b2f0b1a284123de8ca29e191fba6677fad813c22f94929260ff8",
+          "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+          "fab0130a0e01a5ae8fd9ee3607d9409b971fcb8ebb6281812b55ce4fd68b292d"
+        ]
+      ],
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b"
+      ],
+      "context_tokens": 1432,
+      "context_bytes": 3717,
+      "elapsed_ms": 340.7502000336535
+    }
+  ]
+}

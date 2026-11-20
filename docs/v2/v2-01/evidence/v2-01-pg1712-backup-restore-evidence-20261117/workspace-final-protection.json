@@ -1,0 +1,11 @@
+{
+  "protected_paths": 456,
+  "changed": [],
+  "head": "232469acf7e576883e84d58c5a140fd598d9b00e",
+  "branch": "v2",
+  "closed_tunnel_connect_ex": {
+    "15632": 10035,
+    "15633": 10035
+  },
+  "windows_tunnel_listeners_absent": true
+}

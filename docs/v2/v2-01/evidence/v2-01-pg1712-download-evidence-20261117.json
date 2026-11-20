@@ -1,0 +1,12 @@
+{
+  "status": "DOWNLOAD_REJECTED",
+  "url": "https://github.com/paradedb/paradedb/releases/download/v0.26.6/postgresql-17-pg-search_0.26.6-1PARADEDB-bookworm_amd64.deb",
+  "method": "urllib.request.urlopen(timeout=120), shutil.copyfileobj, SHA256 assertion",
+  "expected_bytes": 54276840,
+  "actual_bytes": 11911168,
+  "expected_sha256": "16a14d382f088bc23e7c8624e4860fd8bf01a939c67c7695348de0615e323ddb",
+  "actual_sha256": "d12fa166cad9f864f32b81c5a9f210815f4d2401ee20c51330e33f598dc4cfbb",
+  "uploaded_or_installed": false,
+  "compatibility_conclusion": "none; rejected download is not a version compatibility result",
+  "local_rejected_file_removed": true
+}

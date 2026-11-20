@@ -1,0 +1,11 @@
+SET
+ docs_before_restart 
+---------------------
+                   7
+(1 row)
+
+     id     
+------------
+ doc-refund
+(1 row)
+

@@ -63,6 +63,7 @@ def refund_order_tool(service: MockRefundService, *, timeout_seconds: float) -> 
         timeout_seconds=timeout_seconds,
         max_retries=0,
         tags=frozenset({"refund", "demo"}),
+        model_discoverable=True,
     )
     return ToolDefinition(metadata, RefundOrderArgs, RefundOrderData, refund_order)
 

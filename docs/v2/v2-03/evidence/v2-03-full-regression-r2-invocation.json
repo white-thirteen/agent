@@ -1,0 +1,8 @@
+{
+  "pytest_args": [
+    "-q",
+    "--tb=short"
+  ],
+  "real_model_opt_in": null,
+  "snapshot_capture": "Read-only fingerprints emitted immediately before and after original unmodified delivery verifier."
+}

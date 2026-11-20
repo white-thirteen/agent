@@ -1,0 +1,15 @@
+event: status
+data: {"snapshot":true,"view":{"run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","run_status":"running","task_status":"running","final_answer":null,"sources":[],"error":null,"model_call_usage":{"model_attempts":0},"run_usage":{"tool_calls":0,"active_elapsed_ms":0},"usage_complete":true,"started_at":"2026-11-20T14:12:56.378662+00:00","ended_at":null},"run_status":"running","task_status":"running","run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","sequence":1}
+
+event: status
+data: {"code":"routing","run_status":"running","task_status":"running","run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","sequence":2}
+
+event: status
+data: {"run_status":"completed","task_status":"completed","run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","sequence":3}
+
+event: token
+data: {"content":"模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款","sources":[],"run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","sequence":4}
+
+event: done
+data: {"run_status":"completed","task_status":"completed","run_id":"8c430c6a-a8a5-4d37-9c51-068b1a5aca47","task_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","workflow_id":"2d11c70d-1a0d-46e7-b02b-fff489661385","sequence":5}
+

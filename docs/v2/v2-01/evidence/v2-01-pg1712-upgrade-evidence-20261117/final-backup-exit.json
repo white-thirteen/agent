@@ -1,0 +1,1 @@
+{"exit_code": 0, "stdout": "{\"status\": \"BACKUP_COMPLETED_RESTORE_PENDING\", \"failure\": null, \"backup_directory\": \"/home/white7/agent-db-backups/pg176-20261117T144522Z-b66a2d363666\"}\n{\"status\": \"FINAL_BACKUP_REQUIRES_OFFSITE_VERIFICATION\", \"failure\": null, \"container\": null, \"ip\": null}\n"}

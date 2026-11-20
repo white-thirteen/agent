@@ -1,0 +1,6 @@
+{
+  "transfer_directory": "/tmp/agent-pg1712-compat-aYhgTD",
+  "expected_file_count": 14,
+  "removed": true,
+  "probe_pid_absent": true
+}

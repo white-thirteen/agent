@@ -1,0 +1,18 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+___________________ test_real_postgres_archive_publication ____________________
+tests\test_context_archive_postgres.py:28: in test_real_postgres_archive_publication
+    async with await psycopg.AsyncConnection.connect(dsn, autocommit=True) as admin:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\psycopg\connection_async.py:107: in connect
+    raise e.InterfaceError(
+E   psycopg.InterfaceError: Psycopg cannot use the 'ProactorEventLoop' to run in async mode. Please use a compatible event loop, for instance by running 'asyncio.run(..., loop_factory=asyncio.SelectorEventLoop(selectors.SelectSelector()))'
+============================== warnings summary ===============================
+.venv\Lib\site-packages\trustcall\_base.py:46
+  D:\py\agent-project\agent\.venv\Lib\site-packages\trustcall\_base.py:46: LangGraphDeprecatedSinceV10: Importing Send from langgraph.constants is deprecated. Please use 'from langgraph.types import Send' instead. Deprecated in LangGraph V1.0 to be removed in V2.0.
+    from langgraph.constants import Send
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_context_archive_postgres.py::test_real_postgres_archive_publication
+1 failed, 1 passed, 1 warning in 4.65s

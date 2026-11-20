@@ -1,0 +1,444 @@
+{
+  "model": "deepseek-flash",
+  "host": "api.deepseek.com",
+  "cases": [
+    {
+      "label": "order",
+      "status_code": 200,
+      "thread_id": "c36e32ac-3276-57d8-92be-9551d481195d",
+      "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+      "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+      "task_status": "completed",
+      "context_view": {
+        "input_hash": "a9c330b7fe5b569e13d64119956dd12429df1185d4c023e3510676739142ad55",
+        "history_ids": [],
+        "input_tokens": 310,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 599,
+          "output_tokens": 111,
+          "total_tokens": 710,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "specialist_result": {
+        "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+        "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+        "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+        "agent_type": "order",
+        "task_type": "order_query",
+        "status": "completed",
+        "summary": "模拟订单：ctx232-runtime-5718567fae124a6995297f80872715e7-order，12.34 CNY，已付款，未模拟退款",
+        "facts": {
+          "kind": "get",
+          "order": {
+            "order_id": "ctx232-runtime-5718567fae124a6995297f80872715e7-order",
+            "amount": "12.34",
+            "currency": "CNY",
+            "payment_status": "paid",
+            "is_refunded": false,
+            "created_at": "2026-11-19T17:36:41.320905+00:00",
+            "simulated": true
+          },
+          "simulated": true
+        },
+        "entities": {},
+        "sources": [],
+        "missing_fields": [],
+        "clarification_question": null,
+        "operation_id": null,
+        "approval_id": null,
+        "error": null,
+        "approved_answer": null
+      },
+      "history_ids": [],
+      "events": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+            "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+            "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 0
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 0
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-19T17:36:45.293202+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "sequence": 2
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "sequence": 3
+        },
+        {
+          "content": "模拟订单：ctx232-runtime-5718567fae124a6995297f80872715e7-order，12.34 CNY，已付款，未模拟退款",
+          "sources": [],
+          "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "sequence": 4
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "task_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "workflow_id": "ce7676f5-5cb8-4320-a4b5-e086fa90f2c3",
+          "sequence": 5
+        }
+      ]
+    },
+    {
+      "label": "with_history",
+      "status_code": 200,
+      "thread_id": "c36e32ac-3276-57d8-92be-9551d481195d",
+      "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+      "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+      "task_status": "needs_input",
+      "context_view": {
+        "input_hash": "3c1e55fb9190bd218eca7e7754af189790adc469fc5b9b8a12b5eccf36fca5eb",
+        "history_ids": [
+          "user:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "assistant:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623"
+        ],
+        "input_tokens": 692,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 1110,
+          "output_tokens": 178,
+          "total_tokens": 1288,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "specialist_result": null,
+      "history_ids": [
+        [
+          "user:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "assistant:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623"
+        ]
+      ],
+      "events": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+            "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+            "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 0
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 0
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-19T17:36:48.958459+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 2
+        },
+        {
+          "run_status": "waiting_input",
+          "task_status": "needs_input",
+          "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 3
+        },
+        {
+          "content": "本演示可以：1) 查询订单状态（单个订单或订单列表）；2) 申请模拟退款（需提供订单号，不会发生真实支付）；3) 回答知识类问题。您想办理哪一项？",
+          "sources": [],
+          "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 4
+        },
+        {
+          "run_status": "waiting_input",
+          "task_status": "needs_input",
+          "run_id": "e2888fbf-231f-4675-8e6a-730bfc3910cc",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 5
+        }
+      ]
+    },
+    {
+      "label": "without_history",
+      "status_code": 200,
+      "thread_id": "669eb01c-27c8-5a7d-8530-b9b9c9b97946",
+      "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+      "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+      "task_status": "failed",
+      "context_view": {
+        "input_hash": "6d8c4e35964eff7e8f2a520b3a3b756b830ed5bed7b1034bfde876a185093476",
+        "history_ids": [],
+        "input_tokens": 502,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 862,
+          "output_tokens": 119,
+          "total_tokens": 981,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "specialist_result": {
+        "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+        "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+        "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+        "agent_type": "knowledge",
+        "task_type": "knowledge_qa",
+        "status": "failed",
+        "summary": "知识问答暂时无法完成。",
+        "facts": {},
+        "entities": {},
+        "sources": [],
+        "missing_fields": [],
+        "clarification_question": null,
+        "operation_id": null,
+        "approval_id": null,
+        "error": {
+          "code": "capability_unavailable",
+          "message": "Knowledge answer could not be completed."
+        },
+        "approved_answer": null
+      },
+      "history_ids": [],
+      "events": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+            "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+            "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 0
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 0
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-19T17:36:51.668312+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+          "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+          "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "sequence": 2
+        },
+        {
+          "run_status": "failed",
+          "task_status": "failed",
+          "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+          "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "sequence": 3
+        },
+        {
+          "code": "capability_unavailable",
+          "message": "Knowledge answer could not be completed.",
+          "usage_complete": true,
+          "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+          "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "sequence": 4
+        },
+        {
+          "run_status": "failed",
+          "task_status": "failed",
+          "run_id": "ea85a175-d2f5-4a50-834f-346bd685b0cc",
+          "task_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "workflow_id": "145c19c6-dc67-4b36-9131-a7bec6c4825c",
+          "sequence": 5
+        }
+      ]
+    },
+    {
+      "label": "after_restart",
+      "status_code": 200,
+      "thread_id": "c36e32ac-3276-57d8-92be-9551d481195d",
+      "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+      "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+      "task_status": "needs_input",
+      "context_view": {
+        "input_hash": "34d6e873d59b6fd7083c9fa0d9f77ca7457944c8dea1ca20b1289f48da6f7c84",
+        "history_ids": [
+          "user:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "assistant:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623"
+        ],
+        "input_tokens": 865,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 1438,
+          "output_tokens": 191,
+          "total_tokens": 1629,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "specialist_result": null,
+      "history_ids": [
+        [
+          "user:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623",
+          "assistant:5c0bd60b-d83b-4d32-a3f4-a9773f3c6623"
+        ]
+      ],
+      "events": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+            "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+            "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 2
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 2578
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-19T17:36:55.167368+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 2
+        },
+        {
+          "run_status": "waiting_input",
+          "task_status": "needs_input",
+          "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 3
+        },
+        {
+          "content": "本演示范围简要说明：1) 订单查询（单个订单状态或订单列表）；2) 模拟退款申请（需提供订单号，不发生真实支付）；3) 知识问答。此外，取消订单、真实支付等不在支持范围内。您想办理哪一项？",
+          "sources": [],
+          "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 4
+        },
+        {
+          "run_status": "waiting_input",
+          "task_status": "needs_input",
+          "run_id": "fe1d1f39-e11d-45cb-a703-11d311902dc0",
+          "task_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "workflow_id": "bea460c8-dd93-49ed-9c37-6a94b46028a1",
+          "sequence": 5
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "protected_unchanged": true,
+    "watermark_before": 24,
+    "watermark_after": 24
+  },
+  "context_limits": {
+    "window": 16384,
+    "output": 512,
+    "summary_output": 256,
+    "archive_input": 4096,
+    "retain_interactions": 10
+  },
+  "order_database": [
+    "12.34",
+    "CNY",
+    "paid",
+    false
+  ],
+  "first_application_closed": true,
+  "same_binding_after_restart": true
+}

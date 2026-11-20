@@ -23,10 +23,15 @@ from app.infrastructure.postgres import open_pool, validate_test_target
 from app.infrastructure.store import store_resources
 from app.knowledge.chunking import prepare_document
 from app.knowledge.models import ManifestEntry
+from app.knowledge.repository import KnowledgeRepository
 from app.main import create_app
 from app.memory.manager import preference_namespace
 from scripts import run_async
-from scripts.verify_05_memory_manage import database_snapshot, fingerprints
+from scripts.verify_05_memory_manage import (
+    compare_publication_snapshots,
+    database_snapshot,
+    fingerprints,
+)
 
 
 def settings_for(data, *, embedding=True):
@@ -48,6 +53,19 @@ def server_app():
     logging.disable(logging.CRITICAL)
     data = json.loads(Path(os.environ["AGENT_DEMO_MANIFEST"]).read_text("utf-8"))
     return create_app(settings_for(data))
+
+
+def cleanup_publication_delta(folder, document_id, present):
+    """Persist deletion intent before the database operation, including across retries."""
+    marker = folder / "knowledge-cleanup-intent"
+    if present and not marker.exists():
+        temporary = folder / "knowledge-cleanup-intent.tmp"
+        temporary.write_text(document_id, encoding="utf-8")
+        temporary.replace(marker)
+    if marker.exists():
+        assert marker.read_text(encoding="utf-8") == document_id
+        return 2
+    return 0
 
 
 async def prepare(folder):
@@ -165,18 +183,23 @@ async def inspect(folder, cleanup=False):
                     "DELETE FROM sessions WHERE user_id=ANY(%s)",
                     ([data["user_a"], data["user_b"]],),
                 )
-                await conn.execute(
-                    "DELETE FROM knowledge_chunks WHERE document_id=%s", (data["document_id"],)
-                )
-                await conn.execute(
-                    "DELETE FROM knowledge_documents WHERE document_id=%s", (data["document_id"],)
-                )
+                present = await (
+                    await conn.execute(
+                        "SELECT EXISTS(SELECT 1 FROM knowledge_documents WHERE document_id=%s)",
+                        (data["document_id"],),
+                    )
+                ).fetchone()
+            # Record intent before deletion so a retry after commit still verifies the
+            # publication and deletion against the original snapshot, not current rows.
+            expected_delta = cleanup_publication_delta(folder, data["document_id"], present[0])
+            await KnowledgeRepository(pool).remove(data["document_id"])
             after = await database_snapshot(pool)
             # Only load our own locally generated snapshot, never an imported pickle.
             before = pickle.loads((folder / "protected.pickle").read_bytes())
             result["protected_after"] = fingerprints(after)
-            result["protected_unchanged"] = before == after
-            assert before == after, "Protected database rows or columns changed"
+            comparison = compare_publication_snapshots(before, after, expected_delta=expected_delta)
+            result.update(comparison)
+            assert comparison["protected_unchanged"], "Protected database rows or columns changed"
         return result
     finally:
         await pool.close()

@@ -1,0 +1,158 @@
+...F                                                                     [100%]
+================================== FAILURES ===================================
+_ test_compiled_refund_graph_pauses_and_resumes_original_call[APPROVED-unknown] _
+decision_value = 'APPROVED', fault = 'unknown'
+
+    @pytest.mark.parametrize(
+        ("decision_value", "fault"),
+        [("APPROVED", None), ("REJECTED", None), ("APPROVED", "committed"), ("APPROVED", "unknown")],
+    )
+    async def test_compiled_refund_graph_pauses_and_resumes_original_call(decision_value, fault):
+        provider = Provider()
+        gateway = ModelGateway(
+            provider, ModelCallLimits(8, 5, 0), context_window=8192, output_reserve=128
+        )
+        refunds = ControlledRefunds(fault)
+        approvals = ControlledApprovals(refunds)
+        registry = ToolRegistry()
+        for definition in (
+            *order_tools(ControlledOrders(), timeout_seconds=1, max_retries=0),
+            *refund_node_tools(refunds, approvals, timeout_seconds=1),
+            refund_order_tool(refunds, timeout_seconds=1),
+        ):
+            registry.register(definition)
+        registry.freeze()
+        executor = ToolExecutor(registry, ToolPolicy(), approval_service=approvals)
+        graph = build_supervisor_graph(
+            gateway=gateway,
+            checkpointer=InMemorySaver(),
+            specialists={
+                AgentType.ORDER: build_order_graph(
+                    gateway=gateway, registry=registry, executor=executor
+                ),
+                AgentType.REFUND: build_refund_graph(
+                    gateway=gateway,
+                    registry=registry,
+                    executor=executor,
+                    approval_service=approvals,
+                    refund_service=refunds,
+                ),
+                AgentType.KNOWLEDGE: build_knowledge_graph(),
+            },
+        )
+        runtime = AgentRuntime(
+            graph,
+            run_limits=RunLimits(30, 12),
+            approval_service=approvals,
+            refund_service=refunds,
+            scope_resolver=lambda user: frozenset({"orders:read", "refunds:request"}),
+        )
+        sessions = MemorySessions()
+        app = create_app(Settings(_env_file=None, app_env="test"))
+        app.state.agent_runtime = runtime
+        app.state.agent_service = AgentService(runtime, sessions)
+        app.state.approval_service = approvals
+        app.state.approval_actor_provider = LocalDemoApprovalActor()
+        transport = httpx.ASGITransport(app=app, client=("127.0.0.1", 1234))
+        try:
+            async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+                chat = await client.post(
+                    "/agent/chat",
+                    json={
+                        "user_id": "dev-user",
+                        "conversation_id": "refund-flow",
+                        "message": "���붩�� order-1 �˿�",
+                    },
+                )
+                assert chat.status_code == 200 and "event: workflow_paused" in chat.text
+                assert "original-call" not in chat.text and "untrusted summary" not in chat.text
+                first = next(iter(runtime._records.values()))
+                assert first.task_status == "waiting_approval"
+                assert refunds.effect_count == 0 and approvals.row["interrupt_id"]
+                paused = await graph.aget_state(
+                    {"configurable": {"thread_id": first.context.thread_id}}, subgraphs=True
+                )
+                child = paused.tasks[0].state
+                assert child.values["context_view"]["input_hash"]
+                assert child.values["context_view"]["count_status"] == "estimated"
+                body = {"user_id": "dev-user", "conversation_id": "refund-flow"}
+                current = await client.post("/agent/tasks/current", json=body)
+                assert current.status_code == 200
+                assert current.json()["current_task"]["task_status"] == "waiting_approval"
+                assert current.json()["current_task"]["run_id"] is None
+                assert (
+                    current.json()["current_task"]["refund"]["application_id"]
+                    == refunds.row["application_id"]
+                )
+                query_path = f"/agent/refunds/{refunds.row['application_id']}/status"
+                assert (await client.post(query_path, json=body)).status_code == 200
+                assert (
+                    await client.post(query_path, json={**body, "conversation_id": "other"})
+                ).status_code == 404
+                assert sessions.creations == 1 and refunds.effect_count == 0
+                assert (
+                    await client.post("/agent/tasks/current", json={**body, "conversation_id": "other"})
+                ).status_code == 404
+                assert (
+                    await client.post(f"/agent/refunds/{uuid4()}/status", json=body)
+                ).status_code == 404
+                await sessions.get_or_create(user_id="dev-user", conversation_id="empty")
+                empty = await client.post(
+                    "/agent/tasks/current", json={**body, "conversation_id": "empty"}
+                )
+                assert empty.status_code == 200 and empty.json()["current_task"] is None
+                assert sessions.creations == 2 and refunds.effect_count == 0
+                path = f"/admin/approvals/{approvals.row['approval_id']}"
+                detail = await client.get(path)
+                assert detail.status_code == 200 and detail.json()["can_decide"]
+                decision = await client.post(
+                    path + "/decision",
+                    json={
+                        "decision": decision_value,
+                        "subject_digest": approvals.row["subject_digest"],
+                    },
+                )
+                assert decision.status_code == 200 and decision.json()["approval"]["can_resume"]
+                response = await client.post(path + "/resume", json={})
+                assert response.status_code == 202
+                accepted = response.json()
+            await runtime._records[accepted["run_id"]].task
+            result = await runtime.get_run(
+                user_id="dev-user", conversation_id="refund-flow", run_id=accepted["run_id"]
+            )
+            assert result.task_id == first.execution.context.task_id
+            assert result.run_id != first.execution.context.run_id
+            if decision_value == "APPROVED" and fault != "unknown":
+                assert result.task_status == "completed" and "42.50" in result.final_answer
+                assert refunds.effect_count == 1
+            elif fault == "unknown":
+                assert result.task_status == "failed" and refunds.effect_count == 1
+                snapshot = await graph.aget_state(
+                    {"configurable": {"thread_id": first.context.thread_id}}, subgraphs=True
+                )
+                assert snapshot.next == ("refund",)
+                assert snapshot.tasks[0].state.next == ("reconcile_operation",)
+                refunds.fault = "committed"
+                async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+                    recovered = await client.post(path + "/resume", json={})
+                    assert recovered.status_code == 202
+                resumed_id = recovered.json()["run_id"]
+                await runtime._records[resumed_id].task
+                resumed = await runtime.get_run(
+                    user_id="dev-user", conversation_id="refund-flow", run_id=resumed_id
+                )
+>               assert resumed.task_status == "completed" and refunds.effect_count == 1
+E               AssertionError: assert (<TaskStatus.FAILED: 'failed'> == 'completed'
+E                 
+E                 - completed
+E                 + failed)
+
+tests\test_refund_full_controlled.py:375: AssertionError
+------------------------------ Captured log call ------------------------------
+ERROR    app.runtime.agent_runtime:agent_runtime.py:1359 Run failed run_id=b99b56f6-8cb3-437b-b5d1-81bcf5ba28a9 task_id=99b34e45-6ced-48b0-bbcc-598d9049bd38 category=GraphProtocolError
+WARNING  langgraph.checkpoint.serde.jsonplus:jsonplus.py:80 Deserializing unregistered type app.tools.models.ParsedToolCall from checkpoint. This will be blocked in a future version. Set LANGGRAPH_STRICT_MSGPACK=true to block now, or add to allowed_msgpack_modules to allow explicitly: [('app.tools.models', 'ParsedToolCall')]
+WARNING  langgraph.checkpoint.serde.jsonplus:jsonplus.py:80 Deserializing unregistered type app.tools.models.PreparedToolAttempt from checkpoint. This will be blocked in a future version. Set LANGGRAPH_STRICT_MSGPACK=true to block now, or add to allowed_msgpack_modules to allow explicitly: [('app.tools.models', 'PreparedToolAttempt')]
+ERROR    app.runtime.agent_runtime:agent_runtime.py:1359 Run failed run_id=b37697fc-1d0d-43cb-97c5-39ddc03c2ed3 task_id=99b34e45-6ced-48b0-bbcc-598d9049bd38 category=ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_refund_full_controlled.py::test_compiled_refund_graph_pauses_and_resumes_original_call[APPROVED-unknown]
+1 failed, 3 passed in 7.51s

@@ -1,0 +1,126 @@
+{
+  "status": "COMPOSE_STAGED_FOR_REVIEW",
+  "token": "6595e98667c4",
+  "final_receipt": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/final-restore.json",
+  "final_receipt_sha256": "f520b3db545a6849b19119c98bb6152f6ead758820099bef6f63983c8493576a",
+  "source_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+  "final_volume": "pg1712-final-data-6595e98667c4",
+  "final_container": "pg1712-final-6595e98667c4",
+  "image_id": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "image_tag": "pg1712-upgrade:final-6595e98667c4",
+  "compose_original_sha256": "05e9ef57b8ad95dc239d865f8ac36bf30482a6eaf8dfbf5643677e3361635fbb",
+  "compose_uid": 1000,
+  "compose_gid": 1000,
+  "compose_mode": 420,
+  "compose_backup": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/compose.original.private.yaml",
+  "staged_compose": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/compose.staged.private.yaml",
+  "staged_compose_sha256": "2ad05e92da4ef01faf554601cb50ee300f48109cf218db324ee4cabd0403d350",
+  "hba_directory": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/hba",
+  "maintenance_hba_sha256": "9f288417cc5155feb340108ba1092476876c2a95973ceb0f4ac253e9c53ce280",
+  "source_hba": "/home/white7/agent-db-backups/pg176-20261117T144522Z-b66a2d363666/private/config/000.conf",
+  "source_hba_sha256": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+  "archive_name": "agent-engine-demo-db-postgres-1-pg176-6595e98667c4",
+  "private_work": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087",
+  "upgrade_script_sha256": "a0124fd3c480eb538fc2e597abe1f3e9834343a7573be840c3d80f4d5efb57f7",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T14:54:17.305036+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T14:54:17.504168+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:54:18.108187+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "inspect",
+        "pg1712-final-data-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:54:21.420027+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "network",
+        "inspect",
+        "pg1712-final-net-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:54:21.611428+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "codex-pg1712restore:228a7f5b8d92"
+      ],
+      "started_at": "2026-11-17T14:54:21.821725+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "tag",
+        "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+        "pg1712-upgrade:final-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:54:22.891308+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "pg1712-upgrade:final-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:54:23.406505+00:00",
+      "exit_code": 0
+    }
+  ]
+}

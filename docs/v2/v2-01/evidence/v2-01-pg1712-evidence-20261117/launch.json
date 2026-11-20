@@ -1,0 +1,17 @@
+{
+  "pid": 3037594,
+  "command": [
+    "python3",
+    "/tmp/agent-pg1712-compat-aYhgTD/verify_v2_01_pg1712_compatibility.py",
+    "--base-image",
+    "postgres:17.12-bookworm@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536",
+    "--pg-package",
+    "17.12-1.pgdg12+1",
+    "--vector-package",
+    "0.8.7-1.pgdg12+2",
+    "--package",
+    "/tmp/agent-pg1712-compat-aYhgTD/pg_search.deb",
+    "--output",
+    "/tmp/agent-pg1712-compat-aYhgTD/compatibility-evidence.json"
+  ]
+}

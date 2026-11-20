@@ -1,0 +1,21 @@
+{
+  "session_id": "01a1f886-f895-7a02-944b-b61446544762",
+  "agent_role": "qa",
+  "spawn": {
+    "parent_thread_id": "01a1f256-6373-77f1-b5a0-3ad522366927",
+    "depth": 1,
+    "agent_path": "/root/v203_takeover_qa",
+    "agent_nickname": "Bohr",
+    "agent_role": "qa"
+  },
+  "observed_turns": [
+    {
+      "model": "gpt-6.1-terra",
+      "effort": "high",
+      "approval_policy": "never",
+      "sandbox_policy": {
+        "type": "danger-full-access"
+      }
+    }
+  ]
+}

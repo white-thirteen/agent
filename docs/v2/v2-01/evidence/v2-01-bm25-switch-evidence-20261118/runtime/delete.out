@@ -1,0 +1,34 @@
+SET
+DELETE_BEFORE
+INSERT 0 1
+ before_delete | qzdelete_hits 
+---------------+---------------
+             1 |             1
+(1 row)
+
+DELETE_ROLLBACK
+BEGIN
+DELETE 1
+ inside_tx 
+-----------
+         0
+(1 row)
+
+ROLLBACK
+ after_rollback | qzdelete_hits 
+----------------+---------------
+              1 |             1
+(1 row)
+
+DELETE_COMMIT
+DELETE 1
+ after_delete | qzdelete_hits 
+--------------+---------------
+            0 |             0
+(1 row)
+
+ all_qzdelete_hits 
+-------------------
+                 0
+(1 row)
+

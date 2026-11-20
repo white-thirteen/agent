@@ -1,0 +1,2 @@
+ERROR: Use pytest capture=fd for credential redaction
+

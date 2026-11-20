@@ -1,0 +1,29 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________ test_real_revision_adoption_and_receipt_recovery[receipt] __________
+docs\v2\v2-02\evidence\test_qa222_missing_history.py:369: in test_real_revision_adoption_and_receipt_recovery
+    run_async(probe())
+scripts\__init__.py:13: in run_async
+    return runner.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+docs\v2\v2-02\evidence\test_qa222_missing_history.py:320: in probe
+    await manager.publish_revision(revision2, max_bytes=100000)
+app\context\manager.py:486: in publish_revision
+    return await self.repository.publish_revision(revision, archive_hashes=archive_hashes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app\context\repository.py:695: in publish_revision
+    await self._validate_base_coverage(
+app\context\repository.py:638: in _validate_base_coverage
+    raise ValueError("Revision does not cover base history")
+E   ValueError: Revision does not cover base history
+------------------------------ Captured log call ------------------------------
+WARNING  app.runtime.agent_runtime:agent_runtime.py:990 Context receipt pending category=RuntimeError
+=========================== short test summary info ===========================
+FAILED docs/v2/v2-02/evidence/test_qa222_missing_history.py::test_real_revision_adoption_and_receipt_recovery[receipt]
+1 failed in 7.19s

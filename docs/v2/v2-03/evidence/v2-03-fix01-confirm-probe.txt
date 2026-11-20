@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "D:\py\agent-project\agent\docs\v2\v2-03\evidence\v2-03-fix01-confirm-probe.py", line 12, in <module>
+    runpy.run_path('docs/v2/v2-02/evidence/linux-pg-launcher.py')['configure']()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "docs/v2/v2-02/evidence/linux-pg-launcher.py", line 56, in configure
+    with psycopg.connect(
+         ~~~~~~~~~~~~~~~^
+        connection,
+        ^^^^^^^^^^^
+    ...<2 lines>...
+        options="-c default_transaction_read_only=on",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as conn:
+    ^
+  File "D:\py\agent-project\agent\.venv\Lib\site-packages\psycopg\connection.py", line 126, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: connection to server at "127.0.0.1", port 56431 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.

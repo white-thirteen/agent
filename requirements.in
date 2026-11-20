@@ -6,6 +6,7 @@ pydantic-settings
 langchain
 langgraph
 langchain-openai
+langmem==0.0.30
 # Already resolved by langchain-openai. Gateway imports its provider error types directly.
 openai
 sse-starlette

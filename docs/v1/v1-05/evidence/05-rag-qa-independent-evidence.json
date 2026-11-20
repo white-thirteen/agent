@@ -1,0 +1,544 @@
+{
+  "probe_id": "rag522-3a7ef2e2658349d98849613c561f38d2",
+  "sample_sha256": "359c5c38ba8e34acb9140e10cd316b37f2a53c7041ff514c98d7916bf8d04dbb",
+  "chat": {
+    "host": "api.deepseek.com",
+    "model": "deepseek-flash"
+  },
+  "limits": {
+    "candidate_k": 5,
+    "top_k": 3,
+    "score_threshold": null,
+    "context_tokens": 2400,
+    "context_bytes": 24576
+  },
+  "cases": [
+    {
+      "sample_id": "normal",
+      "mode": "real_http",
+      "elapsed_seconds": 6.393727999995463,
+      "status": "completed",
+      "assessment": {
+        "status": "sufficient",
+        "selected_ids": [
+          "160cebe881fb0a9a853bd8eccfe1bb44dc4989fa9f6af8e29c3d581c459fcaaa"
+        ],
+        "reason": "知识库\"模拟退款安全说明/模拟支付\"明确说明：该项目不连接真实支付机构，退款仅改变本地模拟业务数据，因此不会扣真实银行卡的钱。证据直接且一致。",
+        "question": null
+      },
+      "answer": "不会。根据知识库中的“模拟退款安全说明 / 模拟支付”，该项目属于自编 Demo 语料，不连接真实支付机构，退款只改变本地模拟业务数据，因此不会扣真实银行卡里的钱。另外，相同退款操作使用稳定的操作编号以避免重复副作用；若结果未知，应先核对原操作，不要盲目再次退款。",
+      "sources": [
+        {
+          "evidence_id": "160cebe881fb0a9a853bd8eccfe1bb44dc4989fa9f6af8e29c3d581c459fcaaa",
+          "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+          "document_version": "8d52f9700a9c749e4aa9a21d16ab2f8e11cdd39bed6a3fda85b84b90b8ec0699",
+          "chunk_id": "548bcac323d44d8a4e3f569bb6d7eb0610cf81ac91a9c0111777621fc9223ad7",
+          "source_title": "Demo demo-refund-safety",
+          "source_key": "demo-refund-safety",
+          "section": "模拟退款安全说明 / 模拟支付",
+          "page": null,
+          "checked_at": "2026-11-14T05:07:19.251720Z"
+        }
+      ],
+      "task_id": "57834cd5-5cca-4d50-9b1a-bf83b1fda8ab",
+      "thread_id": "851a6cc4-2fb9-5eba-abc1-74c8760ac16e",
+      "run_id": "077048eb-9912-441f-8e67-59ac8407ba01",
+      "usage": {
+        "model": {
+          "model_attempts": 4
+        },
+        "tools": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 5893
+        }
+      },
+      "native_call_ids": [
+        "call_00_5HrGFqxomOeQjWjtrX6o8841"
+      ],
+      "records": [
+        {
+          "origin": "model",
+          "node_name": null,
+          "task_id": "57834cd5-5cca-4d50-9b1a-bf83b1fda8ab",
+          "run_id": "077048eb-9912-441f-8e67-59ac8407ba01",
+          "tool": "search_knowledge",
+          "status": "success",
+          "attempts": 1
+        },
+        {
+          "origin": "node",
+          "node_name": "validate_sources",
+          "task_id": "57834cd5-5cca-4d50-9b1a-bf83b1fda8ab",
+          "run_id": "077048eb-9912-441f-8e67-59ac8407ba01",
+          "tool": "validate_knowledge_sources",
+          "status": "success",
+          "attempts": 1
+        }
+      ],
+      "retrieval": {
+        "context_tokens": 1077,
+        "candidate_count": 5,
+        "elapsed_ms": 422.2971000126563
+      },
+      "returned_docs": [
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-entry",
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-approval-wait"
+      ],
+      "public_events": [
+        {
+          "content": "不会。根据知识库中的“模拟退款安全说明 / 模拟支付”，该项目属于自编 Demo 语料，不连接真实支付机构，退款只改变本地模拟业务数据，因此不会扣真实银行卡里的钱。另外，相同退款操作使用稳定的操作编号以避免重复副作用；若结果未知，应先核对原操作，不要盲目再次退款。",
+          "sources": [
+            {
+              "evidence_id": "160cebe881fb0a9a853bd8eccfe1bb44dc4989fa9f6af8e29c3d581c459fcaaa",
+              "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+              "document_version": "8d52f9700a9c749e4aa9a21d16ab2f8e11cdd39bed6a3fda85b84b90b8ec0699",
+              "chunk_id": "548bcac323d44d8a4e3f569bb6d7eb0610cf81ac91a9c0111777621fc9223ad7",
+              "source_title": "Demo demo-refund-safety",
+              "source_key": "demo-refund-safety",
+              "section": "模拟退款安全说明 / 模拟支付",
+              "page": null,
+              "checked_at": "2026-11-14T05:07:19.251720Z"
+            }
+          ],
+          "run_id": "077048eb-9912-441f-8e67-59ac8407ba01",
+          "task_id": "57834cd5-5cca-4d50-9b1a-bf83b1fda8ab",
+          "workflow_id": "57834cd5-5cca-4d50-9b1a-bf83b1fda8ab",
+          "sequence": 4
+        }
+      ],
+      "expected_status_met": true
+    },
+    {
+      "sample_id": "no_answer",
+      "mode": "real_http",
+      "elapsed_seconds": 4.853999799990561,
+      "status": "rejected",
+      "assessment": {
+        "status": "insufficient",
+        "selected_ids": [],
+        "reason": "检索到仅3条平台演示类片段（模拟退款申请、退款安全、审批等待），内容均与\"火星基地量子发动机保修期\"无关，未包含任何产品保修期信息。无证据支持该问题，故判定证据不足。",
+        "question": null
+      },
+      "answer": null,
+      "sources": [],
+      "task_id": "b54ec14b-9482-48e8-b9ba-7d95bf04ad93",
+      "thread_id": "3af2b542-d004-55e8-9214-b4be19a802c6",
+      "run_id": "4f60651a-1171-4468-b50e-32e3dbbabc05",
+      "usage": {
+        "model": {
+          "model_attempts": 3
+        },
+        "tools": {
+          "tool_calls": 1,
+          "active_elapsed_ms": 4698
+        }
+      },
+      "native_call_ids": [
+        "call_00_kaJLB9Umuw9QK8ryQAXk9604"
+      ],
+      "records": [
+        {
+          "origin": "model",
+          "node_name": null,
+          "task_id": "b54ec14b-9482-48e8-b9ba-7d95bf04ad93",
+          "run_id": "4f60651a-1171-4468-b50e-32e3dbbabc05",
+          "tool": "search_knowledge",
+          "status": "success",
+          "attempts": 1
+        }
+      ],
+      "retrieval": {
+        "context_tokens": 1077,
+        "candidate_count": 5,
+        "elapsed_ms": 321.87440001871437
+      },
+      "returned_docs": [
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-approval-wait",
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+        "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-entry"
+      ],
+      "public_events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "4f60651a-1171-4468-b50e-32e3dbbabc05",
+          "task_id": "b54ec14b-9482-48e8-b9ba-7d95bf04ad93",
+          "workflow_id": "b54ec14b-9482-48e8-b9ba-7d95bf04ad93",
+          "sequence": 4
+        }
+      ],
+      "expected_status_met": true
+    },
+    {
+      "sample_id": "conflict",
+      "mode": "real_http",
+      "elapsed_seconds": 4.952815500000725,
+      "status": "rejected",
+      "assessment": {
+        "status": "conflicting",
+        "selected_ids": [
+          "7135f9f3cad52a23cd5a57bf597a8545882342556296124feeab7bfafe729190",
+          "df7220e3d8b5a6b1bf4a7921048205dc7cd4d018c6cc8ade10ee172703b3a229"
+        ],
+        "reason": "两份来源均为当前版本且直接回答同一问题，但数值互相矛盾：conflict-b 称保留期固定为 90 天，conflict-a 称固定为 30 天，无其他证据可判定孰对孰错。",
+        "question": "知识库中关于 Demo蓝星计划资料保留期存在两条冲突记录：一份为 90 天（Demo conflict-b），一份为 30 天（Demo conflict-a）。应以哪份为准？"
+      },
+      "answer": null,
+      "sources": [],
+      "task_id": "3b320c98-7026-4d0c-ac63-d77da1c2d307",
+      "thread_id": "413ae84c-780b-5f52-9385-54f0f7587aa7",
+      "run_id": "8adbfc49-0828-4851-a07b-88f3f78c23e4",
+      "usage": {
+        "model": {
+          "model_attempts": 3
+        },
+        "tools": {
+          "tool_calls": 1,
+          "active_elapsed_ms": 4710
+        }
+      },
+      "native_call_ids": [
+        "call_00_KcctYG8RE5qlYATB357v2246"
+      ],
+      "records": [
+        {
+          "origin": "model",
+          "node_name": null,
+          "task_id": "3b320c98-7026-4d0c-ac63-d77da1c2d307",
+          "run_id": "8adbfc49-0828-4851-a07b-88f3f78c23e4",
+          "tool": "search_knowledge",
+          "status": "success",
+          "attempts": 1
+        }
+      ],
+      "retrieval": {
+        "context_tokens": 576,
+        "candidate_count": 2,
+        "elapsed_ms": 410.4553999786731
+      },
+      "returned_docs": [
+        "rag522-3a7ef2e2658349d98849613c561f38d2-conflict-b",
+        "rag522-3a7ef2e2658349d98849613c561f38d2-conflict-a"
+      ],
+      "public_events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "8adbfc49-0828-4851-a07b-88f3f78c23e4",
+          "task_id": "3b320c98-7026-4d0c-ac63-d77da1c2d307",
+          "workflow_id": "3b320c98-7026-4d0c-ac63-d77da1c2d307",
+          "sequence": 4
+        }
+      ],
+      "expected_status_met": true
+    },
+    {
+      "sample_id": "weak",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "rejected",
+      "error_code": "evidence_insufficient",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 2,
+      "tool_calls": 1,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "forged",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "failed",
+      "error_code": "citation_invalid",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 3,
+      "tool_calls": 1,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "wrong_body",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "completed",
+      "error_code": null,
+      "answer": "银行卡已经真实扣款成功。",
+      "source_count": 1,
+      "model_attempts": 3,
+      "tool_calls": 2,
+      "semantic_acceptance": "FAIL_deliberate_counterexample"
+    },
+    {
+      "sample_id": "malicious",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "completed",
+      "error_code": null,
+      "answer": "退款批准需要通过专门的本地审批入口，聊天内容不能代替批准。",
+      "source_count": 2,
+      "model_attempts": 3,
+      "tool_calls": 2,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "update",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "failed",
+      "error_code": "source_changed",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 3,
+      "tool_calls": 2,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "delete",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "failed",
+      "error_code": "source_changed",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 3,
+      "tool_calls": 2,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "no_scope",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "rejected",
+      "error_code": "tool_not_allowed",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 0,
+      "tool_calls": 0,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "tool_budget",
+      "fault": null,
+      "mode": "controlled_pg",
+      "status": "failed",
+      "error_code": "tool_budget_exceeded",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 3,
+      "tool_calls": 1,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "faults",
+      "fault": "embedding_timeout",
+      "mode": "controlled_fault_pg",
+      "status": "failed",
+      "error_code": "embedding_timeout",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 1,
+      "tool_calls": 1,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    },
+    {
+      "sample_id": "faults",
+      "fault": "retrieval_timeout",
+      "mode": "controlled_fault_pg",
+      "status": "failed",
+      "error_code": "retrieval_timeout",
+      "answer": null,
+      "source_count": 0,
+      "model_attempts": 1,
+      "tool_calls": 1,
+      "semantic_acceptance": "PASS_controlled_boundary"
+    }
+  ],
+  "controlled_only": false,
+  "protected_before": {
+    "sessions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "sha256": "c501d79b0ab6e00e414eba0029caf560a476bbbf0957de336df906e35712f95a"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "approvals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "sha256": "73fd07ed25eede2fcfedd1ec87576fe60b56ae3b960103cfb2234797a5223311"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "sha256": "fe9b7d0526933a2d309ecd616fe093d06dde1e436f8077baf58c48a9f0332f3e"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "database": [
+    "agent_demo_test",
+    "agent_test",
+    "17.6 (Debian 17.6-2.pgdg12+1)",
+    "0.8.7"
+  ],
+  "profile": {
+    "dimensions": 1024,
+    "dtype": "bfloat16",
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "normalization": "l2",
+    "provider": "qwen_local",
+    "query_prompt": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:",
+    "revision": "demo-v1",
+    "tokenizer": "Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "weights_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+  },
+  "memory_loaded": {
+    "pid": 26712,
+    "working_set_bytes": 527994880,
+    "peak_working_set_bytes": 610783232,
+    "private_commit_bytes": 2731610112,
+    "peak_commit_bytes": 3877109760,
+    "physical_available_bytes": 577576960
+  },
+  "startup_seconds": 26.895641299983254,
+  "corpus": [
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-account-help",
+      "version": "57b472172b00fb6922c124293ee34f216ae9bb69f57119a5af3a4d82181b089d",
+      "content_hash": "90192088e2dcc1e2ad6bc09d60a1e20bd06c3733c8c28b237773e3b546e70c7d"
+    },
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-order-query",
+      "version": "d60ba550a8334ab6c67cecf369f07bead3a42099911ca6c56f2731f2b730a06f",
+      "content_hash": "828337c0d88b84fc76daf7a74400b87fd555e97317163dac5089d128e14730d8"
+    },
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-entry",
+      "version": "ac60e6e2b67c280fb23ec6e83939ec1a69985a65c7aa07b9213a24f8a7a1e838",
+      "content_hash": "2fa4acc4d76550e3d7da0a55e661568e937b8921c0117cda2d4e3f6620d2b770"
+    },
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-approval-wait",
+      "version": "817128c55fe5776e88e5f13258adfd8d6ba6e256cd921272cde923e3c930b0e5",
+      "content_hash": "6566b69c0af6b32f016e3fbe7ee039db1dab71aa5a5e67a2befe7f12d5be4941"
+    },
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-stream-help",
+      "version": "d6ef79069f3894ca9c5378ed8f04e226797557466e773864f153f897f4c11b22",
+      "content_hash": "0c551fbcdff1100efdf7b5967f496488431f9e4298cb232fac13b8f91369ef4b"
+    },
+    {
+      "document_id": "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+      "version": "8d52f9700a9c749e4aa9a21d16ab2f8e11cdd39bed6a3fda85b84b90b8ec0699",
+      "content_hash": "a382372c77d4c7cfdba2b5da0538789bc56d28048fe6da5240db0d43fe022eeb"
+    }
+  ],
+  "selected_cases_completed": true,
+  "protected_after": {
+    "sessions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "sha256": "c501d79b0ab6e00e414eba0029caf560a476bbbf0957de336df906e35712f95a"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "approvals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "sha256": "73fd07ed25eede2fcfedd1ec87576fe60b56ae3b960103cfb2234797a5223311"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "sha256": "fe9b7d0526933a2d309ecd616fe093d06dde1e436f8077baf58c48a9f0332f3e"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "protected_unchanged": true,
+  "exact_cleanup": {
+    "documents": [
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-account-help",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-order-query",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-entry",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-approval-wait",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-stream-help",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-demo-refund-safety",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-conflict-a",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-conflict-b",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-approval",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-malicious"
+    ],
+    "threads": [
+      "851a6cc4-2fb9-5eba-abc1-74c8760ac16e",
+      "3af2b542-d004-55e8-9214-b4be19a802c6",
+      "413ae84c-780b-5f52-9385-54f0f7587aa7"
+    ],
+    "conversations": [
+      "rag522-3a7ef2e2658349d98849613c561f38d2-normal",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-no_answer",
+      "rag522-3a7ef2e2658349d98849613c561f38d2-conflict"
+    ]
+  },
+  "memory_finished": {
+    "pid": 26712,
+    "working_set_bytes": 1026109440,
+    "peak_working_set_bytes": 1144942592,
+    "private_commit_bytes": 2779791360,
+    "peak_commit_bytes": 3877109760,
+    "physical_available_bytes": 355655680
+  },
+  "elapsed_seconds": 56.28137609999976,
+  "temporary_sources_removed": true
+}

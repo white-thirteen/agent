@@ -1,0 +1,16 @@
+{
+  "baseline_files": 477,
+  "intentional_changed_paths": [
+    ".codex/README.md",
+    ".codex/agents/implementer.toml",
+    ".codex/agents/qa.toml",
+    ".codex/config.toml",
+    "AGENTS.md",
+    "docs/STATE.md"
+  ],
+  "unexpected_changes": [],
+  "missing_report_links": [],
+  "branch": "v2",
+  "head": "232469acf7e576883e84d58c5a140fd598d9b00e",
+  "env_unchanged": true
+}

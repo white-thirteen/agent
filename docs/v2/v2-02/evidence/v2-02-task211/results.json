@@ -1,0 +1,7 @@
+{
+  "real_provider_probe": {"status": "ok", "attempts": 1, "summarized_ids": ["probe-1"], "usage_status": "known", "input_tokens": 19, "output_tokens": 37, "input_ceiling": 4096, "output_limit": 128, "notes": "Probe-only limits, not a verified model window. Approximate input count. Synthetic test context; no database."},
+  "initial_probe": {"status": "failed", "reason": "count_tokens_approximately imported from wrong module; corrected before successful run"},
+  "controlled_tests": {"passed": 38, "failed": 0, "warnings": 1, "note": "trustcall deprecated LangGraph Send import"},
+  "pip_check": "No broken requirements found",
+  "database": "not accessed"
+}

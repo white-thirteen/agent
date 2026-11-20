@@ -1,0 +1,306 @@
+{
+  "source_root": "C:\\Users\\15294\\AppData\\Local\\Temp\\agent-knowledge-05-4h0_d7bv",
+  "document_ids": [
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-account-help",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-stream-help",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+  ],
+  "baseline": {
+    "sessions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "sha256": "c501d79b0ab6e00e414eba0029caf560a476bbbf0957de336df906e35712f95a"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "approvals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "sha256": "73fd07ed25eede2fcfedd1ec87576fe60b56ae3b960103cfb2234797a5223311"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "sha256": "fe9b7d0526933a2d309ecd616fe093d06dde1e436f8077baf58c48a9f0332f3e"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "profile": "{\"dimensions\":1024,\"dtype\":\"bfloat16\",\"model\":\"Qwen/Qwen3-Embedding-0.6B\",\"normalization\":\"l2\",\"provider\":\"qwen_local\",\"query_prompt\":\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:\",\"revision\":\"demo-v1\",\"tokenizer\":\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\",\"weights_revision\":\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\"}",
+  "versions": {
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-account-help": "7076f4d285b1e631c4bedc877d54716a880f824b5976bb95c5877054f2c0f3c0",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query": "e97eadc816f7ed9e35312654f6d702f835cc17f12026c7c32088bbbeb4f0d150",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry": "62f185cfd5d67c1623d762249566d49e40f10eb4f81062806d9a063fe71813c6",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait": "40fc55dd8329ab1808980d2565db9f57aff85e1a522b3e585823058268f8318b",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-stream-help": "019711e9f4e56b770ace6e5001389e913571631178fdd31d9f6202b668bf32d6",
+    "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety": "bb33bd9dbb495a3ff59607fdc6e390e627617b76df5499fb0865ffe534f5c42e"
+  },
+  "runs": [
+    {
+      "action": "prepare",
+      "memory_before": {
+        "pid": 36264,
+        "working_set_bytes": 522317824,
+        "peak_working_set_bytes": 605245440,
+        "private_commit_bytes": 2726293504,
+        "peak_commit_bytes": 3871641600,
+        "physical_available_bytes": 1144324096
+      },
+      "startup_until_probe_seconds": 18.39050719999068,
+      "profile": {
+        "dimensions": 1024,
+        "dtype": "bfloat16",
+        "model": "Qwen/Qwen3-Embedding-0.6B",
+        "normalization": "l2",
+        "provider": "qwen_local",
+        "query_prompt": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:",
+        "revision": "demo-v1",
+        "tokenizer": "Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+        "weights_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+      },
+      "ingest": {
+        "published": [
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-account-help",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-stream-help",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+        ],
+        "unchanged": [],
+        "embedding_batches": 6
+      },
+      "ingest_seconds": 5.6992939000047045,
+      "unchanged": {
+        "published": [],
+        "unchanged": [
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-account-help",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-stream-help",
+          "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+        ],
+        "embedding_batches": 0
+      },
+      "document_vector": {
+        "dimensions": 1024,
+        "norm": 1.000781697834107
+      },
+      "query_vector": {
+        "dimensions": 1024,
+        "norm": 1.0005436847882927
+      },
+      "queries": [
+        {
+          "query": "我想查我的订单，应该提供什么信息？",
+          "expected": "order-query",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+          ],
+          "elapsed_ms": 289.54690000682604,
+          "context_tokens": 1013
+        },
+        {
+          "query": "我能在聊天里直接说批准来完成退款吗？",
+          "expected": "approval-wait",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+          ],
+          "elapsed_ms": 324.205199998687,
+          "context_tokens": 1071
+        },
+        {
+          "query": "退款会扣真实银行卡的钱吗？",
+          "expected": "refund-safety",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait"
+          ],
+          "elapsed_ms": 298.9384999964386,
+          "context_tokens": 1071
+        }
+      ],
+      "scope_denied": true,
+      "update": {
+        "document_id": "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+        "old_version": "735c2821b1a40930fbfa65c4e2a5843f561ef8acb2f8e2037a12f282127bfed9",
+        "new_version": "e97eadc816f7ed9e35312654f6d702f835cc17f12026c7c32088bbbeb4f0d150",
+        "batches": 2,
+        "old_sources_invalid": true,
+        "initial_retrieval_count": 3
+      },
+      "protected_rows_unchanged": true,
+      "memory_after": {
+        "pid": 36264,
+        "working_set_bytes": 1191641088,
+        "peak_working_set_bytes": 1297006592,
+        "private_commit_bytes": 2758000640,
+        "peak_commit_bytes": 3871641600,
+        "physical_available_bytes": 541241344
+      }
+    },
+    {
+      "action": "check",
+      "memory_before": {
+        "pid": 42552,
+        "working_set_bytes": 526925824,
+        "peak_working_set_bytes": 609525760,
+        "private_commit_bytes": 2732179456,
+        "peak_commit_bytes": 3875680256,
+        "physical_available_bytes": 788795392
+      },
+      "startup_until_probe_seconds": 16.1201635000034,
+      "profile": {
+        "dimensions": 1024,
+        "dtype": "bfloat16",
+        "model": "Qwen/Qwen3-Embedding-0.6B",
+        "normalization": "l2",
+        "provider": "qwen_local",
+        "query_prompt": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:",
+        "revision": "demo-v1",
+        "tokenizer": "Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+        "weights_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+      },
+      "actual_model": {
+        "class": "Qwen3Model",
+        "device": "cpu",
+        "dtype": "torch.bfloat16",
+        "parameters": 595776512
+      },
+      "queries": [
+        {
+          "query": "我想查我的订单，应该提供什么信息？",
+          "expected": "order-query",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-order-query",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry"
+          ],
+          "elapsed_ms": 2650.1598000031663,
+          "context_tokens": 943
+        },
+        {
+          "query": "我能在聊天里直接说批准来完成退款吗？",
+          "expected": "approval-wait",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety"
+          ],
+          "elapsed_ms": 189.8978000099305,
+          "context_tokens": 1071
+        },
+        {
+          "query": "退款会扣真实银行卡的钱吗？",
+          "expected": "refund-safety",
+          "returned_document_ids": [
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-safety",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-refund-entry",
+            "qwen05-45b26e2deb0243bebdd1a5a63cbc67d0-demo-approval-wait"
+          ],
+          "elapsed_ms": 195.2393999963533,
+          "context_tokens": 1071
+        }
+      ],
+      "scope_denied": true,
+      "persisted_versions_unchanged": true,
+      "protected_rows_unchanged": true,
+      "memory_after": {
+        "pid": 42552,
+        "working_set_bytes": 1370902528,
+        "peak_working_set_bytes": 1370902528,
+        "private_commit_bytes": 2716246016,
+        "peak_commit_bytes": 3875680256,
+        "physical_available_bytes": 246153216
+      }
+    },
+    {
+      "action": "cleanup",
+      "memory_before": {
+        "pid": 28712,
+        "working_set_bytes": 119369728,
+        "peak_working_set_bytes": 119369728,
+        "private_commit_bytes": 103612416,
+        "peak_commit_bytes": 103612416,
+        "physical_available_bytes": 1507840000
+      },
+      "startup_until_probe_seconds": 1.3941918000055011,
+      "profile": {
+        "dimensions": 1024,
+        "dtype": "bfloat16",
+        "model": "Qwen/Qwen3-Embedding-0.6B",
+        "normalization": "l2",
+        "provider": "qwen_local",
+        "query_prompt": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:",
+        "revision": "demo-v1",
+        "tokenizer": "Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+        "weights_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+      },
+      "exact_cleanup_verified": true,
+      "protected_rows_unchanged": true,
+      "memory_after": {
+        "pid": 28712,
+        "working_set_bytes": 119504896,
+        "peak_working_set_bytes": 119504896,
+        "private_commit_bytes": 103612416,
+        "peak_commit_bytes": 103612416,
+        "physical_available_bytes": 1519128576
+      }
+    }
+  ],
+  "source_temp_cleanup": {
+    "removed_files": [
+      "account-help.md",
+      "approval-wait.md",
+      "manifest.json",
+      "order-query.md",
+      "refund-entry.md",
+      "refund-safety.md",
+      "stream-help.md"
+    ],
+    "directory_removed": true
+  },
+  "final_full_regression": {
+    "command": "pytest -q --showlocals (explicit real test URL)",
+    "passed": 172,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_seconds": 65.01,
+    "protected_baseline_verified_after": true,
+    "own_documents_remaining": 0
+  }
+}

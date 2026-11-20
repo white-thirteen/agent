@@ -11,6 +11,21 @@ from app.infrastructure.postgres import DatabaseUnavailableError, open_pool
 from app.main import create_app
 
 
+class EmptySessionPool:
+    """Resource fixture with no persisted sessions for the real cutover check."""
+
+    @asynccontextmanager
+    async def connection(self):
+        yield self
+
+    async def execute(self, query):
+        assert query == "SELECT user_id,conversation_id,thread_id FROM sessions"
+        return self
+
+    async def fetchall(self):
+        return []
+
+
 async def test_model_transports_close_on_success_and_initialization_failure(monkeypatch):
     import app.infrastructure.model as module
 
@@ -117,7 +132,7 @@ async def test_shutdown_settles_execution_before_model_and_pool_close(monkeypatc
 
     gateway = ModelGateway(ControlledModel([blocked]), ModelCallLimits(8, 30, 0))
 
-    class Pool:
+    class Pool(EmptySessionPool):
         closed = False
 
         async def close(self):
@@ -242,7 +257,7 @@ async def test_assembly_optional_failures_and_partial_cleanup(monkeypatch, failu
 
     events, builds = [], []
 
-    class Pool:
+    class Pool(EmptySessionPool):
         def __init__(self, name):
             self.name = name
 

@@ -1,0 +1,1 @@
+{"cleanup_thread_absent": true, "inflight_rejected": true, "saved_floor": 2, "saved_rediscoveries": 1}

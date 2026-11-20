@@ -1,0 +1,96 @@
+"""Opt-in Task 1.3.2 business check through the actual configured chat gateway in isolated PG."""
+from pathlib import Path
+from time import perf_counter
+from uuid import uuid4
+import asyncio,json,tempfile
+import httpx
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from app.core.config import Settings
+from app.infrastructure.checkpoint import checkpoint_serializer
+from app.knowledge.chunking import prepare_document
+from app.knowledge.models import ManifestEntry
+from app.main import create_app
+from scripts import run_async
+cases=[
+ ('normal','模拟退款会扣真实银行卡的钱吗？','completed'),
+ ('Q21','火星基地量子发动机的保修期是多少年？','rejected'),
+ ('Q22','真实银行卡退款需要几天到账？','rejected'),
+ ('Q23','生产账号忘记密码怎样重置？','rejected'),
+ ('Q24','国际物流费用如何计算？','rejected'),
+ ('conflict','Demo蓝星计划的资料保留期是多少天？','rejected'),
+]
+async def main():
+    settings=Settings(embedding_enabled=True,knowledge_retrieval_mode='hybrid',app_env='test')
+    assert settings.model_configured
+    app=create_app(settings)
+    new=uuid4().hex[:12]
+    sessions=[]
+    conflicts=[]
+    result={'isolation':'codex-task131-0e62','cases':[],'model_name':settings.model_name}
+    output=Path('.git/task132-business.json')
+    assert not output.exists()
+    async with app.router.lifespan_context(app):
+        assert app.state.knowledge_status=='ready'
+        service=app.state.knowledge_retriever
+        saver=AsyncPostgresSaver(app.state.checkpoint_pool,serde=checkpoint_serializer())
+        try:
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://local',timeout=180) as client:
+                for label,question,expected in cases:
+                    if label=='conflict':
+                        for i,body in enumerate(('Demo蓝星计划的资料保留期固定为30天。','Demo蓝星计划的资料保留期固定为90天。')):
+                            key=f'task132-{new}-conflict-{i}'
+                            with tempfile.TemporaryDirectory(prefix='task132-fixture-') as temp:
+                                root=Path(temp); (root/'fixture.md').write_text('# Demo蓝星计划\n\n'+body,encoding='utf-8')
+                                doc=prepare_document(root,ManifestEntry(document_id=key,filename='fixture.md',source_title='Demo蓝星计划',domain='platform_help',public_source_key=key),service.profile)
+                            vectors=await service.candidate_retriever.embeddings.aembed_documents([x.embedding_text for x in doc.chunks])
+                            if await service.repository.replace(doc,vectors):conflicts.append(key)
+                    conversation=f'task132-{new}-{label}'
+                    sessions.append(conversation)
+                    stamp=perf_counter()
+                    entry={'label':label,'expected':expected}
+                    try:
+                        async with asyncio.timeout(150):
+                            response=await client.post('/agent/chat',json={'user_id':'dev-user','conversation_id':conversation,'message':'请查知识库说明：'+question,'input_mode':'new_task'})
+                        response.raise_for_status()
+                        events=[json.loads(line[6:]) for line in response.text.splitlines() if line.startswith('data: {')]
+                        entry['events']=[x for x in events if 'content' in x or 'status' in x]
+                        binding=await app.state.sessions.get(user_id='dev-user',conversation_id=conversation)
+                        assert binding
+                        private=[]
+                        async for cp in saver.alist({'configurable':{'thread_id':str(binding.thread_id)}}):
+                            values=cp.checkpoint['channel_values']
+                            if values.get('retrieval_observation') and values.get('result'):private.append(values)
+                        state=next((x for x in private if x['retrieval_observation'].get('mode')=='hybrid'),None)
+                        if state:
+                            obs=state['retrieval_observation']
+                            graph_result=state['result']
+                            sources=[s.model_dump(mode='json') for s in graph_result.sources]
+                            entry.update(actual=graph_result.status,approved_answer=graph_result.approved_answer,
+                                         sources=sources,contract_version=obs['contract_version'],candidate_count=obs['candidate_count'])
+                            entry['pass']=graph_result.status==expected and (
+                                any(s['document_id']=='demo-refund-safety' for s in sources)
+                                if expected=='completed' else not sources and not graph_result.approved_answer)
+                        else:
+                            entry.update(actual='no_completed_hybrid_node_state',**{'pass':False})
+                    except (TimeoutError,httpx.HTTPError,AssertionError) as error:
+                        entry.update(actual=type(error).__name__,**{'pass':False})
+                    finally:
+                        entry['seconds']=round(perf_counter()-stamp,3)
+                        result['cases'].append(entry)
+                        print('Business case',label,entry['actual'],entry['pass'],flush=True)
+                        output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        finally:
+            await app.state.agent_runtime.shutdown()
+            for conversation in sessions:
+                binding=await app.state.sessions.get(user_id='dev-user',conversation_id=conversation)
+                if binding:await saver.adelete_thread(str(binding.thread_id))
+            async with app.state.pool.connection() as connection:
+                await connection.execute('DELETE FROM sessions WHERE user_id=%s AND conversation_id=ANY(%s)',('dev-user',sessions))
+            for key in conflicts:await service.repository.remove(key)
+            result['exact_cleanup']={'conversations':len(sessions),'conflict_documents':len(conflicts)}
+            output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    result['passed']=sum(x['pass'] for x in result['cases'])
+    result['resources_closed']=app.state.pool.closed and app.state.checkpoint_pool.closed
+    output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    print('Business results',result['passed'],len(cases),'resources closed',result['resources_closed'],flush=True)
+run_async(main())

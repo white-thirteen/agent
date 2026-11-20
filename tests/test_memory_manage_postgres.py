@@ -13,8 +13,7 @@ import pytest
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from langgraph.store.base import GetOp, PutOp
 from pydantic import SecretStr
-from runtime_support import context, run_to_end
-from test_memory_manage import memory_parent, memory_resources
+from test_memory_manage import memory_resources
 from test_memory_postgres import database_snapshot
 
 from app.core.config import Settings
@@ -24,7 +23,6 @@ from app.infrastructure.postgres import open_pool, validate_test_target
 from app.infrastructure.store import store_resources
 from app.memory.manager import preference_namespace
 from app.memory.models import MemoryCommand
-from app.runtime.agent_runtime import AgentRuntime
 from app.runtime.models import RunLimits
 from app.tools.models import MemoryBusinessContext
 from scripts import run_async
@@ -79,43 +77,38 @@ def test_real_memory_commands_cross_threads_process_crud_and_exact_cleanup():
 
     async def scenario():
         pool = await open_pool(settings)
-        checkpoint_pool = await open_checkpoint_pool(settings)
-        saver = AsyncPostgresSaver(checkpoint_pool, serde=checkpoint_serializer())
         before = await database_snapshot(pool)
-        threads = []
-        runtime = None
         try:
             async with store_resources(settings) as resource:
                 observed = ObservedStore(resource)
                 manager, registry, executor = memory_resources(observed, settings.demo_user_ids)
-                graph = memory_parent(registry, executor, saver)
-                runtime = AgentRuntime(graph, run_limits=RunLimits(30, 12))
+                from app.graph.specialists.knowledge.memory import parse_explicit_memory_command
+                from app.runtime.context import DemoIdentity
+                from app.services.preference_service import PreferenceService
+
+                service = PreferenceService(pool, executor, user_ids=settings.demo_user_ids)
 
                 async def command(text, user=None):
-                    thread = "memory532-thread-" + uuid4().hex
-                    threads.append(thread)
-                    ctx = replace(
-                        context(
-                            user=user or settings.demo_user_ids[0],
-                            thread=thread,
-                            conversation="memory532-conv-" + uuid4().hex,
-                            message=text,
-                        ),
-                        permission_scopes=frozenset({"memory:read", "memory:write"}),
+                    identity = DemoIdentity(
+                        user or settings.demo_user_ids[0],
+                        frozenset({"memory:read", "memory:write"}),
                     )
-                    _, view, _ = await run_to_end(runtime, ctx)
-                    saved = await graph.aget_state({"configurable": {"thread_id": thread}})
-                    assert view.task_status == "completed", (view.task_status, view.error)
-                    assert not saved.values["sources"]
-                    assert view.run_usage.tool_calls == (1 if text == "请查看偏好记忆" else 2)
-                    return saved.values["specialist_result"]
+                    parsed = parse_explicit_memory_command(text)
+                    if parsed.operation == "read":
+                        return await service.read(identity)
+                    current = await manager.snapshot(user_id=identity.user_id)
+                    result = await service.mutate(
+                        identity, str(uuid4()), current.revision or 0, parsed
+                    )
+                    assert result["status"] == "applied"
+                    return result
 
                 first = await command("请记住：回答语言=英语")
-                assert first.facts["memory_result"]["revision"] == 1
+                assert first["revision"] == 1
                 cross = await command("请查看偏好记忆")
-                assert cross.facts["preferences"] == {"answer_language": "en"}
+                assert cross["preferences"] == {"answer_language": "en"}
                 other = await command("请查看偏好记忆", settings.demo_user_ids[1])
-                assert other.facts["preferences"] == {} and other.facts["revision"] is None
+                assert other["preferences"] == {} and other["revision"] is None
                 await command("请修改记忆：回答风格=详细")
                 assert (await manager.snapshot(user_id=settings.demo_user_ids[0])).preferences == {
                     "answer_language": "en",
@@ -219,13 +212,9 @@ run_async(main())"""
                 await command("请记住：回答风格=简洁")
                 await command("请删除全部偏好记忆")
                 final = await command("请查看偏好记忆")
-                assert final.facts["preferences"] == {} and final.facts["revision"] == 8
+                assert final["preferences"] == {} and final["revision"] == 8
                 assert observed.puts == 8
         finally:
-            if runtime:
-                await runtime.shutdown()
-            for thread in threads:
-                await saver.adelete_thread(thread)
             async with store_resources(settings) as resource:
                 await resource.abatch(
                     [
@@ -233,8 +222,12 @@ run_async(main())"""
                         for user in settings.demo_user_ids
                     ]
                 )
+            async with pool.connection() as conn:
+                for user in settings.demo_user_ids:
+                    await conn.execute(
+                        "DELETE FROM preference_command_receipt WHERE user_id=%s", (user,)
+                    )
             assert await database_snapshot(pool) == before
-            await checkpoint_pool.close()
             await pool.close()
 
     run_async(scenario())

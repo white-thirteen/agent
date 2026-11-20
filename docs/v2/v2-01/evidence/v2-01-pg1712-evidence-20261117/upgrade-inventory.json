@@ -1,0 +1,332 @@
+{
+  "agent_demo": {
+    "extensions": [
+      {
+        "name": "plpgsql",
+        "version": "1.0"
+      },
+      {
+        "name": "vector",
+        "version": "0.8.7"
+      }
+    ],
+    "indexes": [
+      {
+        "name": "schema_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX schema_migrations_pkey ON public.schema_migrations USING btree (version)"
+      },
+      {
+        "name": "sessions_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX sessions_pkey ON public.sessions USING btree (user_id, conversation_id)"
+      },
+      {
+        "name": "demo_orders_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX demo_orders_pkey ON public.demo_orders USING btree (order_id)"
+      },
+      {
+        "name": "demo_orders_owner_created",
+        "method": "btree",
+        "definition": "CREATE INDEX demo_orders_owner_created ON public.demo_orders USING btree (owner_id, created_at DESC, order_id DESC)"
+      },
+      {
+        "name": "sessions_thread_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX sessions_thread_id_key ON public.sessions USING btree (thread_id)"
+      },
+      {
+        "name": "checkpoint_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON public.checkpoint_migrations USING btree (v)"
+      },
+      {
+        "name": "checkpoints_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoints_pkey ON public.checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+      },
+      {
+        "name": "checkpoint_blobs_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON public.checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+      },
+      {
+        "name": "checkpoint_writes_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_writes_pkey ON public.checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+      },
+      {
+        "name": "checkpoints_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoints_thread_id_idx ON public.checkpoints USING btree (thread_id)"
+      },
+      {
+        "name": "checkpoint_blobs_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoint_blobs_thread_id_idx ON public.checkpoint_blobs USING btree (thread_id)"
+      },
+      {
+        "name": "checkpoint_writes_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoint_writes_thread_id_idx ON public.checkpoint_writes USING btree (thread_id)"
+      },
+      {
+        "name": "demo_orders_order_owner_unique",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX demo_orders_order_owner_unique ON public.demo_orders USING btree (order_id, owner_id)"
+      },
+      {
+        "name": "refund_requests_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_pkey ON public.refund_requests USING btree (application_id)"
+      },
+      {
+        "name": "refund_requests_operation_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_operation_id_key ON public.refund_requests USING btree (operation_id)"
+      },
+      {
+        "name": "refund_requests_user_id_task_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_user_id_task_id_key ON public.refund_requests USING btree (user_id, task_id)"
+      },
+      {
+        "name": "refund_requests_thread_id_task_id_call_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_thread_id_task_id_call_id_key ON public.refund_requests USING btree (thread_id, task_id, call_id)"
+      },
+      {
+        "name": "refund_requests_order_succeeded",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_order_succeeded ON public.refund_requests USING btree (order_id) WHERE (status = 'SUCCEEDED'::text)"
+      },
+      {
+        "name": "approvals_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX approvals_pkey ON public.approvals USING btree (approval_id)"
+      },
+      {
+        "name": "approvals_application_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX approvals_application_id_key ON public.approvals USING btree (application_id)"
+      },
+      {
+        "name": "store_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX store_migrations_pkey ON public.store_migrations USING btree (v)"
+      },
+      {
+        "name": "knowledge_documents_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_documents_pkey ON public.knowledge_documents USING btree (document_id)"
+      },
+      {
+        "name": "knowledge_documents_document_id_document_version_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_documents_document_id_document_version_key ON public.knowledge_documents USING btree (document_id, document_version)"
+      },
+      {
+        "name": "knowledge_documents_domain_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX knowledge_documents_domain_idx ON public.knowledge_documents USING btree (domain)"
+      },
+      {
+        "name": "knowledge_chunks_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_chunks_pkey ON public.knowledge_chunks USING btree (chunk_id)"
+      },
+      {
+        "name": "knowledge_chunks_document_id_ordinal_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_chunks_document_id_ordinal_key ON public.knowledge_chunks USING btree (document_id, ordinal)"
+      },
+      {
+        "name": "knowledge_chunks_document_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX knowledge_chunks_document_idx ON public.knowledge_chunks USING btree (document_id, document_version)"
+      },
+      {
+        "name": "store_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX store_pkey ON public.store USING btree (prefix, key)"
+      },
+      {
+        "name": "store_prefix_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX store_prefix_idx ON public.store USING btree (prefix text_pattern_ops)"
+      },
+      {
+        "name": "idx_store_expires_at",
+        "method": "btree",
+        "definition": "CREATE INDEX idx_store_expires_at ON public.store USING btree (expires_at) WHERE (expires_at IS NOT NULL)"
+      }
+    ],
+    "preload": ""
+  },
+  "agent_demo_test": {
+    "extensions": [
+      {
+        "name": "plpgsql",
+        "version": "1.0"
+      },
+      {
+        "name": "vector",
+        "version": "0.8.7"
+      }
+    ],
+    "indexes": [
+      {
+        "name": "schema_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX schema_migrations_pkey ON public.schema_migrations USING btree (version)"
+      },
+      {
+        "name": "sessions_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX sessions_pkey ON public.sessions USING btree (user_id, conversation_id)"
+      },
+      {
+        "name": "checkpoint_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON public.checkpoint_migrations USING btree (v)"
+      },
+      {
+        "name": "checkpoints_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoints_pkey ON public.checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+      },
+      {
+        "name": "checkpoint_blobs_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON public.checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+      },
+      {
+        "name": "checkpoint_writes_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX checkpoint_writes_pkey ON public.checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+      },
+      {
+        "name": "checkpoints_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoints_thread_id_idx ON public.checkpoints USING btree (thread_id)"
+      },
+      {
+        "name": "checkpoint_blobs_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoint_blobs_thread_id_idx ON public.checkpoint_blobs USING btree (thread_id)"
+      },
+      {
+        "name": "checkpoint_writes_thread_id_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX checkpoint_writes_thread_id_idx ON public.checkpoint_writes USING btree (thread_id)"
+      },
+      {
+        "name": "knowledge_documents_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_documents_pkey ON public.knowledge_documents USING btree (document_id)"
+      },
+      {
+        "name": "knowledge_documents_document_id_document_version_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_documents_document_id_document_version_key ON public.knowledge_documents USING btree (document_id, document_version)"
+      },
+      {
+        "name": "knowledge_documents_domain_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX knowledge_documents_domain_idx ON public.knowledge_documents USING btree (domain)"
+      },
+      {
+        "name": "knowledge_chunks_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_chunks_pkey ON public.knowledge_chunks USING btree (chunk_id)"
+      },
+      {
+        "name": "knowledge_chunks_document_id_ordinal_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX knowledge_chunks_document_id_ordinal_key ON public.knowledge_chunks USING btree (document_id, ordinal)"
+      },
+      {
+        "name": "demo_orders_order_owner_unique",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX demo_orders_order_owner_unique ON public.demo_orders USING btree (order_id, owner_id)"
+      },
+      {
+        "name": "refund_requests_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_pkey ON public.refund_requests USING btree (application_id)"
+      },
+      {
+        "name": "refund_requests_operation_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_operation_id_key ON public.refund_requests USING btree (operation_id)"
+      },
+      {
+        "name": "refund_requests_user_id_task_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_user_id_task_id_key ON public.refund_requests USING btree (user_id, task_id)"
+      },
+      {
+        "name": "refund_requests_thread_id_task_id_call_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_thread_id_task_id_call_id_key ON public.refund_requests USING btree (thread_id, task_id, call_id)"
+      },
+      {
+        "name": "refund_requests_order_succeeded",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX refund_requests_order_succeeded ON public.refund_requests USING btree (order_id) WHERE (status = 'SUCCEEDED'::text)"
+      },
+      {
+        "name": "sessions_thread_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX sessions_thread_id_key ON public.sessions USING btree (thread_id)"
+      },
+      {
+        "name": "approvals_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX approvals_pkey ON public.approvals USING btree (approval_id)"
+      },
+      {
+        "name": "approvals_application_id_key",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX approvals_application_id_key ON public.approvals USING btree (application_id)"
+      },
+      {
+        "name": "knowledge_chunks_document_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX knowledge_chunks_document_idx ON public.knowledge_chunks USING btree (document_id, document_version)"
+      },
+      {
+        "name": "store_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX store_pkey ON public.store USING btree (prefix, key)"
+      },
+      {
+        "name": "store_prefix_idx",
+        "method": "btree",
+        "definition": "CREATE INDEX store_prefix_idx ON public.store USING btree (prefix text_pattern_ops)"
+      },
+      {
+        "name": "idx_store_expires_at",
+        "method": "btree",
+        "definition": "CREATE INDEX idx_store_expires_at ON public.store USING btree (expires_at) WHERE (expires_at IS NOT NULL)"
+      },
+      {
+        "name": "demo_orders_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX demo_orders_pkey ON public.demo_orders USING btree (order_id)"
+      },
+      {
+        "name": "demo_orders_owner_created",
+        "method": "btree",
+        "definition": "CREATE INDEX demo_orders_owner_created ON public.demo_orders USING btree (owner_id, created_at DESC, order_id DESC)"
+      },
+      {
+        "name": "store_migrations_pkey",
+        "method": "btree",
+        "definition": "CREATE UNIQUE INDEX store_migrations_pkey ON public.store_migrations USING btree (v)"
+      }
+    ],
+    "preload": ""
+  }
+}

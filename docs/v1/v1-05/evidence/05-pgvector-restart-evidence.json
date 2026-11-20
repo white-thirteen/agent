@@ -1,0 +1,22 @@
+{
+  "test": {
+    "postmaster_before": "2026-11-12 16:11:02.919855+00",
+    "postmaster_after": "2026-11-13 13:47:52.823667+00",
+    "server_version": "170006",
+    "pgvector": "0.8.7",
+    "all_public_rows_equal": true,
+    "knowledge_documents": 6,
+    "chunks_and_vector_hashes_equal": true,
+    "qwen_post_restart_query_pending": true
+  },
+  "development": {
+    "postmaster_before": "2026-11-12 16:11:02.919855+00",
+    "postmaster_after": "2026-11-13 13:47:52.823667+00",
+    "server_version": "170006",
+    "pgvector": "0.8.7",
+    "all_public_rows_equal": true,
+    "knowledge_documents": 0,
+    "chunks_and_vector_hashes_equal": true,
+    "qwen_post_restart_query_pending": true
+  }
+}

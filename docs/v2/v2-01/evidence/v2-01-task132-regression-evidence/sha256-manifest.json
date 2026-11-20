@@ -1,0 +1,10 @@
+{
+  "business-first-probe.py.txt": "ce2bac184fd2556f23b8036a220ace209a5b78bf6d7390326b381deb97e86b32",
+  "business-first.json": "b32a842e55f3c62a18c497c4fcf8497969692d22ec729a6c6b81d4287bb0a8b5",
+  "business-frozen-probe.py.txt": "0973deaa7ba80348b1e3912a9b3419c563f015e56367e865cdd8f482e8607054",
+  "business-frozen.json": "80cf9b91d566a38795abd963382df9354d53f81280c8f602172a636f7b02582c",
+  "final-fixture-cleanup.json": "d9bd92747542c0bdb3c231888a327ffed913cc991d754592b8d330670ba9d4c5",
+  "task132-full-qwen-retest.json": "85ad9f737084f48b17e6bf789449cc5033de0b1449bc4eedff74126d5d3d9c86",
+  "task132-full-regression-retest.json": "75e3bb22f43f925eeb112f940b56dd4a3242ba442994656f0b8362021b01afee",
+  "v1-full-first-run.json": "f7c939fb8d321cb9d0a3eba5cdec88b3fbbf2cfb72e6b595c302a30233902acc"
+}

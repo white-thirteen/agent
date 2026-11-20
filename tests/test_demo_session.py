@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+from copy import deepcopy
 from pathlib import Path
 from uuid import uuid4
 
@@ -15,11 +16,66 @@ from app.infrastructure.sessions import SessionRepository
 from app.infrastructure.store import store_resources
 from app.memory.manager import preference_namespace
 from scripts import demo_session, run_async
-from scripts.verify_05_memory_manage import database_snapshot, fingerprints
+from scripts.verify_05_memory_manage import (
+    compare_publication_snapshots,
+    database_snapshot,
+    fingerprints,
+)
 
 
 def directory_bytes(folder):
     return {str(p.relative_to(folder)): p.read_bytes() for p in folder.rglob("*") if p.is_file()}
+
+
+def test_snapshot_comparison_only_accepts_expected_watermark_advance():
+    state = {
+        "singleton": True,
+        "sparse_profile": "profile",
+        "index_name": "idx",
+        "ready": True,
+        "watermark": 5,
+    }
+    before = {
+        "knowledge_index_state": ([(json.dumps(state),)], [("watermark", "bigint")]),
+        "demo_orders": ([("protected",)], [("id", "text")]),
+    }
+
+    def with_state(**changes):
+        snapshot = deepcopy(before)
+        snapshot["knowledge_index_state"][0][0] = (json.dumps(state | changes),)
+        return snapshot
+
+    assert compare_publication_snapshots(before, with_state(watermark=7), expected_delta=2)[
+        "protected_unchanged"
+    ]
+    assert not compare_publication_snapshots(before, with_state(watermark=999))[
+        "protected_unchanged"
+    ]
+    for changed in (
+        with_state(watermark=4),
+        with_state(watermark=6),
+        with_state(watermark=7, ready=False),
+        with_state(watermark=7, sparse_profile="other"),
+        with_state(watermark=7, index_name="other"),
+    ):
+        assert not compare_publication_snapshots(before, changed, expected_delta=2)[
+            "protected_unchanged"
+        ]
+    changed = with_state(watermark=7)
+    changed["demo_orders"][0].append(("unexpected",))
+    assert not compare_publication_snapshots(before, changed)["protected_unchanged"]
+    changed = with_state(watermark=7)
+    changed["knowledge_index_state"][1].append(("extra", "text"))
+    assert not compare_publication_snapshots(before, changed)["protected_unchanged"]
+
+
+def test_cleanup_intent_survives_delete_and_report_failures(tmp_path):
+    assert demo_session.cleanup_publication_delta(tmp_path, "owned", False) == 0
+    assert demo_session.cleanup_publication_delta(tmp_path, "owned", True) == 2
+    # The document has already been deleted, but the original intent remains authoritative.
+    assert demo_session.cleanup_publication_delta(tmp_path, "owned", False) == 2
+    with pytest.raises(AssertionError):
+        demo_session.cleanup_publication_delta(tmp_path, "other", False)
 
 
 def test_existing_prepare_directory_never_enters_cleanup(tmp_path, monkeypatch):
@@ -175,7 +231,9 @@ def test_real_prepare_ownership_and_partial_publication_cleanup(tmp_path):
         assert cleanup["protected_unchanged"] is True
         cleaned_folders.add(failed_folder)
         after_failure, _, _ = run_async(snapshot(dummy))
-        assert after_failure == baseline
+        assert compare_publication_snapshots(baseline, after_failure, expected_delta=4)[
+            "protected_unchanged"
+        ]
         report["current_call_failure"] = {
             "exit": failed.returncode,
             "injection": "after actual Qwen1024 publication committed, before manifest completion",
@@ -190,6 +248,7 @@ def test_real_prepare_ownership_and_partial_publication_cleanup(tmp_path):
                 assert result.returncode == 0, "Exact cleanup failed"
         final, _, _ = run_async(snapshot(dummy))
         report["protected_after"] = fingerprints(final)
-        report["protected_unchanged"] = final == baseline
+        comparison = compare_publication_snapshots(baseline, final, expected_delta=4)
+        report.update(comparison)
         output.write_text(json.dumps(report, ensure_ascii=False, indent=2), "utf-8")
-        assert final == baseline
+        assert comparison["protected_unchanged"]

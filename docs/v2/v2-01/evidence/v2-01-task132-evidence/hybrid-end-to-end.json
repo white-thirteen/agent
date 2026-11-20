@@ -1,0 +1,351 @@
+{
+  "fixture_sha256": "404b70e8732b6c7be1eedeae97055c1763643daf12a382853d21794b4665d2df",
+  "qwen_cold_seconds": 20.97502189996885,
+  "bge_cold_seconds": 1.8605900999973528,
+  "memory_after_run": {
+    "working_set_bytes": 1461809152,
+    "peak_working_set_bytes": 1463910400,
+    "available_physical_bytes": 357842944,
+    "total_physical_bytes": 16385978368
+  },
+  "attempts": [
+    {
+      "error": null,
+      "evidence_ids": [
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q01",
+      "elapsed_ms": 1954.0215999586508
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "0f56a9e0dac911910a74727f68379b4562bb6ff3e95e727a86fdad0e567d7d31"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q02",
+      "elapsed_ms": 2232.6587999705225
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q03",
+      "elapsed_ms": 2222.207199956756
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q04",
+      "elapsed_ms": 2250.574100005906
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q05",
+      "elapsed_ms": 2427.4795000092126
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q06",
+      "elapsed_ms": 2652.2136999992654
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q07",
+      "elapsed_ms": 2346.869200002402
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q08",
+      "elapsed_ms": 2408.820799959358
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q09",
+      "elapsed_ms": 2253.0165999778546
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q10",
+      "elapsed_ms": 2313.0286999512464
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q11",
+      "elapsed_ms": 2161.389800021425
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q12",
+      "elapsed_ms": 2121.774600003846
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+        "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q13",
+      "elapsed_ms": 1996.4605999994092
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q14",
+      "elapsed_ms": 2264.0121000004
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "fd9240e511ed9c3c6da588855ff2839dbd21c86acfac1dba289dcadf7d8defb1",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q15",
+      "elapsed_ms": 2161.37530002743
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "cfdd682d0d83cf3e12a338f67c22e58d3ab02476b4db2710b1c6829c6b748ea0",
+        "0f56a9e0dac911910a74727f68379b4562bb6ff3e95e727a86fdad0e567d7d31",
+        "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q16",
+      "elapsed_ms": 2455.932400014717
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d",
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q17",
+      "elapsed_ms": 2274.5288999867626
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q18",
+      "elapsed_ms": 2258.183599973563
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q19",
+      "elapsed_ms": 2359.5259999856353
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af",
+        "24e17dbb8901e86d908d384d8238efe036991fb424e258ce7b7123d728a00c4b",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q20",
+      "elapsed_ms": 2153.169199998956
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "ee34308535ea52c65595138788a4a86f2e836739b5e73f979c9627953d49ab5c",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e",
+        "82d78fb5860f9f312532ba084f9d48274cdbdd1fd5dd51414da07deefaa0d59d"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q21",
+      "elapsed_ms": 2332.8086999827065
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5",
+        "1aa980a483dbfa32c723005df9786e0eced2479c3898fe43a61e2890c1c9030d",
+        "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+        "ba4effada25bb2a4a4b7d630a4bd1f204029f80f708f27fad74e503b1379488e"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q22",
+      "elapsed_ms": 2291.3079999852926
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "0f56a9e0dac911910a74727f68379b4562bb6ff3e95e727a86fdad0e567d7d31",
+        "f8ba6697318be00f56f488c6bcfc54807389c00dcaaa994f09f7965dd3a485c7",
+        "3754d03a7199f6225d9c880589585b58e7da2b1847765304d2b740026c77aa1b",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "ce85f25c161f53e1abadbc5939068dcd615f75437ce42cb4a9b94e5067d933a5"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q23",
+      "elapsed_ms": 2219.709899974987
+    },
+    {
+      "error": null,
+      "evidence_ids": [
+        "5b9e48750f06e7a638d751084da9aac5e366e79bd53762b7f9b488d29eeae26d",
+        "b3fd0191428a93f0907af86c85c032d19792a652cbff0f130209bddbc14d9662",
+        "4d1cd6ea2739bba7c74c1b6dd1b4b1c6ca248e3f3f3f3d2e93dc96d961f27330",
+        "4f94ebca3f804fa83d154bdf2b0f916375241fef9ab910fe54f64f701eb2fbd6",
+        "7738a3cf0a54625cf91829b912fc5ee4d50ad4441c54259cedd2fcdc13b791af"
+      ],
+      "candidate_count": 10,
+      "round": 1,
+      "id": "Q24",
+      "elapsed_ms": 2177.099199965596
+    }
+  ],
+  "success_p50_ms": 2253.0165999778546,
+  "success_p95_ms": 2455.932400014717
+}

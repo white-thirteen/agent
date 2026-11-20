@@ -1,0 +1,30 @@
+pg_ctl: another server might be running; trying to start server anyway
+waiting for server to start.... done
+server started
+== version ==
+PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+== package ==
+postgresql-17 17.12-1.pgdg12+1
+postgresql-17-pgvector 0.8.7-1.pgdg12+2
+== extensions ==
+pg_textsearch|1.5.1
+plpgsql|1.0
+vector|0.8.7
+zhparser|2.4
+pg_textsearch
+== hashes ==
+/usr/lib/postgresql/17/lib/pg_textsearch.so: OK
+/usr/lib/postgresql/17/lib/zhparser.so: OK
+/usr/local/lib/libscws.so.1.1.0: OK
+/usr/share/postgresql/17/tsearch_data/dict.utf8.xdb: OK
+/usr/share/postgresql/17/tsearch_data/rules.utf8.ini: OK
+/usr/share/postgresql/17/extension/pg_textsearch.control: OK
+/usr/share/postgresql/17/extension/zhparser.control: OK
+== raw hashes ==
+6d2906e39c2e60acf03437359f5b3c3cf23d183445c6a8cc6a8eb782a40cbd88  /usr/lib/postgresql/17/lib/pg_textsearch.so
+30bb78ec7b788360c00eabf374f9d804373e5a2ea7dba132acbba65133ca8fb9  /usr/lib/postgresql/17/lib/zhparser.so
+7795483ed9f7b7924fe406b319344711fc984ab9cd074b8a73ac6b5bd837e8a8  /usr/local/lib/libscws.so.1.1.0
+fd76a689f996c4e68ce53325a6a24dc652a678b1e7f676e4c5ca76265609a3e2  /usr/share/postgresql/17/tsearch_data/dict.utf8.xdb
+45395f794226581fb1cc02b44ae1481804152511fc59fa677e2f7b755440479c  /usr/share/postgresql/17/tsearch_data/rules.utf8.ini
+1b258c1923dd10eb2eebfaeafeac648e035d790f494161d41ccf1a22e367080c  /usr/share/postgresql/17/extension/pg_textsearch.control
+e13001b23e35e102e370dfa4df6346556f77b41060d61de970db5533466e9d92  /usr/share/postgresql/17/extension/zhparser.control

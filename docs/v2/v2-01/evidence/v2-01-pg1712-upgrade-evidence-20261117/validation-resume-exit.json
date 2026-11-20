@@ -1,0 +1,1 @@
+{"exit_code": 0, "stdout": "{\"status\": \"VALIDATION_READY_NO_CUTOVER\", \"failure\": null, \"container\": \"pg1712-validation-6b522e463c2b\", \"ip\": \"172.21.0.2\"}\n"}

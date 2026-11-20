@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-19",
+  "method": "Read-only authenticated GET /models using existing Settings; credentials and authorization header omitted",
+  "http_status": 200,
+  "provider_hostname": "api.deepseek.com",
+  "configured_model": "deepseek-flash",
+  "response_metadata": {
+    "id": "deepseek-flash",
+    "name": "DeepSeek-V4.1-Flash",
+    "context_window": 1048576,
+    "max_output_tokens": 393216,
+    "input_modalities": ["text", "image"],
+    "output_modalities": ["text"],
+    "effort": {
+      "supported_levels": ["low", "high", "max"],
+      "default_level": "high"
+    }
+  },
+  "official_metadata_documentation": "https://api-docs.deepseek.com/api/list-models/",
+  "official_model_documentation": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "scope": "Provider-declared capabilities for configured model, not a measured full-window test. No model generation or database operation. Existing .env unchanged. Application policy may select lower configured limits; capability maximum is not a recommended summary output size."
+}

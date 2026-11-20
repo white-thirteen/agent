@@ -1,0 +1,49 @@
+{
+  "start_seconds": 25.218,
+  "health": {
+    "status": "ok",
+    "service": "Agent Engine Demo",
+    "agent_ready": true,
+    "database_status": "ready",
+    "model_status": "initialized",
+    "embedding_status": "ready",
+    "knowledge_ready": true,
+    "knowledge_status": "ready",
+    "checkpoint_status": "ready",
+    "checkpoint_backend": "postgres",
+    "store_status": "ready"
+  },
+  "tool_version": "2",
+  "queries": [
+    {
+      "seconds": 8.015,
+      "evidence": [
+        "demo-refund-safety",
+        "demo-refund-entry",
+        "demo-approval-wait"
+      ],
+      "watermark": 8,
+      "source_check": {
+        "valid": true,
+        "invalid_evidence_ids": []
+      },
+      "candidate_count": 6
+    },
+    {
+      "seconds": 1.858,
+      "evidence": [
+        "demo-stream-help",
+        "demo-approval-wait",
+        "demo-account-help"
+      ],
+      "watermark": 8,
+      "source_check": {
+        "valid": true,
+        "invalid_evidence_ids": []
+      },
+      "candidate_count": 6
+    }
+  ],
+  "paid_api_calls": 0,
+  "closed": true
+}

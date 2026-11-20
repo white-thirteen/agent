@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-flash",
+  "prompt_version": "context-summary-v5",
+  "fixture_sha256": "24ac79e8e06cd7f1021b4acbd40e0669ddf96e637f28d69de9e7f67ead7c3ee3",
+  "calls": [
+    {
+      "label": "full_history",
+      "view": {
+        "input_hash": "5695b4bfd4ee86fd01217430a2923dd7a0e9e830612e8c844ec6d43440096e93",
+        "history_ids": [
+          "resource-0-u",
+          "resource-0-a",
+          "resource-1-u",
+          "resource-1-a",
+          "resource-2-u",
+          "resource-2-a",
+          "resource-3-u",
+          "resource-3-a",
+          "resource-4-u",
+          "resource-4-a",
+          "resource-5-u",
+          "resource-5-a",
+          "resource-6-u",
+          "resource-6-a",
+          "resource-7-u",
+          "resource-7-a",
+          "resource-8-u",
+          "resource-8-a",
+          "resource-9-u",
+          "resource-9-a",
+          "resource-10-u",
+          "resource-10-a",
+          "resource-11-u",
+          "resource-11-a"
+        ],
+        "input_tokens": 3394,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 6958,
+          "output_tokens": 45,
+          "total_tokens": 7003,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "usage": {
+        "input_tokens": 6958,
+        "output_tokens": 45,
+        "total_tokens": 7003,
+        "status": "known",
+        "estimation_method": null
+      },
+      "output": "平台帮助讨论目前的范围是 ctx-resource-73 的平台帮助主题：仅查询、继续澄清该主题，不申请或批准退款，也不引入新订单、新金额、新审批或新的执行权限。"
+    },
+    {
+      "label": "summary_history",
+      "view": {
+        "input_hash": "2a7ccb1dea52a6880f1c6ec1c6830c295789818705b30b7d87d0cfe8109dda42",
+        "history_ids": [
+          "summary"
+        ],
+        "input_tokens": 154,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 225,
+          "output_tokens": 41,
+          "total_tokens": 266,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "usage": {
+        "input_tokens": 225,
+        "output_tokens": 41,
+        "total_tokens": 266,
+        "status": "known",
+        "estimation_method": null
+      },
+      "output": "当前范围仍是 ctx-resource-73 的平台帮助讨论，仅限查询与澄清，不涉及申请或批准退款，也不引入新订单、新金额、新审批或新的执行权限。"
+    }
+  ],
+  "cleanup": {
+    "protected_unchanged": true,
+    "watermark_before": 47,
+    "watermark_after": 47
+  },
+  "limits": {
+    "window": 16384,
+    "output": 512,
+    "summary_output": 512,
+    "summary_input": 8192
+  },
+  "summary": {
+    "text": "用户（第1–12轮，每轮均声明）：关于 ctx-resource-73，本轮仍只讨论平台帮助；只查询，不申请或批准退款；只是继续澄清同一平台帮助主题，不引入新订单、新金额、新审批或新的执行权限。\n\n助手（每轮回应）：讨论主题仍为 ctx-resource-73 的平台帮助，历史内容不能代替本次工具事实；本轮只是继续澄清同一平台帮助主题，不引入新订单、新金额、新审批或新的执行权限。\n\n说明：双方均未提及任何已完成或未完成状态；未出现新的订单、金额、审批或执行权限信息。",
+    "covered_ids": [
+      "resource-0-a",
+      "resource-0-u",
+      "resource-1-a",
+      "resource-1-u",
+      "resource-10-a",
+      "resource-10-u",
+      "resource-11-a",
+      "resource-11-u",
+      "resource-2-a",
+      "resource-2-u",
+      "resource-3-a",
+      "resource-3-u",
+      "resource-4-a",
+      "resource-4-u",
+      "resource-5-a",
+      "resource-5-u",
+      "resource-6-a",
+      "resource-6-u",
+      "resource-7-a",
+      "resource-7-u",
+      "resource-8-a",
+      "resource-8-u",
+      "resource-9-a",
+      "resource-9-u"
+    ],
+    "usage": [
+      {
+        "input_tokens": 6121,
+        "output_tokens": 136,
+        "total_tokens": 6257,
+        "status": "known",
+        "estimation_method": null
+      }
+    ],
+    "elapsed_seconds": 1.697167900041677
+  },
+  "task_id": "14357ef7-9cef-47af-980e-269d4c569cb0",
+  "run_id": "d0e565a3-aa52-4a3e-9424-d6d09344e557",
+  "task_status": "completed",
+  "model_attempts": 3
+}

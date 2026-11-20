@@ -1,0 +1,15 @@
+event: status
+data: {"snapshot":true,"view":{"run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","run_status":"running","task_status":"running","final_answer":null,"sources":[],"error":null,"model_call_usage":{"model_attempts":0},"run_usage":{"tool_calls":0,"active_elapsed_ms":0},"usage_complete":true,"started_at":"2026-11-20T14:08:55.051765+00:00","ended_at":null},"run_status":"running","task_status":"running","run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","sequence":1}
+
+event: status
+data: {"code":"routing","run_status":"running","task_status":"running","run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","sequence":2}
+
+event: workflow_paused
+data: {"application_id":"1859c8cd-ae2a-507d-99cc-feae0a0fd1b7","approval_id":"bf02303d-ef2d-5c9a-9fbc-8fd44317cd91","reason":"waiting_approval","run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","sequence":3}
+
+event: status
+data: {"run_status":"waiting_approval","task_status":"waiting_approval","run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","sequence":4}
+
+event: done
+data: {"run_status":"waiting_approval","task_status":"waiting_approval","run_id":"03534c10-8835-4a40-86b9-95abf7c64145","task_id":"600c3c86-76b3-461b-a688-2efae75c939f","workflow_id":"600c3c86-76b3-461b-a688-2efae75c939f","sequence":5}
+

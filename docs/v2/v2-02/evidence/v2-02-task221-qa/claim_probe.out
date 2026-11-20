@@ -1,0 +1,2 @@
+PASS active claim guarded; interrupted old receipt rejected; new receipt retained; attempts=2
+PASS isolated schema cleanup

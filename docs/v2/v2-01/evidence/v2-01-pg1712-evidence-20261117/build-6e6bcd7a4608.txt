@@ -1,0 +1,90 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
+
+Sending build context to Docker daemon  54.28MB
+Step 1/4 : FROM postgres:17.12-bookworm@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536
+ ---> 40865bc877a2
+Step 2/4 : LABEL codex.v201pg1712="6e6bcd7a4608"
+ ---> Running in 9e4b7adde48b
+ ---> Removed intermediate container 9e4b7adde48b
+ ---> 260bf6967e25
+Step 3/4 : COPY pg_search.deb /tmp/pg_search.deb
+ ---> 363437ce0869
+Step 4/4 : RUN apt-get update && apt-get install -y --no-remove --no-install-recommends     postgresql-17=17.12-1.pgdg12+1 postgresql-client-17=17.12-1.pgdg12+1     postgresql-17-pgvector=0.8.7-1.pgdg12+2 /tmp/pg_search.deb     && test "$(dpkg-query -W -f='${Version}' postgresql-17)" = '17.12-1.pgdg12+1'     && test "$(dpkg-query -W -f='${Version}' postgresql-17-pgvector)"         = '0.8.7-1.pgdg12+2'     && rm -rf /var/lib/apt/lists/* /tmp/pg_search.deb
+ ---> Running in 98b50f57fba4
+Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+Get:2 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg InRelease [189 kB]
+Get:3 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+Get:4 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+Get:5 http://deb.debian.org/debian bookworm/main amd64 Packages [8,790 kB]
+Get:6 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/17 amd64 Packages [7,532 B]
+Get:7 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages [1,159 kB]
+Get:8 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6,924 B]
+Get:9 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [375 kB]
+Fetched 10.8 MB in 19s (563 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+postgresql-17 is already the newest version (17.12-1.pgdg12+1).
+postgresql-client-17 is already the newest version (17.12-1.pgdg12+1).
+postgresql-client-17 set to manually installed.
+The following additional packages will be installed:
+  libgfortran5 libopenblas0 libopenblas0-pthread libquadmath0
+The following NEW packages will be installed:
+  libgfortran5 libopenblas0 libopenblas0-pthread libquadmath0
+  postgresql-17-pg-search postgresql-17-pgvector
+0 upgraded, 6 newly installed, 0 to remove and 2 not upgraded.
+Need to get 7,952 kB/62.2 MB of archives.
+After this operation, 48.4 MB of additional disk space will be used.
+Get:1 http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-17-pgvector amd64 0.8.7-1.pgdg12+2 [273 kB]
+Get:2 http://deb.debian.org/debian bookworm/main amd64 libquadmath0 amd64 12.2.0-14+deb12u1 [145 kB]
+Get:3 /tmp/pg_search.deb postgresql-17-pg-search amd64 0.26.6 [54.3 MB]
+Get:4 http://deb.debian.org/debian bookworm/main amd64 libgfortran5 amd64 12.2.0-14+deb12u1 [793 kB]
+Get:5 http://deb.debian.org/debian bookworm/main amd64 libopenblas0-pthread amd64 0.3.21+ds-4 [6,709 kB]
+Get:6 http://deb.debian.org/debian bookworm/main amd64 libopenblas0 amd64 0.3.21+ds-4 [32.6 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 7,952 kB in 8s (1,054 kB/s)
+Selecting previously unselected package libquadmath0:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 13005 files and directories currently installed.)
+Preparing to unpack .../0-libquadmath0_12.2.0-14+deb12u1_amd64.deb ...
+Unpacking libquadmath0:amd64 (12.2.0-14+deb12u1) ...
+Selecting previously unselected package libgfortran5:amd64.
+Preparing to unpack .../1-libgfortran5_12.2.0-14+deb12u1_amd64.deb ...
+Unpacking libgfortran5:amd64 (12.2.0-14+deb12u1) ...
+Selecting previously unselected package libopenblas0-pthread:amd64.
+Preparing to unpack .../2-libopenblas0-pthread_0.3.21+ds-4_amd64.deb ...
+Unpacking libopenblas0-pthread:amd64 (0.3.21+ds-4) ...
+Selecting previously unselected package libopenblas0:amd64.
+Preparing to unpack .../3-libopenblas0_0.3.21+ds-4_amd64.deb ...
+Unpacking libopenblas0:amd64 (0.3.21+ds-4) ...
+Selecting previously unselected package postgresql-17-pg-search.
+Preparing to unpack .../4-pg_search.deb ...
+Unpacking postgresql-17-pg-search (0.26.6) ...
+Selecting previously unselected package postgresql-17-pgvector.
+Preparing to unpack .../5-postgresql-17-pgvector_0.8.7-1.pgdg12+2_amd64.deb ...
+Unpacking postgresql-17-pgvector (0.8.7-1.pgdg12+2) ...
+Setting up postgresql-17-pgvector (0.8.7-1.pgdg12+2) ...
+Setting up libquadmath0:amd64 (12.2.0-14+deb12u1) ...
+Setting up libgfortran5:amd64 (12.2.0-14+deb12u1) ...
+Setting up libopenblas0-pthread:amd64 (0.3.21+ds-4) ...
+update-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 to provide /usr/lib/x86_64-linux-gnu/libblas.so.3 (libblas.so.3-x86_64-linux-gnu) in auto mode
+update-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode
+update-alternatives: using /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblas.so.0 to provide /usr/lib/x86_64-linux-gnu/libopenblas.so.0 (libopenblas.so.0-x86_64-linux-gnu) in auto mode
+Setting up libopenblas0:amd64 (0.3.21+ds-4) ...
+Setting up postgresql-17-pg-search (0.26.6) ...
+Processing triggers for postgresql-common (294.pgdg12+2) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+Building PostgreSQL dictionaries from installed myspell/hunspell packages...
+Removing obsolete dictionary files:
+Processing triggers for libc-bin (2.36-9+deb12u14) ...
+ ---> Removed intermediate container 98b50f57fba4
+ ---> b413cd38dd06
+Successfully built b413cd38dd06
+Successfully tagged codex-v201pg1712:6e6bcd7a4608

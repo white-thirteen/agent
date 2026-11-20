@@ -1,0 +1,46 @@
+import os
+from pathlib import Path
+import pytest
+from psycopg_pool import AsyncConnectionPool
+from app.knowledge.sparse import backfill, activate, check_sparse_ready
+from scripts import run_async
+
+
+def test_backfill_failure_retry():
+    async def scenario():
+        pool = AsyncConnectionPool(os.environ['AGENT_SPARSE_TASK112_DATABASE_URL'], open=False)
+        await pool.open(wait=True)
+        created = False
+        try:
+            async with pool.connection() as c, c.transaction():
+                assert await (await c.execute("SELECT current_database(),current_user,shobj_description(oid,'pg_database') FROM pg_database WHERE datname=current_database()")).fetchone() == ('agent_sparse_task112_test','agent_sparse_task112','codex-task112-7c41')
+                assert await (await c.execute("SELECT to_regclass('public.knowledge_documents'),to_regclass('public.knowledge_chunks'),to_regclass('public.knowledge_index_state')")).fetchone() == (None,None,None)
+                await c.execute(Path('migrations/006_knowledge_vectors.sql').read_text('utf8'))
+                await c.execute(Path('migrations/007_knowledge_sparse.sql').read_text('utf8'))
+                await c.execute("INSERT INTO knowledge_documents VALUES ('qa-fail','v','h','platform_help','标题','key','p',2,now())")
+                for n in range(2):
+                    await c.execute("INSERT INTO knowledge_chunks(chunk_id,document_id,document_version,ordinal,section,line_start,line_end,content,content_hash,token_count,embedding) VALUES (%s,'qa-fail','v',%s,'章节',1,1,'退款','h',1,%s::vector)",(f'qa-{n}',n,str([1.0]+[0.0]*1023)))
+                await c.execute("CREATE FUNCTION qa_task112_fail() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.chunk_id='qa-1' THEN RAISE EXCEPTION 'qa injected'; END IF; RETURN NEW; END $$")
+                await c.execute("CREATE TRIGGER qa_task112_fail BEFORE UPDATE ON knowledge_chunks FOR EACH ROW EXECUTE FUNCTION qa_task112_fail()")
+            created = True
+            with pytest.raises(Exception, match='qa injected'):
+                await backfill(pool)
+            async with pool.connection() as c, c.transaction():
+                assert await (await c.execute('SELECT count(*) FROM knowledge_chunks WHERE search_text IS NOT NULL')).fetchone() == (0,)
+                assert await (await c.execute('SELECT ready,watermark FROM knowledge_index_state')).fetchone() == (False,1)
+                await c.execute('DROP TRIGGER qa_task112_fail ON knowledge_chunks')
+            assert await backfill(pool) == 2
+            assert await backfill(pool) == 0
+            mark = await activate(pool)
+            async with pool.connection() as c, c.transaction():
+                assert await check_sparse_ready(c) == mark
+                assert await (await c.execute("SELECT count(*) FROM knowledge_chunks WHERE search_text='标题' || E'\\n' || '章节' || E'\\n' || '退款'")).fetchone() == (2,)
+        finally:
+            if created:
+                async with pool.connection() as c, c.transaction():
+                    await c.execute('DROP TABLE knowledge_index_state')
+                    await c.execute('DROP TABLE knowledge_chunks')
+                    await c.execute('DROP TABLE knowledge_documents')
+                    await c.execute('DROP FUNCTION qa_task112_fail()')
+            await pool.close()
+    run_async(scenario())

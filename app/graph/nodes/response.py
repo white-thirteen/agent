@@ -13,4 +13,14 @@ def response_node(state: AgentState):
     ids = list(state["task_message_ids"])
     if message_id not in ids:
         ids.append(message_id)
-    return {"messages": [AIMessage(content=answer, id=message_id)], "task_message_ids": ids}
+    metadata = dict(state.get("public_message_metadata", {}))
+    metadata[message_id] = {
+        "task_id": state["task_id"],
+        "run_id": state["run_id"],
+        "task_status": "running",
+    }
+    return {
+        "messages": [AIMessage(content=answer, id=message_id)],
+        "task_message_ids": ids,
+        "public_message_metadata": metadata,
+    }

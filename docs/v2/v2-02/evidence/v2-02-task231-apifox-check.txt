@@ -1,0 +1,1 @@
+PASS: JSON syntax, OpenAPI references, preference paths, environment keys and legacy hint

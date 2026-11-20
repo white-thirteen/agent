@@ -1,0 +1,20 @@
+== container ==
+Name=/agent-engine-demo-db-postgres-1 Image=sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4 Created=2026-11-17T14:59:04.54125202Z StartedAt=2026-11-17T14:59:05.899044319Z Status=running
+== mounts ==
+volume pg1712-final-data-6595e98667c4 /var/lib/docker/volumes/pg1712-final-data-6595e98667c4/_data -> /var/lib/postgresql/data rw=true
+bind  /home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/hba -> /etc/postgresql rw=false
+bind  /home/white7/agent-engine-demo-db/init-databases.sh -> /docker-entrypoint-initdb.d/01-databases.sh rw=false
+
+== image ==
+sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4
+Id=sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4 RepoTags=[codex-pg1712restore:228a7f5b8d92 pg1712-upgrade:final-6595e98667c4] RepoDigests=[codex-pg1712restore@sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4 pg1712-upgrade@sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4] Created=2026-11-17T13:34:29.97585973+08:00
+== pg_search library ==
+-rwxr-xr-x 1 root root 282135408 Nov  8 22:42 /usr/lib/postgresql/17/lib/pg_search.so
+-rwxr-xr-x 1 root root 257 Nov  8 22:42 /usr/share/postgresql/17/extension/pg_search.control
+== config ==
+== extension catalog (read-only) ==
+postgres|agent_bootstrap
+pg_search|0.26.6|
+vector|0.8.7|
+plpgsql|1.0
+

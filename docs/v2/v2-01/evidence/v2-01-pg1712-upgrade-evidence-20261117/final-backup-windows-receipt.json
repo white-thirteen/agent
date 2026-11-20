@@ -1,0 +1,11 @@
+{
+  "status": "WINDOWS_FINAL_BACKUP_VERIFIED",
+  "backup_directory_remote": "/home/white7/agent-db-backups/pg176-20261117T144522Z-b66a2d363666",
+  "backup_token": "b66a2d363666",
+  "manifest_sha256": "40db2eaf611ca4369676ab922f7b8a7fc18c55ae223f987d0853a72de23029e4",
+  "files_verified": 141,
+  "payload_bytes": 405240,
+  "all_files_match": true,
+  "private_acl_restricted": true,
+  "fsync_completed": true
+}

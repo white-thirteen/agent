@@ -1,0 +1,13 @@
+{
+  "removed_exact_base": "sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536",
+  "remove_exit": 0,
+  "base_absent": true,
+  "original_container": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|true",
+  "remaining_images": [
+    "weishaw/sub2api:latest 44b59fc74b0b",
+    "redis:8-alpine 3811787313eb",
+    "postgres:18-alpine 77f585114c32",
+    "hello-world:latest 11a3eb1597e8",
+    "postgres:17.6-bookworm f3bd19c606e4"
+  ]
+}

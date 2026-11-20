@@ -538,10 +538,10 @@
       ]
     },
     {
-      "name": "06 Memory与隔离",
+      "name": "06 结构化偏好与隔离",
       "item": [
         {
-          "name": "保存偏好",
+          "name": "读取用户A偏好",
           "request": {
             "method": "POST",
             "header": [
@@ -550,14 +550,14 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "url": "{{base_url}}/agent/preferences/read",
+            "description": "读取当前用户偏好与 revision；跨会话共享。",
             "auth": {
               "type": "noauth"
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请记住：回答风格=简洁\",\n  \"input_mode\": \"new_task\"\n}",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -567,7 +567,7 @@
           }
         },
         {
-          "name": "新会话读取",
+          "name": "读取用户B偏好",
           "request": {
             "method": "POST",
             "header": [
@@ -576,14 +576,14 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "url": "{{base_url}}/agent/preferences/read",
+            "description": "验证跨用户隔离。",
             "auth": {
               "type": "noauth"
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "raw": "{\n  \"user_id\": \"{{user_b}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -593,7 +593,111 @@
           }
         },
         {
-          "name": "B隔离读取",
+          "name": "设置风格",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/preferences/mutations",
+            "description": "先读取revision并填写preference_revision；每次新操作使用新preference_operation_id。结果未知时仅查询原operation状态。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"operation_id\": \"{{preference_operation_id}}\",\n  \"expected_revision\": {{preference_revision}},\n  \"command\": {\"operation\": \"upsert\", \"field\": \"answer_style\", \"value\": \"concise\"}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "核对原操作",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/preferences/operations/{{preference_operation_id}}/status",
+            "description": "UNKNOWN未解决前不可提交该用户的新写入。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "删除风格",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/preferences/mutations",
+            "description": "先读取revision并填写preference_revision；每次新操作使用新preference_operation_id。结果未知时仅查询原operation状态。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"operation_id\": \"{{preference_operation_id}}\",\n  \"expected_revision\": {{preference_revision}},\n  \"command\": {\"operation\": \"delete\", \"field\": \"answer_style\"}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "清空偏好",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/agent/preferences/mutations",
+            "description": "先读取revision并填写preference_revision；每次新操作使用新preference_operation_id。结果未知时仅查询原operation状态。",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"operation_id\": \"{{preference_operation_id}}\",\n  \"expected_revision\": {{preference_revision}},\n  \"command\": {\"operation\": \"clear\"}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "旧聊天入口迁移提示",
           "request": {
             "method": "POST",
             "header": [
@@ -603,13 +707,13 @@
               }
             ],
             "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
+            "description": "只返回新接口迁移提示，不执行偏好命令。",
             "auth": {
               "type": "noauth"
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_b}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
+              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -636,136 +740,6 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"user_id\": \"{{user_b}}\",\n  \"conversation_id\": \"{{conversation_new}}\",\n  \"message\": \"查询订单 {{order_ok}}\",\n  \"input_mode\": \"new_task\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "修改偏好",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请修改记忆：回答风格=详细\",\n  \"input_mode\": \"new_task\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "删除指定偏好",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请删除记忆：回答风格\",\n  \"input_mode\": \"new_task\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "保存语言",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请记住：回答语言=中文\",\n  \"input_mode\": \"new_task\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "清除全部偏好",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请删除全部偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "最终读取",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": "{{base_url}}/agent/chat",
-            "description": "SSE: status/token/workflow_paused/done。流完成后运行当前Task提取关联；不自动重发退款。",
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"user_id\": \"{{user_a}}\",\n  \"conversation_id\": \"{{conversation}}\",\n  \"message\": \"请查看偏好记忆\",\n  \"input_mode\": \"new_task\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

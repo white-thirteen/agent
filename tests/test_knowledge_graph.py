@@ -209,7 +209,7 @@ async def test_generated_answer_real_ids_pairing_and_node_replay():
 
     first = await node(state, SimpleNamespace(context=live))
     assert first["approved_answer"] == ANSWER
-    assert retriever.validations == 1 and live.scope.run_usage().tool_calls == 2
+    assert retriever.validations == 2 and live.scope.run_usage().tool_calls == 3
     records = list(state["call_records"].values())
     assert {r["origin"] for r in records} == {"model", "node"}
     assert all(r["result"]["execution_id"] and r["args_digest"] for r in records)

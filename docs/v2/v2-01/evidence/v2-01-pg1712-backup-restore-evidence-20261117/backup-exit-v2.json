@@ -1,0 +1,1 @@
+{"exit_code": 0, "stdout": "{\"status\": \"BACKUP_COMPLETED_RESTORE_PENDING\", \"failure\": null, \"backup_directory\": \"/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38\"}\n"}

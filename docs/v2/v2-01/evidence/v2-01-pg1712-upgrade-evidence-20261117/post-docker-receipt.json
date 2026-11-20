@@ -1,0 +1,23 @@
+{
+  "target_id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+  "target_image_id": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "target_started_at": "2026-11-17T14:59:05.899044319Z",
+  "target_health": "healthy",
+  "server_version_num": "170012",
+  "system_identifier": "7709152917995737133",
+  "target_volumes": [
+    "pg1712-final-data-6595e98667c4"
+  ],
+  "archive_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+  "archive_running": false,
+  "retained_volumes": [
+    "9481edfb96d3c88e1d123184199582513df016859a1f78ff285b7315643f1d72",
+    "agent-engine-demo-db_agent_pg17",
+    "codex-pg1712restore-data-228a7f5b8d92",
+    "ecdbcc6a53fb916d01eb3f14a337fa3b0378553563200db7818f9fd1071a2f59",
+    "pg1712-final-data-6595e98667c4",
+    "pg1712-validation-data-6b522e463c2b"
+  ],
+  "compose_sha256": "2ad05e92da4ef01faf554601cb50ee300f48109cf218db324ee4cabd0403d350",
+  "root_free_bytes": 1150914560
+}

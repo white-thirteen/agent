@@ -1,0 +1,2 @@
+PASS: two concurrent first publishers, same READY archive, one database row
+PASS: unique schema removed

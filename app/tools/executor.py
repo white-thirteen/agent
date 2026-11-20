@@ -12,6 +12,7 @@ from app.tools.models import (
     HandlerResult,
     MemoryBusinessContext,
     PolicyDecision,
+    PreferenceControlContext,
     PreparedToolAttempt,
     ToolEffectUnknownError,
     ToolExecutionResult,
@@ -46,6 +47,43 @@ class ToolExecutor:
     async def assess(self, call, *, context):
         """Evaluate a call without consuming a tool attempt or executing a handler."""
         return self._evaluate(call, context)[1]
+
+    async def execute_preference_control(self, call, *, context: PreferenceControlContext):
+        """Execute only preference tools under a real, persisted control identity."""
+        if not isinstance(context, PreferenceControlContext):
+            raise ValueError("Preference control context required")
+        definition = self.registry.get(call.name)
+
+        def evaluate():
+            return self.policy.evaluate(
+                call=call,
+                definition=definition,
+                context=context,
+                usage=None,
+                remaining_active_seconds=0,
+            )
+
+        decision = evaluate()
+        if decision.decision is not PolicyDecision.ALLOW:
+            raise ToolNotStartedError("Preference control unavailable", code=decision.code)
+        try:
+            async with asyncio.timeout(definition.metadata.timeout_seconds):
+                result = await definition.handler(decision.validated_args, context)
+        except (TimeoutError, ToolEffectUnknownError):
+            if call.name == "write_preferences":
+                return {
+                    "status": "unknown",
+                    "operation_id": context.operation_id,
+                    "revision": None,
+                    "changed_fields": [],
+                    "preferences": None,
+                }
+            raise ToolUnavailableError(
+                "Memory read unavailable", code="memory_unavailable"
+            ) from None
+        if result.rejection:
+            return result.rejection.data.model_dump(mode="json")
+        return definition.result_schema.model_validate(result.data).model_dump(mode="json")
 
     @staticmethod
     def _business_context(call, context):

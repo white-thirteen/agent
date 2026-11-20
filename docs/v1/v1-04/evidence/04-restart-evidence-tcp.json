@@ -1,0 +1,43 @@
+{
+  "old_pid": 33356,
+  "new_pid": 44388,
+  "old_exit_confirmed": true,
+  "before": [
+    "0ec92968-f3b3-41dd-a335-962a84c8137e",
+    "10400ec5-748c-5068-a034-8dec69257f30",
+    "original-call",
+    {
+      "order_id": "restart04-tcp-797c2a36741f40f6a3fc92bdbca9d300"
+    },
+    {
+      "order_id": "restart04-tcp-797c2a36741f40f6a3fc92bdbca9d300"
+    },
+    "a614c4a90c745283d699fc678960f36e4322ae04c56b46ef18f58caffbb46c78",
+    "5db6e35a-d3f0-5153-a926-c30791c4df75",
+    "PENDING",
+    "a181a715-f20b-5c87-a3c4-9bb0e766712c",
+    "4aea7c76100bbaa04b19a5cb970d8ab8a1dd9ca1b8de5eb5c4e47ff11c92f5ff",
+    "refund:6b08fb3f-9442-cc90-04df-769e7b88d2f9",
+    false
+  ],
+  "after": [
+    "0ec92968-f3b3-41dd-a335-962a84c8137e",
+    "10400ec5-748c-5068-a034-8dec69257f30",
+    "original-call",
+    {
+      "order_id": "restart04-tcp-797c2a36741f40f6a3fc92bdbca9d300"
+    },
+    {
+      "order_id": "restart04-tcp-797c2a36741f40f6a3fc92bdbca9d300"
+    },
+    "a614c4a90c745283d699fc678960f36e4322ae04c56b46ef18f58caffbb46c78",
+    "5db6e35a-d3f0-5153-a926-c30791c4df75",
+    "SUCCEEDED",
+    "a181a715-f20b-5c87-a3c4-9bb0e766712c",
+    "4aea7c76100bbaa04b19a5cb970d8ab8a1dd9ca1b8de5eb5c4e47ff11c92f5ff",
+    "refund:6b08fb3f-9442-cc90-04df-769e7b88d2f9",
+    true
+  ],
+  "resume_run": "7cabcf43-8320-464a-848a-871d62e715a1",
+  "topology": "uvicorn TCP production lifespan with controlled model"
+}

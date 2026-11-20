@@ -19,6 +19,26 @@ def snapshot(values, next_nodes, config, tasks=(), interrupts=()):
     )
 
 
+class CommittedSnapshotSaver:
+    """Provide the Saver reads required by a controlled graph using fixed snapshots."""
+
+    def __init__(self, graph):
+        self.graph = graph
+
+    async def aget_tuple(self, config):
+        from types import SimpleNamespace
+
+        requested = config["configurable"]
+        if requested.get("checkpoint_ns", "").startswith("v203-reservation:"):
+            return None
+        current = self.graph.current
+        candidates = [current, *(task.state for task in current.tasks if task.state is not None)]
+        for item in candidates:
+            if item.config["configurable"].get("checkpoint_id") == requested.get("checkpoint_id"):
+                return SimpleNamespace(checkpoint={"channel_values": item.values})
+        return None
+
+
 def examples():
     appid, opid, approval_id, thread = (str(uuid4()) for _ in range(4))
     raw = {"order_id": "order"}
@@ -285,10 +305,12 @@ def test_refund_control_events_only_publish_allowed_fields():
             "reason": "waiting_approval",
             "raw_args": {"secret": "private"},
             "checkpoint_ns": "private",
+            "selector_receipts": [{"id": "private"}],
         },
     ).public_event()
     assert paused.data["application_id"] == "app" and paused.data["approval_id"] == "approval"
     assert "raw_args" not in paused.data and "checkpoint_ns" not in paused.data
+    assert "selector_receipts" not in paused.data
     resumed = RuntimeEvent(
         "workflow_resumed", "new", "task", 2, {"previous_run_id": "old", "private": "secret"}
     ).public_event()
@@ -325,8 +347,9 @@ async def test_runtime_resume_pending_ended_post_gate_and_unknown():
         def __init__(self):
             self.current = root
             self.inputs = []
+            self.checkpointer = CommittedSnapshotSaver(self)
 
-        async def aget_state(self, config, *, subgraphs):
+        async def aget_state(self, config, *, subgraphs=False):
             return self.current
 
         async def ainvoke(self, value, config, *, context, durability):
@@ -380,6 +403,13 @@ async def test_runtime_resume_pending_ended_post_gate_and_unknown():
     }
     assert execution.context.task_id == "task" and execution.context.run_id == accepted.run_id
     assert execution.execution_mode == "resume" and durability == "sync"
+    graph.current = root._replace(
+        values={**root.values, "context_ref": {"revision": 1, "summary_id": "s"}}
+    )
+    with pytest.raises(RuntimeRequestError) as unavailable:
+        await runtime.resume_approval(reference, actor=actor)
+    assert unavailable.value.code == "state_unavailable" and len(graph.inputs) == 1
+    graph.current = root
     post = child._replace(
         next=("execute_refund",), interrupts=(), values={**child.values, "prepared_attempt": None}
     )
@@ -493,6 +523,9 @@ async def test_runtime_publishes_pause_only_after_matching_binding(monkeypatch):
     class Graph:
         current = empty
 
+        def __init__(self):
+            self.checkpointer = CommittedSnapshotSaver(self)
+
         async def aget_state(self, config, *, subgraphs=False):
             return self.current
 
@@ -530,6 +563,8 @@ async def test_duplicate_resume_returns_active_run_without_second_task():
     import asyncio
     from datetime import UTC, datetime, timedelta
 
+    import pytest
+
     from app.runtime.agent_runtime import AgentRuntime, RunLimits
     from app.workflows.approvals import ApprovalActor, ApprovalReference
 
@@ -550,8 +585,13 @@ async def test_duplicate_resume_returns_active_run_without_second_task():
     entered = asyncio.Event()
 
     class Graph:
-        async def aget_state(self, config, *, subgraphs):
-            return root
+        current = root
+
+        def __init__(self):
+            self.checkpointer = CommittedSnapshotSaver(self)
+
+        async def aget_state(self, config, *, subgraphs=False):
+            return self.current
 
         async def ainvoke(self, value, config, *, context, durability):
             entered.set()
@@ -574,7 +614,18 @@ async def test_duplicate_resume_returns_active_run_without_second_task():
     reference = ApprovalReference(str(approval["approval_id"]))
     actor = ApprovalActor("local-demo-approval")
     first = await runtime.resume_approval(reference, actor=actor)
-    await entered.wait()
+    waiter = asyncio.create_task(entered.wait())
+    task = runtime._records[first.run_id].task
+    done, _ = await asyncio.wait({waiter, task}, timeout=2, return_when=asyncio.FIRST_COMPLETED)
+    if waiter not in done:
+        waiter.cancel()
+        await asyncio.gather(waiter, return_exceptions=True)
+        if task.done():
+            pytest.fail(
+                f"Resume task ended before graph entry: {runtime._records[first.run_id].error}"
+            )
+        await runtime.shutdown()
+        pytest.fail("Resume graph did not start within the test timeout")
     second = await runtime.resume_approval(reference, actor=actor)
     assert first.accepted and not second.accepted and second.run_id == first.run_id
     assert len(runtime._records) == 1 and not await runtime.can_resume_approval(reference)

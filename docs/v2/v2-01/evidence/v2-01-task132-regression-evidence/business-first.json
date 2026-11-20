@@ -1,0 +1,153 @@
+{
+  "isolation": "codex-task131-0e62",
+  "cases": [
+    {
+      "label": "normal",
+      "expected": "completed",
+      "events": [
+        {
+          "content": "不会。知识库《模拟退款安全说明》说明这是自编 Demo 语料，项目不连接真实支付机构，退款只改变本地模拟业务数据，因此不会从真实银行卡扣款。另外，相同退款操作使用稳定操作编号以避免重复副作用；若结果未知，应先核对原操作，不要盲目再次退款。",
+          "sources": [
+            {
+              "evidence_id": "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f",
+              "document_id": "demo-refund-safety",
+              "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+              "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+              "source_title": "模拟退款安全说明",
+              "source_key": "refund-safety",
+              "section": "模拟退款安全说明 / 模拟支付",
+              "page": null,
+              "checked_at": "2026-11-18T14:21:28.252964Z"
+            }
+          ],
+          "run_id": "015c6c73-9c84-4818-8ce5-05c912b8b41f",
+          "task_id": "9d323846-2c8d-453e-86b2-03be5404d2b8",
+          "workflow_id": "9d323846-2c8d-453e-86b2-03be5404d2b8",
+          "sequence": 4
+        }
+      ],
+      "actual": "completed",
+      "approved_answer": "不会。知识库《模拟退款安全说明》说明这是自编 Demo 语料，项目不连接真实支付机构，退款只改变本地模拟业务数据，因此不会从真实银行卡扣款。另外，相同退款操作使用稳定操作编号以避免重复副作用；若结果未知，应先核对原操作，不要盲目再次退款。",
+      "sources": [
+        {
+          "evidence_id": "39b844ede795967482976b1ebfa36a2f8f44ee86c61b41a36aab89a6dd8a244f",
+          "document_id": "demo-refund-safety",
+          "document_version": "e8d83ff154d926b1914fa6ee05345f592f51c595c3946a885d91d99be0d4d411",
+          "chunk_id": "6929b31406f1aa9ed1329e786c0aebb04bbb976fbe7edb8b1a33dcedb04b45c5",
+          "source_title": "模拟退款安全说明",
+          "source_key": "refund-safety",
+          "section": "模拟退款安全说明 / 模拟支付",
+          "page": null,
+          "checked_at": "2026-11-18T14:21:28.252964Z"
+        }
+      ],
+      "contract_version": 2,
+      "candidate_count": 6,
+      "pass": true,
+      "seconds": 14.354
+    },
+    {
+      "label": "Q21",
+      "expected": "rejected",
+      "events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "5d5470c5-c522-4d1d-8138-3903986c34e9",
+          "task_id": "ab52b488-f762-4f90-8747-a4509139dc25",
+          "workflow_id": "ab52b488-f762-4f90-8747-a4509139dc25",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 6,
+      "pass": true,
+      "seconds": 7.292
+    },
+    {
+      "label": "Q22",
+      "expected": "rejected",
+      "events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "ec111810-573c-48ea-954c-75d5ef8dd7d0",
+          "task_id": "9bbf0f70-99a5-4df1-9dfd-01e15dfe0d6b",
+          "workflow_id": "9bbf0f70-99a5-4df1-9dfd-01e15dfe0d6b",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 6,
+      "pass": true,
+      "seconds": 6.093
+    },
+    {
+      "label": "Q23",
+      "expected": "rejected",
+      "events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "624fa3d6-7879-4c65-9a57-4ba52db1fec2",
+          "task_id": "749cb805-e8c7-481e-8f02-21bfc061c870",
+          "workflow_id": "749cb805-e8c7-481e-8f02-21bfc061c870",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 6,
+      "pass": true,
+      "seconds": 7.057
+    },
+    {
+      "label": "Q24",
+      "expected": "rejected",
+      "events": [
+        {
+          "content": "现有知识证据不足或存在冲突，无法可靠回答。",
+          "sources": [],
+          "run_id": "73f59616-4b31-4839-b0fe-b907e2e86334",
+          "task_id": "26eb0b3e-0627-4c63-aa4d-a76a22732430",
+          "workflow_id": "26eb0b3e-0627-4c63-aa4d-a76a22732430",
+          "sequence": 4
+        }
+      ],
+      "actual": "rejected",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 6,
+      "pass": true,
+      "seconds": 6.15
+    },
+    {
+      "label": "conflict",
+      "expected": "rejected",
+      "events": [],
+      "actual": "failed",
+      "approved_answer": null,
+      "sources": [],
+      "contract_version": 2,
+      "candidate_count": 8,
+      "pass": false,
+      "seconds": 6.705
+    }
+  ],
+  "model_name": "deepseek-flash",
+  "exact_cleanup": {
+    "conversations": 6,
+    "conflict_documents": 2
+  },
+  "passed": 5,
+  "resources_closed": true
+}

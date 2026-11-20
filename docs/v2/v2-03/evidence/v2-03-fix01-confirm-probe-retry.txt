@@ -1,0 +1,1 @@
+{"completed_checkpoint_confirmed": true, "interrupted_checkpoint_rejected": true, "threads_cleaned": true}

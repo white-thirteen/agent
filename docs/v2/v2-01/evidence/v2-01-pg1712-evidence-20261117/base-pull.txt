@@ -1,0 +1,48 @@
+17.12-bookworm: Pulling from library/postgres
+e024254179ce: Pulling fs layer
+0708664e99db: Pulling fs layer
+b5943485d307: Pulling fs layer
+39a707fc7630: Pulling fs layer
+dd051e1b8c92: Pulling fs layer
+266743b5e332: Pulling fs layer
+d47f92f9d161: Pulling fs layer
+3a6a43c8a45c: Pulling fs layer
+0df5a86db5a7: Pulling fs layer
+b4c7a66c5d1d: Pulling fs layer
+75b6fa0b5339: Pulling fs layer
+0624def8a311: Pulling fs layer
+177ca6af7057: Pulling fs layer
+ff4f58be4071: Pulling fs layer
+b47408296291: Download complete
+266743b5e332: Download complete
+0df5a86db5a7: Download complete
+3a6a43c8a45c: Download complete
+0624def8a311: Download complete
+b5943485d307: Download complete
+e024254179ce: Download complete
+0708664e99db: Download complete
+ff4f58be4071: Download complete
+d47f92f9d161: Download complete
+39a707fc7630: Download complete
+c65d85fa67ea: Download complete
+177ca6af7057: Download complete
+dd051e1b8c92: Download complete
+b4c7a66c5d1d: Download complete
+75b6fa0b5339: Download complete
+dd051e1b8c92: Pull complete
+266743b5e332: Pull complete
+39a707fc7630: Pull complete
+d47f92f9d161: Pull complete
+177ca6af7057: Pull complete
+ff4f58be4071: Pull complete
+e024254179ce: Pull complete
+0df5a86db5a7: Pull complete
+b4c7a66c5d1d: Pull complete
+75b6fa0b5339: Pull complete
+0624def8a311: Pull complete
+0708664e99db: Pull complete
+b5943485d307: Pull complete
+3a6a43c8a45c: Pull complete
+Digest: sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536
+Status: Downloaded newer image for postgres:17.12-bookworm
+docker.io/library/postgres:17.12-bookworm

@@ -61,6 +61,10 @@ class RunExecutionContext:
     scope: "RunScope"
     execution_mode: Literal["normal", "resume", "reconcile"] = "normal"
     refund_recovery: RefundRecoveryContext | None = None
+    context_adoption: dict | None = None
+    stale_context_revision: int | None = None
+    allow_context_receipt: bool = False
+    context_compactor: object | None = None
 
     def __post_init__(self):
         if self.refund_recovery is not None and self.execution_mode != "reconcile":

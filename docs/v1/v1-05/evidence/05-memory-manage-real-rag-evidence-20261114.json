@@ -1,0 +1,571 @@
+{
+  "probe_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70",
+  "chat": {
+    "model": "deepseek-flash",
+    "host": "api.deepseek.com"
+  },
+  "configuration": "Authorized test-local embedding_enabled=True; original Qwen CPU path, provider, model and limits retained; .env unchanged.",
+  "original_embedding_enabled": false,
+  "embedding_model_path": "D:\\AI\\models\\qwen3-embedding-0.6b",
+  "embedding_cpu_threads": 2,
+  "embedding_dtype": "bfloat16",
+  "limits": {
+    "run_seconds": 120.0,
+    "tool_calls": 12,
+    "embedding_seconds": 8.0
+  },
+  "cases": [
+    {
+      "name": "save-en",
+      "question": "请记住：回答语言=英语",
+      "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+      "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+      "thread_id": "d5125aa5-6b07-5710-af14-02490e3160e0",
+      "status": "completed",
+      "result": {
+        "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+        "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+        "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+        "agent_type": "knowledge",
+        "task_type": "memory_manage",
+        "status": "completed",
+        "summary": "偏好记忆已保存。",
+        "facts": {
+          "memory_result": {
+            "status": "applied",
+            "operation_id": "be16aca9-e9de-5a1c-bf14-6c380e4ff68c",
+            "revision": 1,
+            "changed_fields": [
+              "answer_language"
+            ],
+            "preferences": {
+              "answer_language": "en"
+            }
+          }
+        },
+        "entities": {},
+        "sources": [],
+        "missing_fields": [],
+        "clarification_question": null,
+        "operation_id": "be16aca9-e9de-5a1c-bf14-6c380e4ff68c",
+        "approval_id": null,
+        "error": null,
+        "approved_answer": null
+      },
+      "run_usage": {
+        "tool_calls": 2,
+        "active_elapsed_ms": 2181
+      },
+      "model_usage": {
+        "model_attempts": 1
+      },
+      "public_data": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+            "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+            "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 0
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 0
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-14T06:31:18.156013+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+          "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+          "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "sequence": 2
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+          "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "sequence": 3
+        },
+        {
+          "content": "偏好记忆已保存。",
+          "sources": [],
+          "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+          "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "sequence": 4
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "ddf19260-18aa-4b1b-ad99-ffc5d9124345",
+          "task_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "workflow_id": "78d07bd8-d012-4b56-8122-1c88da14bb76",
+          "sequence": 5
+        }
+      ]
+    },
+    {
+      "name": "knowledge",
+      "question": "根据银帆演示指南，普通聊天能批准模拟退款吗？审批应该通过什么入口提交？",
+      "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+      "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+      "thread_id": "45809aba-9e5b-5504-a695-1ac9ed15e89d",
+      "status": "completed",
+      "result": {
+        "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+        "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+        "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+        "agent_type": "knowledge",
+        "task_type": "knowledge_qa",
+        "status": "completed",
+        "summary": "No. According to the Yinfan demo guide, ordinary chat cannot approve simulated refunds. The approval must be submitted through the dedicated local approval entry, and the approval decision is recorded server-side by a fixed demo operator — agreement expressed in chat does not constitute approval.",
+        "facts": {},
+        "entities": {},
+        "sources": [
+          {
+            "evidence_id": "495c1713aad1caebfbe268653fc4d1f9fd0fdcfd3936bd87d6af16bc2e5c35b7",
+            "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+            "document_version": "347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107",
+            "chunk_id": "9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2",
+            "source_title": "Demo银帆演示指南",
+            "source_key": "memory532-approval",
+            "section": "Demo银帆演示指南",
+            "page": null,
+            "checked_at": "2026-11-14T06:31:25.993243Z"
+          }
+        ],
+        "missing_fields": [],
+        "clarification_question": null,
+        "operation_id": null,
+        "approval_id": null,
+        "error": null,
+        "approved_answer": "No. According to the Yinfan demo guide, ordinary chat cannot approve simulated refunds. The approval must be submitted through the dedicated local approval entry, and the approval decision is recorded server-side by a fixed demo operator — agreement expressed in chat does not constitute approval."
+      },
+      "run_usage": {
+        "tool_calls": 3,
+        "active_elapsed_ms": 5676
+      },
+      "model_usage": {
+        "model_attempts": 4
+      },
+      "public_data": [
+        {
+          "snapshot": true,
+          "view": {
+            "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+            "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+            "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+            "run_status": "running",
+            "task_status": "running",
+            "final_answer": null,
+            "sources": [],
+            "error": null,
+            "model_call_usage": {
+              "model_attempts": 0
+            },
+            "run_usage": {
+              "tool_calls": 0,
+              "active_elapsed_ms": 0
+            },
+            "usage_complete": true,
+            "started_at": "2026-11-14T06:31:20.405139+00:00",
+            "ended_at": null
+          },
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+          "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "sequence": 1
+        },
+        {
+          "code": "routing",
+          "run_status": "running",
+          "task_status": "running",
+          "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+          "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "sequence": 2
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+          "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "sequence": 3
+        },
+        {
+          "content": "No. According to the Yinfan demo guide, ordinary chat cannot approve simulated refunds. The approval must be submitted through the dedicated local approval entry, and the approval decision is recorded server-side by a fixed demo operator — agreement expressed in chat does not constitute approval.",
+          "sources": [
+            {
+              "evidence_id": "495c1713aad1caebfbe268653fc4d1f9fd0fdcfd3936bd87d6af16bc2e5c35b7",
+              "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+              "document_version": "347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107",
+              "chunk_id": "9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2",
+              "source_title": "Demo银帆演示指南",
+              "source_key": "memory532-approval",
+              "section": "Demo银帆演示指南",
+              "page": null,
+              "checked_at": "2026-11-14T06:31:25.993243Z"
+            }
+          ],
+          "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+          "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "sequence": 4
+        },
+        {
+          "run_status": "completed",
+          "task_status": "completed",
+          "run_id": "23edf91d-941e-4c52-871c-b72191e0c0bb",
+          "task_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "workflow_id": "0ef99a7a-13e0-440f-bded-385294271ca4",
+          "sequence": 5
+        }
+      ],
+      "records": [
+        {
+          "tool": "read_preferences",
+          "origin": "node",
+          "node_name": "prepare_query",
+          "result": {
+            "call_id": "node:94cb24b9-cdb5-5ba1-bab4-77d766fa0a6a",
+            "tool_name": "read_preferences",
+            "execution_id": "3248bc31-50d1-4517-94fe-b31e94892010",
+            "status": "success",
+            "code": "ok",
+            "message": "Tool succeeded.",
+            "data": {
+              "status": "available",
+              "preferences": {
+                "answer_language": "en"
+              },
+              "revision": 1,
+              "invalid_fields": []
+            },
+            "attempts": 1,
+            "run_usage": {
+              "tool_calls": 1,
+              "active_elapsed_ms": 1576
+            },
+            "effect_status": "not_applicable",
+            "normalized_args": {}
+          }
+        },
+        {
+          "tool": "search_knowledge",
+          "origin": "model",
+          "node_name": null,
+          "result": {
+            "call_id": "call_00_3RSmZozSR5h6sq2ON9677722",
+            "tool_name": "search_knowledge",
+            "execution_id": "51d54051-c971-4c78-9851-516520f6d05e",
+            "status": "success",
+            "code": "ok",
+            "message": "Tool succeeded.",
+            "data": {
+              "status": "found",
+              "evidence": [
+                {
+                  "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+                  "document_version": "347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107",
+                  "chunk_id": "9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2",
+                  "content_hash": "e77f3b81cd990fd49233ee596a0b9e18666f07baef480375e0c30bab27da1aa8",
+                  "evidence_id": "495c1713aad1caebfbe268653fc4d1f9fd0fdcfd3936bd87d6af16bc2e5c35b7",
+                  "source_title": "Demo银帆演示指南",
+                  "public_source_key": "memory532-approval",
+                  "section": "Demo银帆演示指南",
+                  "page": null,
+                  "line_start": 3,
+                  "line_end": 3,
+                  "content": "银帆演示指南规定：普通聊天不能批准模拟退款。模拟退款审批必须通过独立的本地审批入口提交。审批决定由服务端固定演示操作者记录，聊天中的同意不构成批准。",
+                  "retrieval_score": 0.9302340498211531,
+                  "domain": "platform_help",
+                  "is_current_version": true
+                }
+              ],
+              "embedding_profile": "{\"dimensions\":1024,\"dtype\":\"bfloat16\",\"model\":\"Qwen/Qwen3-Embedding-0.6B\",\"normalization\":\"l2\",\"provider\":\"qwen_local\",\"query_prompt\":\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:\",\"revision\":\"demo-v1\",\"tokenizer\":\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\",\"weights_revision\":\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\"}",
+              "query_fingerprint": "8d4ada938d430b6da3f1a4181a2d6223440310af5f57cf10f885424c7f2e74dc",
+              "context_tokens": 362,
+              "truncated": false,
+              "embedding_request_attempts": 1,
+              "candidate_count": 1,
+              "elapsed_ms": 396.0955000075046,
+              "context": "[{\"chunk_id\":\"9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2\",\"content\":\"银帆演示指南规定：普通聊天不能批准模拟退款。模拟退款审批必须通过独立的本地审批入口提交。审批决定由服务端固定演示操作者记录，聊天中的同意不构成批准。\",\"content_hash\":\"e77f3b81cd990fd49233ee596a0b9e18666f07baef480375e0c30bab27da1aa8\",\"document_id\":\"memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document\",\"document_version\":\"347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107\",\"domain\":\"platform_help\",\"evidence_id\":\"495c1713aad1caebfbe268653fc4d1f9fd0fdcfd3936bd87d6af16bc2e5c35b7\",\"is_current_version\":true,\"line_end\":3,\"line_start\":3,\"page\":null,\"public_source_key\":\"memory532-approval\",\"retrieval_score\":0.9302340498211531,\"section\":\"Demo银帆演示指南\",\"source_title\":\"Demo银帆演示指南\"}]"
+            },
+            "attempts": 1,
+            "run_usage": {
+              "tool_calls": 2,
+              "active_elapsed_ms": 2921
+            },
+            "effect_status": "not_applicable",
+            "normalized_args": {
+              "query": "根据银帆演示指南，普通聊天能批准模拟退款吗？审批应该通过什么入口提交？",
+              "domain": null,
+              "top_k": 3
+            }
+          }
+        },
+        {
+          "tool": "validate_knowledge_sources",
+          "origin": "node",
+          "node_name": "validate_sources",
+          "result": {
+            "call_id": "node:e78fa595-93d5-5b30-9883-64a51947f3ad",
+            "tool_name": "validate_knowledge_sources",
+            "execution_id": "16a45d9b-d593-4bba-a2ba-78ddef00d8d0",
+            "status": "success",
+            "code": "ok",
+            "message": "Tool succeeded.",
+            "data": {
+              "valid": true,
+              "invalid_evidence_ids": [],
+              "safe_code": null,
+              "checked_at": "2026-11-14T06:31:25.993243Z"
+            },
+            "attempts": 1,
+            "run_usage": {
+              "tool_calls": 3,
+              "active_elapsed_ms": 5588
+            },
+            "effect_status": "not_applicable",
+            "normalized_args": {
+              "evidence": [
+                {
+                  "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+                  "document_version": "347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107",
+                  "chunk_id": "9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2",
+                  "content_hash": "e77f3b81cd990fd49233ee596a0b9e18666f07baef480375e0c30bab27da1aa8"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "memory_context": {
+        "preferences": {
+          "answer_language": "en"
+        },
+        "revision": 1
+      },
+      "retrieval": {
+        "embedding_request_attempts": 1,
+        "candidate_count": 1,
+        "context_tokens": 362,
+        "elapsed_ms": 396.0955000075046
+      }
+    }
+  ],
+  "protected_before": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "columns": 3,
+      "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "profile": {
+    "dimensions": 1024,
+    "dtype": "bfloat16",
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "normalization": "l2",
+    "provider": "qwen_local",
+    "query_prompt": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:",
+    "revision": "demo-v1",
+    "tokenizer": "Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "weights_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+  },
+  "database": [
+    "agent_demo_test",
+    "agent_test",
+    "17.6 (Debian 17.6-2.pgdg12+1)",
+    "0.8.7"
+  ],
+  "corpus": {
+    "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+    "version": "347057a702bc8310b0444108bd56787eb75b4fd520aabc3a4bd32e85b9208107",
+    "chunk_ids": [
+      "9814497f14916c62e899a1884c90fccba1c0228bb003c2c1d2845b7a3d6da5e2"
+    ],
+    "text": "# Demo银帆演示指南\n\n银帆演示指南规定：普通聊天不能批准模拟退款。模拟退款审批必须通过独立的本地审批入口提交。审批决定由服务端固定演示操作者记录，聊天中的同意不构成批准。\n",
+    "vector_dimensions": 1024
+  },
+  "english_preference_real_rag": "PASS_real_and_implementer_semantic_review",
+  "protected_after": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "4d7a75f91bd451a76cd8b57b9d0a88f986bcd01981447d0bf08632445b2aea26"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 6,
+      "columns": 3,
+      "sha256": "f75f75333cab20dd8e2f825060d5ed272815c99c7b3782e89225144cb763e273"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "protected_unchanged": true,
+  "exact_cleanup": {
+    "user": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-user",
+    "namespace": [
+      "users",
+      "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-user",
+      "preferences"
+    ],
+    "key": "profile",
+    "document_id": "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-document",
+    "conversations": [
+      "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-save-en",
+      "memory532-rag-a8665e4f3f4147e4b313f13ddf499f70-knowledge"
+    ],
+    "threads": [
+      "d5125aa5-6b07-5710-af14-02490e3160e0",
+      "45809aba-9e5b-5504-a695-1ac9ed15e89d"
+    ],
+    "temporary_source_removed": true
+  },
+  "implementer_semantic_review": {
+    "language": "English; the plain Chinese question contained no explicit reply-language instruction.",
+    "supported_claims": [
+      "Ordinary chat cannot approve simulated refunds.",
+      "Approval must use the dedicated local approval entry.",
+      "The server records the fixed demo operator; chat agreement is not approval."
+    ],
+    "evidence_support": "All three claims occur in the unique Chinese source recorded in corpus.text; no invented order/refund execution result.",
+    "scope": "Single real composition sample, not a universal language or semantic correctness guarantee."
+  }
+}

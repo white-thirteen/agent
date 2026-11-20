@@ -1,0 +1,14 @@
+{
+  "status": "VALIDATION_FULL_GATE_PASSED",
+  "validation_token": "6b522e463c2b",
+  "validation_receipt_sha256": "fc8b0326f13b968f58bca245288856afe22f7aec09943cd1386237888d0ef018",
+  "full_report_sha256": "2432117f09449b22e74f31cc454357d10ef1f12574fe7ca42ed17c66da90fd22",
+  "qwen_evidence_sha256": "3d846353f458d7897d9598784df19dbc698d6b5b1a5a35731efd3d96ea50c254",
+  "pytest_exit": 0,
+  "pytest_outcomes": {
+    "passed": 229,
+    "failed": 0,
+    "skipped": 0
+  },
+  "protected_unchanged": true
+}

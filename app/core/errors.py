@@ -53,6 +53,11 @@ class RuntimeRequestError(PublicError):
             "approval_binding_unavailable": (503, "Approval binding is unavailable."),
             "approval_pending": (409, "Approval is still pending."),
             "approval_resume_unavailable": (503, "Approval recovery is unavailable."),
+            "preference_conflict": (409, "Preference operation conflicts with an existing command."),
+            "preference_unresolved": (409, "An earlier preference operation requires reconciliation."),
+            "preference_not_found": (404, "Preference operation was not found."),
+            "preference_unavailable": (503, "Preference control is unavailable."),
+            "preference_scope_denied": (403, "Preference permission is required."),
         }
         self.code = code
         self.status_code, self.message = messages[code]

@@ -1,0 +1,11 @@
+import os,subprocess,sys,time
+from pathlib import Path
+root=Path(__file__).resolve().parent.parent
+os.chdir(root)
+env=dict(os.environ,PYTHONIOENCODING='utf-8',PYTHONUTF8='1')
+env.pop('AGENT_RUN_REAL_MODEL_TESTS',None)
+started=time.monotonic()
+with (root/'docs/v2/v2-03/evidence/v2-03-full-regression-r2.log').open('xb') as output:
+ result=subprocess.run([sys.executable,'-u',str(root/'.git/v203-full-gate-r2.py')],env=env,stdout=output,stderr=subprocess.STDOUT)
+print(f'Full gate r2 exit={result.returncode}, seconds={time.monotonic()-started:.3f}',flush=True)
+raise SystemExit(result.returncode)

@@ -1,0 +1,22 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______ test_legacy_snapshot_recovery_keeps_checkpoint_and_is_reentrant _______
+tests\test_context_migration_postgres.py:83: in test_legacy_snapshot_recovery_keeps_checkpoint_and_is_reentrant
+    run_async(probe())
+scripts\__init__.py:13: in run_async
+    return runner.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_context_migration_postgres.py:67: in probe
+    first = await recover_public_metadata(
+app\context\migration.py:22: in recover_public_metadata
+    raise ValueError("Checkpoint owner mismatch")
+E   ValueError: Checkpoint owner mismatch
+=========================== short test summary info ===========================
+FAILED tests/test_context_migration_postgres.py::test_legacy_snapshot_recovery_keeps_checkpoint_and_is_reentrant
+1 failed in 4.86s

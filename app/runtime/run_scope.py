@@ -27,6 +27,78 @@ class RunScope:
         self._finished: RunUsage | None = None
         self._deadline: asyncio.Timeout | None = None
         self._emit = emit
+        self._context_view = None
+        self._selector_receipts = []
+        self._selector_pending = None
+        self.selection_reservation = None
+        self.context_history_override = None
+
+    def record_context_view(self, view):
+        self._context_view = view
+
+    def record_context_usage(self, usage):
+        if self._context_view is not None:
+            from dataclasses import asdict
+
+            self._context_view = {**self._context_view, "provider_usage": asdict(usage)}
+
+    @property
+    def selector_receipts(self):
+        return list(self._selector_receipts)
+
+    def adopt_selector_receipts(self, receipts):
+        """Merge Task receipts by stable ID when restoring a committed state."""
+        existing = {item["id"]: item for item in self._selector_receipts}
+        for receipt in receipts:
+            prior = existing.get(receipt["id"])
+            if prior is not None and prior != receipt:
+                raise ValueError("Selector receipt mismatch")
+            if prior is None:
+                self._selector_receipts.append(receipt)
+                existing[receipt["id"]] = receipt
+
+    async def start_selector_receipt(self, task_id, run_id):
+        self._selector_pending = {
+            "id": str(uuid4()),
+            "task_id": task_id,
+            "run_id": run_id,
+            "status": "pending_unknown",
+            "provider_calls": None,
+            "usage": None,
+            "reserved_attempts": None,
+            "error_code": None,
+        }
+        self._selector_initial_attempts = self._model.model_attempts
+        self._selector_provider_calls = 0
+        self.adopt_selector_receipts([self._selector_pending])
+        if self.selection_reservation is not None:
+            await self.selection_reservation.record_receipts(self._selector_receipts)
+
+    def note_selector_provider_call(self):
+        self._selector_provider_calls += 1
+
+    def record_selector_usage(self, usage):
+        from dataclasses import asdict
+
+        self._selector_pending["usage"] = asdict(usage)
+
+    async def finish_selector_receipt(self, status, error_code):
+        if self._selector_pending is None:
+            return
+        receipt = self._selector_pending
+        self._selector_pending = None
+        receipt["provider_calls"] = self._selector_provider_calls
+        receipt["reserved_attempts"] = self._model.model_attempts - self._selector_initial_attempts
+        receipt["status"] = status if self._selector_provider_calls else "not_started"
+        receipt["error_code"] = error_code
+        if not self._selector_provider_calls:
+            receipt["usage"] = None
+        if self.selection_reservation is not None:
+            await self.selection_reservation.record_receipts(self._selector_receipts)
+
+    @property
+    def context_view(self):
+        return self._context_view
 
     def model_usage(self) -> ModelCallUsage:
         return self._model
@@ -43,6 +115,18 @@ class RunScope:
         if updated.model_attempts < self._model.model_attempts:
             raise ValueError("Model usage cannot decrease")
         self._model = updated
+
+    async def begin_selection(self, rediscoveries: int) -> None:
+        if self.selection_reservation is not None:
+            await self.selection_reservation.begin(self._model.model_attempts, rediscoveries)
+
+    async def record_selection_outcome(self, record, status) -> None:
+        if self.selection_reservation is not None:
+            await self.selection_reservation.record_outcome(record, status)
+
+    async def reserve_model_attempt(self, updated: ModelCallUsage) -> None:
+        if self.selection_reservation is not None:
+            await self.selection_reservation.reserve_attempt(updated.model_attempts)
 
     def run_usage(self) -> RunUsage:
         if self._finished is not None:

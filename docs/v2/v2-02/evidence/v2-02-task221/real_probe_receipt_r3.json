@@ -1,0 +1,1 @@
+{"schema_cleaned":true,"status":"ok","prompt_version":"context-summary-v1","input_limit_for_probe":4096,"output_limit_for_probe":128,"attempts":1,"usage_status":"known","input_tokens":78,"output_tokens":40,"covered_messages":2,"archive_status":"READY","maintenance_status":"SUCCEEDED"}

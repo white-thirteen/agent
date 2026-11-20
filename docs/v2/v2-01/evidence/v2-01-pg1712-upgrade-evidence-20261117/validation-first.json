@@ -1,0 +1,375 @@
+{
+  "status": "VALIDATION_RESTORE_IN_PROGRESS",
+  "token": "6b522e463c2b",
+  "container": "pg1712-validation-6b522e463c2b",
+  "volume": "pg1712-validation-data-6b522e463c2b",
+  "network": "pg1712-validation-net-6b522e463c2b",
+  "image_id": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "backup_dir": "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38",
+  "private_work": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/restore-fac271bcaa1b",
+  "resources_retained": true,
+  "production_extensions": [
+    "plpgsql",
+    "vector"
+  ],
+  "pg_search_enabled": false,
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "codex-pg1712restore:228a7f5b8d92"
+      ],
+      "started_at": "2026-11-17T11:55:30.124133+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T11:55:31.315445+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T11:55:31.500792+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "network",
+        "create",
+        "--label",
+        "codex.pg1712upgrade=6b522e463c2b",
+        "pg1712-validation-net-6b522e463c2b"
+      ],
+      "started_at": "2026-11-17T11:55:32.337971+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "codex.pg1712upgrade=6b522e463c2b",
+        "pg1712-validation-data-6b522e463c2b"
+      ],
+      "started_at": "2026-11-17T11:55:34.258152+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "pg1712-validation-6b522e463c2b",
+        "--network",
+        "pg1712-validation-net-6b522e463c2b",
+        "--label",
+        "codex.pg1712upgrade=6b522e463c2b",
+        "--memory",
+        "768m",
+        "--cpus",
+        "1",
+        "-e",
+        "POSTGRES_USER=agent_bootstrap",
+        "-e",
+        "POSTGRES_DB=postgres",
+        "-e",
+        "POSTGRES_PASSWORD_FILE=/run/secrets/bootstrap-password",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=scram-sha-256",
+        "--mount",
+        "type=bind,source=/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/restore-fac271bcaa1b/bootstrap-password.private,target=/run/secrets/bootstrap-password,readonly",
+        "--mount",
+        "type=volume,source=pg1712-validation-data-6b522e463c2b,target=/var/lib/postgresql/data",
+        "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4"
+      ],
+      "started_at": "2026-11-17T11:55:34.952942+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:55:41.056508+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:55:46.733684+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:55:50.419858+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:55:54.275001+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:55:57.975416+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:56:00.963373+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:56:04.192296+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "pg1712-validation-6b522e463c2b",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T11:56:05.809214+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "pg1712-validation-6b522e463c2b",
+        "sha256sum",
+        "/usr/lib/postgresql/17/lib/vector.so"
+      ],
+      "started_at": "2026-11-17T11:56:06.602498+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:56:10.516314+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:56:14.538928+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "pg1712-validation-6b522e463c2b",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:56:18.342472+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "stop",
+        "pg1712-validation-6b522e463c2b"
+      ],
+      "started_at": "2026-11-17T11:56:19.201513+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/001.conf",
+        "pg1712-validation-6b522e463c2b:/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T11:56:22.417551+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/002.conf",
+        "pg1712-validation-6b522e463c2b:/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T11:56:23.697250+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/003.conf",
+        "pg1712-validation-6b522e463c2b:/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T11:56:24.301753+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "rename",
+        "pg1712-validation-6b522e463c2b",
+        "pg1712-validation-6b522e463c2b-bootstrap"
+      ],
+      "started_at": "2026-11-17T11:56:24.859888+00:00",
+      "exit_code": 0
+    }
+  ]
+}

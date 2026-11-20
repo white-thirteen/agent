@@ -1,0 +1,27 @@
+# Task 1.3.2 fixture hashes cover the original source bytes.
+/data/knowledge/*.md text eol=crlf
+/data/knowledge/manifest.json text eol=crlf
+/data/v2-01-quality/** -text
+
+# Preserve raw evidence bytes for the archived SHA256 chains.
+/docs/v2/v2-01/evidence/v2-01-task112-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task121-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task122-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task131-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task132-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task132-regression-evidence/** -text
+/docs/v2/v2-01/evidence/v2-01-task132-top3-evidence/** -text
+
+# Keep V2 02 frozen sources, raw evidence and recorded role hashes reproducible.
+/docs/v1/**/evidence/** -text
+/docs/v2/v2-01/evidence/** -text
+/docs/v2/v2-02/evidence/** -text
+/docs/v2/v2-02/v2-02-context-engineering-detailed-design.md -text
+/.codex/config.toml -text
+/.codex/agents/*.toml -text
+
+# Keep V2 03 raw test evidence and captured driver bytes unchanged on checkout.
+/docs/v2/v2-03/evidence/** -text
+
+# Preserve the full-project integration responses, logs and recorded hashes.
+/docs/integration/2026-11-20/** -text

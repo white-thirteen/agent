@@ -1,0 +1,4 @@
+full ['1', '2'] 2 calls 1
+new ['1', '2'] 2 calls 1
+replay ['1'] 1 calls 0
+post-call ValueError Summary requires public human or assistant messages calls 0 model_usage None usage None

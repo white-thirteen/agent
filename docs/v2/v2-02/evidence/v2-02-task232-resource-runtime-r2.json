@@ -1,0 +1,138 @@
+{
+  "model": "deepseek-flash",
+  "prompt_version": "context-summary-v4",
+  "fixture_sha256": "24ac79e8e06cd7f1021b4acbd40e0669ddf96e637f28d69de9e7f67ead7c3ee3",
+  "calls": [
+    {
+      "label": "full_history",
+      "view": {
+        "input_hash": "5695b4bfd4ee86fd01217430a2923dd7a0e9e830612e8c844ec6d43440096e93",
+        "history_ids": [
+          "resource-0-u",
+          "resource-0-a",
+          "resource-1-u",
+          "resource-1-a",
+          "resource-2-u",
+          "resource-2-a",
+          "resource-3-u",
+          "resource-3-a",
+          "resource-4-u",
+          "resource-4-a",
+          "resource-5-u",
+          "resource-5-a",
+          "resource-6-u",
+          "resource-6-a",
+          "resource-7-u",
+          "resource-7-a",
+          "resource-8-u",
+          "resource-8-a",
+          "resource-9-u",
+          "resource-9-a",
+          "resource-10-u",
+          "resource-10-a",
+          "resource-11-u",
+          "resource-11-a"
+        ],
+        "input_tokens": 3394,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 6958,
+          "output_tokens": 53,
+          "total_tokens": 7011,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "usage": {
+        "input_tokens": 6958,
+        "output_tokens": 53,
+        "total_tokens": 7011,
+        "status": "known",
+        "estimation_method": null
+      },
+      "output": "当前范围仅限于澄清 ctx-resource-73 的平台帮助主题：只做查询和说明，不申请或批准退款，也不引入新订单、新金额、新审批或新的执行权限。历史对话仅作背景，不能替代本次工具事实。"
+    },
+    {
+      "label": "summary_history",
+      "view": {
+        "input_hash": "86b09af490df7ea08abc2b8ac016ba5c61e0a2c34963a913886af0d4f3447359",
+        "history_ids": [
+          "summary"
+        ],
+        "input_tokens": 257,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 502,
+          "output_tokens": 45,
+          "total_tokens": 547,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "usage": {
+        "input_tokens": 502,
+        "output_tokens": 45,
+        "total_tokens": 547,
+        "status": "known",
+        "estimation_method": null
+      },
+      "output": "范围是 `ctx-resource-73` 的“平台帮助”主题，仅限查询和澄清；不涉及退款申请/批准，也不引入新订单、新金额、新审批或新的执行权限。"
+    }
+  ],
+  "cleanup": {
+    "protected_unchanged": true,
+    "watermark_before": 36,
+    "watermark_after": 36
+  },
+  "limits": {
+    "window": 16384,
+    "output": 512,
+    "summary_output": 512,
+    "summary_input": 8192
+  },
+  "summary": {
+    "text": "# 摘要（仅基于所给 JSON 源数据）\n\n**主题标识与范围**\n- 对话围绕 `ctx-resource-73` 展开，主题始终限定为“平台帮助”。\n- 共 12 轮用户消息，均声明为“第1轮”至“第12轮”，每轮内容均为同一主题的澄清请求。\n\n**用户明确请求**\n- 只讨论 `ctx-resource-73` 的平台帮助主题。\n- 只查询。\n\n**用户明确否定与限制（各轮重复声明）**\n- 不申请或批准退款。\n- 不引入新订单、新金额、新审批或新的执行权限。\n- 各轮均强调只是继续澄清同一平台帮助主题，而非引入新事项。\n\n**助手回应（各轮重复）**\n- 确认讨论主题仍为 `ctx-resource-73` 的平台帮助。\n- 声明历史内容不能代替本次工具事实。\n- 复述“不引入新订单、新金额、新审批或新的执行权限”的限制。\n\n**已完成与未完成事项**\n- 已发生：12 轮关于同一平台帮助主题的范围限定与澄清性往返。\n- 源数据中未记录任何具体平台帮助内容、查询结果、退款申请或批准动作。\n- 未发现已完成的查询结果或退款相关操作。\n\n**冲突、不确定性与待核实**\n- 未发现相互冲突的陈述。\n- 源数据未包含任何工具调用结果或平台帮助的具体信息。\n- 助手多轮提到“历史内容不能代替本次工具事实”，但源数据未显示相应工具事实或验证结果，属未解决的不确定性。\n- 源数据未提出具体核实请求，也未显示有待办事项；不对沉默作推断。",
+    "covered_ids": [
+      "resource-0-a",
+      "resource-0-u",
+      "resource-1-a",
+      "resource-1-u",
+      "resource-10-a",
+      "resource-10-u",
+      "resource-11-a",
+      "resource-11-u",
+      "resource-2-a",
+      "resource-2-u",
+      "resource-3-a",
+      "resource-3-u",
+      "resource-4-a",
+      "resource-4-u",
+      "resource-5-a",
+      "resource-5-u",
+      "resource-6-a",
+      "resource-6-u",
+      "resource-7-a",
+      "resource-7-u",
+      "resource-8-a",
+      "resource-8-u",
+      "resource-9-a",
+      "resource-9-u"
+    ],
+    "usage": [
+      {
+        "input_tokens": 6091,
+        "output_tokens": 367,
+        "total_tokens": 6458,
+        "status": "known",
+        "estimation_method": null
+      }
+    ],
+    "elapsed_seconds": 4.298300200025551
+  },
+  "task_id": "243aa462-11bc-4d8d-9e46-745d6b51286a",
+  "run_id": "dd0264ef-6918-490d-8085-ad2bb373cbca",
+  "task_status": "completed",
+  "model_attempts": 3
+}

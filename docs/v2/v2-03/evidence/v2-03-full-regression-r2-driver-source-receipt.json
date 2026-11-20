@@ -1,0 +1,14 @@
+[
+  {
+    "original": ".git/v203-full-gate-r2.py",
+    "archived": "v2-03-full-regression-r2-wrapper-source.txt",
+    "sha256": "959925dcd2ae2f57c19940551f9f1de76b7d8b5c371baed5a20710c99d08f9ec",
+    "nature": "Exact source bytes of the executed private driver; archived as text, not a new test run."
+  },
+  {
+    "original": ".git/v203-run-gate-r2.py",
+    "archived": "v2-03-full-regression-r2-capture-source.txt",
+    "sha256": "ba4a13e14800259e4fe577369fe36d235d724f669598a3675de81d45fc10f752",
+    "nature": "Exact source bytes of the executed private driver; archived as text, not a new test run."
+  }
+]

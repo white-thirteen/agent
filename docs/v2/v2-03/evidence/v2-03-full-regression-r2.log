@@ -1,0 +1,665 @@
+Delivery verifier PID=32868
+
+V203_GATE_BEGIN tests/test_agent_types.py::test_json_task_resolves_to_owner_and_serializes_as_public_value[order_query-order]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_json_task_resolves_to_owner_and_serializes_as_public_value[memory_manage-knowledge]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_json_task_resolves_to_owner_and_serializes_as_public_value[refund_apply-refund]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_json_task_resolves_to_owner_and_serializes_as_public_value[knowledge_qa-knowledge]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_json_task_resolves_to_owner_and_serializes_as_public_value[clarification-supervisor]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[AgentType-general]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[AgentType-after_sales]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[TaskType-order_cancel]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[TaskType-refund_request]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[AgentType-unknown_agent]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[TaskType-unknown_task]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_unsupported_json_values_are_rejected_without_fallback[TaskType-approve_refund]
+.
+V203_GATE_BEGIN tests/test_agent_types.py::test_every_task_has_one_owner_and_only_clarification_belongs_to_supervisor
+.
+V203_GATE_BEGIN tests/test_application.py::test_health_and_openapi_work_without_external_services
+.
+V203_GATE_BEGIN tests/test_application.py::test_chat_reports_unavailable_before_starting_stream
+.
+V203_GATE_BEGIN tests/test_application.py::test_invalid_message_is_rejected[]
+.
+V203_GATE_BEGIN tests/test_application.py::test_invalid_message_is_rejected[   ]
+.
+V203_GATE_BEGIN tests/test_application.py::test_invalid_message_is_rejected[message2]
+.
+V203_GATE_BEGIN tests/test_application.py::test_unexpected_request_fields_are_rejected
+.
+V203_GATE_BEGIN tests/test_application.py::test_sse_transport_preserves_payload_and_isolates_run_context
+.
+V203_GATE_BEGIN tests/test_approval_constraints.py::test_approval_subject_constraint_on_real_postgres
+.
+V203_GATE_BEGIN tests/test_approval_routes.py::test_local_control_plane_and_production_boundary
+.
+V203_GATE_BEGIN tests/test_checkpoint_serializer.py::test_serializer_roundtrips_required_types_and_blocks_unknown_constructor
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_defaults_and_normalization
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values0]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values1]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values2]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values3]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values4]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values5]
+.
+V203_GATE_BEGIN tests/test_config.py::test_settings_errors_hide_inputs[values6]
+.
+V203_GATE_BEGIN tests/test_context_archive.py::test_publish_recover_and_failures
+.
+V203_GATE_BEGIN tests/test_context_archive.py::test_selection_never_splits_or_guesses
+.
+V203_GATE_BEGIN tests/test_context_archive.py::test_recovery_candidate_and_neighbor_limits
+.
+V203_GATE_BEGIN tests/test_context_archive_postgres.py::test_real_postgres_archive_publication
+.
+V203_GATE_BEGIN tests/test_context_builder.py::test_complete_task_messages_are_not_truncated
+.
+V203_GATE_BEGIN tests/test_context_builder.py::test_budget_counts_schema_and_preserves_whole_interactions
+.
+V203_GATE_BEGIN tests/test_context_builder.py::test_gateway_budgets_complete_schema_and_records_injection
+.
+V203_GATE_BEGIN tests/test_context_builder.py::test_structured_output_reservation_reaches_provider_transport
+.
+V203_GATE_BEGIN tests/test_context_compaction_postgres.py::test_compaction_postgres
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_identity_and_legacy_mutation_contracts
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_actual_langmem_gateway_and_provider_request
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_maintenance_reservation_and_separate_attempts
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_summary_rejects_over_budget_before_provider_call
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_maintenance_retry_reserves_each_attempt_and_preserves_unknown
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_incremental_summary_accepts_full_and_new_ranges_without_replay
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_system_message_rejected_before_model_call
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_run_compaction_charges_attempt_even_when_interrupted
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_post_call_failure_preserves_consumed_budget_and_usage[True]
+.
+V203_GATE_BEGIN tests/test_context_contracts.py::test_post_call_failure_preserves_consumed_budget_and_usage[False]
+.
+V203_GATE_BEGIN tests/test_context_maintenance_runtime_postgres.py::test_completed_run_registers_and_publishes_without_rewriting_checkpoint[False]
+.
+V203_GATE_BEGIN tests/test_context_maintenance_runtime_postgres.py::test_completed_run_registers_and_publishes_without_rewriting_checkpoint[True]
+.
+V203_GATE_BEGIN tests/test_context_maintenance_shutdown.py::test_shutdown_cancels_workers_and_rejects_new_work
+.
+V203_GATE_BEGIN tests/test_context_migration.py::test_recovery_is_reentrant_and_preserves_unknown_messages
+.
+V203_GATE_BEGIN tests/test_context_migration.py::test_latest_unsettled_or_conflicting_history_is_not_migrated
+.
+V203_GATE_BEGIN tests/test_context_migration_postgres.py::test_legacy_snapshot_recovery_keeps_checkpoint_and_is_reentrant
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[receipt]
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[before_commit]
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[after_commit]
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[after_commit_receipt]
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[stale]
+.
+V203_GATE_BEGIN tests/test_context_revision_postgres.py::test_real_revision_adoption_and_receipt_recovery[append]
+.
+V203_GATE_BEGIN tests/test_context_revision_runtime.py::test_input_wait_and_new_task_do_not_select_candidate
+.
+V203_GATE_BEGIN tests/test_context_revision_runtime.py::test_uncertain_blocked_and_shutdown_do_not_prepare_candidates
+.
+V203_GATE_BEGIN tests/test_context_revision_runtime.py::test_unconfigured_model_limits_keep_v1_input_without_history
+.
+V203_GATE_BEGIN tests/test_context_run_compaction_postgres.py::test_run_compaction_charged_and_bound_without_checkpoint_pruning
+.
+V203_GATE_BEGIN tests/test_deepseek_output_limits.py::test_deepseek_wire_field_for_all_call_paths_and_summary_truncation
+.
+V203_GATE_BEGIN tests/test_deepseek_output_limits.py::test_other_providers_keep_sdk_default_wire_field
+.
+V203_GATE_BEGIN tests/test_deepseek_output_limits.py::test_application_selects_adapter_only_for_official_deepseek_host
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_identity_environment_allowlist_and_ordinary_scopes
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_route_parses_once_and_transfers_context_options
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_nul_identifiers_are_rejected_before_preparation[user_id]
+. [ 22%]
+
+V203_GATE_BEGIN tests/test_demo_identity.py::test_nul_identifiers_are_rejected_before_preparation[conversation_id]
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_unicode_identifiers_are_normalized_before_preparation
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_production_rejects_before_preparation_and_database_errors_precede_sse
+.
+V203_GATE_BEGIN tests/test_demo_identity.py::test_prepare_chat_returns_context_options_without_executing_graph
+.
+V203_GATE_BEGIN tests/test_demo_session.py::test_snapshot_comparison_only_accepts_expected_watermark_advance
+.
+V203_GATE_BEGIN tests/test_demo_session.py::test_cleanup_intent_survives_delete_and_report_failures
+.
+V203_GATE_BEGIN tests/test_demo_session.py::test_existing_prepare_directory_never_enters_cleanup
+.
+V203_GATE_BEGIN tests/test_demo_session.py::test_new_directory_partial_failure_keeps_owned_cleanup
+.
+V203_GATE_BEGIN tests/test_demo_session.py::test_real_prepare_ownership_and_partial_publication_cleanup
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates0]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates1]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates2]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates3]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates4]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates5]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates6]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates7]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_contract_rejects_invalid_or_privileged_model_output[updates8]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_graph_conditional_edge_dispatches_validated_task[order_query-order]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_graph_conditional_edge_dispatches_validated_task[refund_apply-refund]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_graph_conditional_edge_dispatches_validated_task[knowledge_qa-knowledge]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_graph_conditional_edge_dispatches_validated_task[memory_manage-knowledge]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_graph_conditional_edge_dispatches_validated_task[clarification-clarification]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_route_revalidates_instances_and_rejects_conflicting_parent_channels
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_child_input_filters_private_history_and_copies_nested_data
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_contracts_round_trip_json_preserving_message_and_enum_types
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates0]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates1]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates2]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates3]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates4]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates5]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates6]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates7]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates8]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_result_contract_rejects_inconsistent_or_unsubstantiated_results[updates9]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_completed_qa_requires_approved_answer_and_sources_memory_requires_store_facts
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_foreign_result_is_rejected_even_when_valid_contract[updates0]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_foreign_result_is_rejected_even_when_valid_contract[updates1]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_foreign_result_is_rejected_even_when_valid_contract[updates2]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_foreign_result_is_rejected_even_when_valid_contract[updates3]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_explicit_continuation_keeps_task_usage_and_clears_transient_results
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_real_topology_scope_settlement_and_no_post_end_update
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks[refund_apply]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_actual_compiled_skeletons_fail_safely_for_all_professional_tasks[knowledge_qa]
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_nested_success_is_approved_once_and_foreign_request_is_rejected
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_history_order_identifier_cannot_authorize_refund_target
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_task_message_window_excludes_other_tasks_reasoning_and_metadata
+.
+V203_GATE_BEGIN tests/test_graph_protocol.py::test_refund_wrapper_reentry_uses_saved_child_and_current_run
+.
+V203_GATE_BEGIN tests/test_graph_state.py::test_graph_appends_messages_replaces_matching_ids_and_overwrites_scalars
+.
+V203_GATE_BEGIN tests/test_graph_state.py::test_compiled_state_graph_keeps_concurrent_invocations_separate
+.
+V203_GATE_BEGIN tests/test_hybrid_task121.py::test_rrf_keeps_source_identity_scores_and_stable_ties
+.
+V203_GATE_BEGIN tests/test_hybrid_task121_postgres.py::test_hybrid_real_snapshot_filters_and_failure
+.
+V203_GATE_BEGIN tests/test_hybrid_task131.py::test_hybrid_governed_graph_replay_and_fresh_source_validation
+.
+V203_GATE_BEGIN tests/test_hybrid_task131_postgres.py::test_isolated_pg_governed_hybrid
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_hybrid_contract_rejects_v1_replay_and_preserves_source_identity
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_timeout_and_cancel_keep_capacity_and_close_drains
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_source_lines_unicode_stable_versions_and_unsafe_manifest
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_unchanged_import_does_not_embed_or_write
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_retrieval_denies_before_embedding_and_packs_metadata_budget
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_missing_model_is_unavailable_without_blocking_other_lifespan_resources
+.
+V203_GATE_BEGIN tests/test_knowledge.py::test_disabled_startup_and_missing_tokenizer_never_fetch_from_network
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_generated_answer_real_ids_pairing_and_node_replay
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[empty]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[insufficient]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[conflicting]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[needs_clarification]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[changed]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[forged]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[duplicate]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[blank]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[failure]
+. [ 44%]
+
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[tool_budget]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[model_budget]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_no_public_draft_on_evidence_source_permission_or_budget_failure[denied]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_wrong_multi_and_mixed_native_calls_close_ids_without_handler[calls0]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_wrong_multi_and_mixed_native_calls_close_ids_without_handler[calls1]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_wrong_multi_and_mixed_native_calls_close_ids_without_handler[calls2]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_policy_requires_node_origin_exact_task_scope_version_and_refs
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_runtime_sole_public_answer_sources_and_private_history
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_valid_source_does_not_prove_generated_semantics
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_verified_preferences_reach_answer_prompt_with_explicit_user_priority[False]
+.
+V203_GATE_BEGIN tests/test_knowledge_graph.py::test_verified_preferences_reach_answer_prompt_with_explicit_user_priority[True]
+.
+V203_GATE_BEGIN tests/test_knowledge_postgres.py::test_real_publication_rollback_current_sources_and_exact_cosine
+.
+V203_GATE_BEGIN tests/test_knowledge_postgres.py::test_governed_rag_pg_sources_checkpoint_and_deleted_draft
+.
+V203_GATE_BEGIN tests/test_memory_manage.py::test_finite_command_grammar
+.
+V203_GATE_BEGIN tests/test_memory_manage.py::test_model_candidates_and_old_ai_cannot_authorize_writes
+.
+V203_GATE_BEGIN tests/test_memory_manage.py::test_unpersisted_command_graph_cannot_write
+.
+V203_GATE_BEGIN tests/test_memory_manage_postgres.py::test_real_memory_commands_cross_threads_process_crud_and_exact_cleanup
+.
+V203_GATE_BEGIN tests/test_memory_manage_postgres.py::test_real_sync_failure_and_reentered_node_only_checks_original_operation
+.
+V203_GATE_BEGIN tests/test_memory_manage_postgres.py::test_real_manager_revision_idempotency_unknown_and_no_put_on_replay
+.
+V203_GATE_BEGIN tests/test_memory_postgres.py::test_real_store_cross_threads_process_persistence_and_exact_cleanup
+.
+V203_GATE_BEGIN tests/test_memory_postgres.py::test_real_nonobject_profile_is_safe_optional_order_failure
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_snapshot_is_exact_safe_projection[None-empty-preferences0]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_snapshot_is_exact_safe_projection[value1-available-preferences1]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_snapshot_is_exact_safe_projection[value2-partial-preferences2]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_snapshot_is_exact_safe_projection[value3-partial-preferences3]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_corrupt_profile_fails_without_adopting_data[value0]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_corrupt_profile_fails_without_adopting_data[value1]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_corrupt_profile_fails_without_adopting_data[value2]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_corrupt_profile_fails_without_adopting_data[value3]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_corrupt_profile_fails_without_adopting_data[value4]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_optional_read_policy_budget_cancel_and_reentry
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_store_owns_cleanup_on_success_exception_and_startup_failure
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_three_preparation_nodes_share_reader_without_tool_messages[order-order_query-prepare_query]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_three_preparation_nodes_share_reader_without_tool_messages[refund-refund_apply-prepare_refund]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_three_preparation_nodes_share_reader_without_tool_messages[knowledge-knowledge_qa-prepare_query]
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_order_preferences_do_not_change_facts_or_bound_tool_schema
+.
+V203_GATE_BEGIN tests/test_memory_reader.py::test_snapshot_does_not_swallow_unexpected_value_error
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_native_calls_and_structured_raw_usage_are_preserved
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_retry_consumes_task_budget_and_failed_tokens_remain_unknown
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_timeout_authentication_and_parse_failures_have_safe_snapshots
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_cancellation_and_programming_errors_propagate
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_partial_usage_and_retry_ceiling_do_not_manufacture_known_totals
+.
+V203_GATE_BEGIN tests/test_model_gateway.py::test_real_langchain_tool_bindings_do_not_mutate_shared_model
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_native_tool_round_trip_returns_verified_facts[entities0-call0-get]
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_native_tool_round_trip_returns_verified_facts[entities1-call1-list]
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_native_tool_round_trip_returns_verified_facts[entities2-call2-list]
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_model_cannot_broaden_target_or_invent_facts
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_parent_runtime_clarification_continues_budget_and_hides_tool_history
+.
+V203_GATE_BEGIN tests/test_order_graph.py::test_observe_reentry_reuses_saved_results_without_new_attempts
+.
+V203_GATE_BEGIN tests/test_order_postgres.py::test_real_order_constraints_isolation_and_seed_idempotence
+.
+V203_GATE_BEGIN tests/test_postgres.py::test_wrong_test_target_is_rejected_before_connecting
+.
+V203_GATE_BEGIN tests/test_postgres.py::test_real_migrations_reentry_checksum_and_rollback
+.
+V203_GATE_BEGIN tests/test_postgres.py::test_real_session_concurrency_isolation_and_reopen
+.
+V203_GATE_BEGIN tests/test_preference_control_postgres.py::test_preference_control_receipts_and_store
+.
+V203_GATE_BEGIN tests/test_preference_control_postgres.py::test_http_preferences_without_model
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_older_unknown_memory_blocks_cutover_even_after_new_task
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_initial_input_snapshot_requires_a_later_identified_task
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_unsettled_legacy_memory_prevents_cutover[running]
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_unsettled_legacy_memory_prevents_cutover[needs_input]
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_unsettled_legacy_memory_prevents_cutover[failed]
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_public_route_schema_excludes_memory
+.
+V203_GATE_BEGIN tests/test_preference_cutover.py::test_proven_not_started_does_not_erase_old_uncertainty
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_failure_reports_redact_urls_kwargs_logs_and_output[False]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_failure_reports_redact_urls_kwargs_logs_and_output[True]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_warning_summary_redacts_credentials_and_retains_location_and_category
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_file_logging_is_rejected_before_test_execution[cli]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_file_logging_is_rejected_before_test_execution[ini]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_skip_summary_preserves_native_shape_and_redacts_test_and_collection
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_unsafe_output_modes_are_rejected[-s]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_unsafe_output_modes_are_rejected[--capture=sys]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_unsafe_output_modes_are_rejected[--capture=tee-sys]
+.
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_unsafe_output_modes_are_rejected[--junitxml=result.xml]
+. [ 67%]
+
+V203_GATE_BEGIN tests/test_pytest_redaction.py::test_unsafe_output_modes_are_rejected[--log-cli-level=INFO]
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_pending_binding_and_safe_post_gate_classification
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_mismatched_call_binding_or_owner_never_authorizes_resume
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_finished_refund_returns_only_original_associated_result
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_runtime_inspection_reads_nested_thread_without_advancing
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_runtime_resolves_framework_child_config_before_classification
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_repair_binding_is_idempotent_and_never_starts_graph_execution
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_refund_control_events_only_publish_allowed_fields
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_runtime_resume_pending_ended_post_gate_and_unknown
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_runtime_publishes_pause_only_after_matching_binding
+.
+V203_GATE_BEGIN tests/test_refund_checkpoint.py::test_duplicate_resume_returns_active_run_without_second_task
+.
+V203_GATE_BEGIN tests/test_refund_context_checkpoint_postgres.py::test_refund_resume_checks_original_archive_before_effect
+.
+V203_GATE_BEGIN tests/test_refund_executor.py::test_prepared_refund_rechecks_scope_approval_and_one_attempt
+.
+V203_GATE_BEGIN tests/test_refund_executor.py::test_node_origin_has_fixed_node_scope_and_projects_trusted_business_context
+.
+V203_GATE_BEGIN tests/test_refund_executor.py::test_fixed_node_preparation_binds_context_and_rechecks_policy
+.
+V203_GATE_BEGIN tests/test_refund_full_controlled.py::test_compiled_refund_graph_pauses_and_resumes_original_call[APPROVED-None]
+.
+V203_GATE_BEGIN tests/test_refund_full_controlled.py::test_compiled_refund_graph_pauses_and_resumes_original_call[REJECTED-None]
+.
+V203_GATE_BEGIN tests/test_refund_full_controlled.py::test_compiled_refund_graph_pauses_and_resumes_original_call[APPROVED-committed]
+.
+V203_GATE_BEGIN tests/test_refund_full_controlled.py::test_compiled_refund_graph_pauses_and_resumes_original_call[APPROVED-unknown]
+.
+V203_GATE_BEGIN tests/test_refund_preparation.py::test_refund_preparation_is_scoped_idempotent_and_has_no_refund_effect
+.
+V203_GATE_BEGIN tests/test_refund_repair_postgres.py::test_real_repair_response_loss_concurrency_audit_and_expired_graph
+.
+V203_GATE_BEGIN tests/test_refund_tools.py::test_refund_definitions_have_safe_metadata_and_reject_identity_in_args
+.
+V203_GATE_BEGIN tests/test_refund_tools.py::test_refund_adapter_classifies_read_failure_without_exposing_database_error
+.
+V203_GATE_BEGIN tests/test_refund_transactions.py::test_refund_approval_and_concurrent_operations_real_pg
+.
+V203_GATE_BEGIN tests/test_reranker_task122.py::test_complete_pairs_are_checked_before_inference_and_logits_are_raw
+.
+V203_GATE_BEGIN tests/test_reranker_task122.py::test_shared_capacity_retained_after_timeout_cancel_and_close
+.
+V203_GATE_BEGIN tests/test_resources.py::test_model_transports_close_on_success_and_initialization_failure
+.
+V203_GATE_BEGIN tests/test_resources.py::test_pool_failure_closes_and_programming_errors_propagate
+.
+V203_GATE_BEGIN tests/test_resources.py::test_lifespan_closes_pool_when_later_resource_fails
+.
+V203_GATE_BEGIN tests/test_resources.py::test_shutdown_settles_execution_before_model_and_pool_close
+.
+V203_GATE_BEGIN tests/test_resources.py::test_pool_log_filter_is_installed_outside_lifespan_and_hides_driver_detail
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[database]
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[checkpoint]
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[embedding]
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[knowledge]
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[store]
+.
+V203_GATE_BEGIN tests/test_resources.py::test_assembly_optional_failures_and_partial_cleanup[graph]
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_generic_clarification_continues_task_budget_and_new_task_resets_scope
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_current_task_uses_admitted_identity_before_first_checkpoint
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_specific_pending_preserved_on_unsupported_and_switch_requires_new_task
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_unsupported_and_structure_correction_have_bounded_attempts
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_continued_model_budget_exhaustion_has_no_new_attempt
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_gate_capacity_dedup_and_old_owner_cleanup
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_pre_admission_cancel_and_shutdown_during_state_read_release_claim
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_slow_subscription_releases_execution_and_terminal_snapshot_has_no_replay
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_timeout_uncertain_survives_retention_and_shutdown_is_bounded
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_commit_failure_blocks_without_replay_and_wrong_owner_not_found
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_seeded_tool_budget_and_active_time_do_not_reset_across_runs
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_frozen_clock_excludes_final_checkpoint_latency
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_run_finish_failure_converges_without_retrying_settlement
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_state_read_failures_unfinished_snapshot_and_retention_are_explicit
+.
+V203_GATE_BEGIN tests/test_runtime.py::test_specific_clarification_fills_entities_without_changing_task_goal
+.
+V203_GATE_BEGIN tests/test_runtime_http.py::test_three_http_interfaces_status_isolation_snapshot_and_replay_rejection
+.
+V203_GATE_BEGIN tests/test_runtime_http.py::test_request_guard_cleans_before_first_iteration_and_execution_continues[construct]
+.
+V203_GATE_BEGIN tests/test_runtime_http.py::test_request_guard_cleans_before_first_iteration_and_execution_continues[preiterate]
+.
+V203_GATE_BEGIN tests/test_runtime_http.py::test_request_guard_cleans_before_first_iteration_and_execution_continues[headers]
+.
+V203_GATE_BEGIN tests/test_runtime_http.py::test_real_tcp_disconnect_releases_subscription_and_run_finishes
+.
+V203_GATE_BEGIN tests/test_sparse_task112_postgres.py::test_sparse_publication_and_backfill
+.
+V203_GATE_BEGIN tests/test_task132_local_rerank.py::test_local_order_scores_suffix_and_default
+.
+V203_GATE_BEGIN tests/test_task132_local_rerank.py::test_order_short_prefix_ties_and_score_alignment
+.
+V203_GATE_BEGIN tests/test_task132_local_rerank.py::test_full_pool_oversize_and_deadline_still_fail
+.
+V203_GATE_BEGIN tests/test_task132_local_rerank.py::test_old_profile_is_rejected_by_graph_replay
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_domain_import_does_not_load_upper_layers
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_data_errors_through_adapters_and_executor[OperationalError-2-get_order]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_data_errors_through_adapters_and_executor[OperationalError-2-list_orders]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_data_errors_through_adapters_and_executor[ProgrammingError-1-get_order]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_data_errors_through_adapters_and_executor[ProgrammingError-1-list_orders]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_adapter_propagates_unexpected_errors_and_cancellation[ValueError]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_order_adapter_propagates_unexpected_errors_and_cancellation[CancelledError]
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_registry_filters_freezes_and_exposes_complete_schema
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_executor_enforces_scope_schema_target_approval_and_minimal_handler_context
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_preflight_then_serial_failure_closes_batch_and_counts_retry
+. [ 89%]
+
+V203_GATE_BEGIN tests/test_tool_governance.py::test_timeout_and_cancellation_do_not_retry_or_run_next_handler
+.
+V203_GATE_BEGIN tests/test_tool_governance.py::test_retry_rechecks_remaining_budget_and_preserves_normalized_arguments
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_brief_directory_omits_schemas_and_avoids_full_list
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_resolve_binding_validates_scope_version_and_catalog
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_internal_and_preference_tools_are_never_model_discoverable
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_short_circuits_make_zero_selector_calls
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_budget_precheck_and_retry_reservation
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_rejects_invalid_and_excess_outputs_without_filtering
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_directory_overflow_fails_without_truncation_or_compaction
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_reuse_bounded_rediscovery_clarification_persistence_and_pending_lock
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_controlled_multi_candidate_full_chain_offline
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_pending_without_selection_never_calls_selector
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_failed_rediscovery_retains_consumed_count
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_run_compaction_preserves_business_budget_before_source[1-0-0-120]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_run_compaction_preserves_business_budget_before_source[2-0-1-120]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_run_compaction_preserves_business_budget_before_source[8-0-1-19]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selection_reservation_only_confirms_matching_committed_result
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_single_optional_candidate_short_circuits_without_model
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_compaction_reserves_current_and_following_business_calls
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_order_selection_scope_uses_validated_target_not_context_history
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_failed_rediscovery_timeout_keeps_unknown_usage_and_count
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selection_reservation_storage_failure_never_invokes_provider
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_rechecks_scope_after_each_persistent_write[begin]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_rechecks_scope_after_each_persistent_write[attempt]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_rechecks_scope_after_each_persistent_write[retry]
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_processing_allowance_leaves_room_for_business
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_receipts_survive_business_context_and_multiple_calls
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_receipt_not_started_does_not_claim_provider_usage
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_retry_receipt_preserves_unknown_and_actual_provider_count
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_receipts_follow_task_continuation_not_new_task
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_interrupted_selector_receipt_remains_unknown_in_saver
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_deadline_does_not_restart_after_slow_begin
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_selector_receipts_survive_reservation_and_new_run_without_duplicates
+.
+V203_GATE_BEGIN tests/test_tool_progressive_disclosure.py::test_rediscovery_deadline_starts_before_its_first_reservation
+.                                       [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\config\__init__.py:1507
+  D:\py\agent-project\agent\.venv\Lib\site-packages\_pytest\config\__init__.py:1507: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+.venv\Lib\site-packages\_pytest\config\__init__.py:1507
+  D:\py\agent-project\agent\.venv\Lib\site-packages\_pytest\config\__init__.py:1507: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; langsmith
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+.venv\Lib\site-packages\trustcall\_base.py:46
+  D:\py\agent-project\agent\.venv\Lib\site-packages\trustcall\_base.py:46: LangGraphDeprecatedSinceV10: Importing Send from langgraph.constants is deprecated. Please use 'from langgraph.types import Send' instead. Deprecated in LangGraph V1.0 to be removed in V2.0.
+    from langgraph.constants import Send
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+322 passed, 3 warnings in 400.08s (0:06:40)

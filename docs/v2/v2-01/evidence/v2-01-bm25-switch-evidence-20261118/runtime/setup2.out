@@ -1,0 +1,14 @@
+psql:v201pt-evidence-setup.sql:1: NOTICE:  schema "evidence" already exists, skipping
+CREATE SCHEMA
+DROP TABLE
+DROP TEXT SEARCH CONFIGURATION
+CREATE TEXT SEARCH CONFIGURATION
+ALTER TEXT SEARCH CONFIGURATION
+CREATE TABLE
+INSERT 0 7
+psql:v201pt-evidence-setup.sql:15: NOTICE:  BM25 index build started for relation evidence_bm25
+psql:v201pt-evidence-setup.sql:15: NOTICE:  Using text search configuration: public.chinese
+psql:v201pt-evidence-setup.sql:15: NOTICE:  Using index options: k1=1.20, b=0.75
+psql:v201pt-evidence-setup.sql:15: NOTICE:  BM25 index build completed: 7 documents, avg_length=10.00
+CREATE INDEX
+CREATE INDEX

@@ -1,0 +1,9 @@
+{
+  "url": "https://apt.postgresql.org/pub/repos/apt/pool/main/p/pgvector/postgresql-17-pgvector_0.8.7-1.pgdg12+2_amd64.deb",
+  "deb_bytes": 273432,
+  "deb_sha256": "c512035ba6fd02357092ef3204d85abe486c9aaff21686660de8645812b6d2fb",
+  "vector_so_sha256": "586f3fbd75fdf71d93a6a56ac51365b48aaf015fafb19079b402deae75c01e62",
+  "buildinfo_url": "https://apt.postgresql.org/pub/repos/apt/pool/main/p/pgvector/pgvector_0.8.7-1.pgdg12+2_amd64.buildinfo",
+  "buildinfo_sha256": "957dbce865e18973330d152f87aa59af00ee0126b985e557e44e7cc915208ffe",
+  "build_header_version": "17.12-1.pgdg12+1"
+}

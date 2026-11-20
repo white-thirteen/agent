@@ -1,0 +1,46 @@
+INFO:     Started server process [43840]
+INFO:     Waiting for application startup.
+2026-11-13 22:15:24,884 INFO sentence_transformers.SentenceTransformer Load pretrained SentenceTransformer: D:\AI\models\qwen3-embedding-0.6b
+2026-11-13 22:15:26,117 INFO sentence_transformers.SentenceTransformer 1 prompt is loaded, with the key: query
+2026-11-13 22:15:26,303 INFO app.main Agent graph not initialized; model configuration is incomplete
+2026-11-13 22:15:26,303 INFO app.main Application started; preparation_ready=False
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:3212 (Press CTRL+C to quit)
+INFO:     127.0.0.1:3248 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3248 - "POST /probe HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12388 - "POST /stop HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-11-13 22:15:36,255 INFO app.main Application stopped
+INFO:     Application shutdown complete.
+INFO:     Finished server process [43840]
+INFO:     Started server process [42292]
+INFO:     Waiting for application startup.
+2026-11-13 22:16:20,908 INFO sentence_transformers.SentenceTransformer Load pretrained SentenceTransformer: D:\AI\models\qwen3-embedding-0.6b
+2026-11-13 22:16:22,266 INFO sentence_transformers.SentenceTransformer 1 prompt is loaded, with the key: query
+2026-11-13 22:16:22,429 INFO app.main Agent graph not initialized; model configuration is incomplete
+2026-11-13 22:16:22,430 INFO app.main Application started; preparation_ready=False
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:1205 (Press CTRL+C to quit)
+INFO:     127.0.0.1:5988 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5988 - "POST /probe HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6093 - "POST /stop HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-11-13 22:16:29,102 INFO app.main Application stopped
+INFO:     Application shutdown complete.
+INFO:     Finished server process [42292]
+INFO:     Started server process [5464]
+INFO:     Waiting for application startup.
+2026-11-13 22:16:50,476 INFO app.main Agent graph not initialized; model configuration is incomplete
+2026-11-13 22:16:50,476 INFO app.main Application started; preparation_ready=False
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:6557 (Press CTRL+C to quit)
+INFO:     127.0.0.1:6565 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6565 - "POST /probe HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6567 - "POST /stop HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-11-13 22:16:53,380 INFO app.main Application stopped
+INFO:     Application shutdown complete.
+INFO:     Finished server process [5464]

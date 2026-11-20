@@ -33,6 +33,30 @@ class ToolMetadata:
     timeout_seconds: float
     max_retries: int
     tags: frozenset[str]
+    model_discoverable: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class ToolBrief:
+    """Metadata-only tool summary exposed to ToolSelector; never includes schemas."""
+
+    name: str
+    version: str
+    description: str
+
+
+@dataclass(frozen=True, slots=True)
+class ToolBindingRecord:
+    """Verified full-schema binding resolved only after selection validation."""
+
+    allowed_tools: frozenset[tuple[str, str]]
+    schemas: tuple[dict[str, JsonValue], ...]
+    schema_digests: dict[str, str]
+    catalog_version: str
+
+    @property
+    def tool_names(self) -> frozenset[str]:
+        return frozenset(name for name, _ in self.allowed_tools)
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,6 +72,19 @@ class MemoryBusinessContext(BusinessExecutionContext):
     command_digest: str
     expected_revision: int
     replay_check_only: bool
+
+
+@dataclass(frozen=True, slots=True)
+class PreferenceControlContext:
+    """Server-issued control command; it does not impersonate a graph Task."""
+
+    user_id: str
+    command_id: str
+    operation_id: str
+    command_digest: str
+    expected_revision: int
+    permission_scopes: frozenset[str]
+    replay_check_only: bool = False
 
 
 @dataclass(frozen=True, slots=True)

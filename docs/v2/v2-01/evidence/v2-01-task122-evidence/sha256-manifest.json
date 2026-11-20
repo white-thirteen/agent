@@ -1,0 +1,6 @@
+{
+  "normal-corpus-pairs.json": "047e5334e7d4308c67f273090a2785eb63499e54428b998543ef55806f1b6f3e",
+  "qa-corpus-probe.py.txt": "a8f7eacad9e96acd4a808738563f67784be219b49940ba4758759e25b675d4f1",
+  "real-bge-probe.py.txt": "6e8925ce892e4b189db20007329b168f6a49d7a4419c0a093ffb82931d3ae8be",
+  "real-bge-receipt.json": "632dd3dafc2741b010af1e8c1bb35e903ff7f103644e486e17d4dd80d2a06218"
+}

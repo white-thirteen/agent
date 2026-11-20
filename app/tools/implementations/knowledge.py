@@ -10,6 +10,7 @@ from app.knowledge.chunking import token_count
 from app.knowledge.models import (
     Contract,
     EvidenceReference,
+    HybridSearchResult,
     KnowledgeError,
     SearchQuery,
     SearchResult,
@@ -38,7 +39,7 @@ class SourceValidationResult(Contract):
     checked_at: datetime
 
 
-def knowledge_tools(retriever):
+def knowledge_tools(retriever, *, mode="dense", retrieval_timeout=30):
     """Only a ready retriever enables the registered tools. No runtime resource creation."""
 
     async def search(args, context):
@@ -77,10 +78,10 @@ def knowledge_tools(retriever):
             )
         )
 
-    def metadata(name, description, timeout, retries, tags):
+    def metadata(name, description, timeout, retries, tags, *, model_discoverable=False):
         return ToolMetadata(
             name=name,
-            version="1",
+            version="2" if name == "search_knowledge" and mode == "hybrid" else "1",
             description=description,
             enabled=retriever is not None,
             allowed_agents=frozenset({AgentType.KNOWLEDGE}),
@@ -93,6 +94,7 @@ def knowledge_tools(retriever):
             timeout_seconds=timeout,
             max_retries=retries,
             tags=frozenset(tags),
+            model_discoverable=model_discoverable,
         )
 
     return (
@@ -100,12 +102,13 @@ def knowledge_tools(retriever):
             metadata(
                 "search_knowledge",
                 "检索公共Demo帮助知识，返回带来源证据",
-                15,
+                retrieval_timeout if mode == "hybrid" else 15,
                 0,
                 {"knowledge", "read", "vector"},
+                model_discoverable=True,
             ),
             SearchKnowledgeArgs,
-            SearchResult,
+            HybridSearchResult if mode == "hybrid" else SearchResult,
             search,
         ),
         ToolDefinition(

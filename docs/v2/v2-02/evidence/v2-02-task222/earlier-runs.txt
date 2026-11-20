@@ -1,0 +1,10 @@
+# Task 2.2.2 原始控制台摘录（按实际顺序，路径与随机身份省略）
+
+1. Linux 隔离 Saver 试运行：1 failed；Revision 仓储 SELECT 只取 message_ids，代码读取 row[1] 引发 IndexError。修正为同时读取 content_hash 后重试：1 passed。
+2. Saver 提交前故障试运行：1 failed，2 passed。断言 `not after.values.get("context_ref")` 失败；Graph aget_state 的 values 包含已持久 pending writes 叠加，不能等同完整 checkpoint channel_values。随后改用 Saver aget_tuple(snapshot.config) 检查原始 checkpoint，再测试：3 passed。
+3. 加入过期基线场景：4 passed。
+4. 受理前零写调整后：`linux-pg-launcher.py pytest tests/test_context_revision_postgres.py tests/test_runtime.py tests/test_graph_state.py tests/test_graph_protocol.py -q --tb=short`：61 passed in 8.90s。
+5. 加入受理前零写、故障后补记及身份守卫：5 passed in 13.08s。
+6. 加入范围外追加及旧引用/增量版本：`linux-pg-launcher.py pytest tests/test_context_revision_postgres.py tests/test_context_revision_runtime.py -q --tb=short`：7 passed in 12.61s。
+
+以上为实际工具输出的简短摘录；targeted-final.txt 为后续真实执行直接保留的控制台输出。故障均为受控注入，并非机器断电。

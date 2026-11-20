@@ -38,6 +38,30 @@ def fingerprints(snapshot):
     }
 
 
+def compare_publication_snapshots(before, after, *, expected_delta=0):
+    """Compare all protected state, allowing only a monotonic publication watermark."""
+    result = {"protected_unchanged": False, "watermark_before": None, "watermark_after": None}
+    if before.keys() != after.keys() or "knowledge_index_state" not in before:
+        return result
+    if any(before[name] != after[name] for name in before if name != "knowledge_index_state"):
+        return result
+    old_rows, old_columns = before["knowledge_index_state"]
+    new_rows, new_columns = after["knowledge_index_state"]
+    if old_columns != new_columns or len(old_rows) != 1 or len(new_rows) != 1:
+        return result
+    old, new = json.loads(old_rows[0][0]), json.loads(new_rows[0][0])
+    old_watermark = old.pop("watermark", None)
+    new_watermark = new.pop("watermark", None)
+    result.update(watermark_before=old_watermark, watermark_after=new_watermark)
+    if type(old_watermark) is not int or type(new_watermark) is not int:
+        return result
+    delta = new_watermark - old_watermark
+    result["protected_unchanged"] = (
+        old == new and old_watermark > 0 and delta >= 0 and delta == expected_delta
+    )
+    return result
+
+
 async def verify(output):
     original = Settings()
     assert original.model_configured and original.test_database_url is not None

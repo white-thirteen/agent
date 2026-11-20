@@ -6,8 +6,8 @@
 
 ## 当前有效入口
 
-- [项目定位、架构与V1范围（权威文档）](../agent-engine-demo-plan.md)
-- [唯一有效的V1路线图：六阶段](../development-roadmap.md)
+- [项目定位、架构与V1范围（权威文档）](../v1/agent-engine-demo-plan.md)
+- [唯一有效的V1路线图：六阶段](../v1/development-roadmap.md)
 - [当前代码Graph协议参考](../graph-protocol.md)：保留在docs根目录，不属于历史设计，也不表示目标架构已实现。
 - [项目开发规范](../../AGENTS.md)
 
@@ -29,5 +29,6 @@
 | [04-3-tool-execution-design.md](04-3-tool-execution-design.md) | 原工具策略与执行设计 |
 | [04-4-order-agent-design.md](04-4-order-agent-design.md) | 原OrderAgent查询子图设计 |
 | [04-stage-execution-plan.md](04-stage-execution-plan.md) | 原04开发执行计划 |
+| [codex-session-bridge-design.md](codex-session-bridge-design.md) | 已退役的 Session Bridge 设计 |
 
 本次仅归档Markdown与维护链接，未删除历史资料、修改业务代码或数据库，未运行测试、迁移或模型联调。当前状态：**项目定位与整体路线图已确认，等待逐阶段详细设计。**

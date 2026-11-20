@@ -1,10 +1,10 @@
 # 1.1 工程与架构基线确认：详细执行方案
 
-> **历史设计方案，不再作为 V1 开发依据。** 自2026-11-08起，当前规划见[Agent Engine Demo定位与评估](../agent-engine-demo-plan.md)及[六阶段路线图](../development-roadmap.md)。下文原审核状态只适用于旧电商目标；可复用片段及新适用范围见评估清单，不能按旧任务直接开发。本轮保留原文，不删除代码或旧设计。
+> **历史设计方案，不再作为 V1 开发依据。** 自2026-11-08起，当前规划见[Agent Engine Demo定位与评估](../v1/agent-engine-demo-plan.md)及[六阶段路线图](../v1/development-roadmap.md)。下文原审核状态只适用于旧电商目标；可复用片段及新适用范围见评估清单，不能按旧任务直接开发。本轮保留原文，不删除代码或旧设计。
 
 状态：审核通过，待开发执行。本文件作为 [01 阶段正式设计](01-stage-detailed-design.md)的附属说明，职责范围保持不变；原草案编制记录保留为历史证据，不代表已开发或验收。
 
-所属环节：[整体开发执行路线图](../development-roadmap.md) → 01 工程基线与核心协议收敛 → 1.1 工程与架构基线确认。
+所属环节：[整体开发执行路线图](../v1/development-roadmap.md) → 01 工程基线与核心协议收敛 → 1.1 工程与架构基线确认。
 
 编制日期：2026-11-08。
 
@@ -47,7 +47,7 @@
 
 1. 当前对话已确认的目标、边界和四项路线图调整，是规划约束。
 2. 当前代码、工作区变化和实际验证，是实现状态的证据；规划约束不能作为已实现证据。
-3. [开发规范](../../AGENTS.md)、[整体开发执行路线图](../development-roadmap.md)和 [Graph 协议](../graph-protocol.md)用于核对边界。
+3. [开发规范](../../AGENTS.md)、[整体开发执行路线图](../v1/development-roadmap.md)和 [Graph 协议](../graph-protocol.md)用于核对边界。
 4. 整体路线图统一记录九阶段、34 环节及四项调整；旧架构和旧 02 设计、实施计划已按用户要求删除，不再作为执行依据。
 5. 文档和代码冲突时，同时记录“实际行为”和“目标约束”，不能修改事实来迎合计划，也不能把现有缺口解释为新架构决策。
 
@@ -191,7 +191,7 @@ Domain Service 在实际写入时仍校验归属、资格、金额、状态和�
 
 **涉及模块与文件**
 
-`app/api`、`app/services`、`app/runtime`、`app/graph`、`app/agents`、`app/streaming`；工具与工作流占位模块；[整体执行路线图](../development-roadmap.md)、[Graph 协议](../graph-protocol.md)、[开发规范](../../AGENTS.md)。
+`app/api`、`app/services`、`app/runtime`、`app/graph`、`app/agents`、`app/streaming`；工具与工作流占位模块；[整体执行路线图](../v1/development-roadmap.md)、[Graph 协议](../graph-protocol.md)、[开发规范](../../AGENTS.md)。
 
 **技术约束**
 

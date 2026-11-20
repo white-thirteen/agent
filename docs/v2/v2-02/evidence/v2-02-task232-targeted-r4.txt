@@ -1,0 +1,28 @@
+...F..                                                                   [100%]
+================================== FAILURES ===================================
+__________________________ test_compaction_postgres ___________________________
+tests\test_context_compaction_postgres.py:517: in test_compaction_postgres
+    run_async(probe())
+scripts\__init__.py:13: in run_async
+    return runner.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\py\python\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\test_context_compaction_postgres.py:437: in probe
+    process = subprocess.Popen(
+D:\py\python\Lib\subprocess.py:845: in __init__
+    raise TypeError("bufsize must be an integer")
+E   TypeError: bufsize must be an integer
+============================== warnings summary ===============================
+.venv\Lib\site-packages\trustcall\_base.py:46
+  D:\py\agent-project\agent\.venv\Lib\site-packages\trustcall\_base.py:46: LangGraphDeprecatedSinceV10: Importing Send from langgraph.constants is deprecated. Please use 'from langgraph.types import Send' instead. Deprecated in LangGraph V1.0 to be removed in V2.0.
+    from langgraph.constants import Send
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_context_compaction_postgres.py::test_compaction_postgres - ...
+1 failed, 5 passed, 1 warning in 17.71s

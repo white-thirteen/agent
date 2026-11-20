@@ -1,10 +1,10 @@
 # Graph 字段、跨图协议与路由使用说明
 
-> 2026-11-11：03开发、独立QA及修复回归完成，ACCEPTED，用户已正式验收。Order 已接入七节点查询、受限工具目录与统一 Executor，工具历史保留在子图；Refund/Knowledge 仍为不可用骨架。下文 02 轮次的三个骨架和未实现工具说明保留历史语境；当前事实见 [03 交付报告](03-tool-governance-delivery-report.md)。
+> 2026-11-11：03开发、独立QA及修复回归完成，ACCEPTED，用户已正式验收。Order 已接入七节点查询、受限工具目录与统一 Executor，工具历史保留在子图；Refund/Knowledge 仍为不可用骨架。下文 02 轮次的三个骨架和未实现工具说明保留历史语境；当前事实见 [03 交付报告](v1/v1-03/03-tool-governance-delivery-report.md)。
 
 ## 02 当前代码协议（2026-11-10）
 
-本节随 02 执行实现更新，开发自测见 [02 交付报告](02-agent-runtime-delivery-report.md)。本节之后的旧协议正文保留原实现语境，旧角色、字段及主图 builder 示例由本节替代。
+本节随 02 执行实现更新，开发自测见 [02 交付报告](v1/v1-02/02-agent-runtime-delivery-report.md)。本节之后的旧协议正文保留原实现语境，旧角色、字段及主图 builder 示例由本节替代。
 
 AgentType 为 SUPERVISOR / ORDER / REFUND / KNOWLEDGE；TaskType 为 CLARIFICATION / ORDER_QUERY / REFUND_APPLY / KNOWLEDGE_QA / MEMORY_MANAGE。SupervisorOutput 只允许 route（含合法 RouteDecision）或 unsupported（无 decision）。旧取消任务与 AfterSales/refund_request 执行值拒绝。
 
@@ -21,7 +21,7 @@ Runtime 的独立 asyncio.Task 拥有执行，SSE 的 SubscriptionOwner/EventSub
 公开接口为 chat、runs/{run_id}/status、runs/{run_id}/events 三个 POST，body 身份由 Route 解析一次。status/events 不创建会话；未知、过期或其他用户/会话统一 run_not_found。RunView 是该 Run 结束时的任务累计快照，旧视图不被后续任务覆盖。内存 Task/Run/query、单订阅队列、TTL/去重均无跨进程持久承诺。
 
 
-> 适用范围：本文是**当前代码实现参考**，不是新Demo的目标架构或开发路线图。代码本轮未变，因此旧Agent角色/必填workflow等仍按下文描述；[项目定位文档](agent-engine-demo-plan.md)是架构及V1范围权威，[六阶段路线图](development-roadmap.md)是唯一有效V1路线。阶段迁移保留显式父子映射、关联校验和消息隔离，不据本文推断HITL、Store或RAG已实现。
+> 适用范围：本文是**当前代码实现参考**，不是新Demo的目标架构或开发路线图。代码本轮未变，因此旧Agent角色/必填workflow等仍按下文描述；[项目定位文档](v1/agent-engine-demo-plan.md)是架构及V1范围权威，[六阶段路线图](v1/development-roadmap.md)是唯一有效V1路线。阶段迁移保留显式父子映射、关联校验和消息隔离，不据本文推断HITL、Store或RAG已实现。
 
 状态：以下契约、基础 State、转换函数、Supervisor、澄清、专业 wrapper、汇总、回复节点及主图 builder 已实现。
 模型配置完整时应用会装配主图；Runtime 通过 `create_turn_state` 初始化 Context。订单、售后、知识专业子图尚未实现，未注入的分支会以安全错误事件结束。

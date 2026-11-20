@@ -1,6 +1,6 @@
 # 历史九阶段路线图（电商客服方向）
 
-> **历史设计方案，不再作为 V1 开发依据。** 2026-11-08 原文保留，原审核状态仅适用旧目标。当前入口：[Agent Engine Demo六阶段路线图](../development-roadmap.md)。
+> **历史设计方案，不再作为 V1 开发依据。** 2026-11-08 原文保留，原审核状态仅适用旧目标。当前入口：[Agent Engine Demo六阶段路线图](../v1/development-roadmap.md)。
 
 # 电商智能客服 Agent Backend：整体开发执行路线图
 

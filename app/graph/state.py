@@ -36,9 +36,16 @@ class AgentState(TypedDict):
     final_answer: str | None
     sources: list[PublicCitation]
     memory_read_record: dict | None
+    tool_selection_record: dict | None
+    selector_receipts: list[dict]
     error: dict | None
     model_call_usage: dict
     run_usage: dict
+    context_ref: dict | None
+    context_history: list[list[AnyMessage]]
+    context_view: dict | None
+    public_message_metadata: dict
+    context_migration_status: str
 
 
 class SpecialistState(TypedDict):
@@ -47,8 +54,12 @@ class SpecialistState(TypedDict):
     memory_read_status: str
     call_records: dict
     request: SpecialistInput
+    context_history: list[list[AnyMessage]]
+    context_view: dict | None
     messages: Annotated[list[AnyMessage], add_messages]
     selected_tools: list[str]
+    tool_selection_record: dict | None
+    selector_receipts: list[dict]
     result: SpecialistResult | None
     model_call_usage: dict
     run_usage: dict
@@ -82,6 +93,14 @@ def create_turn_state(
     ids.append(f"user:{context.run_id}")
     return AgentState(
         messages=[HumanMessage(content=message, id=f"user:{context.run_id}")],
+        public_message_metadata={
+            **(saved_task.get("public_message_metadata", {}) if saved_task else {}),
+            f"user:{context.run_id}": {
+                "task_id": context.task_id,
+                "run_id": context.run_id,
+                "task_status": "running",
+            },
+        },
         agent_type=pending.task_type.target_agent if pending else AgentType.SUPERVISOR,
         user_id=context.user_id,
         conversation_id=context.conversation_id,
@@ -98,6 +117,8 @@ def create_turn_state(
         final_answer=None,
         sources=[],
         memory_read_record=saved_task.get("memory_read_record") if pending else None,
+        tool_selection_record=saved_task.get("tool_selection_record") if pending else None,
+        selector_receipts=list(saved_task.get("selector_receipts", [])) if pending else [],
         error=None,
         model_call_usage=dict(saved_task["model_call_usage"]) if pending else {"model_attempts": 0},
         run_usage=dict(saved_task["run_usage"])

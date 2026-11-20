@@ -1,0 +1,2 @@
+known= True calls= 1 attempts= 4 status= known total= 12 cause= ValueError
+known= False calls= 1 attempts= 4 status= unknown total= None cause= ValueError

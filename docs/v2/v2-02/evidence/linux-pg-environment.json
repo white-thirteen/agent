@@ -1,0 +1,28 @@
+{
+  "token": "af45a90441",
+  "container": "codex-v202-af45a90441",
+  "volume": "codex-v202-data-af45a90441",
+  "remote_directory": "/home/white7/codex-v202-af45a90441",
+  "remote_port": 56431,
+  "local_port": 56431,
+  "image": "sha256:748b51b8d45a51bc517424a9cd78aab4c8d268fe2155cca018b66f84c361ce85",
+  "container_id": "e412bc09ac4f1fa9ad0b6f1b81ce53971aad318c2a441f016095dad56a25473d",
+  "date": "2026-11-19",
+  "source": "Previously accepted V2 01 candidate image, reused without rebuild",
+  "ssh_auth": "User explicitly supplied existing VM account; credential excluded",
+  "bound_addresses": "VM127.0.0.1:56431 and local127.0.0.1:56431 through authenticated SSH",
+  "extensions": {
+    "vector": "0.8.7",
+    "pg_textsearch": "1.5.1",
+    "zhparser": "2.4"
+  },
+  "databases": [
+    "agent_demo",
+    "agent_demo_test",
+    "agent_sparse_task112_test",
+    "agent_hybrid_task121_test"
+  ],
+  "stage_test_marker_note": "Existing test DB guard markers retained; all databases are in the newly labelled container/volume",
+  "formal_boundary": "No formal container restart, no original volume/backup/HBA modification. New isolated DBs only.",
+  "helper_dependencies": "Paramiko5.1.0 and dependencies installed to temporary --target directory using project Python; application environment and requirements unaffected."
+}

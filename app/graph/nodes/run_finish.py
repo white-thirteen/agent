@@ -27,10 +27,22 @@ def run_finish_node(state: AgentState, runtime: Runtime[RunExecutionContext]):
         if pending is None:
             raise GraphProtocolError("Input waiting requires pending task")
         pending = pending.model_copy(update={"task_message_ids": list(state["task_message_ids"])})
+    metadata = dict(state.get("public_message_metadata", {}))
+    for message_id, item in metadata.items():
+        if item["task_id"] == trusted.task_id:
+            metadata[message_id] = {**item, "task_status": status.value}
     scope = runtime.context.scope
     return {
+        "public_message_metadata": metadata,
         "task_status": status,
         "pending_task": pending,
         "model_call_usage": asdict(scope.model_usage()),
         "run_usage": asdict(scope.finish_active_period()),
+        "context_view": scope.context_view,
+        "selector_receipts": scope.selector_receipts,
+        "context_history": (
+            scope.context_history_override
+            if scope.context_history_override is not None
+            else state.get("context_history", [])
+        ),
     }

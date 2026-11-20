@@ -1,0 +1,13 @@
+{
+  "archive": "production-config.private.tar.gz",
+  "bytes": 1555,
+  "sha256": "92e587917ae8575d7f9e98adc4afc9023648b382159b1ffaf7d2812a64be2075",
+  "files": [
+    "/home/white7/agent-engine-demo-db/compose.yaml",
+    "/home/white7/agent-engine-demo-db/.env",
+    "/home/white7/agent-engine-demo-db/init-databases.sh",
+    "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/hba/pg_hba.conf",
+    "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/hba/writes-opened.journal"
+  ],
+  "active_hba_directory_is_persistent_dependency": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose-fb60e1523087/hba"
+}

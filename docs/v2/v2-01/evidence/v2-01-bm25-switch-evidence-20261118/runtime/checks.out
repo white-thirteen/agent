@@ -1,0 +1,87 @@
+SET
+CHINESE_QUERY
+                                                QUERY PLAN                                                
+----------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.01..22.77 rows=2 width=40) (actual rows=4 loops=1)
+   ->  Index Scan using evidence_bm25 on docs  (cost=0.01..22.77 rows=2 width=40) (actual rows=4 loops=1)
+         Order By: (content <@> 'evidence_bm25:退款 银行卡'::bm25query)
+         Filter: ((content <@> 'evidence_bm25:退款 银行卡'::bm25query) < '0'::double precision)
+ Planning Time: 19.079 ms
+ Execution Time: 25.167 ms
+(6 rows)
+
+      id      |        score        
+--------------+---------------------
+ doc-refund   | -2.2963679432868958
+ other-high-1 |  -1.122661828994751
+ other-high-2 |  -1.122661828994751
+ doc-safety   |  -0.531849205493927
+(4 rows)
+
+FILTERED_TOPK
+                                       QUERY PLAN                                        
+-----------------------------------------------------------------------------------------
+ Limit  (cost=3.61..3.62 rows=1 width=40) (actual rows=3 loops=1)
+   ->  Sort  (cost=3.61..3.62 rows=1 width=40) (actual rows=3 loops=1)
+         Sort Key: ((content <@> 'evidence_bm25:退款'::bm25query))
+         Sort Method: quicksort  Memory: 25kB
+         ->  Seq Scan on docs  (cost=0.00..3.60 rows=1 width=40) (actual rows=3 loops=1)
+               Filter: ((domain = 'after_sales_help'::text) AND (doc_version = 1))
+               Rows Removed by Filter: 4
+ Planning Time: 4.683 ms
+ Execution Time: 4.012 ms
+(9 rows)
+
+      id      
+--------------
+ doc-refund
+ doc-safety
+ doc-approval
+(3 rows)
+
+TRANSACTION_ROLLBACK
+ before_tx 
+-----------
+         7
+(1 row)
+
+BEGIN
+INSERT 0 1
+UPDATE 1
+DELETE 1
+ROLLBACK
+ after_tx 
+----------
+        7
+(1 row)
+
+                                  refund_after_rollback                                  
+-----------------------------------------------------------------------------------------
+ 模拟退款不会扣真实银行卡的钱，退款只改变本地模拟业务数据。
+(1 row)
+
+INCREMENTAL
+INSERT 0 1
+  id   |        score        
+-------+---------------------
+ inc-1 | -2.5047693252563477
+(1 row)
+
+UPDATE 1
+  id   |        score        
+-------+---------------------
+ inc-1 | -2.5825321674346924
+(1 row)
+
+DELETE 1
+ after_delete 
+--------------
+            7
+(1 row)
+
+PERSIST_BEFORE
+ docs_before_restart 
+---------------------
+                   7
+(1 row)
+

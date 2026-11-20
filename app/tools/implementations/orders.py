@@ -91,6 +91,7 @@ def order_tools(service: MockOrderService, *, timeout_seconds: float, max_retrie
             timeout_seconds=timeout_seconds,
             max_retries=max_retries,
             tags=frozenset({"order", "read", "demo"}),
+            model_discoverable=True,
         )
 
     return (

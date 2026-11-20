@@ -1,0 +1,28 @@
+2026-11-20 01:38:23,723 INFO sentence_transformers.SentenceTransformer Load pretrained SentenceTransformer: D:\AI\models\qwen3-embedding-0.6b
+2026-11-20 01:38:24,441 INFO sentence_transformers.SentenceTransformer 1 prompt is loaded, with the key: query
+2026-11-20 01:38:26,276 INFO app.main Application started; preparation_ready=True
+Traceback (most recent call last):
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\linux-pg-launcher.py", line 123, in <module>
+    main()
+    ~~~~^^
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\linux-pg-launcher.py", line 117, in main
+    runpy.run_module(module, run_name="__main__")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\v2-02-task232-real-hybrid.py", line 114, in <module>
+    run_async(main())
+    ~~~~~~~~~^^^^^^^^
+  File "D:\py\agent-project\agent\scripts\__init__.py", line 13, in run_async
+    return runner.run(coroutine)
+           ~~~~~~~~~~^^^^^^^^^^^
+  File "D:\py\python\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\py\python\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "D:\py\agent-project\agent\docs\v2\v2-02\evidence\v2-02-task232-real-hybrid.py", line 66, in main
+    retriever.embeddings,
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'HybridRetriever' object has no attribute 'embeddings'
