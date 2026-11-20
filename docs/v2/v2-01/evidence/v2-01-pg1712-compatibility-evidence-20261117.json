@@ -1,0 +1,1239 @@
+{
+  "token": "6e6bcd7a4608",
+  "status": "ISOLATED_COMBINATION_PASSED",
+  "commands": [
+    {
+      "command": [
+        "df",
+        "-h",
+        "/"
+      ],
+      "started_at": "2026-11-17T04:18:45.638376+00:00",
+      "stdout": "文件系统        容量  已用  可用 已用% 挂载点\n/dev/sda2        20G   17G  2.3G   89% /",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "free",
+        "-m"
+      ],
+      "started_at": "2026-11-17T04:18:45.678030+00:00",
+      "stdout": "total        used        free      shared  buff/cache   available\n内存：          3350        1458         181          96        2082        1892\n交换：          3356         671        2685",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "readelf",
+        "--version"
+      ],
+      "started_at": "2026-11-17T04:18:45.737154+00:00",
+      "stdout": "GNU readelf (GNU Binutils for Ubuntu) 2.46\nCopyright (C) 2026 Free Software Foundation, Inc.\n这个程序是自由软件；您可以遵循 GNU 通用公共授权版本 3 或\n(您自行选择的) 稍后版本再发布它。\n这个程序不含任何担保。",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T04:18:45.814740+00:00",
+      "stdout": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T04:18:47.605709+00:00",
+      "stdout": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-u",
+        "postgres",
+        "agent-engine-demo-db-postgres-1",
+        "sh",
+        "-c",
+        "p=$(head -n 1 /var/lib/postgresql/data/postmaster.pid); readlink -f /proc/$p/exe; /proc/$p/exe --version; sha256sum /proc/$p/exe"
+      ],
+      "started_at": "2026-11-17T04:18:48.678662+00:00",
+      "stdout": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.6 (Debian 17.6-2.pgdg12+1)\n5a7c97038091358d2e41449f136a4d06f06be14a8ed403562ee0a0ee6d5e9786  /proc/1/exe",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT current_setting('server_version_num'),pg_postmaster_start_time(),(SELECT extversion FROM pg_extension WHERE extname='vector')"
+      ],
+      "started_at": "2026-11-17T04:18:50.475738+00:00",
+      "stdout": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "started_at": "2026-11-17T04:18:51.559346+00:00",
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "started_at": "2026-11-17T04:19:04.896821+00:00",
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT current_setting('server_version_num'),pg_postmaster_start_time(),(SELECT extversion FROM pg_extension WHERE extname='vector')"
+      ],
+      "started_at": "2026-11-17T04:19:05.728924+00:00",
+      "stdout": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "started_at": "2026-11-17T04:19:06.640831+00:00",
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "started_at": "2026-11-17T04:19:20.908194+00:00",
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "agent-engine-demo-db-postgres-1:/usr/lib/postgresql/17/bin/postgres",
+        "/tmp/codex-v201pg1712-1u7x8xg1/postgres-17.6"
+      ],
+      "started_at": "2026-11-17T04:19:22.071993+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "dpkg-deb",
+        "-f",
+        "/tmp/codex-v201pg1712-1u7x8xg1/pg_search.deb",
+        "Package",
+        "Version",
+        "Architecture",
+        "Depends"
+      ],
+      "started_at": "2026-11-17T04:19:39.336706+00:00",
+      "stdout": "Package: postgresql-17-pg-search\nVersion: 0.26.6\nArchitecture: amd64\nDepends: postgresql-17, libopenblas0",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "dpkg-deb",
+        "-x",
+        "/tmp/codex-v201pg1712-1u7x8xg1/pg_search.deb",
+        "/tmp/codex-v201pg1712-1u7x8xg1/package"
+      ],
+      "started_at": "2026-11-17T04:19:39.463124+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "env",
+        "DOCKER_BUILDKIT=0",
+        "docker",
+        "build",
+        "--memory",
+        "768m",
+        "--cpu-period",
+        "100000",
+        "--cpu-quota",
+        "100000",
+        "-t",
+        "codex-v201pg1712:6e6bcd7a4608",
+        "/tmp/codex-v201pg1712-1u7x8xg1"
+      ],
+      "started_at": "2026-11-17T04:20:16.592097+00:00",
+      "exit_code": 0,
+      "log": "/tmp/agent-pg1712-compat-aYhgTD/build-6e6bcd7a4608.log",
+      "log_sha256": "557345d4c6aa1c53e35de9f6e3b2ddc614eb694ae0b271a19f7be804ed6c6500"
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Architecture}}|{{.Os}}|{{.Id}}",
+        "codex-v201pg1712:6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:26:58.471114+00:00",
+      "stdout": "amd64|linux|sha256:b413cd38dd061c627d042910904ee835e30d87ed676749d050b7e7589c763f07",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "create",
+        "--name",
+        "codex-v201pg1712-copy-6e6bcd7a4608",
+        "--network",
+        "none",
+        "--label",
+        "codex.v201pg1712=6e6bcd7a4608",
+        "codex-v201pg1712:6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:27:02.977144+00:00",
+      "stdout": "ff15810dcec0db8f7ef5529aca43ab4b9b3e1e2f1c6e79f1a6131d272158c877",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "codex-v201pg1712-copy-6e6bcd7a4608:/usr/lib/postgresql/17/bin/postgres",
+        "/tmp/codex-v201pg1712-1u7x8xg1/postgres-17.12"
+      ],
+      "started_at": "2026-11-17T04:27:04.738576+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "codex.v201pg1712=6e6bcd7a4608",
+        "codex-v201pg1712-data-6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:27:23.160754+00:00",
+      "stdout": "codex-v201pg1712-data-6e6bcd7a4608",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "--network",
+        "none",
+        "--label",
+        "codex.v201pg1712=6e6bcd7a4608",
+        "--memory",
+        "768m",
+        "--cpus",
+        "1",
+        "--pids-limit",
+        "128",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=trust",
+        "-e",
+        "OPENBLAS_NUM_THREADS=1",
+        "-e",
+        "OMP_NUM_THREADS=1",
+        "--mount",
+        "type=volume,source=codex-v201pg1712-data-6e6bcd7a4608,target=/var/lib/postgresql/data",
+        "codex-v201pg1712:6e6bcd7a4608",
+        "-c",
+        "shared_preload_libraries=pg_search"
+      ],
+      "started_at": "2026-11-17T04:27:23.484858+00:00",
+      "stdout": "f60d1566663b8aa6247e772beba5cd1321a1061b6e36369593f2162cb0d4abcd",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:27.406495+00:00",
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": "",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:30.207056+00:00",
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": "",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:33.260834+00:00",
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": "",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:36.915129+00:00",
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": "",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:40.173471+00:00",
+      "stdout": "/var/run/postgresql:5432 - no response",
+      "stderr": "",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:27:42.891659+00:00",
+      "stdout": "/var/run/postgresql:5432 - accepting connections",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector",
+        "postgresql-17-pg-search",
+        "libopenblas0"
+      ],
+      "started_at": "2026-11-17T04:27:44.205490+00:00",
+      "stdout": "libopenblas0:amd64\t0.3.21+ds-4\npostgresql-17\t17.12-1.pgdg12+1\npostgresql-17-pg-search\t0.26.6\npostgresql-17-pgvector\t0.8.7-1.pgdg12+2\npostgresql-client-17\t17.12-1.pgdg12+1",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-u",
+        "postgres",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "sh",
+        "-c",
+        "p=$(head -n 1 /var/lib/postgresql/data/postmaster.pid); readlink -f /proc/$p/exe; /proc/$p/exe --version; sha256sum /proc/$p/exe"
+      ],
+      "started_at": "2026-11-17T04:27:45.467212+00:00",
+      "stdout": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.12 (Debian 17.12-1.pgdg12+1)\n5a497342435d67f84119f5de3ea7d5efe97a07ebca766505abebe6caa008be36  /proc/1/exe",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:27:47.213884+00:00",
+      "stdout": "170012\npg_search|0.26.6\nplpgsql|1.0\nvector|0.8.7",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:27:48.900212+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:27:54.277339+00:00",
+      "stdout": "[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:27:56.058597+00:00",
+      "stdout": "[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Custom Scan\",\n      \"Custom Plan Provider\": \"ParadeDB Base Scan\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Relation Name\": \"compat_chunks\",\n      \"Alias\": \"compat_chunks\",\n      \"Table\": \"compat_chunks\",\n      \"Index\": \"compat_bm25\",\n      \"Exec Method\": \"NormalScanExecState\",\n      \"Scores\": false,\n      \"Tantivy Query\": \"{\\\"with_index\\\":{\\\"query\\\":{\\\"match\\\":{\\\"field\\\":\\\"search_text\\\",\\\"value\\\":\\\"退款\\\",\\\"tokenizer\\\":null,\\\"distance\\\":null,\\\"transposition_cost_one\\\":null,\\\"prefix\\\":null,\\\"conjunction_mode\\\":false}}}}\"\n    }\n  }\n]",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:27:58.099693+00:00",
+      "stdout": "[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:00.144329+00:00",
+      "stdout": "[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:02.242221+00:00",
+      "stdout": "[]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:04.362081+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:05.354430+00:00",
+      "stdout": "[]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:07.538336+00:00",
+      "stdout": "[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:09.540004+00:00",
+      "stdout": "2026-11-17 04:27:42.985833+00\n[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "restart",
+        "codex-v201pg1712-6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:12.117961+00:00",
+      "stdout": "codex-v201pg1712-6e6bcd7a4608",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:28:15.477231+00:00",
+      "stdout": "/var/run/postgresql:5432 - rejecting connections",
+      "stderr": "",
+      "exit_code": 1
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "pg_isready",
+        "-U",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T04:28:17.645405+00:00",
+      "stdout": "/var/run/postgresql:5432 - accepting connections",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-v201pg1712-6e6bcd7a4608",
+        "psql",
+        "-X",
+        "-q",
+        "-U",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At"
+      ],
+      "started_at": "2026-11-17T04:28:19.292419+00:00",
+      "stdout": "2026-11-17 04:28:16.542359+00\n[\"中文-chunk-id\"]",
+      "stderr": "WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "logs",
+        "codex-v201pg1712-6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:21.150864+00:00",
+      "stdout": "The files belonging to this database system will be owned by user \"postgres\".\nThis user must also own the server process.\n\nThe database cluster will be initialized with locale \"en_US.utf8\".\nThe default database encoding has accordingly been set to \"UTF8\".\nThe default text search configuration will be set to \"english\".\n\nData page checksums are disabled.\n\nfixing permissions on existing directory /var/lib/postgresql/data ... ok\ncreating subdirectories ... ok\nselecting dynamic shared memory implementation ... posix\nselecting default \"max_connections\" ... 100\nselecting default \"shared_buffers\" ... 128MB\nselecting default time zone ... Etc/UTC\ncreating configuration files ... ok\nrunning bootstrap script ... ok\nperforming post-bootstrap initialization ... ok\nsyncing data to disk ... ok\n\n\nSuccess. You can now start the database server using:\n\n    pg_ctl -D /var/lib/postgresql/data -l logfile start\n\nwaiting for server to start....2026-11-17 04:27:41.755 UTC [79] LOG:  registered custom resource manager \"pg_search\" with ID 137\n2026-11-17 04:27:42.004 UTC [79] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\n2026-11-17 04:27:42.010 UTC [79] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"\n2026-11-17 04:27:42.047 UTC [82] LOG:  database system was shut down at 2026-11-17 04:27:39 UTC\n2026-11-17 04:27:42.085 UTC [79] LOG:  database system is ready to accept connections\n done\nserver started\n\n/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*\n\nwaiting for server to shut down...2026-11-17 04:27:42.523 UTC [79] LOG:  received fast shutdown request\n.2026-11-17 04:27:42.530 UTC [79] LOG:  aborting any active transactions\n2026-11-17 04:27:42.542 UTC [79] LOG:  background worker \"logical replication launcher\" (PID 85) exited with exit code 1\n2026-11-17 04:27:42.562 UTC [80] LOG:  shutting down\n2026-11-17 04:27:42.569 UTC [80] LOG:  checkpoint starting: shutdown immediate\n2026-11-17 04:27:42.599 UTC [80] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.002 s, total=0.035 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F8F30, redo lsn=0/14F8F30\n2026-11-17 04:27:42.621 UTC [79] LOG:  database system is shut down\n done\nserver stopped\n\nPostgreSQL init process complete; ready for start up.\n\n\nPostgreSQL Database directory appears to contain a database; Skipping initialization",
+      "stderr": "********************************************************************************\nWARNING: POSTGRES_HOST_AUTH_METHOD has been set to \"trust\". This will allow\n         anyone with access to the Postgres port to access your database without\n         a password, even if POSTGRES_PASSWORD is set. See PostgreSQL\n         documentation about \"trust\":\n         https://www.postgresql.org/docs/current/auth-trust.html\n         In Docker's default configuration, this is effectively any other\n         container on the same system.\n\n         It is not recommended to use POSTGRES_HOST_AUTH_METHOD=trust. Replace\n         it with \"-e POSTGRES_PASSWORD=password\" instead to set a password in\n         \"docker run\".\n********************************************************************************\ninitdb: warning: enabling \"trust\" authentication for local connections\ninitdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.\n2026-11-17 04:27:42.778 UTC [1] LOG:  registered custom resource manager \"pg_search\" with ID 137\n2026-11-17 04:27:42.945 UTC [1] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\n2026-11-17 04:27:42.955 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432\n2026-11-17 04:27:42.956 UTC [1] LOG:  listening on IPv6 address \"::\", port 5432\n2026-11-17 04:27:42.971 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"\n2026-11-17 04:27:43.024 UTC [93] LOG:  database system was shut down at 2026-11-17 04:27:42 UTC\n2026-11-17 04:27:43.077 UTC [1] LOG:  database system is ready to accept connections\n2026-11-17 04:27:55.989 UTC [139] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:27:59.905 UTC [153] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:02.156 UTC [161] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:04.290 UTC [169] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:07.427 UTC [183] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:09.436 UTC [190] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:11.839 UTC [199] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)\n2026-11-17 04:28:12.553 UTC [1] LOG:  received fast shutdown request\n2026-11-17 04:28:12.565 UTC [1] LOG:  aborting any active transactions\n2026-11-17 04:28:12.625 UTC [1] LOG:  background worker \"logical replication launcher\" (PID 96) exited with exit code 1\n2026-11-17 04:28:12.629 UTC [91] LOG:  shutting down\n2026-11-17 04:28:12.637 UTC [91] LOG:  checkpoint starting: shutdown immediate\n2026-11-17 04:28:12.960 UTC [91] LOG:  checkpoint complete: wrote 736 buffers (4.5%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.240 s, sync=0.044 s, total=0.332 s; sync files=119, longest=0.014 s, average=0.001 s; distance=2699 kB, estimate=2699 kB; lsn=0/179BDC0, redo lsn=0/179BDC0\n2026-11-17 04:28:13.015 UTC [1] LOG:  database system is shut down\n2026-11-17 04:28:16.167 UTC [1] LOG:  registered custom resource manager \"pg_search\" with ID 137\n2026-11-17 04:28:16.497 UTC [1] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\n2026-11-17 04:28:16.504 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432\n2026-11-17 04:28:16.504 UTC [1] LOG:  listening on IPv6 address \"::\", port 5432\n2026-11-17 04:28:16.521 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"\n2026-11-17 04:28:16.566 UTC [35] FATAL:  the database system is starting up\n2026-11-17 04:28:16.592 UTC [34] LOG:  database system was shut down at 2026-11-17 04:28:12 UTC\n2026-11-17 04:28:16.693 UTC [1] LOG:  database system is ready to accept connections\n2026-11-17 04:28:21.085 UTC [52] WARNING:  Aggregate Scan not used: unsupported aggregate function: json_agg. To disable this warning: SET paradedb.planner_warnings = 'off' (table: compat_chunks)",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:21.640821+00:00",
+      "stdout": "f60d1566663b\nff15810dcec0",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "rm",
+        "-f",
+        "f60d1566663b"
+      ],
+      "started_at": "2026-11-17T04:28:21.959319+00:00",
+      "stdout": "f60d1566663b",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "rm",
+        "-f",
+        "ff15810dcec0"
+      ],
+      "started_at": "2026-11-17T04:28:23.047395+00:00",
+      "stdout": "ff15810dcec0",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:23.293692+00:00",
+      "stdout": "codex-v201pg1712-data-6e6bcd7a4608",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "rm",
+        "codex-v201pg1712-data-6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:23.550003+00:00",
+      "stdout": "codex-v201pg1712-data-6e6bcd7a4608",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "ls",
+        "-aq",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:23.904871+00:00",
+      "stdout": "b413cd38dd06\n363437ce0869\n260bf6967e25",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "rm",
+        "b413cd38dd06"
+      ],
+      "started_at": "2026-11-17T04:28:26.780241+00:00",
+      "stdout": "Untagged: codex-v201pg1712:6e6bcd7a4608\nDeleted: sha256:b413cd38dd061c627d042910904ee835e30d87ed676749d050b7e7589c763f07\nDeleted: sha256:363437ce0869c34586ce38e0631e6bcc532ed2a0bf0fe16280df1c3f3f7a17f2\nDeleted: sha256:260bf6967e254ca675fbc56a2b654e3cded04a7ca7fff94325291a3d7d93e521",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "rm",
+        "363437ce0869"
+      ],
+      "started_at": "2026-11-17T04:28:27.538454+00:00",
+      "stdout": "",
+      "stderr": "Error response from daemon: No such image: 363437ce0869:latest",
+      "exit_code": 1
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:27.758146+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "ls",
+        "-q",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:28.017073+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "ls",
+        "-aq",
+        "--filter",
+        "label=codex.v201pg1712=6e6bcd7a4608"
+      ],
+      "started_at": "2026-11-17T04:28:28.247200+00:00",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.Config.Image}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T04:28:29.473541+00:00",
+      "stdout": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T04:28:29.877118+00:00",
+      "stdout": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-u",
+        "postgres",
+        "agent-engine-demo-db-postgres-1",
+        "sh",
+        "-c",
+        "p=$(head -n 1 /var/lib/postgresql/data/postmaster.pid); readlink -f /proc/$p/exe; /proc/$p/exe --version; sha256sum /proc/$p/exe"
+      ],
+      "started_at": "2026-11-17T04:28:31.014142+00:00",
+      "stdout": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.6 (Debian 17.6-2.pgdg12+1)\n5a7c97038091358d2e41449f136a4d06f06be14a8ed403562ee0a0ee6d5e9786  /proc/1/exe",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT current_setting('server_version_num'),pg_postmaster_start_time(),(SELECT extversion FROM pg_extension WHERE extname='vector')"
+      ],
+      "started_at": "2026-11-17T04:28:33.310534+00:00",
+      "stdout": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "started_at": "2026-11-17T04:28:34.623267+00:00",
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "started_at": "2026-11-17T04:28:48.622809+00:00",
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT current_setting('server_version_num'),pg_postmaster_start_time(),(SELECT extversion FROM pg_extension WHERE extname='vector')"
+      ],
+      "started_at": "2026-11-17T04:28:49.692759+00:00",
+      "stdout": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename"
+      ],
+      "started_at": "2026-11-17T04:28:50.486524+00:00",
+      "stdout": "approvals\ncheckpoint_blobs\ncheckpoint_migrations\ncheckpoint_writes\ncheckpoints\ndemo_orders\nknowledge_chunks\nknowledge_documents\nrefund_requests\nschema_migrations\nsessions\nstore\nstore_migrations",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-At",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT c.relname,a.attnum,a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,coalesce(pg_get_expr(d.adbin,d.adrelid),'') FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_attribute a ON a.attrelid=c.oid LEFT JOIN pg_attrdef d ON d.adrelid=c.oid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped ORDER BY c.relname,a.attnum"
+      ],
+      "started_at": "2026-11-17T04:29:04.294177+00:00",
+      "stdout": "approvals|1|approval_id|uuid|t|\napprovals|2|application_id|uuid|t|\napprovals|3|subject_snapshot|jsonb|t|\napprovals|4|subject_digest|text|t|\napprovals|5|decision|text|t|'PENDING'::text\napprovals|6|approver_id|text|f|\napprovals|7|decided_at|timestamp with time zone|f|\napprovals|8|created_at|timestamp with time zone|t|now()\napprovals|9|expires_at|timestamp with time zone|t|(now() + '00:30:00'::interval)\napprovals|10|interrupt_id|text|f|\napprovals|11|checkpoint_ns|text|f|\napprovals|12|checkpoint_id|text|f|\ncheckpoint_blobs|1|thread_id|text|t|\ncheckpoint_blobs|2|checkpoint_ns|text|t|''::text\ncheckpoint_blobs|3|channel|text|t|\ncheckpoint_blobs|4|version|text|t|\ncheckpoint_blobs|5|type|text|t|\ncheckpoint_blobs|6|blob|bytea|f|\ncheckpoint_migrations|1|v|integer|t|\ncheckpoint_writes|1|thread_id|text|t|\ncheckpoint_writes|2|checkpoint_ns|text|t|''::text\ncheckpoint_writes|3|checkpoint_id|text|t|\ncheckpoint_writes|4|task_id|text|t|\ncheckpoint_writes|5|idx|integer|t|\ncheckpoint_writes|6|channel|text|t|\ncheckpoint_writes|7|type|text|f|\ncheckpoint_writes|8|blob|bytea|t|\ncheckpoint_writes|9|task_path|text|t|''::text\ncheckpoints|1|thread_id|text|t|\ncheckpoints|2|checkpoint_ns|text|t|''::text\ncheckpoints|3|checkpoint_id|text|t|\ncheckpoints|4|parent_checkpoint_id|text|f|\ncheckpoints|5|type|text|f|\ncheckpoints|6|checkpoint|jsonb|t|\ncheckpoints|7|metadata|jsonb|t|'{}'::jsonb\ndemo_orders|1|order_id|text|t|\ndemo_orders|2|owner_id|text|t|\ndemo_orders|3|amount|numeric(12,2)|t|\ndemo_orders|4|currency|text|t|\ndemo_orders|5|payment_status|text|t|\ndemo_orders|6|is_refunded|boolean|t|false\ndemo_orders|7|created_at|timestamp with time zone|t|\nknowledge_chunks|1|chunk_id|text|t|\nknowledge_chunks|2|document_id|text|t|\nknowledge_chunks|3|document_version|text|t|\nknowledge_chunks|4|ordinal|integer|t|\nknowledge_chunks|5|section|text|f|\nknowledge_chunks|6|page|integer|f|\nknowledge_chunks|7|line_start|integer|t|\nknowledge_chunks|8|line_end|integer|t|\nknowledge_chunks|9|content|text|t|\nknowledge_chunks|10|content_hash|text|t|\nknowledge_chunks|11|token_count|integer|t|\nknowledge_chunks|12|embedding|vector(1024)|t|\nknowledge_documents|1|document_id|text|t|\nknowledge_documents|2|document_version|text|t|\nknowledge_documents|3|content_hash|text|t|\nknowledge_documents|4|domain|text|t|\nknowledge_documents|5|source_title|text|t|\nknowledge_documents|6|public_source_key|text|t|\nknowledge_documents|7|embedding_profile|text|t|\nknowledge_documents|8|chunk_count|integer|t|\nknowledge_documents|9|updated_at|timestamp with time zone|t|now()\nrefund_requests|1|application_id|uuid|t|\nrefund_requests|2|operation_id|uuid|t|\nrefund_requests|3|user_id|text|t|\nrefund_requests|4|conversation_id|text|t|\nrefund_requests|5|thread_id|uuid|t|\nrefund_requests|6|task_id|text|t|\nrefund_requests|7|workflow_id|text|t|\nrefund_requests|8|order_id|text|t|\nrefund_requests|9|call_id|text|t|\nrefund_requests|10|tool_name|text|t|\nrefund_requests|11|tool_version|text|t|\nrefund_requests|12|raw_args|jsonb|t|\nrefund_requests|13|canonical_args|jsonb|t|\nrefund_requests|14|args_digest|text|t|\nrefund_requests|15|amount|numeric(12,2)|t|\nrefund_requests|16|currency|text|t|\nrefund_requests|17|status|text|t|'PENDING'::text\nrefund_requests|18|rejection_code|text|f|\nrefund_requests|19|execution_result|jsonb|f|\nrefund_requests|20|executed_at|timestamp with time zone|f|\nrefund_requests|21|created_at|timestamp with time zone|t|now()\nschema_migrations|1|version|integer|t|\nschema_migrations|2|checksum|text|t|\nschema_migrations|3|applied_at|timestamp with time zone|t|now()\nsessions|1|user_id|text|t|\nsessions|2|conversation_id|text|t|\nsessions|3|thread_id|uuid|t|\nsessions|4|created_at|timestamp with time zone|t|now()\nstore|1|prefix|text|t|\nstore|2|key|text|t|\nstore|3|value|jsonb|t|\nstore|4|created_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|5|updated_at|timestamp with time zone|f|CURRENT_TIMESTAMP\nstore|6|expires_at|timestamp with time zone|f|\nstore|7|ttl_minutes|integer|f|\nstore_migrations|1|v|integer|t|",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "probe_sha256": "2b6b10e0fdb813e2a170e5bfad2faa9e427d5000be2a97cb698c6fd14dc4345a",
+  "base_image": "postgres:17.12-bookworm@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536",
+  "pg_package": "17.12-1.pgdg12+1",
+  "vector_package": "0.8.7-1.pgdg12+2",
+  "started_at": "2026-11-17T04:18:45.631621+00:00",
+  "build_log": "/tmp/agent-pg1712-compat-aYhgTD/build-6e6bcd7a4608.log",
+  "semantic_checks": {
+    "chinese_text_id": [
+      "中文-chunk-id"
+    ],
+    "transaction_update": true,
+    "rollback": true,
+    "committed_update": true,
+    "restart_before": "2026-11-17 04:27:42.985833+00\n[\"中文-chunk-id\"]",
+    "restart_after": "2026-11-17 04:28:16.542359+00\n[\"中文-chunk-id\"]"
+  },
+  "protected_before": {
+    "container": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+    "running_executable": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.6 (Debian 17.6-2.pgdg12+1)\n5a7c97038091358d2e41449f136a4d06f06be14a8ed403562ee0a0ee6d5e9786  /proc/1/exe",
+    "databases": {
+      "agent_demo": {
+        "version": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      },
+      "agent_demo_test": {
+        "version": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      }
+    }
+  },
+  "phase": "minimal_bm25",
+  "symbols": {
+    "pg176_exe_sha256": "5a7c97038091358d2e41449f136a4d06f06be14a8ed403562ee0a0ee6d5e9786",
+    "pg176_exports": [],
+    "pg_search_so_sha256": "e3b19a5d350efc27d3c9b23587f68004eee5d2468b96dc88422b73ad4432a598",
+    "pg_search_undefined": [
+      "743: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND pg_mblen_cstr"
+    ],
+    "pg1712_exe_sha256": "5a497342435d67f84119f5de3ea7d5efe97a07ebca766505abebe6caa008be36",
+    "pg1712_exports": [
+      "2024: 000000000063c3b0   102 FUNC    GLOBAL DEFAULT   15 pg_mblen_cstr"
+    ]
+  },
+  "candidate_image": "amd64|linux|sha256:b413cd38dd061c627d042910904ee835e30d87ed676749d050b7e7589c763f07",
+  "candidate_running_executable": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.12 (Debian 17.12-1.pgdg12+1)\n5a497342435d67f84119f5de3ea7d5efe97a07ebca766505abebe6caa008be36  /proc/1/exe",
+  "loaded_versions": "170012\npg_search|0.26.6\nplpgsql|1.0\nvector|0.8.7",
+  "bm25_plan": [
+    {
+      "Plan": {
+        "Node Type": "Custom Scan",
+        "Custom Plan Provider": "ParadeDB Base Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Relation Name": "compat_chunks",
+        "Alias": "compat_chunks",
+        "Table": "compat_chunks",
+        "Index": "compat_bm25",
+        "Exec Method": "NormalScanExecState",
+        "Scores": false,
+        "Tantivy Query": "{\"with_index\":{\"query\":{\"match\":{\"field\":\"search_text\",\"value\":\"退款\",\"tokenizer\":null,\"distance\":null,\"transposition_cost_one\":null,\"prefix\":null,\"conjunction_mode\":false}}}}"
+      }
+    }
+  ],
+  "cleanup_errors": [
+    "Command failed/expired: docker image rm"
+  ],
+  "cleanup_complete": true,
+  "protected_after": {
+    "container": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59|2026-11-13T13:47:42.917604878Z|postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3|[{\"Destination\":\"/docker-entrypoint-initdb.d/01-databases.sh\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/init-databases.sh\",\"Type\":\"bind\"},{\"Destination\":\"/etc/postgresql/pg_hba.conf\",\"Mode\":\"ro\",\"Propagation\":\"rprivate\",\"RW\":false,\"Source\":\"/home/white7/agent-engine-demo-db/pg_hba.conf\",\"Type\":\"bind\"},{\"Destination\":\"/var/lib/postgresql/data\",\"Driver\":\"local\",\"Mode\":\"rw\",\"Name\":\"agent-engine-demo-db_agent_pg17\",\"Propagation\":\"\",\"RW\":true,\"Source\":\"/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data\",\"Type\":\"volume\"}]",
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1",
+    "running_executable": "/usr/lib/postgresql/17/bin/postgres\npostgres (PostgreSQL) 17.6 (Debian 17.6-2.pgdg12+1)\n5a7c97038091358d2e41449f136a4d06f06be14a8ed403562ee0a0ee6d5e9786  /proc/1/exe",
+    "databases": {
+      "agent_demo": {
+        "version": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      },
+      "agent_demo_test": {
+        "version": "170006|2026-11-13 13:47:52.823667+00|0.8.7",
+        "rows_sha256": {
+          "approvals": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_blobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoint_migrations": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722",
+          "checkpoint_writes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "checkpoints": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "demo_orders": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c",
+          "knowledge_chunks": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "knowledge_documents": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "refund_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "schema_migrations": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f",
+          "sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "store_migrations": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        },
+        "columns_sha256": "92961584699c51f7baf1119d458b77055da3b25e89ef3e78c5795862b8a65db7"
+      }
+    }
+  },
+  "protected_unchanged": true,
+  "workspace_removed": true,
+  "finished_at": "2026-11-17T04:29:05.201644+00:00",
+  "build_log_sha256": "557345d4c6aa1c53e35de9f6e3b2ddc614eb694ae0b271a19f7be804ed6c6500"
+}

@@ -1,18 +1,30 @@
 # Agent Engine Demo 开发规范
 
+## 子 Agent 模型要求（2026-11-17）
+
+- 用户指定所有子 Agent 使用 **Terra / high**：模型 `gpt-6.1-terra`，推理强度 `high`；Implementer、QA 角色文件及项目子 Agent 默认值均须保持这一设置，主 Agent 模型不随之更改。
+- 主 Agent 每次派发前检查角色配置与实际调用的模型、推理强度；支持原生参数时显式指定 `model="gpt-6.1-terra"`、`reasoning_effort="high"`，配合 `fork_turns="none"`，避免继承主会话的其他设置。
+- 修改配置不等于已有子会话已切换。接管旧子 Agent 时先检查实际运行元数据；不能确认目标模型时，停止旧派发，使用指定模型新建子 Agent，并只传当前 Task 的必要交接。
+- 以原生调用及运行元数据核对实际模型和推理强度，不以子 Agent 自述替代验证；目标模型不可用或配置不受支持时如实报告，不静默换模型、降低推理强度或用默认 Agent 冒充指定角色。
+
 ## 最新授权（2026-11-17，06归档与V2 01开发）
 
-用户已明确授权06提交、推送并合入main，随后创建v2分支开发V2 01。06按既有独立QA和主复核证据正式ACCEPTED；客户端脚本/变量回填/SSE界面未实测、Store旧时序观察及六项暂缓差异继续保留，不把归档写成新增实测。V2 01～03仅DESIGN APPROVED，用户当前只授权V2 01开发；依docs/v2-01-knowledge-rag-enhancement-detailed-design.md六Task串行Implementer→独立QA→主复核，先1.1.1精确PG17.6/pgvector/ParadeDB兼容门禁，不越过门禁或擅自升级原数据库。V2 02/03不开发。Git状态以实际命令和06归档回执为准，历史等待授权条款由本段和用户最新指令覆盖；旧遗留不混入06/V2提交，不使用Bridge。
+当前运行事实补充：用户后续明确批准原库升级，现已完成PG17.12/vector0.8.7（包+2）新卷切换、独立最终QA及主复核，
+见docs/STATE.md、docs/v2/v2-01/v2-01-pg1712-upgrade-report.md。原17.6容器/卷/备份保留，已开放写入后不得未经增量核对直接切回。
+升级根目录包含正式HBA绑定，不得当临时目录清理。旧固定PG17.6为历史基线；pg_search启用及V2完整门禁仍未完成，
+本轮不推导后续开发或Git授权，原.env/业务代码/迁移保持。Codex子Agent继续遵守上节Terra/high要求。
+
+用户已明确授权06提交、推送并合入main，随后创建v2分支开发V2 01。06按既有独立QA和主复核证据正式ACCEPTED；客户端脚本/变量回填/SSE界面未实测、Store旧时序观察及六项暂缓差异继续保留，不把归档写成新增实测。V2 01～03仅DESIGN APPROVED，用户当前只授权V2 01开发；依docs/v2/v2-01/v2-01-knowledge-rag-enhancement-detailed-design.md六Task串行Implementer→独立QA→主复核，先1.1.1精确PG17.6/pgvector/ParadeDB兼容门禁，不越过门禁或擅自升级原数据库。V2 02/03不开发。Git状态以实际命令和06归档回执为准，历史等待授权条款由本段和用户最新指令覆盖；旧遗留不混入06/V2提交，不使用Bridge。
 
 ## 06当前授权（2026-11-15）
 
-06六Task实现、串行独立QA及主Agent技术复核均已完成，阶段VERIFIED，等待用户正式验收，未ACCEPTED且无06 Git归档/推送授权。06-QA-001/P2已修复、原QA真实复测及主关闭，无未关闭编号问题。最终独立新Python3.13.7环境完整真实PG228 passed/0failed/0skipped（真实Qwen及原seed窄例外纳入）；固定PG17.6/vector新镜像/空双库初始化幂等与精确清理通过，原库保持。用户已手动导入Postman，Agent不再桌面操作；客户端脚本/变量回填/SSE界面仍未实测、Store旧时序观察风险保留。入口docs/STATE.md、docs/final-acceptance.md及docs/06-integration-handoff.md。01～05 ACCEPTED已归档，05交付79d576b/回执f860bb5；原Qwen CPU/1024、原PG17.6/pgvector、六项暂缓差异保持，不使用Bridge。下文IN_PROGRESS/未开始/等待为历史语境；当前停止等待用户正式验收，不推导Git或后续阶段授权。
+06六Task实现、串行独立QA及主Agent技术复核均已完成，阶段VERIFIED，等待用户正式验收，未ACCEPTED且无06 Git归档/推送授权。06-QA-001/P2已修复、原QA真实复测及主关闭，无未关闭编号问题。最终独立新Python3.13.7环境完整真实PG228 passed/0failed/0skipped（真实Qwen及原seed窄例外纳入）；固定PG17.6/vector新镜像/空双库初始化幂等与精确清理通过，原库保持。用户已手动导入Postman，Agent不再桌面操作；客户端脚本/变量回填/SSE界面仍未实测、Store旧时序观察风险保留。入口docs/STATE.md、docs/v1/v1-06/final-acceptance.md及docs/v1/v1-06/06-integration-handoff.md。01～05 ACCEPTED已归档，05交付79d576b/回执f860bb5；原Qwen CPU/1024、原PG17.6/pgvector、六项暂缓差异保持，不使用Bridge。下文IN_PROGRESS/未开始/等待为历史语境；当前停止等待用户正式验收，不推导Git或后续阶段授权。
 
 06数据保护补充：新场景不得seed/修改固定五订单；正式完整回归继承前序已批准的唯一窄例外tests/test_order_postgres.py::test_real_order_constraints_isolation_and_seed_idempotence，原样执行并finally恢复实际原值，前后全部public行集/列定义一致。不得以一般禁止seed为由deselect该旧门禁，也不得扩大例外。
 
 ## 当前正式状态（2026-11-14，05 ACCEPTED）
 
-05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/05-rag-memory-handoff.md、docs/question/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，05已以79d576b交付归档并推送核验origin/real-model-chat，06未开始；原六项暂缓差异保留。Git归档回执见docs/05-git-archive-receipt.md；本轮完成后停止，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。
+05六Task实现/独立QA/主Agent技术验收完成，用户已正式验收，阶段ACCEPTED；05-QA-001/P2已修复独立复测并关闭。最新完整真实PG216 passed/0 failed/0 skipped；入口docs/STATE.md、docs/v1/v1-05/05-rag-memory-handoff.md、docs/v1/v1-05/qa/05-rag-memory-stage-acceptance.md。01～04保持ACCEPTED已归档，05已以79d576b交付归档并推送核验origin/real-model-chat，06未开始；原六项暂缓差异保留。Git归档回执见docs/v1/v1-05/05-git-archive-receipt.md；本轮完成后停止，不进入06；下文IN_PROGRESS/待启动仅历史语境，不自动触发继续开发。
 
 ## 05续执行授权（2026-11-14）
 
@@ -20,26 +32,26 @@
 
 ## 05当前授权（2026-11-13）
 
-用户已授权05，本轮最新范围为Windows本地Qwen3-Embedding-0.6B CPU/1024维及Ubuntu PG17.6+pgvector真实检索。该明确指令覆盖D05旧OpenAI/1536/API Key参数，其余版本/事务/来源/权限约束保留；执行入口docs/05-local-embedding-execution-task.md，最新状态docs/STATE.md。不扩Supervisor、Specialist、其他业务或Memory；不从本单元推导05全部完成或Git授权。以下原等待05及旧Embedding参数保留历史语境，以用户最新指令和当前工作单元为准。
+用户已授权05，本轮最新范围为Windows本地Qwen3-Embedding-0.6B CPU/1024维及Ubuntu PG17.6+pgvector真实检索。该明确指令覆盖D05旧OpenAI/1536/API Key参数，其余版本/事务/来源/权限约束保留；执行入口docs/v1/v1-05/05-local-embedding-execution-task.md，最新状态docs/STATE.md。不扩Supervisor、Specialist、其他业务或Memory；不从本单元推导05全部完成或Git授权。以下原等待05及旧Embedding参数保留历史语境，以用户最新指令和当前工作单元为准。
 
 
 ## 最新协调状态（2026-11-13，原生 Multi-Agent 接管）
 
-当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，已以ab30f12交付归档、推送并核验远端**，见 `docs/question/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
+当前工作单元与最新裁决优先读 `docs/STATE.md`。04六Task、独立QA、04-QA-001～007修复及独立复测均完成，主Agent技术验收通过，用户已正式验收，阶段 **ACCEPTED，已以ab30f12交付归档、推送并核验远端**，见 `docs/v1/v1-04/qa/04-hitl-checkpoint-refund-stage-acceptance.md`。最终完整真实库165 passed/0 skipped、Ruff代码通过；真实PG/uvicorn重启/SQL与Checkpoint故障/真实模型及24项分层证据齐备，无未关闭04阻塞。本轮仅归档04，05等待用户设置角色配置并另行指示。
 
 用户已明确停用 Session Bridge，后续采用 Codex 原生子 Agent，Implementer→独立QA串行，主Agent复核与集成，阶段转换仍须用户批准。旧Bridge派发/等待/会话条款只保留历史语境，不再执行。01～03 ACCEPTED且已归档；04交付提交为ab30f12，已推送并核验远端；原六项暂缓差异保留，当前HEAD以git rev-parse为准。05～06未开始，04归档已完成；05等待用户设置角色配置及后续指令，不自动启动。项目已配置.codex/agents下implementer和qa，Desktop内置0.167.0-alpha.4.1已通过显式agent_type及fork_turns="none"原生调用验证；PATH旧CLI0.144.4不兼容，当前旧聊天需新开项目聊天加载角色。详见.codex/README.md。主Agent负责派发、交付审查/QA裁决和Git集成；每次只派一个明确Task及必读文件/范围/验收标准，优先干净上下文，默认Implementer→QA串行，FAIL交回原Implementer后再独立复测，不连续轮询；简单任务不强制委派。既有凭据及格式遗留决定保持。
 
 ## 最新协调状态（2026-11-12）
 
-01、02、03均已获用户正式验收，状态为ACCEPTED。Baseline f89db15、01 Delivery cf3e763及02归档94cf205a734c305a6919a34cfeacc3e717d4856f均已推送并核验origin/real-model-chat。03按冻结D03完成六Task、独立QA、03-QA-001/002修复及独立回归；最新完整真实库137项通过，27个不同外部场景取得通过证据，原真实DeepSeek/PG证据适用。主Agent已复核关闭两项问题并完成技术验收，阶段为ACCEPTED，报告见 `docs/question/03-tool-governance-stage-acceptance.md`。03已以62b5eb2c1d946d2b334b3f3a2bad6e748e5d0579归档推送并核验远端；用户已授权04 HITL/Checkpoint/模拟退款开发，当前IN_PROGRESS，依冻结任务串行执行/独立QA/必要修复/复测；05～06未开始。历史凭据暴露及三角色密码复用继续按用户决定保留Demo遗留，暂缓换密；P3-01六份Markdown示例格式遗留保持。通过codex-session-bridge串行协调既有执行/测试/修复会话，规划待命，Bridge维护独立且仅明确授权时派发。以下旧状态保留原轮次语境，当前事实以本段及用户最新指令为准。
+01、02、03均已获用户正式验收，状态为ACCEPTED。Baseline f89db15、01 Delivery cf3e763及02归档94cf205a734c305a6919a34cfeacc3e717d4856f均已推送并核验origin/real-model-chat。03按冻结D03完成六Task、独立QA、03-QA-001/002修复及独立回归；最新完整真实库137项通过，27个不同外部场景取得通过证据，原真实DeepSeek/PG证据适用。主Agent已复核关闭两项问题并完成技术验收，阶段为ACCEPTED，报告见 `docs/v1/v1-03/qa/03-tool-governance-stage-acceptance.md`。03已以62b5eb2c1d946d2b334b3f3a2bad6e748e5d0579归档推送并核验远端；用户已授权04 HITL/Checkpoint/模拟退款开发，当前IN_PROGRESS，依冻结任务串行执行/独立QA/必要修复/复测；05～06未开始。历史凭据暴露及三角色密码复用继续按用户决定保留Demo遗留，暂缓换密；P3-01六份Markdown示例格式遗留保持。通过codex-session-bridge串行协调既有执行/测试/修复会话，规划待命，Bridge维护独立且仅明确授权时派发。以下旧状态保留原轮次语境，当前事实以本段及用户最新指令为准。
 
 ## 最新实施状态（2026-11-09）
 
-用户已授权并实施完整阶段 01，六个 Task 的实现、真实环境证据及检查遗留见 `docs/01-foundation-detailed-design.md` 末尾正式开发交付报告。实际 PG 位于用户授权的 Ubuntu 私网 VM，schema 当前为 2；002 的延迟 thread 唯一约束修正已获用户明确批准。01 提供准备层，正式 HTTP 执行与 Task 接线归 02，当前 chat 准备成功后仍返回 503。02 尚未开始，等待用户阶段确认与后续授权。下文此前基线及历史记录保留追溯，当前实施事实以该报告为准。
+用户已授权并实施完整阶段 01，六个 Task 的实现、真实环境证据及检查遗留见 `docs/v1/v1-01/01-foundation-detailed-design.md` 末尾正式开发交付报告。实际 PG 位于用户授权的 Ubuntu 私网 VM，schema 当前为 2；002 的延迟 thread 唯一约束修正已获用户明确批准。01 提供准备层，正式 HTTP 执行与 Task 接线归 02，当前 chat 准备成功后仍返回 503。02 尚未开始，等待用户阶段确认与后续授权。下文此前基线及历史记录保留追溯，当前实施事实以该报告为准。
 
-2026-11-10 独立 QA 已结束，主 Agent 复核确认 P2-01，P2-01 已完成修复和独立回归并经主 Agent 复核关闭，阶段状态为 VERIFIED，正式验收及阶段切换待用户批准。当前协调状态和问题决定见 `docs/question/01-foundation-main-review.md`。协作采用用户人工创建的独立会话及人工传递，一级阶段内按依赖连续实施，阶段切换和正式 Git 归档须用户明确批准。
+2026-11-10 独立 QA 已结束，主 Agent 复核确认 P2-01，P2-01 已完成修复和独立回归并经主 Agent 复核关闭，阶段状态为 VERIFIED，正式验收及阶段切换待用户批准。当前协调状态和问题决定见 `docs/v1/v1-01/qa/01-foundation-main-review.md`。协作采用用户人工创建的独立会话及人工传递，一级阶段内按依赖连续实施，阶段切换和正式 Git 归档须用户明确批准。
 
-修复会话提示词统一保存到 `docs/resume/`。提示词必须明确要求修复会话将修复记录整理到 `docs/resume/record/`，关联阶段、Task、问题编号及对应提示词。各轮记录独立保留，避免覆盖历史证据。
+修复会话提示词保存到对应阶段目录的 `fixes/`。提示词必须明确要求修复会话将修复记录整理到该阶段的 `fixes/records/`，关联阶段、Task、问题编号及对应提示词。各轮记录独立保留，避免覆盖历史证据。
 
 ## 1. 适用范围与协作方式
 
@@ -62,13 +74,15 @@
 
 ## 2. 项目目标与当前边界
 
+开发文档以 [docs/README.md](docs/README.md) 为入口，按版本及阶段归档。
+
 项目正式定位为 Agent Engine Demo：以 Agent 工程能力为核心的轻量多 Agent Demo。
 采用 Supervisor + OrderAgent / RefundAgent / KnowledgeAgent，Store 为三个专业 Agent 共享基础设施。
 开发优先级围绕 ToolRegistry、HITL、持久化 Checkpoint / Interrupt / Resume、真实向量 RAG、用户隔离的跨会话 Store 五项核心能力。
 订单查询与模拟退款用于验证工具和审批；本地模拟服务须有实际数据库状态，Apifox 仅模拟后端调用，不构建独立 Java 系统或真实支付。
 
-- `docs/agent-engine-demo-plan.md` 是项目定位、架构及 V1 范围的权威文档。
-- `docs/development-roadmap.md` 是唯一有效的 V1 开发路线图；按一级阶段设计审核、二级环节授权执行。
+- `docs/v1/agent-engine-demo-plan.md` 是项目定位、架构及 V1 范围的权威文档。
+- `docs/v1/development-roadmap.md` 是唯一有效的 V1 开发路线图；按一级阶段设计审核、二级环节授权执行。
 - 旧九阶段路线图与旧阶段设计统一归档在 `docs/history/`，入口为 `docs/history/README.md`；只供历史参考，原审核状态仅适用于旧目标，不得自动带入旧生产级电商要求。
 - 新会话阅读本规范后依次阅读项目定位、唯一开发路线图及D01，按授权Task需要查阅D02～D06和Graph既有协议。六阶段详细设计已结束，不重复拆分或重新设计Task。历史资料仅按需参考，不自动成为V1任务或验收标准。
 - 不得擅自扩大 V1 业务范围，不恢复订单取消、完整物流/支付、企业多租户权限或复杂分布式调度等已移出要求。
@@ -79,7 +93,7 @@
 已定义主/专业基础 State、内部输入输出契约、上下文映射、主图节点与路由、四种 AgentType、五种 TaskType 及不可变 AgentConfig。
 Supervisor 专用 Prompt、结构化路由、澄清、专业 wrapper、结果汇总、回复节点及主图 builder 已实现；应用使用进程内 InMemorySaver。
 Order/AfterSales/Knowledge 专业子图、业务工具、数据库、审批、长期记忆和持久化 Checkpointer 尚未实现；预留文件中的职责说明不是功能实现。
-当前事实以代码及实际验证记录为准，整体规划见 `docs/development-roadmap.md`。GENERAL 枚举和配置实例已移除，
+当前事实以代码及实际验证记录为准，整体规划见 `docs/v1/development-roadmap.md`。GENERAL 枚举和配置实例已移除，
 新角色枚举不等于已有可执行 Agent；后续按整体路线图逐环节设计与实施。
 `docs/graph-protocol.md` 是当前代码协议参考，旧角色/字段不等于新目标已实现；按新阶段确认方案迁移时保留显式输入输出映射，不整份合并子图 State。
 

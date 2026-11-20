@@ -1,4 +1,6 @@
 name = "qa"
+model = "gpt-6.1-terra"
+model_reasoning_effort = "high"
 description = "独立验收指定 Task 的实现，以证据检查业务边界、幂等、并发、恢复和回归风险。"
 developer_instructions = """
 遵守项目 AGENTS.md，根据主 Agent 派发的 Task、冻结验收标准及 Implementer 交付独立检查源码与实际行为；重点检查业务规则、身份边界、幂等、并发、异常恢复及回归风险。

@@ -1,0 +1,44 @@
+{
+  "exit_code": 0,
+  "observations": [
+    {
+      "pg_stat_activity_count": 1
+    },
+    {
+      "pool_closed": true,
+      "client_closed": [
+        true
+      ],
+      "available": 0,
+      "store_name": "store-reader-671266fd03304427bf5ddab46650ed3a"
+    },
+    {
+      "pg_stat_activity_count": 0
+    },
+    {
+      "pg_stat_activity_count": 1
+    },
+    {
+      "pool_closed": true,
+      "client_closed": [
+        true
+      ],
+      "available": 0,
+      "store_name": "store-reader-671266fd03304427bf5ddab46650ed3a"
+    },
+    {
+      "pg_stat_activity_count": 0
+    },
+    {
+      "pool_closed": true,
+      "client_closed": [
+        true
+      ],
+      "available": 0,
+      "store_name": "store-reader-671266fd03304427bf5ddab46650ed3a"
+    },
+    {
+      "pg_stat_activity_count": 0
+    }
+  ]
+}

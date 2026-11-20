@@ -1,0 +1,25 @@
+{
+  "model": "gpt-6.1-terra",
+  "model_reasoning_effort": "high",
+  "runtime_version": "0.169.0-alpha.11.1",
+  "native_role_registry_fixed_model_and_effort": true,
+  "native_calls": [
+    {
+      "agent_type": "implementer",
+      "task_name": "implementer_pg1712_terra",
+      "fork_turns": "none",
+      "model": "gpt-6.1-terra",
+      "reasoning_effort": "high",
+      "readonly_result": "PASS"
+    },
+    {
+      "agent_type": "qa",
+      "task_name": "qa_pg1712_terra",
+      "fork_turns": "none",
+      "model": "gpt-6.1-terra",
+      "reasoning_effort": "high",
+      "readonly_result": "PASS"
+    }
+  ],
+  "existing_subagents_not_assumed_switched": true
+}

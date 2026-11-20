@@ -1,0 +1,23 @@
+{
+  "server_version_num": "170012",
+  "system_identifier": "7709152917995737133",
+  "embedding_enabled": false,
+  "health": {
+    "status": "ok",
+    "service": "Agent Backend",
+    "agent_ready": true,
+    "database_status": "ready",
+    "model_status": "initialized",
+    "embedding_status": "disabled",
+    "knowledge_ready": false,
+    "knowledge_status": "unavailable",
+    "checkpoint_status": "ready",
+    "checkpoint_backend": "postgres",
+    "store_status": "ready"
+  },
+  "startup_seconds": 4.783,
+  "business_pool_closed": true,
+  "checkpoint_pool_closed": true,
+  "remaining_async_tasks": [],
+  "status": "POST_UPGRADE_APPLICATION_HEALTH_PASSED"
+}

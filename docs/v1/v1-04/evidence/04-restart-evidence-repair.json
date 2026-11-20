@@ -1,0 +1,138 @@
+{
+  "owner": "restart04-005879442aa14bd29a2366cfa7dbc695",
+  "order": "restart04-005879442aa14bd29a2366cfa7dbc695",
+  "conversation": "restart04-005879442aa14bd29a2366cfa7dbc695",
+  "thread": "b8820a02-00a6-5287-81d9-4f58d4682f4d",
+  "task": "aba0388b-a588-4bb2-9b2c-f439ca3544d2",
+  "first_run": "43ad0329-c573-4a86-b65d-0e441fba38b3",
+  "approval": "bbfcd505-f207-5c29-b328-99864ef14e2e",
+  "repair_binding": "real_interrupt_CAS_idempotent_zero_new_run",
+  "fixed": {
+    "call_id": "original-call",
+    "args_digest": "8ece9b5479a250f4961181116645a59a862c10a1acec6289ca30ae561bdb9c25",
+    "operation_id": "9c384c68-927a-5c19-a5c3-3740973c8781",
+    "task_id": "aba0388b-a588-4bb2-9b2c-f439ca3544d2",
+    "thread_id": "b8820a02-00a6-5287-81d9-4f58d4682f4d",
+    "canonical_args": {
+      "order_id": "restart04-005879442aa14bd29a2366cfa7dbc695"
+    },
+    "raw_args": {
+      "order_id": "restart04-005879442aa14bd29a2366cfa7dbc695"
+    },
+    "namespace": "refund:5548f2a1-fbdb-07ad-80df-939c5b82b691",
+    "subject_digest": "e4cf455d44b8294723ea0f84b6554e0c0570a0d7cfc33a280549c2404138ab9e"
+  },
+  "positions": [
+    [
+      "approval_gate"
+    ]
+  ],
+  "waiting_usage": {
+    "tool_calls": 4,
+    "active_elapsed_ms": 259
+  },
+  "evidence": [
+    {
+      "phase": "wait",
+      "pid": 34140,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "43ad0329-c573-4a86-b65d-0e441fba38b3",
+          "mode": "normal",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "dict",
+          "run": "43ad0329-c573-4a86-b65d-0e441fba38b3",
+          "mode": "normal"
+        },
+        {
+          "graph": "refund_child",
+          "input": "dict",
+          "run": "43ad0329-c573-4a86-b65d-0e441fba38b3",
+          "mode": "normal"
+        }
+      ],
+      "handler_attempts": 0,
+      "status": "PENDING"
+    },
+    {
+      "phase": "resume",
+      "pid": 25844,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "recheck_execution",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "prepare_refund_attempt",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "execute_refund",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "record_tool_outcome",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "compose_refund_reply",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "map_result",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "Command",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume"
+        },
+        {
+          "graph": "refund_child",
+          "input": "None",
+          "run": "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca",
+          "mode": "resume"
+        }
+      ],
+      "handler_attempts": 1,
+      "status": "SUCCEEDED"
+    }
+  ],
+  "runs": [
+    "bbc64da5-f2e9-46a3-9621-c7d24d6e1aca"
+  ],
+  "usage": [
+    {
+      "model": 3,
+      "tools": 6,
+      "active_ms": 694
+    }
+  ]
+}

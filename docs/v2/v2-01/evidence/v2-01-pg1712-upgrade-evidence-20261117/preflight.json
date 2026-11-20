@@ -1,0 +1,241 @@
+{
+  "status": "PREFLIGHT_OBSERVED_NOT_FENCED",
+  "source_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+  "source_identity": {
+    "container_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true,
+    "mounts": [
+      {
+        "Destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/etc/postgresql/pg_hba.conf",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "Name": "agent-engine-demo-db_agent_pg17",
+        "Propagation": "",
+        "RW": true,
+        "Source": "/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data",
+        "Type": "volume"
+      }
+    ],
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1"
+  },
+  "image": "codex-pg1712restore:228a7f5b8d92",
+  "image_id": "sha256:bfe9a33d715a56d441d60a34e48c68b93fb49ea83d0992fbc2c2819e26846af4",
+  "source_network": "agent-engine-demo-db_default",
+  "source_ip": "172.19.0.2",
+  "source_aliases": [
+    "postgres",
+    "agent-engine-demo-db-postgres-1"
+  ],
+  "source_observation": {
+    "observation_only_not_write_fence": true,
+    "clients": {
+      "clients": 0,
+      "prepared": 0,
+      "slots": 0
+    },
+    "databases": {
+      "agent_demo": {
+        "tables": {
+          "public.approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoint_blobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoint_migrations": {
+            "count": 10,
+            "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+          },
+          "public.checkpoint_writes": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoints": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.demo_orders": {
+            "count": 5,
+            "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+          },
+          "public.knowledge_chunks": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.knowledge_documents": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.refund_requests": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.schema_migrations": {
+            "count": 6,
+            "sha256": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc"
+          },
+          "public.sessions": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.store": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.store_migrations": {
+            "count": 4,
+            "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+          }
+        },
+        "persisted_active_state_empty": true
+      },
+      "agent_demo_test": {
+        "tables": {
+          "public.approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoint_blobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoint_migrations": {
+            "count": 10,
+            "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+          },
+          "public.checkpoint_writes": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.checkpoints": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.demo_orders": {
+            "count": 5,
+            "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+          },
+          "public.knowledge_chunks": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.knowledge_documents": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.refund_requests": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.schema_migrations": {
+            "count": 6,
+            "sha256": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f"
+          },
+          "public.sessions": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.store": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "public.store_migrations": {
+            "count": 4,
+            "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+          }
+        },
+        "persisted_active_state_empty": true
+      }
+    }
+  },
+  "root_free_bytes": 1307201536,
+  "operator_peak_budget_bytes": 1073741824,
+  "backup_dir": "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38",
+  "backup_token": "6ddfec59da38",
+  "private_source_inspect": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/preflight-bacf6d87d65d/source-inspect.private.json",
+  "production_extensions": [
+    "plpgsql",
+    "vector"
+  ],
+  "pg_search_enabled": false,
+  "next_step": "validation restore only; persistent source fence is a later explicit stage",
+  "upgrade_script_sha256": "66e2488c4f5cf1d7e163acc6c21a2090aca09a51ac876a9a53668f7012cb448d",
+  "private_work": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/preflight-bacf6d87d65d",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.Architecture}}|{{.Os}}",
+        "codex-pg1712restore:228a7f5b8d92"
+      ],
+      "started_at": "2026-11-17T11:53:41.211870+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T11:53:43.050585+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T11:53:48.145240+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T11:53:48.350284+00:00",
+      "exit_code": 0
+    }
+  ]
+}

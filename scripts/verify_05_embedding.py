@@ -333,7 +333,9 @@ def main():
     parser.add_argument("--action", choices=["prepare", "check", "cleanup"])
     parser.add_argument("--serve-port", type=int)
     parser.add_argument(
-        "--state", type=Path, default=PROJECT_ROOT / "docs/05-local-embedding-real-evidence.json"
+        "--state",
+        type=Path,
+        default=PROJECT_ROOT / "docs/v1/v1-05/evidence/05-local-embedding-real-evidence.json",
     )
     args = parser.parse_args()
     if args.serve_port:

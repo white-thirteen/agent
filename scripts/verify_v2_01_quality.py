@@ -30,7 +30,7 @@ from app.knowledge.sparse import INDEX_NAME, check_sparse_ready
 from scripts import run_async
 
 ROOT = Path("data/v2-01-quality")
-OUT = Path(os.environ.get("TASK132_OUTPUT_DIR", "docs/v2-01-task132-evidence"))
+OUT = Path(os.environ.get("TASK132_OUTPUT_DIR", "docs/v2/v2-01/evidence/v2-01-task132-evidence"))
 QUESTIONS = [
     ("当前提供哪些演示用户？", "account-help"),
     ("选择 dev-user 是否等于真实生产登录？", "account-help"),

@@ -1,0 +1,157 @@
+{
+  "backup": {
+    "manifest_sha256": "40db2eaf611ca4369676ab922f7b8a7fc18c55ae223f987d0853a72de23029e4",
+    "files_count": 141,
+    "files_bytes": 405240,
+    "all_file_bytes_and_sha_match": true,
+    "windows_receipt_verified": true
+  },
+  "gate": {
+    "full_report_sha_match": true,
+    "qwen_sha_match": true,
+    "validation_receipt_sha_match": true,
+    "outcomes": {
+      "passed": 229,
+      "failed": 0,
+      "skipped": 0
+    },
+    "exit": 0,
+    "protected": true,
+    "qwen_result": "PASS",
+    "resources_closed": true,
+    "gate_outcomes_match_full": true
+  },
+  "receipts": {
+    "freeze": "SOURCE_FENCED",
+    "final-backup": "FINAL_BACKUP_REQUIRES_OFFSITE_VERIFICATION",
+    "final-restore": "FINAL_RESTORE_VERIFIED",
+    "stage-compose": "COMPOSE_STAGED_FOR_REVIEW",
+    "cutover": "CUTOVER_MAINTENANCE_VERIFIED",
+    "open-writes": "WRITES_OPEN_HBA_RELOADED"
+  },
+  "databases": {},
+  "roles": {
+    "app": {
+      "current_user": "agent_app",
+      "own_database": "agent_demo",
+      "own_connection_readonly": true,
+      "cross_database_privilege_denied": true,
+      "vector": [
+        1024,
+        0.0,
+        1.0
+      ],
+      "cross_database_connection": "rejected",
+      "cross_rejection_hba": true,
+      "inventory_equal": true,
+      "mismatch_categories": [],
+      "public_tables": 13,
+      "row_counts": {
+        "public.approvals": 0,
+        "public.checkpoint_blobs": 0,
+        "public.checkpoint_migrations": 10,
+        "public.checkpoint_writes": 0,
+        "public.checkpoints": 0,
+        "public.demo_orders": 5,
+        "public.knowledge_chunks": 0,
+        "public.knowledge_documents": 0,
+        "public.refund_requests": 0,
+        "public.schema_migrations": 6,
+        "public.sessions": 0,
+        "public.store": 0,
+        "public.store_migrations": 4
+      },
+      "extensions": [
+        [
+          "plpgsql",
+          "1.0",
+          "agent_bootstrap"
+        ],
+        [
+          "vector",
+          "0.8.7",
+          "agent_bootstrap"
+        ]
+      ]
+    },
+    "test": {
+      "current_user": "agent_test",
+      "own_database": "agent_demo_test",
+      "own_connection_readonly": true,
+      "cross_database_privilege_denied": true,
+      "vector": [
+        1024,
+        0.0,
+        1.0
+      ],
+      "cross_database_connection": "rejected",
+      "cross_rejection_hba": true,
+      "inventory_equal": true,
+      "mismatch_categories": [],
+      "public_tables": 13,
+      "row_counts": {
+        "public.approvals": 0,
+        "public.checkpoint_blobs": 0,
+        "public.checkpoint_migrations": 10,
+        "public.checkpoint_writes": 0,
+        "public.checkpoints": 0,
+        "public.demo_orders": 5,
+        "public.knowledge_chunks": 0,
+        "public.knowledge_documents": 0,
+        "public.refund_requests": 0,
+        "public.schema_migrations": 6,
+        "public.sessions": 0,
+        "public.store": 0,
+        "public.store_migrations": 4
+      },
+      "extensions": [
+        [
+          "plpgsql",
+          "1.0",
+          "agent_bootstrap"
+        ],
+        [
+          "vector",
+          "0.8.7",
+          "agent_bootstrap"
+        ]
+      ]
+    }
+  },
+  "target": {
+    "server_version_num": "170012",
+    "system_identifier_matches_receipt": true,
+    "transaction_read_only": "on"
+  },
+  "roles_semantic_equal": true,
+  "admin_business_connection_hba_denied": true,
+  "all_three_endpoints_and_versions_match": true,
+  "all_connections_transaction_read_only": true,
+  "upgrade_script_sha256": "a0124fd3c480eb538fc2e597abe1f3e9834343a7573be840c3d80f4d5efb57f7",
+  "post_docker_receipt": {
+    "target_health": "healthy",
+    "server_version_num": "170012",
+    "archive_running": false,
+    "target_and_archive_distinct": true
+  },
+  "post_application_health": {
+    "status": "POST_UPGRADE_APPLICATION_HEALTH_PASSED",
+    "same_system_identifier": true,
+    "health": {
+      "status": "ok",
+      "service": "Agent Backend",
+      "agent_ready": true,
+      "database_status": "ready",
+      "model_status": "initialized",
+      "embedding_status": "disabled",
+      "knowledge_ready": false,
+      "knowledge_status": "unavailable",
+      "checkpoint_status": "ready",
+      "checkpoint_backend": "postgres",
+      "store_status": "ready"
+    },
+    "business_pool_closed": true,
+    "checkpoint_pool_closed": true,
+    "remaining_async_tasks": 0
+  }
+}

@@ -1,0 +1,2097 @@
+{
+  "token": "6ddfec59da38",
+  "mode": "backup",
+  "status": "BACKUP_COMPLETED_RESTORE_PENDING",
+  "backup_directory": "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38",
+  "probe_sha256": "72e82a48d034d75f659ddb729fea9cde8b7e404a4aa4f1d43264d62a2d7ecd1c",
+  "started_at": "2026-11-17T05:19:50.874503+00:00",
+  "databases": {
+    "agent_demo": {
+      "snapshot_id": "0000005D-00000246-1",
+      "tables": {
+        "public.approvals": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_blobs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_migrations": {
+          "count": 10,
+          "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+        },
+        "public.checkpoint_writes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoints": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.demo_orders": {
+          "count": 5,
+          "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+        },
+        "public.knowledge_chunks": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.knowledge_documents": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.refund_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.schema_migrations": {
+          "count": 6,
+          "sha256": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc"
+        },
+        "public.sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store_migrations": {
+          "count": 4,
+          "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        }
+      },
+      "sequences_stable": true
+    },
+    "agent_demo_test": {
+      "snapshot_id": "00000009-00000235-1",
+      "tables": {
+        "public.approvals": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_blobs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_migrations": {
+          "count": 10,
+          "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+        },
+        "public.checkpoint_writes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoints": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.demo_orders": {
+          "count": 5,
+          "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+        },
+        "public.knowledge_chunks": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.knowledge_documents": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.refund_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.schema_migrations": {
+          "count": 6,
+          "sha256": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f"
+        },
+        "public.sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store_migrations": {
+          "count": 4,
+          "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        }
+      },
+      "sequences_stable": true
+    }
+  },
+  "source_before": {
+    "container_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true,
+    "mounts": [
+      {
+        "Destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/etc/postgresql/pg_hba.conf",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "Name": "agent-engine-demo-db_agent_pg17",
+        "Propagation": "",
+        "RW": true,
+        "Source": "/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data",
+        "Type": "volume"
+      }
+    ],
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1"
+  },
+  "sensitive_before": {
+    "globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+    "config_sha256": {
+      "/etc/postgresql/pg_hba.conf": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+      "/var/lib/postgresql/data/pg_ident.conf": "b4dfef08731a7d20a3bb724ad4cf3e1cd91ec01fbe51349c6a3acc5704072965",
+      "/var/lib/postgresql/data/postgresql.auto.conf": "0874e665ecf5c0a6135a73158ea1b71a959dafb809574810da5c9cc28c0c63ed",
+      "/var/lib/postgresql/data/postgresql.conf": "bed452522d38b813cf65833c83d44efde44eb17a71322b757cff52b263a0fa6c"
+    }
+  },
+  "recovery_material": {
+    "binds": [
+      {
+        "source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "backup": "private/bind-files/0-init-databases.sh",
+        "sha256": "4a7dbb184b243eea49d6fda873e17215a16dc9596105caa8085135db094c653f"
+      },
+      {
+        "source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "destination": "/etc/postgresql/pg_hba.conf",
+        "backup": "private/bind-files/1-pg_hba.conf",
+        "sha256": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211"
+      }
+    ],
+    "original_vector_files": [
+      {
+        "source": "/usr/lib/postgresql/17/lib/vector.so",
+        "sha256": "bf8d50bf1314314c0333ef6f4b5ac51ef30ebb81df423037adfa763907fc88a9"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.0--0.1.1.sql",
+        "sha256": "7b98ca899d63e8128ea3c980634b2d675e0dc6e7f27843e666d4e9980db0ab63"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.1--0.1.3.sql",
+        "sha256": "57024ba8abad34b9ca151310748518b061a36e2df9b5ba0487e1cd186b1a208f"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.3--0.1.4.sql",
+        "sha256": "98e7caa4958e026c56613ed779abe469adca9e5e82190d20e19aa345c5e6f71f"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.4--0.1.5.sql",
+        "sha256": "3fa555492b673f9e0402fefdbd3fc0e479afb29b7141b49145bed8dc691b2c4f"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.5--0.1.6.sql",
+        "sha256": "557e3d9df2b9f5a5a2428545dbcfa7d99d62f489bbd44127445a36663a8953d1"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.6--0.1.7.sql",
+        "sha256": "0975ff29e6b8268382253ce0e75cc6b5364582280ef1a7b40a137ce4c6267887"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.7--0.1.8.sql",
+        "sha256": "fcac329c0901fdcb1d3884e7bf8017c75632136dea88fb8b6352de7e61d4aba5"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.1.8--0.2.0.sql",
+        "sha256": "ac330285f527a73d4def55b5de17eae6729a0c052139bb0345aa1a92af96d516"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.0--0.2.1.sql",
+        "sha256": "0ccec7b1bc7c5e76f5da10b06713e45b08aebcdca7c833ffb4fda8f44d7ae872"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.1--0.2.2.sql",
+        "sha256": "79a1492abf44c7641893b9f80ce51ee9a12e523f35a3350bf859e16d06dfaa25"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.2--0.2.3.sql",
+        "sha256": "a46540236f5eef0955c7b48a34c468332ffdf28242ec39e3e93ff3129e9a5d61"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.3--0.2.4.sql",
+        "sha256": "def15581c900e51eab8ebde541ada84f36ba9c1c39c6e5c272d1523ed114ccdd"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.4--0.2.5.sql",
+        "sha256": "bc11f67c5e2aa15709332d68d91cdfffc80189403608d7ceed2da573edd8eab8"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.5--0.2.6.sql",
+        "sha256": "a9d31e2be0607f0462399e0b8f79a2e267fef8117b1c50a9e9b1c7758cd9e29a"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.6--0.2.7.sql",
+        "sha256": "25cf8bc50ee366705e58fd3ccc8ea1d4069e7ad3558dd220fbe0ebc1ac28a0ff"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.2.7--0.3.0.sql",
+        "sha256": "4edaecabf8186776e0eae84b6312885cb0c6cf4e83ae698a547e735f113231f8"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.3.0--0.3.1.sql",
+        "sha256": "f6b5b78e08bd948567a0a56d7102d53b5ab1d2cde7ccf41e41bd899642406a1c"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.3.1--0.3.2.sql",
+        "sha256": "d04695948d418cc70cfb688aa2e34ae83b3a7dc00ec93e5b53b0dbc3ead8c6ac"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.3.2--0.4.0.sql",
+        "sha256": "5ac5156b94b840961ad6a212bc1fd4bd090c3b6948d760c221d5db469d100712"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.4.0--0.4.1.sql",
+        "sha256": "190593e701eb39797e357aacf515ef904674e7a5eb67cda7f9dd1bf8e510439e"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.4.1--0.4.2.sql",
+        "sha256": "7ca4a21f4bba3a9d0b2bc9d3cac1e1677be1c513ddaecc20e4f5b084cc89d2a9"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.4.2--0.4.3.sql",
+        "sha256": "2f980ceb5fdab1b0e8e88fac0554cffce7477f82217aec66feb558a7eda9e2b9"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.4.3--0.4.4.sql",
+        "sha256": "bef1ec174a0bbceebdf4defebbf9f7514500bfc89d44e481cdf8a2692989ca52"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.4.4--0.5.0.sql",
+        "sha256": "1d0b08225f08a59a78dd90e5ccd33c6f12913a51d65392c784f6907272c40292"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.5.0--0.5.1.sql",
+        "sha256": "9654eb95f90ccef166e84f9991cc2ed4f50ef3f0e49bdd60860fdac9124eb1ab"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.5.1--0.6.0.sql",
+        "sha256": "f75c37c441bf79d4b41766409118d519b2ed491c807636da11ecf40df87a96b8"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.6.0--0.6.1.sql",
+        "sha256": "2b0c4292e217cd7fabc3b008f60728a1c5da2b55c77c12afcd96dff3243e28bd"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.6.1--0.6.2.sql",
+        "sha256": "0c51abf5c5f89150a1b0ce8424a461471b8543687252cf3827c04c81d4712224"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.6.2--0.7.0.sql",
+        "sha256": "97732d03249e50f32b43ea46a81acd21f6770b65dcfeb1c45f86ce483fe8dbd6"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.7.0--0.7.1.sql",
+        "sha256": "936696328866f90b7c9f4085b18d46f9bb938acd22ab2416ddd77650857f3dc2"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.7.1--0.7.2.sql",
+        "sha256": "ed25b8ad8066518108c06ea80e2e931172e58aacebd024d753e0c2fb294168fa"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.7.2--0.7.3.sql",
+        "sha256": "59507662ab28371501e610e4dffbb0588216f2e7efbdc4202212600573cc138f"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.7.3--0.7.4.sql",
+        "sha256": "122d2985b021236c02258e3d28d9151d7eb4987ccce2875137390b5209b8c379"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.7.4--0.8.0.sql",
+        "sha256": "54bfa94b97113d5a2923434ca49e049dd04027a20142babeea2e6c1ae19ff157"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.0--0.8.1.sql",
+        "sha256": "3740d7be31c57afd9e39aed6a79eb4f4ce11ed98f800279263ea84d36e59a858"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.1--0.8.2.sql",
+        "sha256": "cae4091b67aef59e3af8eca0593cd2e0f9798641e5ab82847e79950b1e40618d"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.2--0.8.3.sql",
+        "sha256": "6ffb6557d31466d1395ca04726761a9e6bb39b22695e7c97f6c91c8257918ee3"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.3--0.8.4.sql",
+        "sha256": "58df40c3a5167e4b31fa47a6ab676713af7185a8dee0e693128b4fc05aff8949"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.4--0.8.5.sql",
+        "sha256": "35bf2123e2c539fa92eb0262d31f542eccce34a161287f02359b128decc6ccfe"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.5--0.8.6.sql",
+        "sha256": "28cf4605f53cfc5f1ab27fbaa052ded2614e19827a33eb305f4bcd0ec1769531"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.6--0.8.7.sql",
+        "sha256": "910d5594be4593f495b5dc0df78afa1a06c616727e1453aa479ba71a01b156d8"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector--0.8.7.sql",
+        "sha256": "a4ceca5931cb614b40bec09ce6994a57058513d9af612c15b1458a338134609d"
+      },
+      {
+        "source": "/usr/share/postgresql/17/extension/vector.control",
+        "sha256": "9f7d0fcada5e68aa41adf9d5b3ab3fd43c83f2edd462c391a0f715d72a9941ec"
+      }
+    ],
+    "image": "postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+    "image_id": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "phase": "snapshot_dump_agent_demo_test",
+  "sensitive_after": {
+    "globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+    "config_sha256": {
+      "/etc/postgresql/pg_hba.conf": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+      "/var/lib/postgresql/data/pg_ident.conf": "b4dfef08731a7d20a3bb724ad4cf3e1cd91ec01fbe51349c6a3acc5704072965",
+      "/var/lib/postgresql/data/postgresql.auto.conf": "0874e665ecf5c0a6135a73158ea1b71a959dafb809574810da5c9cc28c0c63ed",
+      "/var/lib/postgresql/data/postgresql.conf": "bed452522d38b813cf65833c83d44efde44eb17a71322b757cff52b263a0fa6c"
+    }
+  },
+  "source_after": {
+    "container_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true,
+    "mounts": [
+      {
+        "Destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/etc/postgresql/pg_hba.conf",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "Name": "agent-engine-demo-db_agent_pg17",
+        "Propagation": "",
+        "RW": true,
+        "Source": "/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data",
+        "Type": "volume"
+      }
+    ],
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1"
+  },
+  "source_data_comparison": {
+    "agent_demo": {
+      "changed_tables": [],
+      "schema_unchanged": true,
+      "sequences_unchanged": true
+    },
+    "agent_demo_test": {
+      "changed_tables": [],
+      "schema_unchanged": true,
+      "sequences_unchanged": true
+    }
+  },
+  "files": [
+    {
+      "path": "private/agent_demo.dump",
+      "bytes": 29847,
+      "sha256": "a9e848a1beb984c1f0878dc5a29ec9e982cc989267efe5159a4f6094276a2213"
+    },
+    {
+      "path": "private/agent_demo_test.dump",
+      "bytes": 29938,
+      "sha256": "fd239f9495b073945a9305a216f98e3a9425e2ab8cc44e66d7407045feb44f96"
+    },
+    {
+      "path": "private/bind-files/0-init-databases.sh",
+      "bytes": 631,
+      "sha256": "4a7dbb184b243eea49d6fda873e17215a16dc9596105caa8085135db094c653f"
+    },
+    {
+      "path": "private/bind-files/1-pg_hba.conf",
+      "bytes": 256,
+      "sha256": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211"
+    },
+    {
+      "path": "private/command-000.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-001.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-002.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-003.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-004.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-005.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-006.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-007.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-008.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-009.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-010.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-011.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-012.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-013.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-014.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-015.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-016.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-017.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-018.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-019.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-020.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-021.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-022.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-023.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-024.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-025.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-026.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-027.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-028.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-029.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-030.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-031.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-032.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-033.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-034.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-035.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-036.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-037.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-038.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-039.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-040.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-041.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-042.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-043.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-044.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-045.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-046.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-047.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-048.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-049.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-050.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-051.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-052.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-053.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-054.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-055.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-056.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-057.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-058.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-059.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-060.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-061.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-062.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-063.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-064.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-065.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-066.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-067.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-068.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-069.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-070.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-071.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-072.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-073.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-074.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-075.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-076.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-077.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-078.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-079.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-080.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/command-081.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/config/000.conf",
+      "bytes": 256,
+      "sha256": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211"
+    },
+    {
+      "path": "private/config/001.conf",
+      "bytes": 2640,
+      "sha256": "b4dfef08731a7d20a3bb724ad4cf3e1cd91ec01fbe51349c6a3acc5704072965"
+    },
+    {
+      "path": "private/config/002.conf",
+      "bytes": 88,
+      "sha256": "0874e665ecf5c0a6135a73158ea1b71a959dafb809574810da5c9cc28c0c63ed"
+    },
+    {
+      "path": "private/config/003.conf",
+      "bytes": 30777,
+      "sha256": "bed452522d38b813cf65833c83d44efde44eb17a71322b757cff52b263a0fa6c"
+    },
+    {
+      "path": "private/docker-inspect.private.json",
+      "bytes": 13419,
+      "sha256": "0ea0d22adac747b2cf2222da1907aa4c030a512a1d9aca130e88c1ea9d15b271"
+    },
+    {
+      "path": "private/globals-normalized.private.json",
+      "bytes": 7246,
+      "sha256": "2717fe0a9ed38e731c41390c00b60d946e187799e3e19439a5b049bd7c1e6aa6"
+    },
+    {
+      "path": "private/globals.sql",
+      "bytes": 1229,
+      "sha256": "6151f990dd4a5765e82d079b0439389ce1fc1d6c64cad0b4f7af540ee6081388"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.0--0.1.1.sql",
+      "bytes": 2047,
+      "sha256": "7b98ca899d63e8128ea3c980634b2d675e0dc6e7f27843e666d4e9980db0ab63"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.1--0.1.3.sql",
+      "bytes": 153,
+      "sha256": "57024ba8abad34b9ca151310748518b061a36e2df9b5ba0487e1cd186b1a208f"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.3--0.1.4.sql",
+      "bytes": 153,
+      "sha256": "98e7caa4958e026c56613ed779abe469adca9e5e82190d20e19aa345c5e6f71f"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.4--0.1.5.sql",
+      "bytes": 153,
+      "sha256": "3fa555492b673f9e0402fefdbd3fc0e479afb29b7141b49145bed8dc691b2c4f"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.5--0.1.6.sql",
+      "bytes": 153,
+      "sha256": "557e3d9df2b9f5a5a2428545dbcfa7d99d62f489bbd44127445a36663a8953d1"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.6--0.1.7.sql",
+      "bytes": 403,
+      "sha256": "0975ff29e6b8268382253ce0e75cc6b5364582280ef1a7b40a137ce4c6267887"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.7--0.1.8.sql",
+      "bytes": 396,
+      "sha256": "fcac329c0901fdcb1d3884e7bf8017c75632136dea88fb8b6352de7e61d4aba5"
+    },
+    {
+      "path": "private/original-vector/vector--0.1.8--0.2.0.sql",
+      "bytes": 153,
+      "sha256": "ac330285f527a73d4def55b5de17eae6729a0c052139bb0345aa1a92af96d516"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.0--0.2.1.sql",
+      "bytes": 744,
+      "sha256": "0ccec7b1bc7c5e76f5da10b06713e45b08aebcdca7c833ffb4fda8f44d7ae872"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.1--0.2.2.sql",
+      "bytes": 153,
+      "sha256": "79a1492abf44c7641893b9f80ce51ee9a12e523f35a3350bf859e16d06dfaa25"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.2--0.2.3.sql",
+      "bytes": 153,
+      "sha256": "a46540236f5eef0955c7b48a34c468332ffdf28242ec39e3e93ff3129e9a5d61"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.3--0.2.4.sql",
+      "bytes": 153,
+      "sha256": "def15581c900e51eab8ebde541ada84f36ba9c1c39c6e5c272d1523ed114ccdd"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.4--0.2.5.sql",
+      "bytes": 153,
+      "sha256": "bc11f67c5e2aa15709332d68d91cdfffc80189403608d7ceed2da573edd8eab8"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.5--0.2.6.sql",
+      "bytes": 153,
+      "sha256": "a9d31e2be0607f0462399e0b8f79a2e267fef8117b1c50a9e9b1c7758cd9e29a"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.6--0.2.7.sql",
+      "bytes": 153,
+      "sha256": "25cf8bc50ee366705e58fd3ccc8ea1d4069e7ad3558dd220fbe0ebc1ac28a0ff"
+    },
+    {
+      "path": "private/original-vector/vector--0.2.7--0.3.0.sql",
+      "bytes": 153,
+      "sha256": "4edaecabf8186776e0eae84b6312885cb0c6cf4e83ae698a547e735f113231f8"
+    },
+    {
+      "path": "private/original-vector/vector--0.3.0--0.3.1.sql",
+      "bytes": 153,
+      "sha256": "f6b5b78e08bd948567a0a56d7102d53b5ab1d2cde7ccf41e41bd899642406a1c"
+    },
+    {
+      "path": "private/original-vector/vector--0.3.1--0.3.2.sql",
+      "bytes": 153,
+      "sha256": "d04695948d418cc70cfb688aa2e34ae83b3a7dc00ec93e5b53b0dbc3ead8c6ac"
+    },
+    {
+      "path": "private/original-vector/vector--0.3.2--0.4.0.sql",
+      "bytes": 864,
+      "sha256": "5ac5156b94b840961ad6a212bc1fd4bd090c3b6948d760c221d5db469d100712"
+    },
+    {
+      "path": "private/original-vector/vector--0.4.0--0.4.1.sql",
+      "bytes": 153,
+      "sha256": "190593e701eb39797e357aacf515ef904674e7a5eb67cda7f9dd1bf8e510439e"
+    },
+    {
+      "path": "private/original-vector/vector--0.4.1--0.4.2.sql",
+      "bytes": 153,
+      "sha256": "7ca4a21f4bba3a9d0b2bc9d3cac1e1677be1c513ddaecc20e4f5b084cc89d2a9"
+    },
+    {
+      "path": "private/original-vector/vector--0.4.2--0.4.3.sql",
+      "bytes": 153,
+      "sha256": "2f980ceb5fdab1b0e8e88fac0554cffce7477f82217aec66feb558a7eda9e2b9"
+    },
+    {
+      "path": "private/original-vector/vector--0.4.3--0.4.4.sql",
+      "bytes": 153,
+      "sha256": "bef1ec174a0bbceebdf4defebbf9f7514500bfc89d44e481cdf8a2692989ca52"
+    },
+    {
+      "path": "private/original-vector/vector--0.4.4--0.5.0.sql",
+      "bytes": 1426,
+      "sha256": "1d0b08225f08a59a78dd90e5ccd33c6f12913a51d65392c784f6907272c40292"
+    },
+    {
+      "path": "private/original-vector/vector--0.5.0--0.5.1.sql",
+      "bytes": 153,
+      "sha256": "9654eb95f90ccef166e84f9991cc2ed4f50ef3f0e49bdd60860fdac9124eb1ab"
+    },
+    {
+      "path": "private/original-vector/vector--0.5.1--0.6.0.sql",
+      "bytes": 243,
+      "sha256": "f75c37c441bf79d4b41766409118d519b2ed491c807636da11ecf40df87a96b8"
+    },
+    {
+      "path": "private/original-vector/vector--0.6.0--0.6.1.sql",
+      "bytes": 459,
+      "sha256": "2b0c4292e217cd7fabc3b008f60728a1c5da2b55c77c12afcd96dff3243e28bd"
+    },
+    {
+      "path": "private/original-vector/vector--0.6.1--0.6.2.sql",
+      "bytes": 153,
+      "sha256": "0c51abf5c5f89150a1b0ce8424a461471b8543687252cf3827c04c81d4712224"
+    },
+    {
+      "path": "private/original-vector/vector--0.6.2--0.7.0.sql",
+      "bytes": 20375,
+      "sha256": "97732d03249e50f32b43ea46a81acd21f6770b65dcfeb1c45f86ce483fe8dbd6"
+    },
+    {
+      "path": "private/original-vector/vector--0.7.0--0.7.1.sql",
+      "bytes": 153,
+      "sha256": "936696328866f90b7c9f4085b18d46f9bb938acd22ab2416ddd77650857f3dc2"
+    },
+    {
+      "path": "private/original-vector/vector--0.7.1--0.7.2.sql",
+      "bytes": 153,
+      "sha256": "ed25b8ad8066518108c06ea80e2e931172e58aacebd024d753e0c2fb294168fa"
+    },
+    {
+      "path": "private/original-vector/vector--0.7.2--0.7.3.sql",
+      "bytes": 153,
+      "sha256": "59507662ab28371501e610e4dffbb0588216f2e7efbdc4202212600573cc138f"
+    },
+    {
+      "path": "private/original-vector/vector--0.7.3--0.7.4.sql",
+      "bytes": 153,
+      "sha256": "122d2985b021236c02258e3d28d9151d7eb4987ccce2875137390b5209b8c379"
+    },
+    {
+      "path": "private/original-vector/vector--0.7.4--0.8.0.sql",
+      "bytes": 1227,
+      "sha256": "54bfa94b97113d5a2923434ca49e049dd04027a20142babeea2e6c1ae19ff157"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.0--0.8.1.sql",
+      "bytes": 153,
+      "sha256": "3740d7be31c57afd9e39aed6a79eb4f4ce11ed98f800279263ea84d36e59a858"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.1--0.8.2.sql",
+      "bytes": 153,
+      "sha256": "cae4091b67aef59e3af8eca0593cd2e0f9798641e5ab82847e79950b1e40618d"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.2--0.8.3.sql",
+      "bytes": 153,
+      "sha256": "6ffb6557d31466d1395ca04726761a9e6bb39b22695e7c97f6c91c8257918ee3"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.3--0.8.4.sql",
+      "bytes": 153,
+      "sha256": "58df40c3a5167e4b31fa47a6ab676713af7185a8dee0e693128b4fc05aff8949"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.4--0.8.5.sql",
+      "bytes": 153,
+      "sha256": "35bf2123e2c539fa92eb0262d31f542eccce34a161287f02359b128decc6ccfe"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.5--0.8.6.sql",
+      "bytes": 153,
+      "sha256": "28cf4605f53cfc5f1ab27fbaa052ded2614e19827a33eb305f4bcd0ec1769531"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.6--0.8.7.sql",
+      "bytes": 11833,
+      "sha256": "910d5594be4593f495b5dc0df78afa1a06c616727e1453aa479ba71a01b156d8"
+    },
+    {
+      "path": "private/original-vector/vector--0.8.7.sql",
+      "bytes": 42850,
+      "sha256": "a4ceca5931cb614b40bec09ce6994a57058513d9af612c15b1458a338134609d"
+    },
+    {
+      "path": "private/original-vector/vector.control",
+      "bytes": 145,
+      "sha256": "9f7d0fcada5e68aa41adf9d5b3ab3fd43c83f2edd462c391a0f715d72a9941ec"
+    },
+    {
+      "path": "private/original-vector/vector.so",
+      "bytes": 198568,
+      "sha256": "bf8d50bf1314314c0333ef6f4b5ac51ef30ebb81df423037adfa763907fc88a9"
+    },
+    {
+      "path": "private/packages.private.txt",
+      "bytes": 3904,
+      "sha256": "be16029dab5601b028d5e36cefca4a4275b55431e7dfec664e104d261b0f9c67"
+    },
+    {
+      "path": "private/pg-version.private.txt",
+      "bytes": 41,
+      "sha256": "dafe76ff198a9e901dcf4a34df2f5c5c924b3523bb4cb92fe75159bc87894631"
+    },
+    {
+      "path": "private/snapshot-agent_demo.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "private/snapshot-agent_demo_test.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_identity_and_roles_config_unchanged": true,
+  "finished_at": "2026-11-17T05:20:52.966440+00:00",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T05:19:50.877299+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T05:19:53.207223+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT sourcefile FROM pg_file_settings WHERE sourcefile IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:19:56.372697+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW hba_file"
+      ],
+      "started_at": "2026-11-17T05:19:57.257424+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW ident_file"
+      ],
+      "started_at": "2026-11-17T05:19:58.218978+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_hba_file_rules WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:19:59.109407+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_ident_file_mappings WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:20:00.450243+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW data_directory"
+      ],
+      "started_at": "2026-11-17T05:20:01.392289+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T05:20:02.202298+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T05:20:02.911023+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T05:20:03.542017+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T05:20:04.182986+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "pg_dumpall",
+        "-U",
+        "agent_bootstrap",
+        "--globals-only"
+      ],
+      "started_at": "2026-11-17T05:20:05.108802+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-L",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T05:20:07.663302+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/lib/postgresql/17/lib/vector.so",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector.so"
+      ],
+      "started_at": "2026-11-17T05:20:08.388582+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.0--0.1.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.0--0.1.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:08.995714+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.1--0.1.3.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.1--0.1.3.sql"
+      ],
+      "started_at": "2026-11-17T05:20:09.459865+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.3--0.1.4.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.3--0.1.4.sql"
+      ],
+      "started_at": "2026-11-17T05:20:09.868716+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.4--0.1.5.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.4--0.1.5.sql"
+      ],
+      "started_at": "2026-11-17T05:20:10.316800+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.5--0.1.6.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.5--0.1.6.sql"
+      ],
+      "started_at": "2026-11-17T05:20:10.745925+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.6--0.1.7.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.6--0.1.7.sql"
+      ],
+      "started_at": "2026-11-17T05:20:11.090521+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.7--0.1.8.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.7--0.1.8.sql"
+      ],
+      "started_at": "2026-11-17T05:20:11.413658+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.1.8--0.2.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.1.8--0.2.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:11.793678+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.0--0.2.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.0--0.2.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:12.070926+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.1--0.2.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.1--0.2.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:12.483642+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.2--0.2.3.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.2--0.2.3.sql"
+      ],
+      "started_at": "2026-11-17T05:20:12.960517+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.3--0.2.4.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.3--0.2.4.sql"
+      ],
+      "started_at": "2026-11-17T05:20:13.509659+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.4--0.2.5.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.4--0.2.5.sql"
+      ],
+      "started_at": "2026-11-17T05:20:13.876022+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.5--0.2.6.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.5--0.2.6.sql"
+      ],
+      "started_at": "2026-11-17T05:20:14.215984+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.6--0.2.7.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.6--0.2.7.sql"
+      ],
+      "started_at": "2026-11-17T05:20:14.498817+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.2.7--0.3.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.2.7--0.3.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:14.804417+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.3.0--0.3.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.3.0--0.3.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:15.060642+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.3.1--0.3.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.3.1--0.3.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:15.412549+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.3.2--0.4.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.3.2--0.4.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:15.921933+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.4.0--0.4.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.4.0--0.4.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:16.273645+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.4.1--0.4.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.4.1--0.4.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:16.600628+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.4.2--0.4.3.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.4.2--0.4.3.sql"
+      ],
+      "started_at": "2026-11-17T05:20:16.912019+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.4.3--0.4.4.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.4.3--0.4.4.sql"
+      ],
+      "started_at": "2026-11-17T05:20:17.372401+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.4.4--0.5.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.4.4--0.5.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:17.784015+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.5.0--0.5.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.5.0--0.5.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:18.047859+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.5.1--0.6.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.5.1--0.6.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:18.311095+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.6.0--0.6.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.6.0--0.6.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:18.704466+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.6.1--0.6.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.6.1--0.6.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:19.092181+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.6.2--0.7.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.6.2--0.7.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:19.412931+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.7.0--0.7.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.7.0--0.7.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:19.708304+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.7.1--0.7.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.7.1--0.7.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:20.034298+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.7.2--0.7.3.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.7.2--0.7.3.sql"
+      ],
+      "started_at": "2026-11-17T05:20:20.270875+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.7.3--0.7.4.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.7.3--0.7.4.sql"
+      ],
+      "started_at": "2026-11-17T05:20:20.511167+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.7.4--0.8.0.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.7.4--0.8.0.sql"
+      ],
+      "started_at": "2026-11-17T05:20:20.778848+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.0--0.8.1.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.0--0.8.1.sql"
+      ],
+      "started_at": "2026-11-17T05:20:21.059125+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.1--0.8.2.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.1--0.8.2.sql"
+      ],
+      "started_at": "2026-11-17T05:20:21.332905+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.2--0.8.3.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.2--0.8.3.sql"
+      ],
+      "started_at": "2026-11-17T05:20:21.580272+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.3--0.8.4.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.3--0.8.4.sql"
+      ],
+      "started_at": "2026-11-17T05:20:21.851888+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.4--0.8.5.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.4--0.8.5.sql"
+      ],
+      "started_at": "2026-11-17T05:20:22.120744+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.5--0.8.6.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.5--0.8.6.sql"
+      ],
+      "started_at": "2026-11-17T05:20:22.432016+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.6--0.8.7.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.6--0.8.7.sql"
+      ],
+      "started_at": "2026-11-17T05:20:22.694009+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector--0.8.7.sql",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector--0.8.7.sql"
+      ],
+      "started_at": "2026-11-17T05:20:23.020555+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/usr/share/postgresql/17/extension/vector.control",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/original-vector/vector.control"
+      ],
+      "started_at": "2026-11-17T05:20:23.389544+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/etc/postgresql/pg_hba.conf",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/000.conf"
+      ],
+      "started_at": "2026-11-17T05:20:26.621277+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/var/lib/postgresql/data/pg_ident.conf",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/001.conf"
+      ],
+      "started_at": "2026-11-17T05:20:27.097943+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/var/lib/postgresql/data/postgresql.auto.conf",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/002.conf"
+      ],
+      "started_at": "2026-11-17T05:20:27.340561+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "cp",
+        "-L",
+        "agent-engine-demo-db-postgres-1:/var/lib/postgresql/data/postgresql.conf",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/private/config/003.conf"
+      ],
+      "started_at": "2026-11-17T05:20:27.593325+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "pg_dump",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "--format=custom",
+        "--create",
+        "--snapshot=0000005D-00000246-1"
+      ],
+      "started_at": "2026-11-17T05:20:31.153965+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "pg_dump",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "--format=custom",
+        "--create",
+        "--snapshot=00000009-00000235-1"
+      ],
+      "started_at": "2026-11-17T05:20:36.679652+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT sourcefile FROM pg_file_settings WHERE sourcefile IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:20:40.386608+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW hba_file"
+      ],
+      "started_at": "2026-11-17T05:20:41.254232+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW ident_file"
+      ],
+      "started_at": "2026-11-17T05:20:42.103055+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_hba_file_rules WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:20:43.002177+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_ident_file_mappings WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:20:44.051846+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW data_directory"
+      ],
+      "started_at": "2026-11-17T05:20:45.065169+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T05:20:46.139715+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T05:20:46.727310+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T05:20:47.355474+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T05:20:48.001564+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T05:20:48.870737+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T05:20:49.074862+00:00",
+      "exit_code": 0
+    }
+  ]
+}

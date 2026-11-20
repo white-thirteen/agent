@@ -1,0 +1,86 @@
+{
+  "owner": "restart04-5e86e1e954364288b4629df02b49d409",
+  "order": "restart04-5e86e1e954364288b4629df02b49d409",
+  "conversation": "restart04-5e86e1e954364288b4629df02b49d409",
+  "thread": "551012ea-a52c-56f3-a579-1a99ea010971",
+  "task": "060908b1-faa7-4e46-b5d2-6393e705da2e",
+  "first_run": "b4063ae3-ccf5-4c6a-aca8-cd4ffbb44558",
+  "approval": "8e0a93dc-1e08-5d03-bd13-c8b5fb89f43e",
+  "fixed": {
+    "call_id": "original-call",
+    "args_digest": "8914eb649439539dc287f80f8944bcea02c0a68f0fe6a5011dbb8818f4f2871a",
+    "operation_id": "6a452fee-6935-5ef3-a40f-03f577392bf1",
+    "task_id": "060908b1-faa7-4e46-b5d2-6393e705da2e",
+    "thread_id": "551012ea-a52c-56f3-a579-1a99ea010971",
+    "canonical_args": {
+      "order_id": "restart04-5e86e1e954364288b4629df02b49d409"
+    },
+    "raw_args": {
+      "order_id": "restart04-5e86e1e954364288b4629df02b49d409"
+    },
+    "namespace": "refund:c985ad70-aff8-d2d2-afb1-a0f3a202e37e",
+    "subject_digest": "2efda2fe770886a19e959ad36fbd1a7875b134d8715e6ddc26e75b2c622d7ec8"
+  },
+  "positions": [
+    [
+      "approval_gate"
+    ]
+  ],
+  "waiting_usage": {
+    "tool_calls": 4,
+    "active_elapsed_ms": 270
+  },
+  "evidence": [
+    {
+      "phase": "wait",
+      "pid": 36784,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "b4063ae3-ccf5-4c6a-aca8-cd4ffbb44558",
+          "mode": "normal",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "dict",
+          "run": "b4063ae3-ccf5-4c6a-aca8-cd4ffbb44558",
+          "mode": "normal"
+        },
+        {
+          "graph": "refund_child",
+          "input": "dict",
+          "run": "b4063ae3-ccf5-4c6a-aca8-cd4ffbb44558",
+          "mode": "normal"
+        }
+      ],
+      "handler_attempts": 0,
+      "status": "PENDING"
+    },
+    {
+      "phase": "fault",
+      "pid": 44632,
+      "handler_attempts": 1,
+      "status": "SUCCEEDED",
+      "classification": "unknown"
+    },
+    {
+      "phase": "resume",
+      "pid": 9068,
+      "handler_attempts": 0,
+      "safe_refusal": true
+    }
+  ],
+  "runs": [
+    "27e0e827-4bc1-4a20-8e3c-dacbd3f29941"
+  ],
+  "usage": [
+    {
+      "model": 2,
+      "tools": 6,
+      "active_ms": 495
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "status": "CUTOVER_MAINTENANCE_VERIFIED",
+  "token": "6595e98667c4",
+  "source_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+  "stage_receipt": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/stage-compose.json",
+  "stage_receipt_sha256": "1762cd4687d7fb3c541dd121a606b1dbf44532afdc456e8796695a649de1477b",
+  "archive_name": "agent-engine-demo-db-postgres-1-pg176-6595e98667c4",
+  "final_container": "pg1712-final-6595e98667c4",
+  "private_work": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/cutover-4b3950ba425d",
+  "write_boundary_opened": false,
+  "published_compose_sha256": "2ad05e92da4ef01faf554601cb50ee300f48109cf218db324ee4cabd0403d350",
+  "target_id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+  "inventory_equal": true,
+  "globals_match": true,
+  "maintenance_tcp_rejected": true,
+  "upgrade_script_sha256": "a0124fd3c480eb538fc2e597abe1f3e9834343a7573be840c3d80f4d5efb57f7",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T14:58:44.840260+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T14:58:45.098502+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:58:45.882580+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "pg1712-upgrade:final-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:58:50.182160+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "ps",
+        "--filter",
+        "volume=pg1712-final-data-6595e98667c4",
+        "--format",
+        "{{.Names}}"
+      ],
+      "started_at": "2026-11-17T14:58:51.228148+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "stop",
+        "pg1712-final-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:58:51.550139+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "stop",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T14:58:56.612225+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "rename",
+        "agent-engine-demo-db-postgres-1",
+        "agent-engine-demo-db-postgres-1-pg176-6595e98667c4"
+      ],
+      "started_at": "2026-11-17T14:59:01.559187+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "--project-directory",
+        "/home/white7/agent-engine-demo-db",
+        "-f",
+        "/home/white7/agent-engine-demo-db/compose.yaml",
+        "up",
+        "-d",
+        "--no-deps",
+        "--no-build",
+        "--pull",
+        "never",
+        "postgres"
+      ],
+      "started_at": "2026-11-17T14:59:01.968015+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:11.414905+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:16.144658+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T14:59:19.355468+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:20.994071+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:22.949420+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:25.312782+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T14:59:26.608788+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/usr/lib/postgresql/17/lib/vector.so"
+      ],
+      "started_at": "2026-11-17T14:59:27.946537+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T14:59:28.984745+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T14:59:29.713570+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T14:59:30.432503+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T14:59:31.690206+00:00",
+      "exit_code": 0
+    }
+  ]
+}

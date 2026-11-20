@@ -1,0 +1,25 @@
+{
+  "reason": "Preserve raw log bytes under non-ignored suffix; original machine JSON unchanged",
+  "logs": [
+    {
+      "remote_name": "apt-preflight.log",
+      "archived_name": "apt-preflight.txt",
+      "sha256": "c0648f2b9de5f71a59f2967d716828898e7d6d4738ca20a2bdc9a8b6f5f3a26e"
+    },
+    {
+      "remote_name": "base-pull.log",
+      "archived_name": "base-pull.txt",
+      "sha256": "be7799362abe36349961c84a2584a40fa2c9569a9027f204d768381d341be710"
+    },
+    {
+      "remote_name": "build-6e6bcd7a4608.log",
+      "archived_name": "build-6e6bcd7a4608.txt",
+      "sha256": "557345d4c6aa1c53e35de9f6e3b2ddc614eb694ae0b271a19f7be804ed6c6500"
+    },
+    {
+      "remote_name": "run.log",
+      "archived_name": "run.txt",
+      "sha256": "66b3bfe0bc35c1cf6aee5ad0784e92a223bdf2e8e2481afb0945033de124dc2a"
+    }
+  ]
+}

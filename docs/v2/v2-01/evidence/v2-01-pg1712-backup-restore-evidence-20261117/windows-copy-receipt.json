@@ -1,0 +1,19 @@
+{
+  "status": "WINDOWS_COPY_VERIFIED",
+  "backup_directory": "D:\\AI\\backups\\agent-project\\pg17-preupgrade\\20261117-rehearsal-7c93e5\\pg176-20261117T051950Z-6ddfec59da38",
+  "manifest_sha256": "5ad6710a00f03f805f1479c2ac00a884e92548087249199da1d541a4cc12c46d",
+  "files_verified": 141,
+  "payload_bytes": 406442,
+  "dump_files": [
+    {
+      "path": "private/agent_demo.dump",
+      "bytes": 29847,
+      "sha256": "a9e848a1beb984c1f0878dc5a29ec9e982cc989267efe5159a4f6094276a2213"
+    },
+    {
+      "path": "private/agent_demo_test.dump",
+      "bytes": 29938,
+      "sha256": "fd239f9495b073945a9305a216f98e3a9425e2ab8cc44e66d7407045feb44f96"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "status": "SDK_FAILED",
+  "mode": "sdk-write",
+  "safe_error_type": "OperationalError"
+}

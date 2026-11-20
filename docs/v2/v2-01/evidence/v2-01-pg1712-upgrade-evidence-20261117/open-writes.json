@@ -1,0 +1,148 @@
+{
+  "status": "WRITES_OPEN_HBA_RELOADED",
+  "token": "6595e98667c4",
+  "target_id": "b7f36e1b86498f9c56299e127c5a8e9b840e285802ea4ec7ab21e4e87bbacc66",
+  "cutover_receipt_sha256": "286c46914871d21a60f12f006dc1e7a6e569e331733f0bf516c59aa6f45efeb3",
+  "write_boundary_may_be_open": true,
+  "source_hba_sha256": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+  "upgrade_script_sha256": "a0124fd3c480eb538fc2e597abe1f3e9834343a7573be840c3d80f4d5efb57f7",
+  "private_work": "/home/white7/agent-db-upgrades/20261117-pg1712-4f58c2/open-writes-d0a9e0718f90",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T15:01:50.423500+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:51.226494+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T15:01:52.178317+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:52.873386+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:53.804701+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:54.835068+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:55.648171+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T15:01:56.595288+00:00",
+      "exit_code": 0
+    }
+  ]
+}

@@ -1,0 +1,903 @@
+{
+  "token": "228a7f5b8d92",
+  "mode": "restore",
+  "status": "RESTORE_MATCHED_SDK_PENDING",
+  "probe_sha256": "72e82a48d034d75f659ddb729fea9cde8b7e404a4aa4f1d43264d62a2d7ecd1c",
+  "backup_directory": "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38",
+  "image": "codex-pg1712restore:228a7f5b8d92",
+  "container": "codex-pg1712restore-228a7f5b8d92",
+  "volume": "codex-pg1712restore-data-228a7f5b8d92",
+  "network": "codex-pg1712restore-net-228a7f5b8d92",
+  "host_port": 56321,
+  "bootstrap_user": "agent_bootstrap",
+  "started_at": "2026-11-17T05:23:17.917916+00:00",
+  "restored": {
+    "agent_demo": {
+      "snapshot_inventory_equal": true,
+      "tables": {
+        "public.approvals": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_blobs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_migrations": {
+          "count": 10,
+          "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+        },
+        "public.checkpoint_writes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoints": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.demo_orders": {
+          "count": 5,
+          "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+        },
+        "public.knowledge_chunks": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.knowledge_documents": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.refund_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.schema_migrations": {
+          "count": 6,
+          "sha256": "2a5c6e7f1e36db1f70c5dd9edf23a2bf02e7b6796896cb636468ed3596ef0cdc"
+        },
+        "public.sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store_migrations": {
+          "count": 4,
+          "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        }
+      },
+      "synthetic_vector_and_bm25": true
+    },
+    "agent_demo_test": {
+      "snapshot_inventory_equal": true,
+      "tables": {
+        "public.approvals": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_blobs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoint_migrations": {
+          "count": 10,
+          "sha256": "9fdc41ae92bb8bcb09caeada4948017f92989f4d65567f5df18c34c4c9970722"
+        },
+        "public.checkpoint_writes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.checkpoints": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.demo_orders": {
+          "count": 5,
+          "sha256": "6d27a87145405ba594577363f0d702fa749e7fd03f4f394d8b56e509d9d6d40c"
+        },
+        "public.knowledge_chunks": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.knowledge_documents": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.refund_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.schema_migrations": {
+          "count": 6,
+          "sha256": "2f87c863df0403fc5a7aa751b7b62f89462f5e2803db6c4da5a7c367fe5b273f"
+        },
+        "public.sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.store_migrations": {
+          "count": 4,
+          "sha256": "2ea096861069173165d0e1d00b523ab8852f3e2d089231f707b74c0de7fedd48"
+        }
+      },
+      "synthetic_vector_and_bm25": true
+    }
+  },
+  "source_before": {
+    "container_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true,
+    "mounts": [
+      {
+        "Destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/etc/postgresql/pg_hba.conf",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "Name": "agent-engine-demo-db_agent_pg17",
+        "Propagation": "",
+        "RW": true,
+        "Source": "/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data",
+        "Type": "volume"
+      }
+    ],
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1"
+  },
+  "sensitive_before": {
+    "globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+    "config_sha256": {
+      "/etc/postgresql/pg_hba.conf": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+      "/var/lib/postgresql/data/pg_ident.conf": "b4dfef08731a7d20a3bb724ad4cf3e1cd91ec01fbe51349c6a3acc5704072965",
+      "/var/lib/postgresql/data/postgresql.auto.conf": "0874e665ecf5c0a6135a73158ea1b71a959dafb809574810da5c9cc28c0c63ed",
+      "/var/lib/postgresql/data/postgresql.conf": "bed452522d38b813cf65833c83d44efde44eb17a71322b757cff52b263a0fa6c"
+    }
+  },
+  "phase": "isolated_vector_bm25_fixtures",
+  "globals_restore_transform": {
+    "skipped_exact_create_role": "agent_bootstrap",
+    "skipped_lines": 1,
+    "original_sha256": "6151f990dd4a5765e82d079b0439389ce1fc1d6c64cad0b4f7af540ee6081388",
+    "derived_sha256": "9c7435a2234108dab963e89611c9be574b357e88667fd72a59051d446ba55e5f",
+    "all_other_role_sql_unchanged": true,
+    "initial_random_password_replaced_by_original_role_dump": true
+  },
+  "globals_match": true,
+  "expected_globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+  "restored_globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+  "fixture_schema": "rehearsal_228a7f5b8d92",
+  "source_after": {
+    "container_id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true,
+    "mounts": [
+      {
+        "Destination": "/docker-entrypoint-initdb.d/01-databases.sh",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/init-databases.sh",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/etc/postgresql/pg_hba.conf",
+        "Mode": "ro",
+        "Propagation": "rprivate",
+        "RW": false,
+        "Source": "/home/white7/agent-engine-demo-db/pg_hba.conf",
+        "Type": "bind"
+      },
+      {
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "Name": "agent-engine-demo-db_agent_pg17",
+        "Propagation": "",
+        "RW": true,
+        "Source": "/var/lib/docker/volumes/agent-engine-demo-db_agent_pg17/_data",
+        "Type": "volume"
+      }
+    ],
+    "packages": "postgresql-17\t17.6-2.pgdg12+1\npostgresql-17-pgvector\t0.8.7-1.pgdg12+1\npostgresql-client-17\t17.6-2.pgdg12+1"
+  },
+  "sensitive_after": {
+    "globals_sha256": "e97b3db9c5c48bed964748ff2d349e7adcfb0ce75ee42f446b58449957a4e8a5",
+    "config_sha256": {
+      "/etc/postgresql/pg_hba.conf": "06407cc980257a3ba5456490ab9ff4cf1d4ac058a6f2398e764f162053f09211",
+      "/var/lib/postgresql/data/pg_ident.conf": "b4dfef08731a7d20a3bb724ad4cf3e1cd91ec01fbe51349c6a3acc5704072965",
+      "/var/lib/postgresql/data/postgresql.auto.conf": "0874e665ecf5c0a6135a73158ea1b71a959dafb809574810da5c9cc28c0c63ed",
+      "/var/lib/postgresql/data/postgresql.conf": "bed452522d38b813cf65833c83d44efde44eb17a71322b757cff52b263a0fa6c"
+    }
+  },
+  "source_data_comparison": {
+    "agent_demo": {
+      "changed_tables": [],
+      "schema_unchanged": true,
+      "sequences_unchanged": true
+    },
+    "agent_demo_test": {
+      "changed_tables": [],
+      "schema_unchanged": true,
+      "sequences_unchanged": true
+    }
+  },
+  "source_identity_unchanged": true,
+  "roles_config_unchanged": true,
+  "resources_retained": true,
+  "finished_at": "2026-11-17T05:36:17.131396+00:00",
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T05:23:17.918013+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T05:23:18.758635+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT sourcefile FROM pg_file_settings WHERE sourcefile IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:23:20.488195+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW hba_file"
+      ],
+      "started_at": "2026-11-17T05:23:21.288871+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW ident_file"
+      ],
+      "started_at": "2026-11-17T05:23:22.140304+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_hba_file_rules WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:23:22.945163+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_ident_file_mappings WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:23:23.950220+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW data_directory"
+      ],
+      "started_at": "2026-11-17T05:23:25.110262+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T05:23:25.899500+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T05:23:26.523295+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T05:23:27.085744+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T05:23:27.686993+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "env",
+        "DOCKER_BUILDKIT=0",
+        "docker",
+        "build",
+        "--memory",
+        "768m",
+        "--cpu-period",
+        "100000",
+        "--cpu-quota",
+        "100000",
+        "-t",
+        "codex-pg1712restore:228a7f5b8d92",
+        "/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/restore-228a7f5b8d92/build"
+      ],
+      "started_at": "2026-11-17T05:23:30.297505+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "network",
+        "create",
+        "--internal",
+        "--label",
+        "codex.pg1712restore=228a7f5b8d92",
+        "codex-pg1712restore-net-228a7f5b8d92"
+      ],
+      "started_at": "2026-11-17T05:35:07.224739+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "codex.pg1712restore=228a7f5b8d92",
+        "codex-pg1712restore-data-228a7f5b8d92"
+      ],
+      "started_at": "2026-11-17T05:35:11.751655+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "codex-pg1712restore-228a7f5b8d92",
+        "--network",
+        "codex-pg1712restore-net-228a7f5b8d92",
+        "--label",
+        "codex.pg1712restore=228a7f5b8d92",
+        "--memory",
+        "768m",
+        "--cpus",
+        "1",
+        "--pids-limit",
+        "128",
+        "-p",
+        "127.0.0.1:56321:5432",
+        "-e",
+        "POSTGRES_USER=agent_bootstrap",
+        "-e",
+        "POSTGRES_DB=postgres",
+        "-e",
+        "POSTGRES_PASSWORD_FILE=/run/secrets/bootstrap-password",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=scram-sha-256",
+        "-e",
+        "OPENBLAS_NUM_THREADS=1",
+        "-e",
+        "OMP_NUM_THREADS=1",
+        "--mount",
+        "type=bind,source=/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051950Z-6ddfec59da38/restore-228a7f5b8d92/bootstrap-password,target=/run/secrets/bootstrap-password,readonly",
+        "--mount",
+        "type=volume,source=codex-pg1712restore-data-228a7f5b8d92,target=/var/lib/postgresql/data",
+        "codex-pg1712restore:228a7f5b8d92",
+        "-c",
+        "shared_preload_libraries=pg_search"
+      ],
+      "started_at": "2026-11-17T05:35:12.114545+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:21.564785+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:27.559064+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:31.088066+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:34.236959+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:37.892604+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:41.849039+00:00",
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:44.697378+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:45.768935+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:35:56.156244+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "codex-pg1712restore-228a7f5b8d92",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "agent_demo_test",
+        "-v",
+        "ON_ERROR_STOP=1"
+      ],
+      "started_at": "2026-11-17T05:36:00.319287+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{.Id}}|{{.State.StartedAt}}|{{.State.Running}}|{{json .Mounts}}",
+        "agent-engine-demo-db-postgres-1"
+      ],
+      "started_at": "2026-11-17T05:36:02.862253+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "dpkg-query",
+        "-W",
+        "postgresql-17",
+        "postgresql-client-17",
+        "postgresql-17-pgvector"
+      ],
+      "started_at": "2026-11-17T05:36:03.070782+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT sourcefile FROM pg_file_settings WHERE sourcefile IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:36:05.308588+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW hba_file"
+      ],
+      "started_at": "2026-11-17T05:36:06.113494+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW ident_file"
+      ],
+      "started_at": "2026-11-17T05:36:06.897249+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_hba_file_rules WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:36:07.725205+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SELECT DISTINCT file_name FROM pg_ident_file_mappings WHERE file_name IS NOT NULL ORDER BY 1"
+      ],
+      "started_at": "2026-11-17T05:36:08.871018+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "psql",
+        "-X",
+        "-qAt",
+        "-U",
+        "agent_bootstrap",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "SHOW data_directory"
+      ],
+      "started_at": "2026-11-17T05:36:10.108799+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/etc/postgresql/pg_hba.conf"
+      ],
+      "started_at": "2026-11-17T05:36:10.978221+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/pg_ident.conf"
+      ],
+      "started_at": "2026-11-17T05:36:11.644250+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.auto.conf"
+      ],
+      "started_at": "2026-11-17T05:36:12.385363+00:00",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "agent-engine-demo-db-postgres-1",
+        "sha256sum",
+        "/var/lib/postgresql/data/postgresql.conf"
+      ],
+      "started_at": "2026-11-17T05:36:13.106625+00:00",
+      "exit_code": 0
+    }
+  ]
+}

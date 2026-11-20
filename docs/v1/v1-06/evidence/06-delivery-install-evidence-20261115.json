@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "python_environment": ".venv-delivery632-20261115",
+  "installed_locked_distributions": 90,
+  "all_locked_versions_match": true,
+  "pip_install_exit": 0,
+  "pip_check": "No broken requirements found.",
+  "install_log_sha256": "c4123624d36da95965b23fde2818ea6ef976ea69f27c16304057098e6664a33c",
+  "install_log_created_utc": "2026-11-15T06:27:39.795631+00:00",
+  "install_log_updated_utc": "2026-11-15T06:43:46.099836+00:00",
+  "install_log_interval_seconds": 966.304,
+  "cpu_torch": "2.9.1+cpu",
+  "download_source": "https://download-r2.pytorch.org/whl/cpu/torch-2.9.1%2Bcpu-cp313-cp313-win_amd64.whl",
+  "download_observation": "One timeout/TLS EOF; pip resumed incomplete official download and installation succeeded.",
+  "site_packages_copied": false,
+  "ruff_check": "app scripts tests: PASS",
+  "ruff_format": "155 files already formatted"
+}

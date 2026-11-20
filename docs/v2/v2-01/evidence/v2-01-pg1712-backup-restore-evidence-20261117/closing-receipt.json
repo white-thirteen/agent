@@ -1,0 +1,22 @@
+{
+  "candidate": "codex-pg1712restore-228a7f5b8d92",
+  "candidate_running": false,
+  "stop_exit_code": 0,
+  "source_before": {
+    "id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true
+  },
+  "source_after": {
+    "id": "808d301c7895c976bf0439eac0f9d7eb5f25f2e2823f2a4128827a60b4d32d59",
+    "started_at": "2026-11-13T13:47:42.917604878Z",
+    "running": true
+  },
+  "retained_volumes": [
+    "9481edfb96d3c88e1d123184199582513df016859a1f78ff285b7315643f1d72",
+    "agent-engine-demo-db_agent_pg17",
+    "codex-pg1712restore-data-228a7f5b8d92",
+    "ecdbcc6a53fb916d01eb3f14a337fa3b0378553563200db7818f9fd1071a2f59"
+  ],
+  "resources_deleted": false
+}

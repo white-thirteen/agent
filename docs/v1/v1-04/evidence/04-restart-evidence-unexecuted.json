@@ -1,0 +1,193 @@
+{
+  "owner": "restart04-145a301b6cc04d08b5d4a0abd1d3b439",
+  "order": "restart04-145a301b6cc04d08b5d4a0abd1d3b439",
+  "conversation": "restart04-145a301b6cc04d08b5d4a0abd1d3b439",
+  "thread": "fad0cd41-0aef-57f5-8833-7e41de96fbe6",
+  "task": "2e158359-ddca-44a7-b766-b299490d113d",
+  "first_run": "0e5db167-05d1-4f3e-a8ac-bb9e4d01b752",
+  "approval": "6b07c2e5-b313-5f39-9071-3fac07c9addf",
+  "fixed": {
+    "call_id": "original-call",
+    "args_digest": "2bc05594916b3dbf711fc6c518321658b5a3fa88360d862b71082d2e93bee3e0",
+    "operation_id": "a50ce69d-9e16-5c59-b3d4-44802021159e",
+    "task_id": "2e158359-ddca-44a7-b766-b299490d113d",
+    "thread_id": "fad0cd41-0aef-57f5-8833-7e41de96fbe6",
+    "canonical_args": {
+      "order_id": "restart04-145a301b6cc04d08b5d4a0abd1d3b439"
+    },
+    "raw_args": {
+      "order_id": "restart04-145a301b6cc04d08b5d4a0abd1d3b439"
+    },
+    "namespace": "refund:05682791-6dfe-6c5e-9753-7559582776d6",
+    "subject_digest": "cc2a6e849ad7572639fbaeb30d5b8cc1ce17f5cd4ee3e441182c6e209116b351"
+  },
+  "positions": [
+    [
+      "approval_gate"
+    ],
+    [
+      "execute_refund"
+    ]
+  ],
+  "waiting_usage": {
+    "tool_calls": 4,
+    "active_elapsed_ms": 208
+  },
+  "evidence": [
+    {
+      "phase": "wait",
+      "pid": 38508,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "0e5db167-05d1-4f3e-a8ac-bb9e4d01b752",
+          "mode": "normal",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "dict",
+          "run": "0e5db167-05d1-4f3e-a8ac-bb9e4d01b752",
+          "mode": "normal"
+        },
+        {
+          "graph": "refund_child",
+          "input": "dict",
+          "run": "0e5db167-05d1-4f3e-a8ac-bb9e4d01b752",
+          "mode": "normal"
+        }
+      ],
+      "handler_attempts": 0,
+      "status": "PENDING"
+    },
+    {
+      "phase": "fault",
+      "pid": 40696,
+      "nodes": [
+        {
+          "node": "approval_gate",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "recheck_execution",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "prepare_refund_attempt",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume",
+          "recovery": null
+        },
+        {
+          "node": "execute_refund",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume",
+          "recovery": null
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "Command",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume"
+        },
+        {
+          "graph": "refund_child",
+          "input": "None",
+          "run": "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+          "mode": "resume"
+        }
+      ],
+      "handler_attempts": 0,
+      "status": "PENDING"
+    },
+    {
+      "phase": "resume",
+      "pid": 432,
+      "nodes": [
+        {
+          "node": "execute_refund",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "recheck_execution",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "prepare_refund_attempt",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "execute_refund",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "record_tool_outcome",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "compose_refund_reply",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        },
+        {
+          "node": "map_result",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile",
+          "recovery": "not_executed"
+        }
+      ],
+      "invocations": [
+        {
+          "graph": "supervisor_root",
+          "input": "None",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile"
+        },
+        {
+          "graph": "refund_child",
+          "input": "None",
+          "run": "59edb142-ead3-4b44-a3fc-0f24c0870801",
+          "mode": "reconcile"
+        }
+      ],
+      "handler_attempts": 1,
+      "status": "SUCCEEDED"
+    }
+  ],
+  "runs": [
+    "0af60e2d-6e4e-42cd-8721-c265b092de9d",
+    "59edb142-ead3-4b44-a3fc-0f24c0870801"
+  ],
+  "usage": [
+    {
+      "model": 2,
+      "tools": 5,
+      "active_ms": 333
+    },
+    {
+      "model": 3,
+      "tools": 9,
+      "active_ms": 5642
+    }
+  ],
+  "old_attempt": "b3c003d3-6626-4652-9495-59596be1408c"
+}

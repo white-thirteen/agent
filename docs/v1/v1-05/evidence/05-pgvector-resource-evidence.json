@@ -1,0 +1,102 @@
+{
+  "test": {
+    "identity": [
+      "agent_demo_test",
+      "agent_test",
+      "170006"
+    ],
+    "pgvector": "0.8.7",
+    "schema": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "column": "vector(1024)",
+    "original_rows_unchanged": true,
+    "knowledge_crud_privileges": {
+      "knowledge_documents": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "knowledge_chunks": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "type_operator_probe": [
+      [
+        "same",
+        1024,
+        0.0
+      ],
+      [
+        "orthogonal",
+        1024,
+        1.0
+      ]
+    ],
+    "model_acceptance": false
+  },
+  "development": {
+    "identity": [
+      "agent_demo",
+      "agent_app",
+      "170006"
+    ],
+    "pgvector": "0.8.7",
+    "schema": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "column": "vector(1024)",
+    "original_rows_unchanged": true,
+    "knowledge_crud_privileges": {
+      "knowledge_documents": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "knowledge_chunks": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "type_operator_probe": [
+      [
+        "same",
+        1024,
+        0.0
+      ],
+      [
+        "orthogonal",
+        1024,
+        1.0
+      ]
+    ],
+    "model_acceptance": false
+  },
+  "installation": {
+    "package": "postgresql-17-pgvector",
+    "package_version": "0.8.7-1.pgdg12+1",
+    "server_version": "17.6-2.pgdg12+1",
+    "source": "signed PGDG bookworm-pgdg",
+    "upgraded_packages": 0,
+    "new_packages": 1,
+    "business_data_preserved": true,
+    "rejected_candidate": "0.8.7-1.pgdg12+2 requires postgresql-17 >>17.12"
+  }
+}

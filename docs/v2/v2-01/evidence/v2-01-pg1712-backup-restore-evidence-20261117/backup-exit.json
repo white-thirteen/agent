@@ -1,0 +1,1 @@
+{"exit_code": 1, "stdout": "{\"status\": \"BACKUP_FAILED_RETAINED\", \"failure\": \"Source container/package identity changed; review required\", \"backup_directory\": \"/home/white7/agent-db-backups/20261117-rehearsal-7c93e5/pg176-20261117T051416Z-7290f4a7d2f6\"}\n"}

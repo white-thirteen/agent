@@ -1,5 +1,17 @@
 # 项目级原生子 Agent
 
+## 当前模型设置（2026-11-17）
+
+按用户要求，项目 `[agents]` 默认值与 `implementer`、`qa` 两个角色均显式设置
+`gpt-6.1-terra` / `high`。主 Agent 派发前核对实际模型及推理强度；支持时使用
+`fork_turns="none"` 并显式传入同一模型及强度。旧子会话须核对原生运行元数据，
+不能将文件修改视为已经切换。下文2026-11-13的配置、版本与调用结果保留为历史记录。
+
+本轮Desktop内置 `codex-cli 0.169.0-alpha.11.1` 的模型目录列出Terra支持high；
+本聊天原生角色注册表已显示两角色锁定Terra/high，并完成两个新角色的显式只读调用。
+验证摘要见[Terra/high证据](terra-high-validation-evidence.json)。旧Implementer已停止，
+升级任务改由新建的Terra/high角色接续；未更改主Agent模型或权限。
+
 2026-11-13配置并验证；仅角色配置与最小只读验证，未启动05，未提交或推送Git。04实际已ACCEPTED且归档，交付ab30f12、回执6c72169，原任务开头的VERIFIED/未归档描述已过时。
 
 ## 实际配置

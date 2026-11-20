@@ -1,0 +1,52 @@
+{
+  "mode": "sdk-write",
+  "restore_token": "228a7f5b8d92",
+  "databases": {
+    "agent_demo": {
+      "identity": [
+        "agent_demo",
+        "agent_app"
+      ],
+      "ordinary_role_and_cross_database_denial": true,
+      "migration_checksums_equal": true,
+      "checkpoint_id": "1f1e26d5-7ca9-6c72-bffe-94140f9a5836",
+      "thread_id": "rehearsal-228a7f5b8d92-agent_demo",
+      "namespace": [
+        "restore-rehearsal",
+        "228a7f5b8d92",
+        "agent_demo"
+      ],
+      "revision": 1,
+      "checkpoint_and_pending_writes": true,
+      "store": true,
+      "fixture_retained": true
+    },
+    "agent_demo_test": {
+      "identity": [
+        "agent_demo_test",
+        "agent_test"
+      ],
+      "ordinary_role_and_cross_database_denial": true,
+      "migration_checksums_equal": true,
+      "checkpoint_id": "1f1e26d5-99ed-6dce-bffe-1cba1c554386",
+      "thread_id": "rehearsal-228a7f5b8d92-agent_demo_test",
+      "namespace": [
+        "restore-rehearsal",
+        "228a7f5b8d92",
+        "agent_demo_test"
+      ],
+      "revision": 1,
+      "checkpoint_and_pending_writes": true,
+      "store": true,
+      "fixture_retained": true
+    }
+  },
+  "versions": {
+    "langgraph-checkpoint-postgres": "3.2.0",
+    "langgraph-checkpoint": "4.3.1",
+    "psycopg": "3.3.8"
+  },
+  "started_at": "2026-11-17T09:57:44.556720+00:00",
+  "status": "SDK_FIXTURE_ROUNDTRIP_PASSED",
+  "finished_at": "2026-11-17T09:57:51.719553+00:00"
+}

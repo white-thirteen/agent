@@ -1,12 +1,12 @@
 # 4.1 订单查询领域服务与模拟数据——详细设计与执行计划（待审核）
 
-> **历史设计方案，不再作为 V1 开发依据。** 自2026-11-08起，当前规划见[Agent Engine Demo定位与评估](../agent-engine-demo-plan.md)及[六阶段路线图](../development-roadmap.md)。下文原审核状态只适用于旧电商目标；可复用片段及新适用范围见评估清单，不能按旧任务直接开发。本轮保留原文，不删除代码或旧设计。
+> **历史设计方案，不再作为 V1 开发依据。** 自2026-11-08起，当前规划见[Agent Engine Demo定位与评估](../v1/agent-engine-demo-plan.md)及[六阶段路线图](../v1/development-roadmap.md)。下文原审核状态只适用于旧电商目标；可复用片段及新适用范围见评估清单，不能按旧任务直接开发。本轮保留原文，不删除代码或旧设计。
 
 状态：**待审核；未开发、未迁移、未进行数据库或业务验收**。
 
 编制日期：2026-11-08。范围仅为 4.1，保留九阶段、34 环节。初稿按用户要求单独设计，本版作为 [04 全阶段设计与执行计划](04-stage-execution-plan.md)的一部分复用，未重做项目进度调查；跨环节补充见第14节。
 
-依据：[整体路线图](../development-roadmap.md)、[01 正式设计](01-stage-detailed-design.md)、[02 数据设计](02-stage-detailed-design.md)、[03 架构](03-stage-detailed-design.md)、[03 执行计划](03-stage-execution-plan.md)。本文新增选择均为建议，不自动成为已确认规范。
+依据：[整体路线图](../v1/development-roadmap.md)、[01 正式设计](01-stage-detailed-design.md)、[02 数据设计](02-stage-detailed-design.md)、[03 架构](03-stage-detailed-design.md)、[03 执行计划](03-stage-execution-plan.md)。本文新增选择均为建议，不自动成为已确认规范。
 
 ## 1. 当前工程现状与依赖
 

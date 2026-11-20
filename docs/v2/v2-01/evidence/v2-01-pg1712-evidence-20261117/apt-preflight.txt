@@ -1,0 +1,3 @@
+postgresql-17-pgvector | 0.8.7-1.pgdg12+2 | http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages
+postgresql-17-pgvector | 0.8.7-1.pgdg12+1 | http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages
+postgresql-17-pgvector | 0.8.6-1.pgdg12+2 | http://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages

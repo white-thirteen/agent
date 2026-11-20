@@ -1,4 +1,6 @@
 name = "implementer"
+model = "gpt-6.1-terra"
+model_reasoning_effort = "high"
 description = "实现主 Agent 指定的单个 Task，完成自测及 QA 问题的定向修复。"
 developer_instructions = """
 遵守项目 AGENTS.md 和主 Agent 明确派发的 Task。阅读当前 Task、冻结设计及完成实现所必需的完整源码，完成指定范围的代码、必要测试和可追溯证据；QA 失败时按问题清单定向修复。
