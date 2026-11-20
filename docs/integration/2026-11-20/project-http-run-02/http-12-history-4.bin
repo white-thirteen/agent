@@ -1,0 +1,15 @@
+event: status
+data: {"snapshot":true,"view":{"run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","run_status":"running","task_status":"running","final_answer":null,"sources":[],"error":null,"model_call_usage":{"model_attempts":0},"run_usage":{"tool_calls":0,"active_elapsed_ms":0},"usage_complete":true,"started_at":"2026-11-20T14:13:11.573659+00:00","ended_at":null},"run_status":"running","task_status":"running","run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","sequence":1}
+
+event: status
+data: {"code":"routing","run_status":"running","task_status":"running","run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","sequence":2}
+
+event: status
+data: {"run_status":"completed","task_status":"completed","run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","sequence":3}
+
+event: token
+data: {"content":"模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款","sources":[],"run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","sequence":4}
+
+event: done
+data: {"run_status":"completed","task_status":"completed","run_id":"d277e4c5-2188-4feb-a2aa-bd27c21915fc","task_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","workflow_id":"88a76921-1788-4b8c-a507-4ff48c4ac443","sequence":5}
+

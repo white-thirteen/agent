@@ -1,0 +1,14 @@
+{
+  "user_a": "project-http-04584a033525401293cbb0e483ad9d7b-a",
+  "user_b": "project-http-04584a033525401293cbb0e483ad9d7b-b",
+  "document": "project-http-04584a033525401293cbb0e483ad9d7b-doc",
+  "orders": [
+    "project-http-04584a033525401293cbb0e483ad9d7b-ok",
+    "project-http-04584a033525401293cbb0e483ad9d7b-reject"
+  ],
+  "archive": "D:\\py\\agent-project\\agent\\docs\\integration\\2026-11-20\\project-http-run-01\\archive",
+  "document_version": "c93679b8a805742101c93744357e2620596fbe2c36e85c4cfaf93c0fa4e4b9d5",
+  "chunks": [
+    "adf87d21836c993d70b54c828929fa0173e704b94168038b2c76acef37a1dc16"
+  ]
+}

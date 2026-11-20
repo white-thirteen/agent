@@ -1,0 +1,894 @@
+{
+  "result": "SCENARIOS_COMPLETED_PENDING_REVIEW",
+  "cases": [
+    {
+      "label": "preference-create",
+      "status": 200,
+      "raw": "http-01-preference-create.bin"
+    },
+    {
+      "label": "preference-idempotent",
+      "status": 200,
+      "raw": "http-02-preference-idempotent.bin"
+    },
+    {
+      "label": "preference-other",
+      "status": 200,
+      "raw": "http-03-preference-other.bin"
+    },
+    {
+      "label": "preference-cross-session",
+      "status": 200,
+      "raw": "http-04-preference-cross-session.bin"
+    },
+    {
+      "label": "preference-cross-session-run",
+      "status": 200,
+      "raw": "http-05-preference-cross-session-run.bin",
+      "run": {
+        "run_id": "8c430c6a-a8a5-4d37-9c51-068b1a5aca47",
+        "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+        "workflow_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3888
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:12:56.378662+00:00",
+        "ended_at": "2026-11-20T14:13:00.381717+00:00"
+      }
+    },
+    {
+      "label": "history-1",
+      "status": 200,
+      "raw": "http-06-history-1.bin"
+    },
+    {
+      "label": "history-1-run",
+      "status": 200,
+      "raw": "http-07-history-1-run.bin",
+      "run": {
+        "run_id": "5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff",
+        "task_id": "7a18728d-843c-4616-ac5b-b2e19c83bc1d",
+        "workflow_id": "7a18728d-843c-4616-ac5b-b2e19c83bc1d",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3430
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:13:00.414551+00:00",
+        "ended_at": "2026-11-20T14:13:04.001634+00:00"
+      }
+    },
+    {
+      "label": "history-2",
+      "status": 200,
+      "raw": "http-08-history-2.bin"
+    },
+    {
+      "label": "history-2-run",
+      "status": 200,
+      "raw": "http-09-history-2-run.bin",
+      "run": {
+        "run_id": "c788bd1c-ed40-471c-952c-c808f5049146",
+        "task_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+        "workflow_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3495
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:13:04.055210+00:00",
+        "ended_at": "2026-11-20T14:13:07.577590+00:00"
+      }
+    },
+    {
+      "label": "history-3",
+      "status": 200,
+      "raw": "http-10-history-3.bin"
+    },
+    {
+      "label": "history-3-run",
+      "status": 200,
+      "raw": "http-11-history-3-run.bin",
+      "run": {
+        "run_id": "f8f83061-9450-43ba-af29-2f52d2b554f4",
+        "task_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+        "workflow_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3712
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:13:07.715904+00:00",
+        "ended_at": "2026-11-20T14:13:11.507731+00:00"
+      }
+    },
+    {
+      "label": "history-4",
+      "status": 200,
+      "raw": "http-12-history-4.bin"
+    },
+    {
+      "label": "history-4-run",
+      "status": 200,
+      "raw": "http-13-history-4-run.bin",
+      "run": {
+        "run_id": "d277e4c5-2188-4feb-a2aa-bd27c21915fc",
+        "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+        "workflow_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3278
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:13:11.573659+00:00",
+        "ended_at": "2026-11-20T14:13:14.946896+00:00"
+      }
+    },
+    {
+      "label": "history-followup",
+      "status": 200,
+      "raw": "http-14-history-followup.bin"
+    },
+    {
+      "label": "history-followup-run",
+      "status": 200,
+      "raw": "http-15-history-followup-run.bin",
+      "run": {
+        "run_id": "58a4d399-4d25-4f50-b865-872a0e0979ab",
+        "task_id": "bb6d5bc4-dffe-4141-bbac-f11de097359d",
+        "workflow_id": "bb6d5bc4-dffe-4141-bbac-f11de097359d",
+        "run_status": "completed",
+        "task_status": "completed",
+        "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款",
+        "sources": [],
+        "error": null,
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "run_usage": {
+          "tool_calls": 2,
+          "active_elapsed_ms": 3715
+        },
+        "usage_complete": true,
+        "started_at": "2026-11-20T14:13:16.706146+00:00",
+        "ended_at": "2026-11-20T14:13:20.494464+00:00"
+      }
+    },
+    {
+      "label": "preference-update",
+      "status": 200,
+      "raw": "http-16-preference-update.bin"
+    },
+    {
+      "label": "preference-delete",
+      "status": 200,
+      "raw": "http-17-preference-delete.bin"
+    },
+    {
+      "label": "preference-final",
+      "status": 200,
+      "raw": "http-18-preference-final.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-19-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-20-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-21-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-22-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-23-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-24-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-25-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-26-disconnect-status.bin"
+    },
+    {
+      "label": "disconnect-status",
+      "status": 200,
+      "raw": "http-27-disconnect-status.bin"
+    }
+  ],
+  "limitations": [
+    "Context uses legitimate order queries and a non-authoritative marker",
+    "No UI tested; early disconnect is not replay",
+    "Unreported model tokens remain unknown; task attempts are cumulative"
+  ],
+  "before": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "context_archive": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "5a2891b4682ab5fe474a6cdf2951df1409414e246b902e5d778a962358b51008"
+    },
+    "context_maintenance": {
+      "rows": 0,
+      "columns": 19,
+      "sha256": "f3759c41172020ce37578c17fa49928d5b2c2616d526756e7f7430adeaa81448"
+    },
+    "context_maintenance_attempt": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "1246453ec6a5a133437ad02dcb335166b0aa64c09aae672824ee08cc4e7f0e5b"
+    },
+    "context_revision": {
+      "rows": 0,
+      "columns": 14,
+      "sha256": "a3f62565d355fd83b6c63815654f0ea65e64d54edd4695b2be6ac5db10678b48"
+    },
+    "context_summary": {
+      "rows": 0,
+      "columns": 13,
+      "sha256": "bcc6e05d5841e58bc9059774d900fd6cf35a1779e728c81c9481049708cc3f75"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 13,
+      "sha256": "14c14c2343ebbe0fcda7b2cd44e058188c144393fb7306e10810373420d84c41"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "knowledge_index_state": {
+      "rows": 1,
+      "columns": 5,
+      "sha256": "c5ac40468a36e0f97c6284627a9a65494e77e82e6f9ab23b83b1cc787e2d0a1d"
+    },
+    "preference_command_receipt": {
+      "rows": 0,
+      "columns": 8,
+      "sha256": "a3fac53b110baa6bd15e102fbc4293f544b820dd1bfbb0bc5a5bcb5f18980595"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 11,
+      "columns": 3,
+      "sha256": "45a07c8afd3cf9b6fa01972c78e2b8b3a56d238532451761becba72c19444633"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  },
+  "component_hybrid": {
+    "status": "found",
+    "evidence": [
+      {
+        "document_id": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-doc",
+        "document_version": "591b2afab2572d80d6398bf9e6a6b230ebe51be640152c6fa8142c1ee24cd8f1",
+        "chunk_id": "f27920ad436eb2272757f63335580b6b51052fe91e501c687d5268ec65b159ca",
+        "content_hash": "e5119ae07e468b1b7364b695747b00a55ab33577d382a8197c2660310c5aefe4",
+        "evidence_id": "99518f81538e0cb93fcf46592d66c6132e3e2c2b9efb2faaab6246459c8cd6e4",
+        "source_title": "银帆模拟服务指南",
+        "public_source_key": "project-integration-guide",
+        "section": "银帆模拟服务指南",
+        "page": null,
+        "line_start": 3,
+        "line_end": 3,
+        "content": "普通聊天不能批准模拟退款。模拟退款必须通过独立本地审批入口；服务端记录审批操作者。",
+        "retrieval_score": 7.721992015838623,
+        "domain": "platform_help",
+        "is_current_version": true
+      }
+    ],
+    "embedding_profile": "{\"dimensions\":1024,\"dtype\":\"bfloat16\",\"model\":\"Qwen/Qwen3-Embedding-0.6B\",\"normalization\":\"l2\",\"provider\":\"qwen_local\",\"query_prompt\":\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:\",\"revision\":\"demo-v1\",\"tokenizer\":\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\",\"weights_revision\":\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\"}",
+    "query_fingerprint": "0627e46febae109a94c53be4fbc750f919f0f6f2dff9945d1cee3b83d0e9ad97",
+    "context_tokens": 318,
+    "truncated": false,
+    "embedding_request_attempts": 1,
+    "candidate_count": 1,
+    "elapsed_ms": 2977.0280000000184,
+    "context": "[{\"chunk_id\":\"f27920ad436eb2272757f63335580b6b51052fe91e501c687d5268ec65b159ca\",\"content\":\"普通聊天不能批准模拟退款。模拟退款必须通过独立本地审批入口；服务端记录审批操作者。\",\"content_hash\":\"e5119ae07e468b1b7364b695747b00a55ab33577d382a8197c2660310c5aefe4\",\"document_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-doc\",\"document_version\":\"591b2afab2572d80d6398bf9e6a6b230ebe51be640152c6fa8142c1ee24cd8f1\",\"domain\":\"platform_help\",\"evidence_id\":\"99518f81538e0cb93fcf46592d66c6132e3e2c2b9efb2faaab6246459c8cd6e4\",\"is_current_version\":true,\"line_end\":3,\"line_start\":3,\"page\":null,\"public_source_key\":\"project-integration-guide\",\"retrieval_score\":7.721992015838623,\"section\":\"银帆模拟服务指南\",\"source_title\":\"银帆模拟服务指南\"}]",
+    "contract_version": 2,
+    "mode": "hybrid",
+    "retrieval_profile": "{\"context_policy\":\"complete-chunks-2400tokens-24kib-v1\",\"dense_candidates\":10,\"embedding_profile\":\"{\\\"dimensions\\\":1024,\\\"dtype\\\":\\\"bfloat16\\\",\\\"model\\\":\\\"Qwen/Qwen3-Embedding-0.6B\\\",\\\"normalization\\\":\\\"l2\\\",\\\"provider\\\":\\\"qwen_local\\\",\\\"query_prompt\\\":\\\"Instruct: Given a web search query, retrieve relevant passages that answer the query\\\\nQuery:\\\",\\\"revision\\\":\\\"demo-v1\\\",\\\"tokenizer\\\":\\\"Qwen3:def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a\\\",\\\"weights_revision\\\":\\\"97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\\"}\",\"fused_candidates\":10,\"reranker_input_format\":\"query-title-section-content-v1\",\"reranker_max_tokens\":512,\"reranker_model\":\"BAAI/bge-reranker-base\",\"reranker_order\":\"rrf-top3-bge-local-v1\",\"reranker_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"reranker_score\":\"raw_logit\",\"reranker_tokenizer_revision\":\"2cfc18c9415c912f9d8155881c133215df768a70\",\"rrf_constant\":60,\"rrf_weights\":[1,1],\"sparse_candidates\":10,\"sparse_profile\":\"{\\\"bm25_parameters\\\":\\\"extension_defaults\\\",\\\"dictionary_version\\\":\\\"scws-1.2.3\\\",\\\"extension\\\":\\\"pg_textsearch\\\",\\\"extension_version\\\":\\\"1.5.1\\\",\\\"indexed_fields\\\":[\\\"search_text\\\"],\\\"input_format\\\":\\\"title-section-content-v1\\\",\\\"result_identity_field\\\":\\\"chunk_id\\\",\\\"score_order\\\":\\\"ascending_negative\\\",\\\"text_config\\\":\\\"public.chinese\\\",\\\"text_field\\\":\\\"search_text\\\",\\\"tokenizer\\\":\\\"zhparser\\\",\\\"tokenizer_version\\\":\\\"2.4\\\"}\"}",
+    "sparse_profile": "{\"bm25_parameters\":\"extension_defaults\",\"dictionary_version\":\"scws-1.2.3\",\"extension\":\"pg_textsearch\",\"extension_version\":\"1.5.1\",\"indexed_fields\":[\"search_text\"],\"input_format\":\"title-section-content-v1\",\"result_identity_field\":\"chunk_id\",\"score_order\":\"ascending_negative\",\"text_config\":\"public.chinese\",\"text_field\":\"search_text\",\"tokenizer\":\"zhparser\",\"tokenizer_version\":\"2.4\"}",
+    "index_watermark": 83,
+    "candidates": [
+      {
+        "document_id": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-doc",
+        "document_version": "591b2afab2572d80d6398bf9e6a6b230ebe51be640152c6fa8142c1ee24cd8f1",
+        "chunk_id": "f27920ad436eb2272757f63335580b6b51052fe91e501c687d5268ec65b159ca",
+        "content_hash": "e5119ae07e468b1b7364b695747b00a55ab33577d382a8197c2660310c5aefe4",
+        "dense": {
+          "rank": 1,
+          "score": 0.8738266991341858
+        },
+        "sparse": {
+          "rank": 1,
+          "score": -4.9762133955955505
+        },
+        "rrf_score": 0.03278688524590164,
+        "reranker_score": 7.721992015838623
+      }
+    ]
+  },
+  "pid": 22480,
+  "context_before_followup": {
+    "snapshots": [
+      {
+        "user": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "conversation": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-new-session",
+        "thread": "79025615-0830-5e69-a95f-ae4d5708bdac",
+        "checkpoint_id": "1f1e4ec7-e024-62de-8005-a000c15fd38a",
+        "checkpoint_hash": "26386075fd9d64aea5f95ea4f537769c254f7a45b398076fbd345cbda0adb52a",
+        "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+        "context_ref": null,
+        "context_history": [],
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "public_message_metadata": {
+          "user:8c430c6a-a8a5-4d37-9c51-068b1a5aca47": {
+            "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+            "run_id": "8c430c6a-a8a5-4d37-9c51-068b1a5aca47",
+            "task_status": "completed"
+          },
+          "assistant:8c430c6a-a8a5-4d37-9c51-068b1a5aca47": {
+            "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+            "run_id": "8c430c6a-a8a5-4d37-9c51-068b1a5aca47",
+            "task_status": "completed"
+          }
+        }
+      },
+      {
+        "user": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "conversation": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-history",
+        "thread": "71028c42-04bd-5302-9153-4497dea40235",
+        "checkpoint_id": "1f1e4ec8-6b3a-6b5e-801a-97c2abe26719",
+        "checkpoint_hash": "fa6e57c6fc6f9aa2dc50b4498d395e017e00c075e1bb392d0d07bb8aa8709097",
+        "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+        "context_ref": null,
+        "context_history": [
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，备注：蓝色海星。' additional_kwargs={} response_metadata={} id='user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff' tool_calls=[] invalid_tool_calls=[]"
+          ],
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one' additional_kwargs={} response_metadata={} id='user:c788bd1c-ed40-471c-952c-c808f5049146'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:c788bd1c-ed40-471c-952c-c808f5049146' tool_calls=[] invalid_tool_calls=[]"
+          ],
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one' additional_kwargs={} response_metadata={} id='user:f8f83061-9450-43ba-af29-2f52d2b554f4'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:f8f83061-9450-43ba-af29-2f52d2b554f4' tool_calls=[] invalid_tool_calls=[]"
+          ]
+        ],
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "public_message_metadata": {
+          "user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff": {
+            "task_id": "7a18728d-843c-4616-ac5b-b2e19c83bc1d",
+            "run_id": "5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff",
+            "task_status": "completed"
+          },
+          "assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff": {
+            "task_id": "7a18728d-843c-4616-ac5b-b2e19c83bc1d",
+            "run_id": "5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff",
+            "task_status": "completed"
+          },
+          "user:c788bd1c-ed40-471c-952c-c808f5049146": {
+            "task_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+            "run_id": "c788bd1c-ed40-471c-952c-c808f5049146",
+            "task_status": "completed"
+          },
+          "assistant:c788bd1c-ed40-471c-952c-c808f5049146": {
+            "task_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+            "run_id": "c788bd1c-ed40-471c-952c-c808f5049146",
+            "task_status": "completed"
+          },
+          "user:f8f83061-9450-43ba-af29-2f52d2b554f4": {
+            "task_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+            "run_id": "f8f83061-9450-43ba-af29-2f52d2b554f4",
+            "task_status": "completed"
+          },
+          "assistant:f8f83061-9450-43ba-af29-2f52d2b554f4": {
+            "task_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+            "run_id": "f8f83061-9450-43ba-af29-2f52d2b554f4",
+            "task_status": "completed"
+          },
+          "user:d277e4c5-2188-4feb-a2aa-bd27c21915fc": {
+            "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+            "run_id": "d277e4c5-2188-4feb-a2aa-bd27c21915fc",
+            "task_status": "completed"
+          },
+          "assistant:d277e4c5-2188-4feb-a2aa-bd27c21915fc": {
+            "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+            "run_id": "d277e4c5-2188-4feb-a2aa-bd27c21915fc",
+            "task_status": "completed"
+          }
+        }
+      }
+    ],
+    "maintenance": [
+      [
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-history",
+        "SUCCEEDED",
+        1,
+        "038661e2-e00a-4c48-b9a4-da09236aed47",
+        1
+      ]
+    ],
+    "prior_checks": []
+  },
+  "context_database_before": {
+    "context_archive": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"segment_id\":\"a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\",\"archive_ref\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"task_ids\":[\"7a18728d-843c-4616-ac5b-b2e19c83bc1d\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"relative_path\":\"578da0adae5ad85e3302f3622a0882c703690f450fd0f4d24367e36227e73e62/a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e.md\",\"file_hash\":\"facf14c92719588058b18d0bc284db86ac8932ab7f51f01f70d62799272a1c7d\",\"status\":\"READY\",\"ordinal\":276}"
+      ]
+    ],
+    "context_summary": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"version\":1,\"text\":\"用户请求查询订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，备注为“蓝色海星”。助手回复了一条模拟订单信息：订单号相同，金额 12.34 CNY，状态为已付款，并称未模拟退款。\",\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"parent_summary_id\":null,\"input_hash\":\"dfc7b56d7bc6e89f13f7e295c49701b6ff159a8c0e0f58172bee1ea4b4b99125\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"policy_version\":\"context-v2-231\",\"model_version\":\"deepseek-flash\",\"prompt_version\":\"context-summary-v5\"}"
+      ]
+    ],
+    "context_revision": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"revision\":1,\"base_revision\":null,\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"policy_version\":\"context-v2-231\",\"model_version\":\"deepseek-flash\",\"prompt_version\":\"context-summary-v5\",\"status\":\"PUBLISHED\",\"applied_checkpoint_id\":null}"
+      ]
+    ],
+    "context_maintenance": [
+      [
+        "{\"maintenance_id\":\"2998a0ba-112a-5650-9287-3b29906fe233\",\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"source_task_id\":\"88a76921-1788-4b8c-a507-4ff48c4ac443\",\"source_run_id\":\"d277e4c5-2188-4feb-a2aa-bd27c21915fc\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"policy_version\":\"context-v2-231\",\"budget_version\":\"context-v2-231-advisory-v1\",\"max_input_tokens\":4096,\"max_output_tokens\":256,\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"deadline_at\":\"2026-11-20T14:13:45.382417+00:00\",\"reserved_attempts\":1,\"status\":\"SUCCEEDED\",\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"revision\":1,\"claim_id\":null}"
+      ]
+    ],
+    "attempts": [
+      [
+        "RECORDED",
+        221,
+        66,
+        287,
+        "known"
+      ]
+    ]
+  },
+  "context_views_before": [
+    {
+      "thread": "79025615-0830-5e69-a95f-ae4d5708bdac",
+      "checkpoint_id": "1f1e4ec7-e024-62de-8005-a000c15fd38a",
+      "view": {
+        "input_hash": "045b4e6418d6dd6bd5ba345d40fef9100eeef5bbe134b7de9af24d947017c8ce",
+        "history_ids": [],
+        "input_tokens": 421,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 683,
+          "output_tokens": 110,
+          "total_tokens": 793,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "memory_context": null
+    },
+    {
+      "thread": "71028c42-04bd-5302-9153-4497dea40235",
+      "checkpoint_id": "1f1e4ec8-6b3a-6b5e-801a-97c2abe26719",
+      "view": {
+        "input_hash": "14183e89ddcc5fcf0b1279dcb0e52979919a7e4f35a422d0059a29484a28cae0",
+        "history_ids": [
+          "user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff",
+          "assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff",
+          "user:c788bd1c-ed40-471c-952c-c808f5049146",
+          "assistant:c788bd1c-ed40-471c-952c-c808f5049146",
+          "user:f8f83061-9450-43ba-af29-2f52d2b554f4",
+          "assistant:f8f83061-9450-43ba-af29-2f52d2b554f4"
+        ],
+        "input_tokens": 856,
+        "count_status": "estimated",
+        "count_method": "langchain_approximate",
+        "provider_usage": {
+          "input_tokens": 1342,
+          "output_tokens": 72,
+          "total_tokens": 1414,
+          "status": "known",
+          "estimation_method": null
+        }
+      },
+      "memory_context": null
+    }
+  ],
+  "context_after_followup": {
+    "snapshots": [
+      {
+        "user": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "conversation": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-new-session",
+        "thread": "79025615-0830-5e69-a95f-ae4d5708bdac",
+        "checkpoint_id": "1f1e4ec7-e024-62de-8005-a000c15fd38a",
+        "checkpoint_hash": "26386075fd9d64aea5f95ea4f537769c254f7a45b398076fbd345cbda0adb52a",
+        "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+        "context_ref": null,
+        "context_history": [],
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "public_message_metadata": {
+          "user:8c430c6a-a8a5-4d37-9c51-068b1a5aca47": {
+            "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+            "run_id": "8c430c6a-a8a5-4d37-9c51-068b1a5aca47",
+            "task_status": "completed"
+          },
+          "assistant:8c430c6a-a8a5-4d37-9c51-068b1a5aca47": {
+            "task_id": "2d11c70d-1a0d-46e7-b02b-fff489661385",
+            "run_id": "8c430c6a-a8a5-4d37-9c51-068b1a5aca47",
+            "task_status": "completed"
+          }
+        }
+      },
+      {
+        "user": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "conversation": "project-http-gap-d41452efe7a44f149899e1995d9e9d52-history",
+        "thread": "71028c42-04bd-5302-9153-4497dea40235",
+        "checkpoint_id": "1f1e4ec8-a059-6edd-8021-e769a3d0f108",
+        "checkpoint_hash": "cbd986b158e91d4efeff07e9e94cfbe0b9c34d7d3eae75ded7a21203090339c2",
+        "task_id": "bb6d5bc4-dffe-4141-bbac-f11de097359d",
+        "context_ref": {
+          "revision": 1,
+          "summary_id": "038661e2-e00a-4c48-b9a4-da09236aed47"
+        },
+        "context_history": [
+          [
+            "content='用户请求查询订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，备注为“蓝色海星”。助手回复了一条模拟订单信息：订单号相同，金额 12.34 CNY，状态为已付款，并称未模拟退款。' additional_kwargs={} response_metadata={} id='summary:038661e2-e00a-4c48-b9a4-da09236aed47'"
+          ],
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one' additional_kwargs={} response_metadata={} id='user:c788bd1c-ed40-471c-952c-c808f5049146'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:c788bd1c-ed40-471c-952c-c808f5049146' tool_calls=[] invalid_tool_calls=[]"
+          ],
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one' additional_kwargs={} response_metadata={} id='user:f8f83061-9450-43ba-af29-2f52d2b554f4'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:f8f83061-9450-43ba-af29-2f52d2b554f4' tool_calls=[] invalid_tool_calls=[]"
+          ],
+          [
+            "content='请查询我的订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one' additional_kwargs={} response_metadata={} id='user:d277e4c5-2188-4feb-a2aa-bd27c21915fc'",
+            "content='模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，12.34 CNY，已付款，未模拟退款' additional_kwargs={} response_metadata={} id='assistant:d277e4c5-2188-4feb-a2aa-bd27c21915fc' tool_calls=[] invalid_tool_calls=[]"
+          ]
+        ],
+        "model_call_usage": {
+          "model_attempts": 3
+        },
+        "public_message_metadata": {
+          "user:c788bd1c-ed40-471c-952c-c808f5049146": {
+            "task_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+            "run_id": "c788bd1c-ed40-471c-952c-c808f5049146",
+            "task_status": "completed"
+          },
+          "assistant:c788bd1c-ed40-471c-952c-c808f5049146": {
+            "task_id": "d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1",
+            "run_id": "c788bd1c-ed40-471c-952c-c808f5049146",
+            "task_status": "completed"
+          },
+          "user:f8f83061-9450-43ba-af29-2f52d2b554f4": {
+            "task_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+            "run_id": "f8f83061-9450-43ba-af29-2f52d2b554f4",
+            "task_status": "completed"
+          },
+          "assistant:f8f83061-9450-43ba-af29-2f52d2b554f4": {
+            "task_id": "9707cb2f-2412-4d8d-9f9d-0966190308ac",
+            "run_id": "f8f83061-9450-43ba-af29-2f52d2b554f4",
+            "task_status": "completed"
+          },
+          "user:d277e4c5-2188-4feb-a2aa-bd27c21915fc": {
+            "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+            "run_id": "d277e4c5-2188-4feb-a2aa-bd27c21915fc",
+            "task_status": "completed"
+          },
+          "assistant:d277e4c5-2188-4feb-a2aa-bd27c21915fc": {
+            "task_id": "88a76921-1788-4b8c-a507-4ff48c4ac443",
+            "run_id": "d277e4c5-2188-4feb-a2aa-bd27c21915fc",
+            "task_status": "completed"
+          },
+          "user:58a4d399-4d25-4f50-b865-872a0e0979ab": {
+            "task_id": "bb6d5bc4-dffe-4141-bbac-f11de097359d",
+            "run_id": "58a4d399-4d25-4f50-b865-872a0e0979ab",
+            "task_status": "completed"
+          },
+          "assistant:58a4d399-4d25-4f50-b865-872a0e0979ab": {
+            "task_id": "bb6d5bc4-dffe-4141-bbac-f11de097359d",
+            "run_id": "58a4d399-4d25-4f50-b865-872a0e0979ab",
+            "task_status": "completed"
+          }
+        }
+      }
+    ],
+    "maintenance": [
+      [
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-history",
+        "SUCCEEDED",
+        1,
+        "038661e2-e00a-4c48-b9a4-da09236aed47",
+        1
+      ],
+      [
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-a",
+        "project-http-gap-d41452efe7a44f149899e1995d9e9d52-history",
+        "PENDING",
+        0,
+        null,
+        null
+      ]
+    ],
+    "prior_checks": []
+  },
+  "context_database_after": {
+    "context_archive": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"segment_id\":\"a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\",\"archive_ref\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"task_ids\":[\"7a18728d-843c-4616-ac5b-b2e19c83bc1d\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"relative_path\":\"578da0adae5ad85e3302f3622a0882c703690f450fd0f4d24367e36227e73e62/a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e.md\",\"file_hash\":\"facf14c92719588058b18d0bc284db86ac8932ab7f51f01f70d62799272a1c7d\",\"status\":\"READY\",\"ordinal\":276}"
+      ],
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"segment_id\":\"709eeb45eb297cee364fe8b7b7ace4de73ee7a23c66bd56ab42b04d3b0d2ff5d\",\"archive_ref\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:709eeb45eb297cee364fe8b7b7ace4de73ee7a23c66bd56ab42b04d3b0d2ff5d\",\"message_ids\":[\"user:c788bd1c-ed40-471c-952c-c808f5049146\",\"assistant:c788bd1c-ed40-471c-952c-c808f5049146\"],\"task_ids\":[\"d7ffd9b6-e9b6-4f82-8999-2049fdb06ff1\"],\"content_hash\":\"e6419f7cd909fcd2ee2ef1e60b654bbb6696f3a021259c53daf1ec3cab95efa5\",\"source_checkpoint_id\":\"1f1e4ec8-a059-6edd-8021-e769a3d0f108\",\"relative_path\":\"578da0adae5ad85e3302f3622a0882c703690f450fd0f4d24367e36227e73e62/709eeb45eb297cee364fe8b7b7ace4de73ee7a23c66bd56ab42b04d3b0d2ff5d.md\",\"file_hash\":\"0e7cc68ed159ffa7597be0f5aeb771799a962be77efae310be192dc7bb0cba4f\",\"status\":\"READY\",\"ordinal\":277}"
+      ]
+    ],
+    "context_summary": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"version\":1,\"text\":\"用户请求查询订单 project-http-gap-d41452efe7a44f149899e1995d9e9d52-one，备注为“蓝色海星”。助手回复了一条模拟订单信息：订单号相同，金额 12.34 CNY，状态为已付款，并称未模拟退款。\",\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"parent_summary_id\":null,\"input_hash\":\"dfc7b56d7bc6e89f13f7e295c49701b6ff159a8c0e0f58172bee1ea4b4b99125\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"policy_version\":\"context-v2-231\",\"model_version\":\"deepseek-flash\",\"prompt_version\":\"context-summary-v5\"}"
+      ]
+    ],
+    "context_revision": [
+      [
+        "{\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"revision\":1,\"base_revision\":null,\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"policy_version\":\"context-v2-231\",\"model_version\":\"deepseek-flash\",\"prompt_version\":\"context-summary-v5\",\"status\":\"APPLIED\",\"applied_checkpoint_id\":\"1f1e4ec8-a059-6edd-8021-e769a3d0f108\"}"
+      ]
+    ],
+    "context_maintenance": [
+      [
+        "{\"maintenance_id\":\"2998a0ba-112a-5650-9287-3b29906fe233\",\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"source_task_id\":\"88a76921-1788-4b8c-a507-4ff48c4ac443\",\"source_run_id\":\"d277e4c5-2188-4feb-a2aa-bd27c21915fc\",\"source_checkpoint_id\":\"1f1e4ec8-6b3a-6b5e-801a-97c2abe26719\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\"],\"content_hash\":\"9ed8dd8604b128d86f2306339df5f9e5d247da5383fbc670165ac7fe053f962d\",\"policy_version\":\"context-v2-231\",\"budget_version\":\"context-v2-231-advisory-v1\",\"max_input_tokens\":4096,\"max_output_tokens\":256,\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\"],\"deadline_at\":\"2026-11-20T14:13:45.382417+00:00\",\"reserved_attempts\":1,\"status\":\"SUCCEEDED\",\"summary_id\":\"038661e2-e00a-4c48-b9a4-da09236aed47\",\"revision\":1,\"claim_id\":null}"
+      ],
+      [
+        "{\"maintenance_id\":\"55e87045-3d6d-550b-9752-8a5ca0d27db9\",\"user_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a\",\"conversation_id\":\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-history\",\"source_task_id\":\"bb6d5bc4-dffe-4141-bbac-f11de097359d\",\"source_run_id\":\"58a4d399-4d25-4f50-b865-872a0e0979ab\",\"source_checkpoint_id\":\"1f1e4ec8-a059-6edd-8021-e769a3d0f108\",\"message_ids\":[\"user:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"assistant:5625e7cd-d5ef-40a4-96c2-4dc3ed10a0ff\",\"user:c788bd1c-ed40-471c-952c-c808f5049146\",\"assistant:c788bd1c-ed40-471c-952c-c808f5049146\"],\"content_hash\":\"77533e868a9d5c6a7c268cf42433ad04c6d1313708188b12f40f27f66db7c1f9\",\"policy_version\":\"context-v2-231\",\"budget_version\":\"context-v2-231-advisory-v1\",\"max_input_tokens\":4096,\"max_output_tokens\":256,\"archive_refs\":[\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:a3108da445d2d9018710ecb902333298e7f2a3c768abbb7a874ad69066da8d8e\",\"project-http-gap-d41452efe7a44f149899e1995d9e9d52-a:project-http-gap-d41452efe7a44f149899e1995d9e9d52-history:709eeb45eb297cee364fe8b7b7ace4de73ee7a23c66bd56ab42b04d3b0d2ff5d\"],\"deadline_at\":\"2026-11-20T14:13:50.935342+00:00\",\"reserved_attempts\":0,\"status\":\"PENDING\",\"summary_id\":null,\"revision\":null,\"claim_id\":null}"
+      ]
+    ],
+    "attempts": [
+      [
+        "RECORDED",
+        221,
+        66,
+        287,
+        "known"
+      ]
+    ]
+  },
+  "prior_checkpoints_unchanged": true,
+  "disconnect_run": {
+    "run_id": "9dcba5c5-ab43-4dcd-b357-15e5de33021c",
+    "task_id": "85413ff1-87d1-477f-9c89-6a0c40b4877a",
+    "workflow_id": "85413ff1-87d1-477f-9c89-6a0c40b4877a",
+    "run_status": "completed",
+    "task_status": "completed",
+    "final_answer": "模拟订单：project-http-gap-d41452efe7a44f149899e1995d9e9d52-two，12.34 CNY，已付款，未模拟退款",
+    "sources": [],
+    "error": null,
+    "model_call_usage": {
+      "model_attempts": 3
+    },
+    "run_usage": {
+      "tool_calls": 2,
+      "active_elapsed_ms": 3838
+    },
+    "usage_complete": true,
+    "started_at": "2026-11-20T14:13:21.237996+00:00",
+    "ended_at": "2026-11-20T14:13:25.187619+00:00"
+  },
+  "cleanup": {
+    "protected_unchanged": true,
+    "watermark_before": 82,
+    "watermark_after": 84
+  },
+  "after": {
+    "approvals": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "ceedcf7ba8938ccc3f9129d2b3d65b6046bd47eca873e319df6a30009facfb5d"
+    },
+    "checkpoint_blobs": {
+      "rows": 0,
+      "columns": 6,
+      "sha256": "833f2e2e07e3a730c35add3a425bbd854c9b98a97cc83505440f708b75cc97a0"
+    },
+    "checkpoint_migrations": {
+      "rows": 10,
+      "columns": 1,
+      "sha256": "72b0566842eb67ccde7b2ff65ddd27a679c2b920d7a0404eebf02c2f677077f1"
+    },
+    "checkpoint_writes": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "20dd86a5fb05477516676433d7890bb3cc4b20b32869393a7ef873097d0cc79e"
+    },
+    "checkpoints": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "c9493237dfdd07e6f62c48ddcd1d8af4ae8c67dd9e68c15f2ae16662a5e3595d"
+    },
+    "context_archive": {
+      "rows": 0,
+      "columns": 12,
+      "sha256": "5a2891b4682ab5fe474a6cdf2951df1409414e246b902e5d778a962358b51008"
+    },
+    "context_maintenance": {
+      "rows": 0,
+      "columns": 19,
+      "sha256": "f3759c41172020ce37578c17fa49928d5b2c2616d526756e7f7430adeaa81448"
+    },
+    "context_maintenance_attempt": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "1246453ec6a5a133437ad02dcb335166b0aa64c09aae672824ee08cc4e7f0e5b"
+    },
+    "context_revision": {
+      "rows": 0,
+      "columns": 14,
+      "sha256": "a3f62565d355fd83b6c63815654f0ea65e64d54edd4695b2be6ac5db10678b48"
+    },
+    "context_summary": {
+      "rows": 0,
+      "columns": 13,
+      "sha256": "bcc6e05d5841e58bc9059774d900fd6cf35a1779e728c81c9481049708cc3f75"
+    },
+    "demo_orders": {
+      "rows": 5,
+      "columns": 7,
+      "sha256": "c7b06b737552bb76c2e107b9dac84bdb9ec8c5d5877a43388c5e833e8d909fb8"
+    },
+    "knowledge_chunks": {
+      "rows": 0,
+      "columns": 13,
+      "sha256": "14c14c2343ebbe0fcda7b2cd44e058188c144393fb7306e10810373420d84c41"
+    },
+    "knowledge_documents": {
+      "rows": 0,
+      "columns": 9,
+      "sha256": "c5436f29f181165d8403b84d147980b4b29675c577f40059b1c8c1f07ada46f6"
+    },
+    "knowledge_index_state": {
+      "rows": 1,
+      "columns": 5,
+      "sha256": "f31faae704be3f5f8f7647d9e4142d2805fc0559c5c42dc5a21e143df5973e85"
+    },
+    "preference_command_receipt": {
+      "rows": 0,
+      "columns": 8,
+      "sha256": "a3fac53b110baa6bd15e102fbc4293f544b820dd1bfbb0bc5a5bcb5f18980595"
+    },
+    "refund_requests": {
+      "rows": 0,
+      "columns": 21,
+      "sha256": "d27fe90eab8dc4683d257eac3b25c964cde4fa7f993b407d4909ff9b3cf8b413"
+    },
+    "schema_migrations": {
+      "rows": 11,
+      "columns": 3,
+      "sha256": "45a07c8afd3cf9b6fa01972c78e2b8b3a56d238532451761becba72c19444633"
+    },
+    "sessions": {
+      "rows": 0,
+      "columns": 4,
+      "sha256": "58defb066c0a0c513019ca890bb0dde3a863d62c78906200beafc039202352e0"
+    },
+    "store": {
+      "rows": 0,
+      "columns": 7,
+      "sha256": "ce534a309121f7f4b313e880068fee2e94194cd05536b563fddcf7388113af2d"
+    },
+    "store_migrations": {
+      "rows": 4,
+      "columns": 1,
+      "sha256": "86a82bcda8117e727a6b712079547da564ce8c06b612bcab10ed9b72569842a7"
+    }
+  }
+}

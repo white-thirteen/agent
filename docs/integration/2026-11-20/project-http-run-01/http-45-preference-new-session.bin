@@ -1,0 +1,15 @@
+event: status
+data: {"snapshot":true,"view":{"run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","run_status":"running","task_status":"running","final_answer":null,"sources":[],"error":null,"model_call_usage":{"model_attempts":0},"run_usage":{"tool_calls":0,"active_elapsed_ms":0},"usage_complete":true,"started_at":"2026-11-20T14:09:05.482105+00:00","ended_at":null},"run_status":"running","task_status":"running","run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","sequence":1}
+
+event: status
+data: {"code":"routing","run_status":"running","task_status":"running","run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","sequence":2}
+
+event: status
+data: {"run_status":"failed","task_status":"failed","run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","sequence":3}
+
+event: error
+data: {"code":"model_output_invalid","message":"Model routing failed.","usage_complete":true,"run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","sequence":4}
+
+event: done
+data: {"run_status":"failed","task_status":"failed","run_id":"b2ce642b-338d-4b8a-9522-2c3a6f27cb9e","task_id":"91777f59-0a72-4058-826e-a815bf994e20","workflow_id":"91777f59-0a72-4058-826e-a815bf994e20","sequence":5}
+

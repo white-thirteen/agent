@@ -1,0 +1,21 @@
+You're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+Traceback (most recent call last):
+  File "D:\py\agent-project\agent\docs\integration\2026-11-20\project-http-probe.py", line 666, in <module>
+    asyncio.run(main(args.output.resolve()))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\py\python\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "D:\py\python\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\py\python\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "D:\py\agent-project\agent\docs\integration\2026-11-20\project-http-probe.py", line 592, in main
+    chat("preference-new-session", "preference-new", "请简要说明你能处理什么问题。")
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\py\agent-project\agent\docs\integration\2026-11-20\project-http-probe.py", line 460, in chat
+    assert current["task_status"] == expected, (label, current)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('preference-new-session', {'task_id': '91777f59-0a72-4058-826e-a815bf994e20', 'workflow_id': '91777f59-0a72-4058-826e-a815bf994e20', 'task_status': 'failed', 'run_id': None, 'refund': None, 'blocking_reason': None})

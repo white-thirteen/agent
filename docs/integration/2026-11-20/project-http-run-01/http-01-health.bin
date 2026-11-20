@@ -1,0 +1,1 @@
+{"status":"ok","service":"Agent Backend","agent_ready":true,"database_status":"ready","model_status":"initialized","embedding_status":"ready","knowledge_ready":true,"knowledge_status":"ready","checkpoint_status":"ready","checkpoint_backend":"postgres","store_status":"ready"}

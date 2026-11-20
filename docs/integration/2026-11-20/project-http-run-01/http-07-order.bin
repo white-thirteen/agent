@@ -1,0 +1,15 @@
+event: status
+data: {"snapshot":true,"view":{"run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","run_status":"running","task_status":"running","final_answer":null,"sources":[],"error":null,"model_call_usage":{"model_attempts":0},"run_usage":{"tool_calls":0,"active_elapsed_ms":0},"usage_complete":true,"started_at":"2026-11-20T14:08:25.957409+00:00","ended_at":null},"run_status":"running","task_status":"running","run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","sequence":1}
+
+event: status
+data: {"code":"routing","run_status":"running","task_status":"running","run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","sequence":2}
+
+event: status
+data: {"run_status":"completed","task_status":"completed","run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","sequence":3}
+
+event: token
+data: {"content":"模拟订单：project-http-04584a033525401293cbb0e483ad9d7b-ok，12.34 CNY，已付款，未模拟退款","sources":[],"run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","sequence":4}
+
+event: done
+data: {"run_status":"completed","task_status":"completed","run_id":"f1b74304-2926-4f2f-846a-2cdc075a50e4","task_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","workflow_id":"74f8e2ac-127e-48ab-91c8-2bd40c60816e","sequence":5}
+

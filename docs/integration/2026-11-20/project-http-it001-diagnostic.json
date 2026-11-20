@@ -1,0 +1,69 @@
+{
+  "type": "single Supervisor Gateway diagnostic, no prior HTTP state",
+  "gateway_attempt_limit": 1,
+  "reproduces_prior_http_context": false,
+  "raw": {
+    "parsed_type": "NewSupervisorOutput",
+    "tool_calls": [
+      {
+        "name": "<redacted-string>",
+        "args": {
+          "kind": "route",
+          "decision": {
+            "agent_type": "supervisor",
+            "task_type": "<redacted-string>",
+            "task_goal": "<redacted-string>",
+            "needs_clarification": true,
+            "missing_fields": [
+              "<redacted-string>"
+            ],
+            "clarification_question": "<redacted-string>",
+            "entities": {}
+          }
+        },
+        "id": "<redacted-string>",
+        "type": "<redacted-string>"
+      }
+    ],
+    "invalid_tool_calls": [],
+    "finish_reason": "tool_calls",
+    "usage": {
+      "input_tokens": 863,
+      "output_tokens": 185,
+      "total_tokens": 1048,
+      "input_token_details": {
+        "cache_read": 640
+      },
+      "output_token_details": {}
+    },
+    "parsing_error_type": null,
+    "validation_errors": []
+  },
+  "gateway": {
+    "status": "success",
+    "usage": {
+      "input_tokens": 863,
+      "output_tokens": 185,
+      "total_tokens": 1048,
+      "status": "known",
+      "estimation_method": null
+    },
+    "model_usage": {
+      "model_attempts": 1
+    },
+    "parsed": {
+      "kind": "route",
+      "decision": {
+        "agent_type": "supervisor",
+        "task_type": "<redacted-string>",
+        "task_goal": "<redacted-string>",
+        "entities": {},
+        "needs_clarification": true,
+        "missing_fields": [
+          "<redacted-string>"
+        ],
+        "clarification_question": "<redacted-string>"
+      }
+    }
+  }
+}

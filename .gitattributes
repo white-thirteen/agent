@@ -22,3 +22,6 @@
 
 # Keep V2 03 raw test evidence and captured driver bytes unchanged on checkout.
 /docs/v2/v2-03/evidence/** -text
+
+# Preserve the full-project integration responses, logs and recorded hashes.
+/docs/integration/2026-11-20/** -text
